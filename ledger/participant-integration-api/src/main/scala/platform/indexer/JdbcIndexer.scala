@@ -134,7 +134,6 @@ object JdbcIndexer {
             servicesExecutionContext,
             metrics,
             lfValueTranslationCache,
-            jdbcAsyncCommitMode = config.asyncCommitMode,
             enricher = None,
             participantId = config.participantId,
           )
