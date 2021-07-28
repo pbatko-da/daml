@@ -1,0 +1,20 @@
+module Typeable where
+
+import Data.Typeable
+
+data MyCoolType = MyCoolType
+
+f : Typeable a => a -> a
+f x = x
+
+g : MyCoolType -> MyCoolType
+g x = f x
+
+gInt : Int -> Int
+gInt x = f x
+
+gIntList : [Int] -> [Int]
+gIntList x = f x
+
+gIntFun : (Int -> Int) -> (Int -> Int)
+gIntFun x = f x
