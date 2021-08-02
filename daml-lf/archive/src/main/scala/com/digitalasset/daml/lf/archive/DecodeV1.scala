@@ -1024,6 +1024,10 @@ private[archive] class DecodeV1(minor: LV.Minor) {
           assertSince(LV.Features.typeRep, "Expr.type_rep")
           ETypeRep(decodeType(lfExpr.getTypeRep))
 
+        case PLF.Expr.SumCase.TYPE_REP_GENERIC =>
+          assertSince(LV.Features.typeRep, "Expr.type_rep")
+          ETypeRepGeneric(decodeKind(lfExpr.getTypeRepGeneric.getKind), decodeType(lfExpr.getTypeRepGeneric.getType))
+
         case PLF.Expr.SumCase.THROW =>
           assertSince(LV.Features.exceptions, "Expr.from_any_exception")
           val eThrow = lfExpr.getThrow

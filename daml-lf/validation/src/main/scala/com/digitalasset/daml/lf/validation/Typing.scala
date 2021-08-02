@@ -1033,6 +1033,9 @@ private[validation] object Typing {
       case ETypeRep(typ) =>
         checkAnyType(typ)
         TTypeRep
+      case ETypeRepGeneric(kind, typ) =>
+        checkType(typ, kind)
+
       case EThrow(returnTyp, excepTyp, body) =>
         checkType(returnTyp, KStar)
         checkExceptionType(excepTyp)

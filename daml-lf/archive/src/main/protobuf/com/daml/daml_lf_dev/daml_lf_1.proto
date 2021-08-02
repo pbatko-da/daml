@@ -900,6 +900,11 @@ message Expr {
     Expr expr = 2;
   }
 
+  message TypeRep {
+    Kind kind = 1;
+    Type type = 2;
+  }
+
   // Throw an exception.
   // *Available in versions >= 1.14*
   message Throw {
@@ -1011,6 +1016,10 @@ message Expr {
     // A type representation
     // *Available in versions >= 1.7*
     Type type_rep = 32;
+
+    // A type representation
+    // *Available in versions >= 1.7*
+    TypeRep type_rep_generic = 36;
 
     // Wrap an arbitrary exception into an AnyException ('ExpToAnyException').
     // *Available in versions >= 1.14*

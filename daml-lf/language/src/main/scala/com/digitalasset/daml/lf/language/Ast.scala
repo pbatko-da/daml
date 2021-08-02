@@ -146,6 +146,8 @@ object Ast {
   /** Unique textual representation of template Id * */
   final case class ETypeRep(typ: Type) extends Expr
 
+  final case class ETypeRepGeneric(kind: Kind, typ: Type) extends Expr
+
   /** Throw an exception */
   final case class EThrow(returnType: Type, exceptionType: Type, exception: Expr) extends Expr
 
@@ -303,6 +305,7 @@ object Ast {
   case object BTArrow extends BuiltinType
   case object BTAny extends BuiltinType
   case object BTTypeRep extends BuiltinType
+  case class BTTypeRepGeneric extends BuiltinType
   case object BTAnyException extends BuiltinType
   case object BTRoundingMode extends BuiltinType
   case object BTBigNumeric extends BuiltinType

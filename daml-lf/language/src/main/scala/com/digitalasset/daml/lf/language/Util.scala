@@ -60,6 +60,7 @@ object Util {
   val TParty = TBuiltin(BTParty)
   val TAny = TBuiltin(BTAny)
   val TTypeRep = TBuiltin(BTTypeRep)
+  val TTypeRepGeneric = TBuiltin(BTTypeRepGeneric)
   val TBigNumeric = TBuiltin(BTBigNumeric)
   val TRoundingMode = TBuiltin(BTRoundingMode)
 
