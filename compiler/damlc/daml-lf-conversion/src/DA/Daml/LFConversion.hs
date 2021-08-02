@@ -123,6 +123,24 @@ import qualified "ghc-lib-parser" BooleanFormula as BF
 import           Safe.Exact (zipExact, zipExactMay)
 import           SdkVersion
 
+-- NOTE [Typeable instances]
+-- We support Typeable instances in Daml, however
+-- not in the way GHC does.
+-- GHC’s TypeRep is a polykinded mess which we cannot
+-- reasonably encode in Daml-LF. On the other hand, we already
+-- have TypeRep in Daml-LF.
+-- Therefore we handle Typeable as follows:
+-- We add enough boilerplate & dummy definitions that GHC
+-- can generate Typeable instances and get them up to Core.
+-- We do not expose any of the standard Typeable definition.
+-- Instead, we add a bunch of top-level definitions with Typeable
+-- constraints that we rewrite later.
+-- When converting to LF, we proceed as follows:
+-- 1. We drop the body of all Typeable instances and replace it by
+--    a custom struct with the definitions we want.
+-- 2. The top-level definitions with Typeable constraints are rewritten
+--    into struct selectors on the typeclass dict.
+
 ---------------------------------------------------------------------
 -- FAILURE REPORTING
 
@@ -568,19 +586,19 @@ convertTypeSynonym env tycon
 
 convertClassDef :: Env -> TyCon -> ConvertM [Definition]
 convertClassDef env tycon
-    | getOccText tycon == "Typeable" = do
+    -- See Note [Typeable instances]
+    | NameIn Data_Typeable_Internal "Typeable" <- tycon = do
       let tconName = mkTypeCon [getOccText tycon]
           tsynName = mkTypeSyn [getOccText tycon]
-          tyVars = [(TypeVarName "fakeKind", KStar), (TypeVarName "a", KStar)]
+          tyVars = [(TypeVarName "k", KStar), (TypeVarName "a", KStar)]
           tyRep | envLfVersion env `supports` featureTypeRep = TTypeRep
                 | otherwise = TUnit
           fields = [(FieldName "getTypeRep", tyRep)]
           typeDef
             | envLfVersion env `supports` featureTypeSynonyms =
-                -- LF structs must have > 0 fields, therefore we define the
-                -- typeclass as a synonym for Unit if it has no fields.
                 defTypeSyn tsynName tyVars (TStruct fields)
-            | otherwise = defDataType tconName tyVars (DataRecord fields)
+            | otherwise =
+                defDataType tconName tyVars (DataRecord fields)
       pure [typeDef]
     | Just cls <- tyConClass_maybe tycon
     = do
