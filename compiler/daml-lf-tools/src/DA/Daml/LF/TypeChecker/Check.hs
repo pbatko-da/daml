@@ -709,12 +709,8 @@ typeOf' = \case
     checkType ty k
     checkGroundType' ty
     pure $ TApp (TTypeRepGeneric k) ty
-  ETypeRepGenericApp k1 k2 t1 t2 e1 e2 -> do
-    checkType t1 (KArrow k1 k2)
-    checkType t2 k1
-    checkExpr e1 $ TApp (TTypeRepGeneric (KArrow k1 k2)) t1
-    checkExpr e2 $ TApp (TTypeRepGeneric k1) t2
-    pure $ TApp (TTypeRepGeneric k2) (TApp t1 t2)
+  ETypeRepGenericApp k1 k2 -> do
+    pure $ TForall (alpha, KArrow k1 k2) $ TForall (beta, k2) (TApp (TTypeRepGeneric (KArrow k1 k2)) tAlpha :-> TApp (TTypeRepGeneric k1) tBeta :-> TApp (TTypeRepGeneric k2) (TApp tAlpha tBeta))
   EToAnyException ty val -> do
     checkExceptionType ty
     checkExpr val ty

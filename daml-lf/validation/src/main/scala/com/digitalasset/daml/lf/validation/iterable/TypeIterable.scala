@@ -56,7 +56,8 @@ private[validation] object TypeIterable {
         Iterator(typ) ++ iterator(expr)
       case ETypeRep(tyCon) =>
         Iterator(tyCon)
-      case ETypeRepGeneric(kind @_, ty) => Iterator(ty)
+      case ETypeRepGeneric(kind @ _, ty) => Iterator(ty)
+      case ETypeRepGenericApp(_, _) => Iterator.empty
       case ENil(typ) =>
         Iterator(typ)
       case ECons(typ, front, tail) =>
@@ -79,7 +80,7 @@ private[validation] object TypeIterable {
           iterator(value)
       case EFromAnyException(typ, value) =>
         Iterator(typ) ++
-        iterator(value)
+          iterator(value)
       case EVar(_) | EVal(_) | EBuiltin(_) | EPrimCon(_) | EPrimLit(_) | EApp(_, _) | ECase(_, _) |
           ELocation(_, _) | EStructCon(_) | EStructProj(_, _) | EStructUpd(_, _, _) | ETyAbs(_, _) |
           EExperimental(_, _) =>

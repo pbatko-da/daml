@@ -16,6 +16,10 @@ import scala.annotation.tailrec
 
 private[validation] object Typing {
 
+  private val alpha = TVar(Name.assertFromString("$alpha$"))
+  private val beta = TVar(Name.assertFromString("$beta$"))
+  private val gamma = TVar(Name.assertFromString("$gamma$"))
+
   import Util.handleLookup
 
   /* Typing */
@@ -46,9 +50,6 @@ private[validation] object Typing {
   }
 
   protected[validation] lazy val typeOfBuiltinFunction = {
-    val alpha = TVar(Name.assertFromString("$alpha$"))
-    val beta = TVar(Name.assertFromString("$beta$"))
-    val gamma = TVar(Name.assertFromString("$gamma$"))
     def tBinop(typ: Type): Type = typ ->: typ ->: typ
     val tNumBinop = TForall(alpha.name -> KNat, tBinop(TNumeric(alpha)))
     val tMultiNumBinop =
@@ -1039,6 +1040,16 @@ private[validation] object Typing {
       case ETypeRepGeneric(kind, typ) =>
         checkType(typ, kind)
         TTypeRepGen(kind)(typ)
+      case ETypeRepGenericApp(argKind, resKind) =>
+        TForall(
+          alpha.name -> KArrow(argKind, resKind),
+          TForall(
+            beta.name -> argKind,
+            TTypeRepGen(KArrow(argKind, resKind))(alpha) ->: TTypeRepGen(argKind)(
+              beta
+            ) ->: TTypeRepGen(resKind)(TApp(alpha, beta)),
+          ),
+        )
       case EThrow(returnTyp, excepTyp, body) =>
         checkType(returnTyp, KStar)
         checkExceptionType(excepTyp)

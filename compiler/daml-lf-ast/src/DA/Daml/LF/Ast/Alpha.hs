@@ -202,13 +202,9 @@ alphaExpr' env = \case
     ETypeRepGeneric k1 t1 -> \case
         ETypeRepGeneric k2 t2 -> k1 == k2 && alphaType' env t1 t2
         _ -> False
-    ETypeRepGenericApp k1 k2 t1 t2 e1 e2 -> \case
-        ETypeRepGenericApp k1' k2' t1' t2' e1' e2' ->
-            k1 == k1' && k2 == k2' &&
-            alphaType' env t1 t1' &&
-            alphaType' env t2 t2' &&
-            alphaExpr' env e1 e1' &&
-            alphaExpr' env e2 e2'
+    ETypeRepGenericApp k1 k2 -> \case
+        ETypeRepGenericApp k1' k2' ->
+            k1 == k1' && k2 == k2'
         _ -> False
     EToAnyException t1 e1 -> \case
         EToAnyException t2 e2

@@ -184,11 +184,8 @@ applySubstInExpr subst@Subst{..} = \case
         (applySubstInType subst t)
     ETypeRepGeneric k t -> ETypeRepGeneric k
         (applySubstInType subst t)
-    ETypeRepGenericApp k1 k2 t1 t2 e1 e2 ->
-        ETypeRepGenericApp
-          k1 k2
-          (applySubstInType subst t1) (applySubstInType subst t2)
-          (applySubstInExpr subst e1) (applySubstInExpr subst e2)
+    ETypeRepGenericApp k1 k2 ->
+        ETypeRepGenericApp k1 k2
     EToAnyException t e -> EToAnyException
         (applySubstInType subst t)
         (applySubstInExpr subst e)

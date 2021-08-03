@@ -487,6 +487,8 @@ private[lf] final class Compiler(
         SEValue(STypeRep(typ))
       case ETypeRepGeneric(_, typ) =>
         SEValue(STypeRep(typ))
+      case ETypeRepGenericApp(_, _) =>
+        SEBuiltin(SBTypeRepApp)
       case EToAnyException(ty, e) =>
         SBToAny(ty)(compile(e))
       case EFromAnyException(ty, e) =>

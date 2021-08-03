@@ -524,7 +524,7 @@ instance Pretty Expr where
     EFromAny ty body -> pPrintAppKeyword lvl prec "from_any" [TyArg ty, TmArg body]
     ETypeRep ty -> pPrintAppKeyword lvl prec "type_rep" [TyArg ty]
     ETypeRepGeneric kind ty -> pPrintAppKeyword lvl prec ("type_rep_generic<" <> show kind <> ">") [TyArg ty]
-    ETypeRepGenericApp _k1 _k2 ty1 ty2 e1 e2 -> pPrintAppKeyword lvl prec "type_rep_generic_app" [TyArg ty1, TyArg ty2, TmArg e1, TmArg e2]
+    ETypeRepGenericApp _k1 _k2 -> pPrintAppKeyword lvl prec "type_rep_generic_app" []
     EToAnyException ty val -> pPrintAppKeyword lvl prec "to_any_exception"
         [TyArg ty, TmArg val]
     EFromAnyException ty val -> pPrintAppKeyword lvl prec "from_any_exception"

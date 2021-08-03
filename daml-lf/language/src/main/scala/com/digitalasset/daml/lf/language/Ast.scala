@@ -147,6 +147,7 @@ object Ast {
   final case class ETypeRep(typ: Type) extends Expr
 
   final case class ETypeRepGeneric(kind: Kind, typ: Type) extends Expr
+  final case class ETypeRepGenericApp(argKind: Kind, resKind: Kind) extends Expr
 
   /** Throw an exception */
   final case class EThrow(returnType: Type, exceptionType: Type, exception: Expr) extends Expr

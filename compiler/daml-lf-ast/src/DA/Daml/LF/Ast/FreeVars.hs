@@ -102,9 +102,7 @@ freeVarsStep = \case
     EFromAnyF t e -> freeVarsInType t <> e
     ETypeRepF t -> freeVarsInType t
     ETypeRepGenericF _ t -> freeVarsInType t
-    ETypeRepGenericAppF _ _ t1 t2 e1 e2 ->
-        freeVarsInType t1 <> freeVarsInType t2 <>
-        e1 <> e2
+    ETypeRepGenericAppF _ _ -> mempty
     EToAnyExceptionF t e -> freeVarsInType t <> e
     EFromAnyExceptionF t e -> freeVarsInType t <> e
     EThrowF t1 t2 e -> freeVarsInType t1 <> freeVarsInType t2 <> e

@@ -48,7 +48,7 @@ data ExprF expr
   | EFromAnyF !Type !expr
   | ETypeRepF !Type
   | ETypeRepGenericF !Kind !Type
-  | ETypeRepGenericAppF !Kind !Kind !Type !Type !expr !expr
+  | ETypeRepGenericAppF !Kind !Kind
   | EToAnyExceptionF !Type !expr
   | EFromAnyExceptionF !Type !expr
   | EThrowF !Type !Type !expr
@@ -192,7 +192,7 @@ instance Recursive Expr where
     EFromAny a b -> EFromAnyF a b
     ETypeRep a -> ETypeRepF a
     ETypeRepGeneric a b -> ETypeRepGenericF a b
-    ETypeRepGenericApp a b c d e f -> ETypeRepGenericAppF a b c d e f
+    ETypeRepGenericApp a b -> ETypeRepGenericAppF a b
     EToAnyException a b -> EToAnyExceptionF a b
     EFromAnyException a b -> EFromAnyExceptionF a b
     EThrow a b c -> EThrowF a b c
@@ -228,7 +228,7 @@ instance Corecursive Expr where
     EFromAnyF a b -> EFromAny a b
     ETypeRepF a -> ETypeRep a
     ETypeRepGenericF a b -> ETypeRepGeneric a b
-    ETypeRepGenericAppF a b c d e f -> ETypeRepGenericApp a b c d e f
+    ETypeRepGenericAppF a b -> ETypeRepGenericApp a b
     EToAnyExceptionF a b -> EToAnyException a b
     EFromAnyExceptionF a b -> EFromAnyException a b
     EThrowF a b c -> EThrow a b c

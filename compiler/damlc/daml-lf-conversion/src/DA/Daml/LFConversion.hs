@@ -1012,14 +1012,10 @@ convertExpr env0 e = do
         = do kind <- convertKind kind
              typ <- convertType env typ
              pure  (ETypeRepGeneric kind typ, args)
-    go env (VarIn Data_Typeable_Internal "mkTrApp") (LType k1 : LType k2 : LType conTy : LType argTy : LExpr conRep : LExpr argRep : args)
+    go env (VarIn Data_Typeable_Internal "mkTrApp") (LType k1 : LType k2 : args)
         = do k1 <- convertKind k2
              k2 <- convertKind k2
-             conTy <- convertType env conTy
-             argTy <- convertType env argTy
-             conRep <- convertExpr env conRep
-             argRep <- convertExpr env argRep
-             pure (ETypeRepGenericApp k1 k2 conTy argTy conRep argRep, args)
+             pure (ETypeRepGenericApp k1 k2, args)
     -- NOTE(MH): `getFieldPrim` and `setFieldPrim` are used by the record
     -- preprocessor to magically implement the `HasField` instances for records.
     go env (VarIn DA_Internal_Record "getFieldPrim") (LType (isStrLitTy -> Just name) : LType record : LType _field : args) = do
@@ -1956,6 +1952,11 @@ convertType env = go env
             fieldTys <- mapM (go env) ts
             let fieldNames = map mkSuperClassField [1..]
             pure $ TStruct (zip fieldNames fieldTys)
+        | NameIn Data_Typeable_Internal "Typeable" <- t
+        , [kind, typ] <- ts = do
+          kind <- convertKind kind
+          typ <- go env typ
+          pure (TStruct [(FieldName "m_typeRep#", TUnit :-> TApp (TTypeRepGeneric kind) typ)])
         | tyConFlavour t == ClassFlavour
         , envLfVersion env `supports` featureTypeSynonyms = do
            tySyn <- convertQualifiedTySyn env t

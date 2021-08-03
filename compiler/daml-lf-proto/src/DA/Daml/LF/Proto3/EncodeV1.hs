@@ -693,7 +693,10 @@ encodeExpr' = \case
         k' <- encodeKind k
         ty' <- encodeType' ty
         pure $ expr . P.ExprSumTypeRepGeneric $ P.Expr_TypeRep (Just k') (Just ty')
-    ETypeRepGenericApp _ _ _ _ _ _ -> error "typerepgenericapp"
+    ETypeRepGenericApp k1 k2 -> do
+        k1 <- encodeKind k1
+        k2 <- encodeKind k2
+        pure $ expr . P.ExprSumTypeRepGenericApp $ P.Expr_TypeRepApp (Just k1) (Just k2)
     EToAnyException ty val -> do
         expr_ToAnyExceptionType <- encodeType ty
         expr_ToAnyExceptionExpr <- encodeExpr val

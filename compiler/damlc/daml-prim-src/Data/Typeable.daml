@@ -2,7 +2,7 @@
 -- SPDX-License-Identifier: Apache-2.0
 
 {-# LANGUAGE NoImplicitPrelude #-}
-module Data.Typeable (Typeable) where
+module Data.Typeable (Typeable, TypeRep, getTypeRep) where
 
 import Data.Typeable.Internal
 

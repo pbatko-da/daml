@@ -220,7 +220,7 @@ safetyStep = \case
     | otherwise -> Unsafe
   ETypeRepF _ -> Safe 0
   ETypeRepGenericF _ _ -> Safe 0
-  ETypeRepGenericAppF _ _ _ _ _ _ -> Safe 0
+  ETypeRepGenericAppF _ _ -> Safe 0
   EToAnyExceptionF _ s
     | Safe _ <- s -> Safe 0
     | otherwise -> Unsafe

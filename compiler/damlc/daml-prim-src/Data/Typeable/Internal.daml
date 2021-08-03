@@ -7,10 +7,14 @@
 {-# LANGUAGE MagicHash #-}
 module Data.Typeable.Internal where
 
-import GHC.Types (RuntimeRep, TyCon, magic)
+import GHC.Classes (Eq(..))
+import GHC.Types (RuntimeRep, TyCon, magic, primitive)
 
 data TypeRep (a : k) =
   TrTyCon
+
+instance Eq (TypeRep a) where
+    (==) = primitive @"BEEqual"
 
 class Typeable (a : k) where
   typeRep# : TypeRep a
