@@ -257,6 +257,7 @@ private[validation] object Typing {
   }
 
   def checkModule(interface: Interface, pkgId: PackageId, mod: Module): Unit = {
+    System.err.println(mod)
     val langVersion = handleLookup(NoContext, interface.lookupPackage(pkgId)).languageVersion
     mod.definitions.foreach {
       case (dfnName, DDataType(_, params, cons)) =>
@@ -482,7 +483,6 @@ private[validation] object Typing {
         checkRecordType(fields.toImmArray)
         KStar
       case TTypeRepGeneric(kind) =>
-        // TODO check that kind is closed
         KArrow(kind, KStar)
     }
 

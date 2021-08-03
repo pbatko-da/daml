@@ -586,20 +586,20 @@ convertTypeSynonym env tycon
 
 convertClassDef :: Env -> TyCon -> ConvertM [Definition]
 convertClassDef env tycon
-    -- See Note [Typeable instances]
-    | NameIn Data_Typeable_Internal "Typeable" <- tycon = do
-      let tconName = mkTypeCon [getOccText tycon]
-          tsynName = mkTypeSyn [getOccText tycon]
-          tyVars = [(TypeVarName "k", KStar), (TypeVarName "a", KStar)]
-          tyRep | envLfVersion env `supports` featureTypeRep = TTypeRep
-                | otherwise = TUnit
-          fields = [(FieldName "getTypeRep", tyRep)]
-          typeDef
-            | envLfVersion env `supports` featureTypeSynonyms =
-                defTypeSyn tsynName tyVars (TStruct fields)
-            | otherwise =
-                defDataType tconName tyVars (DataRecord fields)
-      pure [typeDef]
+--    See Note [Typeable instances]
+--    | NameIn Data_Typeable_Internal "Typeable" <- tycon = []
+      -- let tconName = mkTypeCon [getOccText tycon]
+      --     tsynName = mkTypeSyn [getOccText tycon]
+      --     tyVars = [(TypeVarName "k", KStar), (TypeVarName "a", KStar)]
+      --     tyRep | envLfVersion env `supports` featureTypeRep = TTypeRep
+      --           | otherwise = TUnit
+      --     fields = [(FieldName "getTypeRep", tyRep)]
+      --     typeDef
+      --       | envLfVersion env `supports` featureTypeSynonyms =
+      --           defTypeSyn tsynName tyVars (TStruct fields)
+      --       | otherwise =
+      --           defDataType tconName tyVars (DataRecord fields)
+      -- pure [typeDef]
     | Just cls <- tyConClass_maybe tycon
     = do
     let con = tyConSingleDataCon tycon
@@ -899,21 +899,21 @@ convertBind env (name, x)
     | ConstraintTupleProjectionName _ _ <- name
     = pure []
 
-    | "getTypeRep" == unExprValName (convVal name) = do
-      name'@(_, ty) <- convValWithType env name
-      TForall b (TApp (TApp (TBuiltin BTArrow) argTy) _) <- pure ty
-      let expr
-            | envLfVersion env `supports` featureTypeSynonyms = EStructProj (FieldName "getTypeRep") (EVar (ExprVarName "dict"))
-            | otherwise = case argTy of
-                  TConApp typeable args ->
-                      ERecProj (TypeConApp typeable args) (FieldName "getTypeRep") (EVar (ExprVarName "dict"))
-      pure [defValue name name' $ ETyLam b (ETmLam (ExprVarName "dict", argTy) expr)]
+    -- | "getTypeRep" == unExprValName (convVal name) = do
+    --   name'@(_, ty) <- convValWithType env name
+    --   TForall b (TApp (TApp (TBuiltin BTArrow) argTy) _) <- pure ty
+    --   let expr
+    --         | envLfVersion env `supports` featureTypeSynonyms = EStructProj (FieldName "m_typeRep#") (EVar (ExprVarName "dict"))
+    --         | otherwise = case argTy of
+    --               TConApp typeable args ->
+    --                   ERecProj (TypeConApp typeable args) (FieldName "m_typeRep#") (EVar (ExprVarName "dict"))
+    --   pure [defValue name name' $ ETyLam b (ETmLam (ExprVarName "dict", argTy) expr)]
 
     -- Typeclass instance dictionaries
-    | "$dTypeable" `T.isPrefixOf` unExprValName (convVal name) = do
-      name'@(_, ty) <- convValWithType env name
-      TSynApp _ [_, actualTy] <- pure ty
-      pure [defValue name name' (EStructCon [(FieldName "getTypeRep", ETypeRep actualTy)])]
+    -- | "$dTypeable" `T.isPrefixOf` unExprValName (convVal name) = do
+    --   name'@(_, ty) <- convValWithType env name
+    --   TSynApp _ [_, actualTy] <- pure ty
+    --   pure [defValue name name' (EStructCon [(FieldName "getTypeRep", ETypeRep actualTy)])]
     | DFunId isNewtype <- idDetails name
     = withRange (convNameLoc name) $ do
     x' <- convertExpr env x
@@ -970,7 +970,7 @@ internalFunctions = listToUFM $ map (bimap mkModuleNameFS mkUniqSet)
     , ("GHC.Base",
         [ "getTag"
         ])
-    , ("Data.Typeable.Internal", ["typeRep#", "mkTrCon", "mkTrApp", "mkTrFun"])
+    , ("Data.Typeable.Internal", ["mkTrCon", "mkTrApp", "mkTrFun"])
     ]
 
 convertExpr :: Env -> GHC.Expr Var -> ConvertM LF.Expr
@@ -1008,6 +1008,18 @@ convertExpr env0 e = do
             pure $ ETmLam (v, TStruct fields) $ ERecCon tupleType $ zipWithFrom mkFieldProj (1 :: Int) fields
     go env (VarIn GHC_Types "primitive") (LType (isStrLitTy -> Just y) : LType t : args)
         = fmap (, args) $ convertPrim (envLfVersion env) (unpackFS y) <$> convertType env t
+    go env (VarIn Data_Typeable_Internal "mkTrCon") (LType kind : LType typ : _tycon : _kindargs : args)
+        = do kind <- convertKind kind
+             typ <- convertType env typ
+             pure  (ETypeRepGeneric kind typ, args)
+    go env (VarIn Data_Typeable_Internal "mkTrApp") (LType k1 : LType k2 : LType conTy : LType argTy : LExpr conRep : LExpr argRep : args)
+        = do k1 <- convertKind k2
+             k2 <- convertKind k2
+             conTy <- convertType env conTy
+             argTy <- convertType env argTy
+             conRep <- convertExpr env conRep
+             argRep <- convertExpr env argRep
+             pure (ETypeRepGenericApp k1 k2 conTy argTy conRep argRep, args)
     -- NOTE(MH): `getFieldPrim` and `setFieldPrim` are used by the record
     -- preprocessor to magically implement the `HasField` instances for records.
     go env (VarIn DA_Internal_Record "getFieldPrim") (LType (isStrLitTy -> Just name) : LType record : LType _field : args) = do
@@ -1948,6 +1960,11 @@ convertType env = go env
         , envLfVersion env `supports` featureTypeSynonyms = do
            tySyn <- convertQualifiedTySyn env t
            TSynApp tySyn <$> mapM (go env) ts
+        | NameIn Data_Typeable_Internal "TypeRep" <- t
+        , [kind, typ] <- ts = do
+          kind <- convertKind kind
+          typ <- go env typ
+          pure (TApp (TTypeRepGeneric kind) typ)
         | NameIn GHC_Prim "TYPE" <- t = erasedTy env
         | otherwise =
             mkTApps <$> convertTyCon env t <*> mapM (go env) ts

@@ -170,7 +170,7 @@ kindOf = \case
     introTypeVar v k $ checkType t1 KStar $> KStar
   TStruct recordType -> checkRecordType recordType $> KStar
   TNat _ -> pure KNat
-  TTypeRepGeneric k -> pure k
+  TTypeRepGeneric k -> pure (KArrow k KStar)
 
 expandTypeSynonyms :: MonadGamma m => Type -> m Type
 expandTypeSynonyms = expand where
@@ -709,6 +709,14 @@ typeOf' = \case
     checkType ty k
     checkGroundType ty
     pure $ TApp (TTypeRepGeneric k) ty
+  ETypeRepGenericApp k1 k2 t1 t2 e1 e2 -> do
+    (_argKind, resKind) <- match _KArrow (EExpectedHigherKind k1) k1
+    -- TODO fix argKind
+    checkType t1 k1
+    checkType t2 k2
+    checkExpr e1 $ TApp (TTypeRepGeneric k1) t1
+    checkExpr e2 $ TApp (TTypeRepGeneric k2) t2
+    pure $ TApp (TTypeRepGeneric resKind) (TApp t1 t2)
   EToAnyException ty val -> do
     checkExceptionType ty
     checkExpr val ty

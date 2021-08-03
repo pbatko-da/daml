@@ -46,7 +46,6 @@ module DA.Internal.LF
   -- If this is not supported by the target LF version, we compile it to ().
   , Any
   , TypeRep
-  , getTypeRep
 
   #ifdef DAML_EXCEPTIONS
   , AnyException
@@ -56,7 +55,6 @@ module DA.Internal.LF
 import GHC.Stack.Types (HasCallStack)
 import GHC.Types (Opaque, Symbol, primitive, magic)
 import DA.Internal.Prelude
-import Data.Typeable
 
 -- This module should not define any new types. It should only provide the Daml equivalent for LF
 -- builtins using Opaque.
@@ -265,9 +263,6 @@ data Any = Any Opaque
 -- | HIDE Value-level representation of a type.
 -- We do not expose this directly and instead only expose TemplateTypeRep.
 data TypeRep = TypeRep Opaque
-
-getTypeRep : forall a. Typeable a => TypeRep
-getTypeRep = magic @"getTypeRep"
 
 #ifdef DAML_TYPE_REP
 instance Eq TypeRep where

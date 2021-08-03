@@ -15,9 +15,12 @@ data TypeRep (a : k) =
 class Typeable (a : k) where
   typeRep# : TypeRep a
 
+getTypeRep : forall (a : *). Typeable a => TypeRep a
+getTypeRep = typeRep#
+
 data SomeTypeRep = SomeTypeRep
 
-mkTrCon : forall (a : k). TyCon -> [SomeTypeRep] -> TypeRep a
+mkTrCon : forall k (a : k). TyCon -> [SomeTypeRep] -> TypeRep a
 mkTrCon = magic @"mkTrCon"
 
 mkTrApp :  forall k1 k2 (a : k1 -> k2) (b : k1).

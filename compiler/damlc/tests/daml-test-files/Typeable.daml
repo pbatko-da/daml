@@ -10,14 +10,20 @@ f x = x
 g : MyCoolType -> MyCoolType
 g x = f x
 
+{-
 gInt : Int -> Int
 gInt x = f x
+-}
 
+{-
 gIntList : [Int] -> [Int]
 gIntList x = f x
 
 gIntOptional : Optional Int -> Optional Int
 gIntOptional x = f x
+-}
 
+{-
 gIntFun : (Int -> Int) -> (Int -> Int)
 gIntFun x = f x
+-}

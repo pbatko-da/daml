@@ -532,6 +532,14 @@ data Expr
     }
   | ETypeRep !Type
   | ETypeRepGeneric !Kind !Type
+  | ETypeRepGenericApp
+    { typeRepConKind :: !Kind
+    , typeRepArgKind :: !Kind
+    , typeRepConType :: !Type
+    , typeRepArgType :: !Type
+    , typeRepConRep :: !Expr
+    , typeRepArgRep :: !Expr
+    }
   -- | Construct an 'AnyException' value from a value of an exception type.
   | EToAnyException
     { toAnyExceptionType :: !Type
