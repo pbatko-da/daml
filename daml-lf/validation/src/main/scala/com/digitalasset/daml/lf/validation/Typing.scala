@@ -257,7 +257,6 @@ private[validation] object Typing {
   }
 
   def checkModule(interface: Interface, pkgId: PackageId, mod: Module): Unit = {
-    System.err.println(mod)
     val langVersion = handleLookup(NoContext, interface.lookupPackage(pkgId)).languageVersion
     mod.definitions.foreach {
       case (dfnName, DDataType(_, params, cons)) =>
@@ -504,8 +503,7 @@ private[validation] object Typing {
         TForall((v, k), introTypeVar(v, k).expandTypeSynonyms(b))
       case TStruct(recordType) =>
         TStruct(recordType.mapValues(expandTypeSynonyms(_)))
-      case TTypeRepGeneric(kind) =>
-        TTypeRepGeneric(kind)
+      case TTypeRepGeneric(_) => typ0
     }
 
     private def expandSynApp(syn: TypeSynName, tArgs: ImmArray[Type]): Type = {
