@@ -387,6 +387,11 @@ message Type {
     repeated FieldWithType fields = 1;
   }
 
+  message TypeRepGeneric {
+    Kind kind = 1;
+    repeated Type args = 2;
+  }
+
   oneof Sum {
     Var var = 1;
     Con con = 2;
@@ -398,6 +403,7 @@ message Type {
     // use standard signed long for future usage.
     sint64 nat = 11;
     Syn syn = 12; // *Available in versions >= 1.8*
+    TypeRepGeneric type_rep_generic = 14;
 
     int32 interned = 13; // *Available in versions >= 1.11*
   }

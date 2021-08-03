@@ -481,6 +481,9 @@ private[validation] object Typing {
       case TStruct(fields) =>
         checkRecordType(fields.toImmArray)
         KStar
+      case TTypeRepGeneric(kind) =>
+        // TODO check that kind is closed
+        KArrow(kind, KStar)
     }
 
     private def expandTypeSynonyms(typ0: Type): Type = typ0 match {
@@ -501,6 +504,8 @@ private[validation] object Typing {
         TForall((v, k), introTypeVar(v, k).expandTypeSynonyms(b))
       case TStruct(recordType) =>
         TStruct(recordType.mapValues(expandTypeSynonyms(_)))
+      case TTypeRepGeneric(kind) =>
+        TTypeRepGeneric(kind)
     }
 
     private def expandSynApp(syn: TypeSynName, tArgs: ImmArray[Type]): Type = {
@@ -1035,7 +1040,7 @@ private[validation] object Typing {
         TTypeRep
       case ETypeRepGeneric(kind, typ) =>
         checkType(typ, kind)
-
+        TTypeRepGen(kind)(typ)
       case EThrow(returnTyp, excepTyp, body) =>
         checkType(returnTyp, KStar)
         checkExceptionType(excepTyp)

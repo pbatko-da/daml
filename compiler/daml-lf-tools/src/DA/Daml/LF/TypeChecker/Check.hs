@@ -170,6 +170,7 @@ kindOf = \case
     introTypeVar v k $ checkType t1 KStar $> KStar
   TStruct recordType -> checkRecordType recordType $> KStar
   TNat _ -> pure KNat
+  TTypeRepGeneric k -> pure k
 
 expandTypeSynonyms :: MonadGamma m => Type -> m Type
 expandTypeSynonyms = expand where
@@ -189,6 +190,7 @@ expandTypeSynonyms = expand where
       recordType' <- mapM (\(n,t) -> do t' <- expand t; return (n,t')) recordType
       return $ TStruct recordType'
     TNat typeLevelNat -> return $ TNat typeLevelNat
+    TTypeRepGeneric k -> return $ TTypeRepGeneric k
 
 expandSynApp :: MonadGamma m => Qualified TypeSynName -> [Type] -> m Type
 expandSynApp tsyn args = do
@@ -703,6 +705,10 @@ typeOf' = \case
   ETypeRep ty -> do
     checkGroundType ty
     pure $ TBuiltin BTTypeRep
+  ETypeRepGeneric k ty -> do
+    checkType ty k
+    checkGroundType ty
+    pure $ TApp (TTypeRepGeneric k) ty
   EToAnyException ty val -> do
     checkExceptionType ty
     checkExpr val ty

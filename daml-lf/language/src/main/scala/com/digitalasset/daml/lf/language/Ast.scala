@@ -242,6 +242,8 @@ object Ast {
             .map { case (n, t) => n + ": " + prettyType(t, precTForall) }
             .toSeq
             .mkString(", ") + ")"
+        case TTypeRepGeneric(kind) =>
+          "TypeRep<" + kind.pretty + ">"
       }
 
       def prettyForAll(t: Type): String = t match {
@@ -285,6 +287,8 @@ object Ast {
   /** Structs */
   final case class TStruct(fields: Struct[Type]) extends Type
 
+  final case class TTypeRepGeneric(kind: Kind) extends Type
+
   sealed abstract class BuiltinType extends Product with Serializable
 
   case object BTInt64 extends BuiltinType
@@ -305,7 +309,6 @@ object Ast {
   case object BTArrow extends BuiltinType
   case object BTAny extends BuiltinType
   case object BTTypeRep extends BuiltinType
-  case class BTTypeRepGeneric extends BuiltinType
   case object BTAnyException extends BuiltinType
   case object BTRoundingMode extends BuiltinType
   case object BTBigNumeric extends BuiltinType

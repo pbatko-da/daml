@@ -721,6 +721,11 @@ private[archive] class DecodeV1(minor: LV.Minor) {
                 identity,
               )
           )
+        case PLF.Type.SumCase.TYPE_REP_GENERIC =>
+          val rep = lfType.getTypeRepGeneric
+          val kind = decodeKind(rep.getKind)
+          rep.getArgsList.asScala.foldLeft[Type](TTypeRepGeneric(kind))((typ, arg) =>
+            TApp(typ, uncheckedDecodeType(arg)))
         case PLF.Type.SumCase.INTERNED =>
           internedTypes.applyOrElse(
             lfType.getInterned,
