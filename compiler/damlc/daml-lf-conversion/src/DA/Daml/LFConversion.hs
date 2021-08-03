@@ -125,21 +125,14 @@ import           SdkVersion
 
 -- NOTE [Typeable instances]
 -- We support Typeable instances in Daml, however
--- not in the way GHC does.
--- GHC’s TypeRep is a polykinded mess which we cannot
--- reasonably encode in Daml-LF. On the other hand, we already
--- have TypeRep in Daml-LF.
--- Therefore we handle Typeable as follows:
--- We add enough boilerplate & dummy definitions that GHC
--- can generate Typeable instances and get them up to Core.
--- We do not expose any of the standard Typeable definition.
--- Instead, we add a bunch of top-level definitions with Typeable
--- constraints that we rewrite later.
--- When converting to LF, we proceed as follows:
--- 1. We drop the body of all Typeable instances and replace it by
---    a custom struct with the definitions we want.
--- 2. The top-level definitions with Typeable constraints are rewritten
---    into struct selectors on the typeclass dict.
+-- not quite in the way GHC does.
+-- We have a polykinded TypeRep in Daml but
+-- no polykinds in general so we cannot translate the polykinded
+-- Typeable definition. Instead, we inline it
+-- as needed and rely on the fact that all sensible uses
+-- are at a specific kind that we can fix.
+-- Since it is inlined everywhere, we can drop
+-- the actual Typeable definition.
 
 ---------------------------------------------------------------------
 -- FAILURE REPORTING
@@ -587,19 +580,7 @@ convertTypeSynonym env tycon
 convertClassDef :: Env -> TyCon -> ConvertM [Definition]
 convertClassDef env tycon
 --    See Note [Typeable instances]
---    | NameIn Data_Typeable_Internal "Typeable" <- tycon = []
-      -- let tconName = mkTypeCon [getOccText tycon]
-      --     tsynName = mkTypeSyn [getOccText tycon]
-      --     tyVars = [(TypeVarName "k", KStar), (TypeVarName "a", KStar)]
-      --     tyRep | envLfVersion env `supports` featureTypeRep = TTypeRep
-      --           | otherwise = TUnit
-      --     fields = [(FieldName "getTypeRep", tyRep)]
-      --     typeDef
-      --       | envLfVersion env `supports` featureTypeSynonyms =
-      --           defTypeSyn tsynName tyVars (TStruct fields)
-      --       | otherwise =
-      --           defDataType tconName tyVars (DataRecord fields)
-      -- pure [typeDef]
+    | NameIn Data_Typeable_Internal "Typeable" <- tycon = pure []
     | Just cls <- tyConClass_maybe tycon
     = do
     let con = tyConSingleDataCon tycon
@@ -899,21 +880,6 @@ convertBind env (name, x)
     | ConstraintTupleProjectionName _ _ <- name
     = pure []
 
-    -- | "getTypeRep" == unExprValName (convVal name) = do
-    --   name'@(_, ty) <- convValWithType env name
-    --   TForall b (TApp (TApp (TBuiltin BTArrow) argTy) _) <- pure ty
-    --   let expr
-    --         | envLfVersion env `supports` featureTypeSynonyms = EStructProj (FieldName "m_typeRep#") (EVar (ExprVarName "dict"))
-    --         | otherwise = case argTy of
-    --               TConApp typeable args ->
-    --                   ERecProj (TypeConApp typeable args) (FieldName "m_typeRep#") (EVar (ExprVarName "dict"))
-    --   pure [defValue name name' $ ETyLam b (ETmLam (ExprVarName "dict", argTy) expr)]
-
-    -- Typeclass instance dictionaries
-    -- | "$dTypeable" `T.isPrefixOf` unExprValName (convVal name) = do
-    --   name'@(_, ty) <- convValWithType env name
-    --   TSynApp _ [_, actualTy] <- pure ty
-    --   pure [defValue name name' (EStructCon [(FieldName "getTypeRep", ETypeRep actualTy)])]
     | DFunId isNewtype <- idDetails name
     = withRange (convNameLoc name) $ do
     x' <- convertExpr env x
