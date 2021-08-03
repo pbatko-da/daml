@@ -37,10 +37,16 @@ private[platform] final class DbDispatcher private (
 
   /** Runs an SQL statement in a dedicated Executor. The whole block will be run in a single database transaction.
     *
-    * The isolation level by default is the one defined in the JDBC driver, it can be however overridden per query on
-    * the Connection. See further details at: https://docs.oracle.com/cd/E19830-01/819-4721/beamv/index.html
+    * The isolation level by default is the one defined in the JDBC driver.
+    * Use the isolationLevel parameter to override the isolation level for this SQL block only.
+    *
+    * @param isolationLevel If set, overrides the isolation level for this transaction.
+    *                       See isolation levels defined on [[Connection]], e.g., [[Connection.TRANSACTION_SERIALIZABLE]]
     */
-  def executeSql[T](databaseMetrics: DatabaseMetrics)(
+  def executeSql[T](
+      databaseMetrics: DatabaseMetrics,
+      isolationLevel: Option[Int] = None,
+  )(
       sql: Connection => T
   )(implicit loggingContext: LoggingContext): Future[T] =
     withEnrichedLoggingContext("metric" -> databaseMetrics.name) { implicit loggingContext =>
@@ -53,7 +59,7 @@ private[platform] final class DbDispatcher private (
         val startExec = System.nanoTime()
         try {
           // Actual execution
-          val result = connectionProvider.runSQL(databaseMetrics)(sql)
+          val result = connectionProvider.runSQL(databaseMetrics, isolationLevel)(sql)
           result
         } catch {
           case NonFatal(e) =>

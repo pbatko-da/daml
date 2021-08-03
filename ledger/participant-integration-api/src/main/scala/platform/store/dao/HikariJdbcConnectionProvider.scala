@@ -138,8 +138,18 @@ private[platform] class HikariJdbcConnectionProvider(
     else
       Unhealthy
 
-  override def runSQL[T](databaseMetrics: DatabaseMetrics)(block: Connection => T): T = {
+  override def runSQL[T](databaseMetrics: DatabaseMetrics, isolationLevel: Option[Int])(
+      block: Connection => T
+  ): T = {
     val conn = dataSource.getConnection()
+    isolationLevel.foreach(level => {
+      // setTransactionIsolation() can only be used outside of a transaction.
+      // With auto-commit disabled (which is our default), the connection is already in an open transaction.
+      // We therefore need to enable auto-commit before change the isolation level.
+      conn.setAutoCommit(true)
+      // Hikari resets the isolation level when recycling connections, this call won't pollute the connection pool.
+      conn.setTransactionIsolation(level)
+    })
     conn.setAutoCommit(false)
     try {
       val res = Timed.value(

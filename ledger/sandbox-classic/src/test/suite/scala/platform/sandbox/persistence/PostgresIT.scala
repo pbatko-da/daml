@@ -49,7 +49,18 @@ class PostgresIT extends AsyncWordSpec with Matchers with PostgresAroundAll with
   "Postgres" when {
     "running queries using Hikari" should {
       "be accessible" in {
-        connectionProvider.runSQL(metrics.test.db) { conn =>
+        connectionProvider.runSQL(metrics.test.db, None) { conn =>
+          val resultSet = conn.createStatement().executeQuery("SELECT 1")
+          resultSet.next()
+          val result = resultSet.getInt(1)
+          result shouldEqual 1
+        }
+      }
+      "support custom isolation levels" in {
+        connectionProvider.runSQL(
+          metrics.test.db,
+          Some(java.sql.Connection.TRANSACTION_SERIALIZABLE),
+        ) { conn =>
           val resultSet = conn.createStatement().executeQuery("SELECT 1")
           resultSet.next()
           val result = resultSet.getInt(1)
@@ -65,7 +76,7 @@ class PostgresIT extends AsyncWordSpec with Matchers with PostgresAroundAll with
         new FlywayMigrations(postgresDatabase.url)
           .migrate()(ResourceContext(DirectExecutionContext))
       }.map { _ =>
-        connectionProvider.runSQL(metrics.test.db) { conn =>
+        connectionProvider.runSQL(metrics.test.db, None) { conn =>
           def checkTableExists(table: String) = {
             val resultSet = conn.createStatement().executeQuery(s"SELECT * from $table")
             resultSet.next shouldEqual false
