@@ -8,7 +8,7 @@ import com.google.protobuf.Any
 import com.google.rpc
 import com.google.rpc.status.{Status => StatusProto}
 import io.grpc.Status.Code
-import io.grpc.{StatusRuntimeException, protobuf}
+import io.grpc.{Status, StatusRuntimeException, protobuf}
 
 import scala.jdk.CollectionConverters._
 
@@ -21,6 +21,12 @@ object CompletionResponse {
       extends CompletionFailure
   final case class TimeoutResponse(commandId: String) extends CompletionFailure
   final case class NoStatusInResponse(commandId: String) extends CompletionFailure
+
+  /** Represents the failure to add to the execution queue.
+    *
+    * @param status - Grpc status chosen based on the reason why adding to the queue failed
+    */
+  final case class StartingExecutionFailure(status: Status) extends CompletionFailure
 
   final case class CompletionSuccess(commandId: String, transactionId: String)
 
@@ -52,6 +58,8 @@ object CompletionResponse {
           .newBuilder()
           .setCode(Code.INTERNAL.value())
           .setMessage("Missing status in completion response.")
+      case CompletionResponse.StartingExecutionFailure(status) =>
+        rpc.Status.newBuilder().setCode(status.getCode.value()).setMessage(status.getDescription)
     }
     protobuf.StatusProto.toStatusRuntimeException(
       status

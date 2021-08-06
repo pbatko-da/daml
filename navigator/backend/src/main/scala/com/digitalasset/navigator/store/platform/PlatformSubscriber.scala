@@ -267,6 +267,8 @@ class PlatformSubscriber(
                   commandId,
                   error,
                 )
+              case CompletionResponse.StartingExecutionFailure(_) =>
+              // do nothing here as this can only happen before the command is put in the queue
             }
         }
       })

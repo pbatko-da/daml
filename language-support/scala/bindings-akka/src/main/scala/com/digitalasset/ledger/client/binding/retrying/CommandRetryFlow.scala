@@ -94,10 +94,11 @@ object CommandRetryFlow {
                           RetryLogger.logFatal(request, status, nrOfRetries)
                           PROPAGATE_PORT
                         }
-                      case CompletionResponse.TimeoutResponse(_) =>
-                        PROPAGATE_PORT
                       case CompletionResponse.NoStatusInResponse(commandId) =>
                         statusNotFoundError(commandId)
+                      case CompletionResponse.TimeoutResponse(_) |
+                          CompletionResponse.StartingExecutionFailure(_) =>
+                        PROPAGATE_PORT
                     }
                   case Right(_) =>
                     PROPAGATE_PORT
