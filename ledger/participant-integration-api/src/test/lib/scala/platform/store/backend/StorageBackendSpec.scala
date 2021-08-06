@@ -12,53 +12,46 @@ import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.metrics.Metrics
 import com.daml.platform.configuration.ServerRole
 import com.daml.platform.store.appendonlydao.DbDispatcher
-import com.daml.platform.store.{DbType, FlywayMigrations}
-import com.daml.testing.postgresql.PostgresAroundEach
-import org.scalatest.AsyncTestSuite
+import com.daml.platform.store.FlywayMigrations
+import org.scalatest.{AsyncTestSuite, BeforeAndAfterEach}
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.{DurationInt, FiniteDuration}
 
-private[backend] trait StorageBackendPostgresSpec
+private[backend] trait StorageBackendSpec[DB_BATCH]
     extends AkkaBeforeAndAfterAll
-    with PostgresAroundEach { this: AsyncTestSuite =>
+    with BeforeAndAfterEach
+    with StorageBackendProvider[DB_BATCH] { this: AsyncTestSuite =>
 
   protected val logger: ContextualizedLogger = ContextualizedLogger.get(getClass)
-  implicit val loggingContext: LoggingContext = LoggingContext.ForTesting
 
-  private val dbType: DbType = DbType.Postgres
-  private def jdbcUrl: String = postgresDatabase.url
-
+  //
+  implicit private val loggingContext: LoggingContext = LoggingContext.ForTesting
   private val connectionPoolSize: Int = 16
   private val metrics = new Metrics(new MetricRegistry)
 
-  // The storage backend is stateless
-  protected val storageBackend: StorageBackend[_] = StorageBackend.of(dbType)
-
-  // Each test gets its own database and its own connection pool
-  private var resource: Resource[DbDispatcher] = _
-  protected var dbDispatcher: DbDispatcher = _
+  // Initialized in beforeAll()
+  private var dbDispatcherResource: Resource[DbDispatcher] = _
+  private var dbDispatcher: DbDispatcher = _
 
   protected def executeSql[T](sql: Connection => T): Future[T] = {
-    dbDispatcher.executeSql(metrics.test.db, None)(sql)
+    dbDispatcher.executeSql(metrics.test.db)(sql)
   }
   protected def executeSerializableSql[T](sql: Connection => T): Future[T] = {
     dbDispatcher.executeSql(metrics.test.db, Some(Connection.TRANSACTION_SERIALIZABLE))(sql)
   }
 
-  override protected def beforeEach(): Unit = {
-    super.beforeEach()
+  override protected def beforeAll(): Unit = {
+    super.beforeAll()
 
-    // TODO: use a custom execution context, like JdbcLedgeDao.beforeAll()
     implicit val resourceContext: ResourceContext = ResourceContext(system.dispatcher)
-
-    resource = for {
+    dbDispatcherResource = for {
       _ <- Resource.fromFuture(
         new FlywayMigrations(jdbcUrl).migrate(enableAppendOnlySchema = true)
       )
       dispatcher <- DbDispatcher
         .owner(
-          dataSource = storageBackend.createDataSource(jdbcUrl),
+          dataSource = backend.createDataSource(jdbcUrl),
           serverRole = ServerRole.Testing(this.getClass),
           connectionPoolSize = connectionPoolSize,
           connectionTimeout = FiniteDuration(250, "millis"),
@@ -66,11 +59,19 @@ private[backend] trait StorageBackendPostgresSpec
         )
         .acquire()
     } yield dispatcher
-    dbDispatcher = Await.result(resource.asFuture, 30.seconds)
+
+    dbDispatcher = Await.result(dbDispatcherResource.asFuture, 30.seconds)
   }
 
-  override protected def afterEach(): Unit = {
-    Await.result(resource.release(), 30.seconds)
-    super.afterEach()
+  override protected def afterAll(): Unit = {
+    Await.result(dbDispatcherResource.release(), 30.seconds)
+    super.afterAll()
+  }
+
+  // Each test should start with an empty database to allow testing low-level behavior
+  // However, creating a fresh database for each test would be too expensive.
+  // Instead, we truncate all tables using the reset() call before each test.
+  override protected def beforeEach(): Unit = {
+    Await.result(executeSql(backend.reset), 10.seconds)
   }
 }

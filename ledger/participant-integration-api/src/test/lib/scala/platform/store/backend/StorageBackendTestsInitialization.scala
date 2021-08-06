@@ -11,12 +11,12 @@ import org.scalatest.matchers.should.Matchers
 import scala.concurrent.Future
 import scala.util.Success
 
-final class StorageBackendPostgresInitializationSpec
-    extends AsyncFlatSpec
-    with StorageBackendPostgresSpec
-    with Matchers {
+private[backend] trait StorageBackendTestsInitialization[DB_BATCH] extends Matchers {
+  this: AsyncFlatSpec with StorageBackendSpec[DB_BATCH] =>
 
   behavior of "StorageBackend (initialization)"
+
+  import StorageBackendTestValues._
 
   it should "correctly handle repeated initialization" in {
     val ledgerId = LedgerId("ledger")
@@ -26,7 +26,7 @@ final class StorageBackendPostgresInitializationSpec
 
     for {
       result1 <- executeSql(
-        storageBackend.initializeParameters(
+        backend.initializeParameters(
           StorageBackend.IdentityParams(
             ledgerId = ledgerId,
             participantId = participantId,
@@ -34,7 +34,7 @@ final class StorageBackendPostgresInitializationSpec
         )
       )
       result2 <- executeSql(
-        storageBackend.initializeParameters(
+        backend.initializeParameters(
           StorageBackend.IdentityParams(
             ledgerId = otherLedgerId,
             participantId = participantId,
@@ -42,7 +42,7 @@ final class StorageBackendPostgresInitializationSpec
         )
       )
       result3 <- executeSql(
-        storageBackend.initializeParameters(
+        backend.initializeParameters(
           StorageBackend.IdentityParams(
             ledgerId = ledgerId,
             participantId = otherParticipantId,
@@ -50,7 +50,7 @@ final class StorageBackendPostgresInitializationSpec
         )
       )
       result4 <- executeSql(
-        storageBackend.initializeParameters(
+        backend.initializeParameters(
           StorageBackend.IdentityParams(
             ledgerId = ledgerId,
             participantId = participantId,
@@ -66,23 +66,21 @@ final class StorageBackendPostgresInitializationSpec
   }
 
   it should "not allow duplicate initialization" in {
-    val params = StorageBackend.IdentityParams(
-      ledgerId = LedgerId("ledger"),
-      participantId = ParticipantId(Ref.ParticipantId.assertFromString("participant")),
-    )
     val n: Int = 64
 
     for {
       result <- Future.sequence(
         Vector.fill(n)(
-          // Note: the StorageBackend.initializeParameters() call may fail if it conflicts with another concurrent call
-          // The StorageBackend currently doesn't retry the SQL transaction,
-          // the RecoveringIndexer would be responsible for a retry
-          executeSerializableSql(storageBackend.initializeParameters(params))
+          executeSerializableSql(backend.initializeParameters(someIdentityParams))
             .transform(x => Success(x.toEither))
         )
       )
     } yield {
+      // Note: the StorageBackend.initializeParameters() call may fail if it conflicts with another concurrent call.
+      // In such a rare case, the indexer would fail to start, and the RecoveringIndexer would be responsible
+      // for restarting the indexer.
+      // This test therefore only asserts that there is exactly one call that initializes the parameter table,
+      // it does not handle failed calls in any way.
       result.collect { case Right(StorageBackend.InitializationResult.New) =>
         true
       } should have length 1
