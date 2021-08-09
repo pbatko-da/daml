@@ -1,0 +1,43 @@
+-- Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+-- All rights reserved.
+
+module List_Total where
+
+import DA.List.Total
+import DA.Assert
+
+testHead = scenario do
+  None === head @Optional @Int []
+  Some 1 === head [1, 2, 3]
+
+testTail = scenario do
+  None === tail @Optional @Int []
+  Some [2, 3] === tail [1, 2, 3]
+
+testInit = scenario do
+  None === init @Optional @Int []
+  Some [1, 2] === init [1, 2, 3]
+
+testDoubleBang = scenario do
+  None === [1, 2, 3] !! 4
+  Some 2 === [1, 2, 3] !! 1
+
+testFoldl1 = scenario do
+  None === foldl1 @Optional @Int (-) []
+  Some (-4) === foldl1 (-) [1, 2, 3]
+
+testFoldr1 = scenario do
+  None === foldr1 @Optional @Int (-) []
+  Some 2 === foldr1 (-) [1, 2, 3]
+
+testFoldBalanced1 = scenario do
+  None === foldBalanced1 @Optional @Int (+) []
+  Some 6 === foldBalanced1 (+) [1, 2, 3]
+
+testMinimumOn = scenario do
+  None === minimumOn @Optional @Int @Int negate []
+  Some 3 === minimumOn negate [1, 2, 3]
+
+testMaximumOn = scenario do
+  None === maximumOn @Optional @Int @Int negate []
+  Some 1 === maximumOn negate [1, 2, 3]

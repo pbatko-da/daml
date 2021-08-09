@@ -11,10 +11,12 @@ module DA.List.Total
   , foldr1
   , foldBalanced1
   , (!!)
+  , maximumOn
+  , minimumOn
   )
 where
 
-import DA.List hiding (foldBalanced1, head, tail, init, last, foldl1, foldr1, (!!))
+import DA.List hiding (foldBalanced1, head, tail, init, last, foldl1, foldr1, (!!), minimumOn, maximumOn)
 
 head : ActionFail m => [a] -> m a
 head (x::_) = pure x
@@ -50,3 +52,25 @@ foldBalanced1 : ActionFail m => (a -> a -> a) -> [a] -> m a
 foldBalanced1 _ [] = fail "foldBalanced1: empty list"
 foldBalanced1 _ [x] = pure x
 foldBalanced1 f xs = foldBalanced1 f (combinePairs f xs)
+
+-- | `minimumOn f xs` returns the first element `x` of `xs` for which `f x`
+-- is smaller than or equal to any other `f y` for `y` in `xs`. The result is
+-- wrapped in a monadic context, with a failure if `xs` is empty.
+minimumOn : (ActionFail m, Ord k) => (a -> k) -> [a] -> m a
+minimumOn _ [] = fail "minimumOn: empty list"
+minimumOn f (x::xs) = pure $ fst $ foldl keep_min (x, f x) xs
+  where keep_min (m, km) e = let ke = f e
+                             in if ke < km
+                                then (e, ke)
+                                else (m, km)
+
+-- | `maximumOn f xs` returns the first element `x` of `xs` for which `f x`
+-- is greater than or equal to any other `f y` for `y` in `xs`. The result is
+-- wrapped in a monadic context, with a failure if `xs` is empty.
+maximumOn : (ActionFail m, Ord k) => (a -> k) -> [a] -> m a
+maximumOn _ [] = fail "maximumOn: empty list"
+maximumOn f (x::xs) = pure $ fst $ foldl keep_max (x, f x) xs
+  where keep_max (m, km) e = let ke = f e
+                             in if ke > km
+                                then (e, ke)
+                                else (m, km)

@@ -1,13 +1,13 @@
 -- Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
 -- All rights reserved.
 
--- @INFO range=115:17-115:32; Use dedup
--- @INFO range=301:10-301:24; Evaluate
--- @INFO range=316:38-316:48; Use sum
--- @INFO range=317:43-317:53; Use sum
--- @INFO range=318:29-318:39; Use sum
--- @INFO range=321:3-321:23; Use head
--- @INFO range=326:29-326:36; Use head
+-- @INFO range=118:17-118:32; Use dedup
+-- @INFO range=304:10-304:24; Evaluate
+-- @INFO range=319:38-319:48; Use sum
+-- @INFO range=320:43-320:53; Use sum
+-- @INFO range=321:29-321:39; Use sum
+-- @INFO range=324:3-324:23; Use head
+-- @INFO range=329:29-329:36; Use head
 
 module List where
 
@@ -23,9 +23,12 @@ testSort6 = scenario do
           , Foo 10 "c"
           , Foo 15 "c"
           , Foo 5 "b" ]
-  let m = sortOn (\t -> (Down t.y, Down t.x)) l
+  let sortFn = \t -> (Down t.y, Down t.x)
+  let m = sortOn sortFn l
   head m === Foo 15 "c"
   last m === Foo 42 "a"
+  Foo 15 "c" === minimumOn sortFn l
+  Foo 42 "a" === maximumOn sortFn l
 
 -- Utility called on by 'testSort4' and 'testSort5'
 check45 n m = do
