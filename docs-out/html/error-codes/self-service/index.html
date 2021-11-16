@@ -14,7 +14,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Self-Service Error Codes (Experimental) &mdash; Daml SDK 0.0.0 documentation</title>
+  <title>Error Codes &mdash; Daml SDK 0.0.0 documentation</title>
   
 
   
@@ -258,10 +258,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Self-Service Error Codes (Experimental)</a><ul class="simple">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Error Codes</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
 <ul>
@@ -395,7 +394,7 @@
         
         <!-- Local TOC -->
         <div class="content-menu-toc"><ul>
-<li><a class="reference internal" href="#">Self-Service Error Codes (Experimental)</a><ul>
+<li><a class="reference internal" href="#">Error Codes</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a><ul>
 <li><a class="reference internal" href="#feature-flag">Feature Flag</a></li>
 <li><a class="reference internal" href="#glossary">Glossary</a></li>
@@ -408,10 +407,17 @@
 <li><a class="reference internal" href="#logging">Logging</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#error-codes-inventory">Error Codes Inventory</a></li>
+<li><a class="reference internal" href="#error-codes-inventory">Error Codes Inventory</a><ul>
+<li><a class="reference internal" href="#error-codes-migration-guide">Error Codes Migration Guide</a><ul>
+<li><a class="reference internal" href="#ledger-api">Ledger API</a></li>
+<li><a class="reference internal" href="#sandbox-classic">Sandbox (classic)</a></li>
+<li><a class="reference internal" href="#daml-sandbox-and-vmbc">Daml Sandbox and VMBC</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
         
@@ -427,8 +433,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div itemprop="articleBody">
                 
-  <div class="section" id="self-service-error-codes-experimental">
-<h1>Self-Service Error Codes (Experimental)<a class="headerlink" href="#self-service-error-codes-experimental" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="error-codes">
+<h1>Error Codes<a class="headerlink" href="#error-codes" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
 <div class="section" id="overview">
@@ -456,8 +462,9 @@ from command line.</p>
 <div class="section" id="glossary">
 <h3>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt>Error - represents an occurrence of a failure.</dt>
-<dd><p class="first">Consists of:</p>
+<dt>Error</dt>
+<dd><p class="first">Represents an occurrence of a failure.
+Consists of:</p>
 <ul class="simple">
 <li>an <cite>error code id</cite>,</li>
 <li>a <a class="reference external" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">gRPC status code</a> (determined by its error category),</li>
@@ -469,16 +476,18 @@ from command line.</p>
 <p class="last">You can think of it as an
 instantiation of an error code.</p>
 </dd>
-<dt>Error code - represents a class of failures.</dt>
-<dd>Identified by its error code id (we may use <cite>error code</cite> and <cite>error code id</cite> interchangeably in this document).
+<dt>Error code</dt>
+<dd>Represents a class of failures.
+Identified by its error code id (we may use <cite>error code</cite> and <cite>error code id</cite> interchangeably in this document).
 Belongs to a single error category.</dd>
-<dt>Error category - a broad categorization of error codes that you can base your error handling strategies on.</dt>
-<dd>Map to exactly one <a class="reference external" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">gRPC status code</a>.
+<dt>Error category</dt>
+<dd>A broad categorization of error codes that you can base your error handling strategies on.
+Map to exactly one <a class="reference external" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">gRPC status code</a>.
 We recommended to deal with errors based on their error category.
 However, if error category itself is too generic
 you can act on particular error codes.</dd>
-<dt>Correlation id - a value whose purpose is to allow a user to clearly identify the request,</dt>
-<dd>such that the operator can lookup any log information associated with this error.</dd>
+<dt>Correlation id</dt>
+<dd>a value whose purpose is to allow a user to clearly identify the request, such that the operator can lookup any log information associated with this error.</dd>
 </dl>
 </div>
 <div class="section" id="error-categories">
@@ -578,12 +587,9 @@ NOTE: Contains value <code class="docutils literal notranslate"><span class="pre
 Full correlation id can be found in error’s additional machine readable information
 (see <a class="reference internal" href="#additional-machine-readable-information">Additional machine readable information</a>).</li>
 <li><code class="docutils literal notranslate"><span class="pre">:</span></code> - a colon character that serves as a separator for the machine and human readable parts.</li>
-<li><dl class="first docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">&lt;HUMAN_READABLE_MESSAGE&gt;</span></code> - message targeted at a human reader.</dt>
-<dd>Should never be parsed by applications, as the description might change
-in future releases to improve clarity.</dd>
-</dl>
-</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;HUMAN_READABLE_MESSAGE&gt;</span></code> - a message targeted at a human reader.
+Should never be parsed by applications, as the description might change
+in future releases to improve clarity.</li>
 </ul>
 </div></blockquote>
 <p>In a concrete example an error description might look like this:</p>
@@ -1508,44 +1514,71 @@ This error is exposed on the API with grpc-status ABORTED including a detailed e
 </p>
 </p>
 </div>
-</div>
-</div>
-<div class="section" id="self-service-error-codes-migration-guide">
-<h1>Self-Service Error Codes Migration Guide<a class="headerlink" href="#self-service-error-codes-migration-guide" title="Permalink to this headline">¶</a></h1>
-<p>The introduction of the self-service error codes means that some of the gRPC error codes returned from service methods change.
-Consult the table below for details on those changes.</p>
-<p>Note that the table below contains entries only for cases where a gRPC codes was changed.
-For example, a service method previously returning gRPC error code <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> may now return
+<div class="section" id="error-codes-migration-guide">
+<h3>Error Codes Migration Guide<a class="headerlink" href="#error-codes-migration-guide" title="Permalink to this headline">¶</a></h3>
+<p>The Ledger API gRPC error codes change introduced in the Daml SDK 1.18 release involves breaking
+compatibility with previous releases for some service Ledger API endpoints.</p>
+<p>The table below outlines all the cases and error conditions when a Ledger API service endpoint returns a different
+gRPC status code in comparison to the pre-1.18 releases.</p>
+<p>For example, a service endpoint previously returning gRPC status code <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> may now return
 <code class="docutils literal notranslate"><span class="pre">CODE_B</span></code> for some error condition while returning <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> for other conditions,
 and only an entry for the change from <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> in <code class="docutils literal notranslate"><span class="pre">CODE_B</span></code> is included in the table below.</p>
+<div class="section" id="ledger-api">
+<h4>Ledger API<a class="headerlink" href="#ledger-api" title="Permalink to this headline">¶</a></h4>
+<p>The table below outlines generic gRPC status code changes pertaining to the Ledger API
+and apply to all ledger backends. For changes specific to a ledger backend, check the next subsections.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="17%" />
-<col width="11%" />
-<col width="13%" />
-<col width="43%" />
+<col width="18%" />
+<col width="12%" />
+<col width="12%" />
+<col width="42%" />
 <col width="16%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Service method</th>
-<th class="head">gRPC error code (legacy errors)</th>
-<th class="head">gRPC error code (self-service errors)</th>
+<tr class="row-odd"><th class="head">Service endpoint</th>
+<th class="head">gRPC status code (before SDK 1.18)</th>
+<th class="head">gRPC status code (since SDK 1.18)</th>
 <th class="head">Remarks</th>
-<th class="head">Sef-service error code id</th>
+<th class="head">Ledger API error code ID</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>ActiveContractsService.getActiveContracts</td>
 <td>NOT_FOUND</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-odd"><td>ActiveContractsService.getActiveContracts</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when attempting to access the data that has already been pruned.</td>
 <td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
+</tr>
+<tr class="row-even"><td>CommandCompletionService.completionEnd</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
 </tr>
 <tr class="row-odd"><td>CommandCompletionService.completionStream</td>
 <td>NOT_FOUND</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>CommandCompletionService.completionStream</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when attempting to access the data that has already been pruned.</td>
 <td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
+</tr>
+<tr class="row-odd"><td>CommandService.submitAndWait</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
 </tr>
 <tr class="row-even"><td>CommandService.submitAndWait</td>
 <td>UNAVAILABLE</td>
@@ -1554,10 +1587,22 @@ and only an entry for the change from <code class="docutils literal notranslate"
 <td>LEDGER_CONFIGURATION_NOT_FOUND</td>
 </tr>
 <tr class="row-odd"><td>CommandService.submitAndWaitForTransaction</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>CommandService.submitAndWaitForTransaction</td>
 <td>UNAVAILABLE</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
 <td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>CommandService.submitAndWaitForTransactionId</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
 </tr>
 <tr class="row-even"><td>CommandService.submitAndWaitForTransactionId</td>
 <td>UNAVAILABLE</td>
@@ -1566,10 +1611,22 @@ and only an entry for the change from <code class="docutils literal notranslate"
 <td>LEDGER_CONFIGURATION_NOT_FOUND</td>
 </tr>
 <tr class="row-odd"><td>CommandService.submitAndWaitForTransactionTree</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>CommandService.submitAndWaitForTransactionTree</td>
 <td>UNAVAILABLE</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
 <td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>CommandSubmissionService.submit</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
 </tr>
 <tr class="row-even"><td>CommandSubmissionService.submit</td>
 <td>UNAVAILABLE</td>
@@ -1607,23 +1664,47 @@ and only an entry for the change from <code class="docutils literal notranslate"
 <td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
 <td>INVALID_ARGUMENT</td>
 </tr>
-<tr class="row-even"><td>PackageManagementService.uploadDarFile</td>
+<tr class="row-even"><td>LedgerConfigurationService.getLedgerConfiguration</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-odd"><td>PackageManagementService.uploadDarFile</td>
 <td>ABORTED</td>
 <td>DEADLINE_EXCEEDED</td>
 <td>DEADLINE_EXCEEDED can now be returned when a time out was reached.</td>
 <td>REQUEST_TIME_OUT</td>
 </tr>
-<tr class="row-odd"><td>PackageManagementService.uploadDarFile</td>
+<tr class="row-even"><td>PackageManagementService.uploadDarFile</td>
 <td>INVALID_ARGUMENT</td>
 <td>FAILED_PRECONDITION</td>
 <td>FAILED_PRECONDITION can now be returned when a package upload was rejected.</td>
 <td>PACKAGE_UPLOAD_REJECTED</td>
 </tr>
+<tr class="row-odd"><td>PackageService.getPackage</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>PackageService.getPackageStatus</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-odd"><td>PackageService.listPackages</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
 <tr class="row-even"><td>ParticipantPruningService.prune</td>
 <td>INVALID_ARGUMENT</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when the supplied pruning offset was out of range.</td>
-<td>REQUESTED_OFFSET_OUT_OF_RANGE</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when the supplied pruning offset is not before the ledger end.</td>
+<td>OFFSET_OUT_OF_RANGE</td>
 </tr>
 <tr class="row-odd"><td>PartyManagementService.allocateParty</td>
 <td>ABORTED</td>
@@ -1631,65 +1712,89 @@ and only an entry for the change from <code class="docutils literal notranslate"
 <td>DEADLINE_EXCEEDED can now be returned when a time out was reached.</td>
 <td>REQUEST_TIME_OUT</td>
 </tr>
-<tr class="row-even"><td>SubmissionService.submit</td>
+<tr class="row-even"><td>SandboxResetService.reset</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-odd"><td>SubmissionService.submit</td>
 <td>ABORTED</td>
 <td>ALREADY_EXISTS</td>
 <td>ALREADY_EXISTS can now be returned when there was a duplicate contract key during interpretation.</td>
 <td>DUPLICATE_CONTRACT_KEY_DURING_INTERPRETATION</td>
 </tr>
-<tr class="row-odd"><td>SubmissionService.submit</td>
+<tr class="row-even"><td>SubmissionService.submit</td>
 <td>ABORTED</td>
 <td>INTERNAL</td>
 <td>INTERNAL can now be returned when validation fails on a mismatch during relay of the submitted transaction.</td>
 <td>LEDGER_API_INTERNAL_ERROR</td>
 </tr>
-<tr class="row-even"><td>SubmissionService.submit</td>
+<tr class="row-odd"><td>SubmissionService.submit</td>
 <td>ABORTED</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when contract key was not found during interpretation.</td>
 <td>CONTRACT_NOT_FOUND</td>
 </tr>
-<tr class="row-odd"><td>SubmissionService.submit</td>
+<tr class="row-even"><td>SubmissionService.submit</td>
 <td>INVALID_ARGUMENT</td>
 <td>FAILED_PRECONDITION</td>
 <td>FAILED_PRECONDITION can now be returned when a Daml transaction fails during interpretation.</td>
 <td>DAML_INTERPRETATION_ERROR</td>
 </tr>
-<tr class="row-even"><td>SubmissionService.submit</td>
+<tr class="row-odd"><td>SubmissionService.submit</td>
 <td>INVALID_ARGUMENT</td>
 <td>INTERNAL</td>
 <td>INTERNAL can now be returned in case of internal errors.</td>
 <td>LEDGER_API_INTERNAL_ERROR</td>
 </tr>
-<tr class="row-odd"><td>SubmissionService.submit</td>
+<tr class="row-even"><td>SubmissionService.submit</td>
 <td>INVALID_ARGUMENT</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when a Daml interpreter can not resolve a contract key to an active contract.</td>
 <td>CONTRACT_KEY_NOT_FOUND</td>
 </tr>
-<tr class="row-even"><td>SubmissionService.submit</td>
+<tr class="row-odd"><td>SubmissionService.submit</td>
 <td>INVALID_ARGUMENT</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when a Daml transaction was referring to a package which was not known to the participant.</td>
 <td>MISSING_PACKAGE</td>
 </tr>
-<tr class="row-odd"><td>SubmissionService.submit</td>
+<tr class="row-even"><td>SubmissionService.submit</td>
 <td>INVALID_ARGUMENT</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when an exercise or fetch happens on a transaction-locally consumed contract.</td>
 <td>CONTRACT_NOT_ACTIVE</td>
 </tr>
-<tr class="row-even"><td>SubmissionService.submit</td>
+<tr class="row-odd"><td>SubmissionService.submit</td>
 <td>INVALID_ARGUMENT</td>
 <td>UNKNOWN</td>
 <td>UNKNOWN can now be returned when package validation fails.</td>
 <td>PACKAGE_VALIDATION_FAILED</td>
 </tr>
-<tr class="row-odd"><td>SubmissionService.submit</td>
+<tr class="row-even"><td>SubmissionService.submit</td>
 <td>UNAVAILABLE</td>
 <td>NOT_FOUND</td>
 <td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
 <td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>TimeService.getTimeSource</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>TimeService.setTime</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-odd"><td>TransactionService.getFlatTransactionByEventId</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
 </tr>
 <tr class="row-even"><td>TransactionService.getFlatTransactionByEventId</td>
 <td>NOT_FOUND</td>
@@ -1697,38 +1802,214 @@ and only an entry for the change from <code class="docutils literal notranslate"
 <td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
 <td>INVALID_ARGUMENT</td>
 </tr>
+<tr class="row-odd"><td>TransactionService.getFlatTransactionById</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>TransactionService.getLedgerEnd</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
 <tr class="row-odd"><td>TransactionService.getTransactionByEventId</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-even"><td>TransactionService.getTransactionByEventId</td>
 <td>NOT_FOUND</td>
 <td>INVALID_ARGUMENT</td>
 <td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
 <td>INVALID_ARGUMENT</td>
 </tr>
+<tr class="row-odd"><td>TransactionService.getTransactionById</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
 <tr class="row-even"><td>TransactionService.getTransactionTrees</td>
 <td>INVALID_ARGUMENT</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when the supplied offset was out of range.</td>
-<td>REQUESTED_OFFSET_OUT_OF_RANGE</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when the supplied offset was out of range.</td>
+<td>OFFSET_OUT_OF_RANGE</td>
 </tr>
 <tr class="row-odd"><td>TransactionService.getTransactionTrees</td>
 <td>NOT_FOUND</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when attempting to access the data that has already been pruned.</td>
 <td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
 </tr>
-<tr class="row-even"><td>TransactionService.getTransactions</td>
+<tr class="row-even"><td>TransactionService.getTransactionTreesSource</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
+</tr>
+<tr class="row-odd"><td>TransactionService.getTransactions</td>
 <td>INVALID_ARGUMENT</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when the supplied offset was out of range.</td>
-<td>REQUESTED_OFFSET_OUT_OF_RANGE</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when the supplied offset was out of range.</td>
+<td>OFFSET_OUT_OF_RANGE</td>
+</tr>
+<tr class="row-even"><td>TransactionService.getTransactions</td>
+<td>NOT_FOUND</td>
+<td>FAILED_PRECONDITION</td>
+<td>&#160;</td>
+<td>LEDGER_ID_MISMATCH</td>
 </tr>
 <tr class="row-odd"><td>TransactionService.getTransactions</td>
 <td>NOT_FOUND</td>
-<td>OUT_OF_RANGE</td>
-<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when attempting to access the data that has already been pruned.</td>
 <td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="sandbox-classic">
+<h4>Sandbox (classic)<a class="headerlink" href="#sandbox-classic" title="Permalink to this headline">¶</a></h4>
+<p>The following gRPC status codes have changed for submission rejections in Sandbox classic.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="19%" />
+<col width="45%" />
+<col width="19%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">gRPC status code (before SDK 1.18)</th>
+<th class="head">gRPC status code (since SDK 1.18)</th>
+<th class="head">Remarks</th>
+<th class="head">Ledger API error code ID</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ABORTED</td>
+<td>ALREADY_EXISTS</td>
+<td>ALREADY_EXISTS is now returned on duplicate contract key transaction rejections.</td>
+<td>DUPLICATE_CONTRACT_KEY</td>
+</tr>
+<tr class="row-odd"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on invalid ledger time transaction rejections.</td>
+<td>INVALID_LEDGER_TIME</td>
+</tr>
+<tr class="row-even"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on transaction rejections on consistency errors.</td>
+<td>INCONSISTENT, INCONSISTENT_CONTRACT_KEY</td>
+</tr>
+<tr class="row-odd"><td>ABORTED</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND is now returned on transaction rejections on not found contract.</td>
+<td>CONTRACT_NOT_FOUND</td>
+</tr>
+<tr class="row-even"><td>INVALID_ARGUMENT</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on transaction rejections on system faults.</td>
+<td>DISPUTED</td>
+</tr>
+<tr class="row-odd"><td>INVALID_ARGUMENT</td>
+<td>NOT_FOUND</td>
+<td>PARTY_NOT_KNOWN_ON_LEDGER is now returned on transaction rejections on unallocated parties.</td>
+<td>PARTY_NOT_KNOWN_ON_LEDGER</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="daml-sandbox-and-vmbc">
+<h4>Daml Sandbox and VMBC<a class="headerlink" href="#daml-sandbox-and-vmbc" title="Permalink to this headline">¶</a></h4>
+<p>The following gRPC status codes have changed for submission rejections in the Ledger API backed by KV-based ledgers (Daml Sandbox and VMBC).</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="16%" />
+<col width="43%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">gRPC status code (before SDK 1.18)</th>
+<th class="head">gRPC status code (since SDK 1.18)</th>
+<th class="head">Remarks</th>
+<th class="head">Ledger API error code ID</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ABORTED</td>
+<td>ALREADY_EXISTS</td>
+<td>ALREADY_EXISTS is now returned on duplicate resource transaction rejections.</td>
+<td>DUPLICATE_CONTRACT_KEY, DUPLICATE_COMMAND</td>
+</tr>
+<tr class="row-odd"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on a submission that has violated some constraint on ledger time.</td>
+<td>INVALID_LEDGER_TIME</td>
+</tr>
+<tr class="row-even"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on consistency error transaction rejections.</td>
+<td>INCONSISTENT, INCONSISTENT_CONTRACT_KEY, INCONSISTENT_CONTRACTS</td>
+</tr>
+<tr class="row-odd"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on invalid record time transaction rejections.</td>
+<td>INVALID_RECORD_TIME</td>
+</tr>
+<tr class="row-even"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on transaction rejections on record time bounds violations.</td>
+<td>RECORD_TIME_OUT_OF_RANGE</td>
+</tr>
+<tr class="row-odd"><td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION is now returned on transaction rejections on time monotonicity violations.</td>
+<td>CAUSAL_MONOTONICITY_VIOLATED</td>
+</tr>
+<tr class="row-even"><td>ABORTED</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on submissions missing mandatory participant input.</td>
+<td>MISSING_INPUT_STATE</td>
+</tr>
+<tr class="row-odd"><td>INVALID_ARGUMENT</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on an invalid transaction submission that was not detected by the participant.</td>
+<td>DISPUTED</td>
+</tr>
+<tr class="row-even"><td>INVALID_ARGUMENT</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on consistency errors that should have been caught by the participant.</td>
+<td>INTERNALLY_INCONSISTENT_KEYS, INTERNALLY_DUPLICATE_KEYS</td>
+</tr>
+<tr class="row-odd"><td>INVALID_ARGUMENT</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on invalid transaction submissions.</td>
+<td>VALIDATION_FAILURE</td>
+</tr>
+<tr class="row-even"><td>INVALID_ARGUMENT</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on transaction rejections when an invalid participant state has been detected.</td>
+<td>INVALID_PARTICIPANT_STATE</td>
+</tr>
+<tr class="row-odd"><td>INVALID_ARGUMENT</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND is now returned on transaction rejections on unallocated parties.</td>
+<td>SUBMITTING_PARTY_NOT_KNOWN_ON_LEDGER, PARTY_NOT_KNOWN_ON_LEDGER</td>
+</tr>
+<tr class="row-even"><td>UNKNOWN</td>
+<td>INTERNAL</td>
+<td>INTERNAL is now returned on transaction rejections without a status.</td>
+<td>REJECTION_REASON_NOT_SET</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 
 
