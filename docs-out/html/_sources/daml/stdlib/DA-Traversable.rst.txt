@@ -1,0 +1,66 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-traversable-40448:
+
+Module DA.Traversable
+=====================
+
+Class of data structures that can be traversed from left to right, performing an action on each element\.
+You typically would want to import this module qualified to avoid clashes with
+functions defined in ``Prelude``\. Ie\.\:
+
+.. code-block:: daml
+
+  import DA.Traversable   qualified as F
+
+Typeclasses
+-----------
+
+.. _class-da-traversable-traversable-25469:
+
+**class** (:ref:`Functor <class-ghc-base-functor-73448>` t, :ref:`Foldable <class-da-foldable-foldable-61699>` t) \=\> `Traversable <class-da-traversable-traversable-25469_>`_ t **where**
+
+  Functors representing data structures that can be traversed from left to right\.
+  
+  .. _function-da-traversable-mapa-94539:
+  
+  `mapA <function-da-traversable-mapa-94539_>`_
+    \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f \=\> (a \-\> f b) \-\> t a \-\> f (t b)
+    
+    Map each element of a structure to an action, evaluate these actions
+    from left to right, and collect the results\.
+  
+  .. _function-da-traversable-sequence-29255:
+  
+  `sequence <function-da-traversable-sequence-29255_>`_
+    \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f \=\> t (f a) \-\> f (t a)
+    
+    Evaluate each action in the structure from left to right, and
+    collect the results\.
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> `Traversable <class-da-traversable-traversable-25469_>`_ (:ref:`Map <type-da-internal-lf-map-85851>` k)
+  
+  **instance** `Traversable <class-da-traversable-traversable-25469_>`_ :ref:`TextMap <type-da-internal-lf-textmap-34396>`
+  
+  **instance** `Traversable <class-da-traversable-traversable-25469_>`_ :ref:`Optional <type-da-internal-prelude-optional-79838>`
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` k \=\> `Traversable <class-da-traversable-traversable-25469_>`_ (:ref:`Map <type-da-next-map-map-36848>` k)
+  
+  **instance** `Traversable <class-da-traversable-traversable-25469_>`_ :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>`
+  
+  **instance** `Traversable <class-da-traversable-traversable-25469_>`_ (:ref:`Either <type-da-types-either-20245>` a)
+  
+  **instance** `Traversable <class-da-traversable-traversable-25469_>`_ :ref:`([]) <type-ghc-types-x-9664>`
+  
+  **instance** `Traversable <class-da-traversable-traversable-25469_>`_ a
+
+Functions
+---------
+
+.. _function-da-traversable-fora-28338:
+
+`forA <function-da-traversable-fora-28338_>`_
+  \: (`Traversable <class-da-traversable-traversable-25469_>`_ t, :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f) \=\> t a \-\> (a \-\> f b) \-\> f (t b)
+  
+  ``forA`` is ``mapA`` with its arguments flipped\.

@@ -1,0 +1,1792 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Self-Service Error Codes (Experimental) &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Overview of Daml ledgers" href="../../deploy/index.html" />
+  <link rel="prev" title="OAuth 2.0 Auth Middleware" href="../../tools/auth-middleware/oauth2.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Self-Service Error Codes (Experimental)</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#feature-flag">Feature Flag</a></li>
+<li><a class="reference internal" href="#glossary">Glossary</a></li>
+<li><a class="reference internal" href="#error-categories">Error Categories</a></li>
+<li><a class="reference internal" href="#anatomy-of-an-error">Anatomy of an Error</a><ul>
+<li><a class="reference internal" href="#error-description">Error Description</a></li>
+<li><a class="reference internal" href="#additional-machine-readable-information">Additional Machine Readable Information</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#error-codes-inventory">Error Codes Inventory</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="self-service-error-codes-experimental">
+<h1>Self-Service Error Codes (Experimental)<a class="headerlink" href="#self-service-error-codes-experimental" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The majority of the errors are a result of some request processing.
+They are logged and returned to the user as a failed gRPC request
+using the standard <a class="reference external" href="https://grpc.github.io/grpc-java/javadoc/io/grpc/StatusRuntimeException.html">StatusRuntimeException</a>.
+As such this approach remains unchanged in principle while self-service error codes aim at
+enhancing it by providing:</p>
+<ul class="simple">
+<li>improved consistency of the returned errors across API endpoints,</li>
+<li>richer error payload format with clearly distinguished machine readable parts to facilitate
+automated error handling strategies,</li>
+<li>complete inventory of all error codes with an explanation, suggested resolution and
+other useful information.</li>
+</ul>
+<p>The goal is to enable users, developers and operators to act on the encountered
+errors in a self-service manner, either in an automated-way or manually.</p>
+<div class="section" id="feature-flag">
+<h3>Feature Flag<a class="headerlink" href="#feature-flag" title="Permalink to this headline">¶</a></h3>
+<p>You can enable self-service error-codes by specifying <code class="docutils literal notranslate"><span class="pre">--use-self-service-error-codes</span></code>
+from command line.</p>
+<p>By default self-service error codes are turned off.</p>
+</div>
+<div class="section" id="glossary">
+<h3>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Error - represents an occurrence of a failure.</dt>
+<dd><p class="first">Consists of:</p>
+<ul class="simple">
+<li>an <cite>error code id</cite>,</li>
+<li>a <a class="reference external" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">gRPC status code</a> (determined by its error category),</li>
+<li>an <cite>error category</cite>,</li>
+<li>a <cite>correlation id</cite>.</li>
+<li>a human readable message</li>
+<li>and optional additional metadata.</li>
+</ul>
+<p class="last">You can think of it as an
+instantiation of an error code.</p>
+</dd>
+<dt>Error code - represents a class of failures.</dt>
+<dd>Identified by its error code id (we may use <cite>error code</cite> and <cite>error code id</cite> interchangeably in this document).
+Belongs to a single error category.</dd>
+<dt>Error category - a broad categorization of error codes that you can base your error handling strategies on.</dt>
+<dd>Map to exactly one <a class="reference external" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">gRPC status code</a>.
+We recommended to deal with errors based on their error category.
+However, if error category itself is too generic
+you can act on particular error codes.</dd>
+<dt>Correlation id - a value whose purpose is to allow a user to clearly identify the request,</dt>
+<dd>such that the operator can lookup any log information associated with this error.</dd>
+</dl>
+</div>
+<div class="section" id="error-categories">
+<h3>Error Categories<a class="headerlink" href="#error-categories" title="Permalink to this headline">¶</a></h3>
+<p>The error categories allow to group errors such that application logic can be built
+in a sensible way to automatically deal with errors and decide whether to retry
+a request or escalate to the operator.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="60%" />
+<col width="15%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Error category</th>
+<th class="head">Category id</th>
+<th class="head">gRPC code</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>TransientServerFailure</td>
+<td>1</td>
+<td>UNAVAILABLE</td>
+</tr>
+<tr class="row-odd"><td>ContentionOnSharedResources</td>
+<td>2</td>
+<td>ABORTED</td>
+</tr>
+<tr class="row-even"><td>DeadlineExceededRequestStateUnknown</td>
+<td>3</td>
+<td>DEADLINE_EXCEEDED</td>
+</tr>
+<tr class="row-odd"><td>SystemInternalAssumptionViolated</td>
+<td>4</td>
+<td>INTERNAL</td>
+</tr>
+<tr class="row-even"><td>MaliciousOrFaultyBehaviour</td>
+<td>5</td>
+<td>UNKNOWN</td>
+</tr>
+<tr class="row-odd"><td>AuthInterceptorInvalidAuthenticationCredentials</td>
+<td>6</td>
+<td>UNAUTHENTICATED</td>
+</tr>
+<tr class="row-even"><td>InsufficientPermission</td>
+<td>7</td>
+<td>PERMISSION_DENIED</td>
+</tr>
+<tr class="row-odd"><td>InvalidIndependentOfSystemState</td>
+<td>8</td>
+<td>INVALID_ARGUMENT</td>
+</tr>
+<tr class="row-even"><td>InvalidGivenCurrentSystemStateOther</td>
+<td>9</td>
+<td>FAILED_PRECONDITION</td>
+</tr>
+<tr class="row-odd"><td>InvalidGivenCurrentSystemStateResourceExists</td>
+<td>10</td>
+<td>ALREADY_EXISTS</td>
+</tr>
+<tr class="row-even"><td>InvalidGivenCurrentSystemStateResourceMissing</td>
+<td>11</td>
+<td>NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>InvalidGivenCurrentSystemStateSeekAfterEnd</td>
+<td>12</td>
+<td>OUT_OF_RANGE</td>
+</tr>
+<tr class="row-even"><td>BackgroundProcessDegradationWarning</td>
+<td>13</td>
+<td>N/A</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="anatomy-of-an-error">
+<h3>Anatomy of an Error<a class="headerlink" href="#anatomy-of-an-error" title="Permalink to this headline">¶</a></h3>
+<p>Errors returned to users are represented as instances of standard <a class="reference external" href="https://grpc.github.io/grpc-java/javadoc/io/grpc/StatusRuntimeException.html">StatusRuntimeException</a>.
+As such they contain a <a class="reference external" href="https://grpc.github.io/grpc/core/md_doc_statuscodes.html">gRPC status code</a>, a description and additional machine readable information
+represented in the <a class="reference external" href="https://cloud.google.com/apis/design/errors#error_details">rich gRPC error model</a>.</p>
+<div class="section" id="error-description">
+<h4>Error Description<a class="headerlink" href="#error-description" title="Permalink to this headline">¶</a></h4>
+<p>We use the <a class="reference external" href="https://grpc.github.io/grpc-java/javadoc/io/grpc/Status.html#getDescription--">standard gRPC description</a> that additionally adheres to our custom message format:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">ERROR_CODE_ID</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&lt;</span><span class="n">CATEGORY_ID</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="n">TRUNCATED_CORRELATION_ID</span><span class="o">&gt;</span><span class="p">):</span><span class="o">&lt;</span><span class="n">HUMAN_READABLE_MESSAGE</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The constituent parts are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&lt;ERROR_CODE_ID&gt;</span></code> - a unique non empty string containing at most 63 characters:
+upper-cased letters, underscores or digits.
+Identifies corresponding error code id.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;CATEGORY_ID&gt;</span></code> - a small integer identifying the corresponding error category.</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;TRUNCATED_CORRELATION_ID&gt;</span></code> - a string aimed at identifying originating request.
+Contains at most 8 characters of the original correlation id.
+NOTE: Contains value <code class="docutils literal notranslate"><span class="pre">0</span></code> if no correlation id was given.
+Full correlation id can be found in error’s additional machine readable information
+(see <a class="reference internal" href="#additional-machine-readable-information">Additional machine readable information</a>).</li>
+<li><code class="docutils literal notranslate"><span class="pre">:</span></code> - a colon character that serves as a separator for the machine and human readable parts.</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;HUMAN_READABLE_MESSAGE&gt;</span></code> - message targeted at a human reader.</dt>
+<dd>Should never be parsed by applications, as the description might change
+in future releases to improve clarity.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>In a concrete example an error description might look like this:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">TRANSACTION_NOT_FOUND</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">12345</span><span class="p">):</span> <span class="n">Transaction</span> <span class="n">not</span> <span class="n">found</span><span class="p">,</span> <span class="n">or</span> <span class="n">not</span> <span class="n">visible</span><span class="p">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="additional-machine-readable-information">
+<h4>Additional Machine Readable Information<a class="headerlink" href="#additional-machine-readable-information" title="Permalink to this headline">¶</a></h4>
+<p>We use following error details:</p>
+<blockquote>
+<div><ul class="simple">
+<li>A mandatory <code class="docutils literal notranslate"><span class="pre">com.google.rpc.ErrorInfo</span></code> containing <cite>error code id</cite>.</li>
+<li>A mandatory <code class="docutils literal notranslate"><span class="pre">com.google.rpc.RequestInfo</span></code> containing (not-truncated) correlation id
+(or <code class="docutils literal notranslate"><span class="pre">0</span></code> if correlation id is not available).</li>
+<li>An optional <code class="docutils literal notranslate"><span class="pre">com.google.rpc.RetryInfo</span></code> containing retry interval in seconds.</li>
+<li>An optional <code class="docutils literal notranslate"><span class="pre">com.google.rpc.ResourceInfo</span></code> containing information about the resource the failure is based on.
+Any request that fails due to some well-defined resource issues (such as contract, contract-key, package, party, template, domain, etc..) will contain these.
+Particular resources are implementation specific and vary across ledger implementations.</li>
+</ul>
+</div></blockquote>
+<p>Many errors will include more information,
+but there is no guarantee given that additional information will be preserved across versions.</p>
+</div>
+</div>
+<div class="section" id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h3>
+<p>Generally, we use the following log-levels on the server:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">INFO</span></code> to log user errors, where the error leads to a failure of the request but the system remains healthy.</li>
+<li><code class="docutils literal notranslate"><span class="pre">WARN</span></code> to log degradations of the system or point out rather unusual behaviour.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ERROR</span></code> to log internal errors within the system, where the system does not behave properly and immediate attention is required.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="error-codes-inventory">
+<h2>Error Codes Inventory<a class="headerlink" href="#error-codes-inventory" title="Permalink to this headline">¶</a></h2>
+<div class="section">
+<p class="rubric"><p class="rubric">1. ParticipantErrorGroup<p class="rubric">1.1. ParticipantErrorGroup / LedgerApiErrors<dl class="docutils">
+<a class="reference external image-reference" href="#CONFIGURATION_ENTRY_REJECTED"><dt>CONFIGURATION_ENTRY_REJECTED<span class="target" id="CONFIGURATION_ENTRY_REJECTED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a new configuration is rejected.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Fetch newest configuration and/or retry.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#LEDGER_API_INTERNAL_ERROR"><dt>LEDGER_API_INTERNAL_ERROR<span class="target" id="LEDGER_API_INTERNAL_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if there was an unexpected error in the Ledger API.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PACKAGE_UPLOAD_REJECTED"><dt>PACKAGE_UPLOAD_REJECTED<span class="target" id="PACKAGE_UPLOAD_REJECTED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a package upload is rejected.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Refer to the detailed message of the received error.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#REQUEST_TIME_OUT"><dt>REQUEST_TIME_OUT<span class="target" id="REQUEST_TIME_OUT"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a request processing status is not known and a time-out is reached.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">DeadlineExceededRequestStateUnknown</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status DEADLINE_EXCEEDED including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry for transient problems. If non-transient contact the operator as the time-out limit might be too short.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#SERVICE_NOT_RUNNING"><dt>SERVICE_NOT_RUNNING<span class="target" id="SERVICE_NOT_RUNNING"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when the requested service has already been closed.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">TransientServerFailure</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status UNAVAILABLE including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry re-submitting the request. If the error persists, contact the participant operator.</span></dd>
+</dd>
+</dl>
+<p class="rubric">1.1.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution<dl class="docutils">
+<a class="reference external image-reference" href="#FAILED_TO_DETERMINE_LEDGER_TIME"><dt>FAILED_TO_DETERMINE_LEDGER_TIME<span class="target" id="FAILED_TO_DETERMINE_LEDGER_TIME"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if the participant fails to determine the max ledger time of the used
+contracts. Most likely, this means that one of the contracts is not active anymore which can
+happen under contention. It can also happen with contract keys.
+</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">ContentionOnSharedResources</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status ABORTED including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the transaction submission.</span></dd>
+</dd>
+</dl>
+<p class="rubric">1.1.1.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Package<dl class="docutils">
+<a class="reference external image-reference" href="#ALLOWED_LANGUAGE_VERSIONS"><dt>ALLOWED_LANGUAGE_VERSIONS<span class="target" id="ALLOWED_LANGUAGE_VERSIONS"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the uploaded DAR is based on an unsupported language version.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Use a DAR compiled with a language version that this participant supports.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PACKAGE_VALIDATION_FAILED"><dt>PACKAGE_VALIDATION_FAILED<span class="target" id="PACKAGE_VALIDATION_FAILED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a package referred to by a command fails validation. This should not happen as packages are validated when being uploaded.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">MaliciousOrFaultyBehaviour</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level WARN on the server side.
+This error is exposed on the API with grpc-status UNKNOWN without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">1.1.1.2. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Preprocessing<dl class="docutils">
+<a class="reference external image-reference" href="#COMMAND_PREPROCESSING_FAILED"><dt>COMMAND_PREPROCESSING_FAILED<span class="target" id="COMMAND_PREPROCESSING_FAILED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a command fails during interpreter pre-processing.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect error details and correct your application.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">1.1.1.3. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Interpreter<dl class="docutils">
+<a class="reference external image-reference" href="#CONTRACT_NOT_ACTIVE"><dt>CONTRACT_NOT_ACTIVE<span class="target" id="CONTRACT_NOT_ACTIVE"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if an exercise or fetch happens on a transaction-locally consumed contract.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error indicates an application error.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#DAML_AUTHORIZATION_ERROR"><dt>DAML_AUTHORIZATION_ERROR<span class="target" id="DAML_AUTHORIZATION_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a Daml transaction fails due to an authorization error.
+An authorization means that the Daml transaction computed a different set of required submitters than
+you have provided during the submission as `actAs` parties.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error type occurs if there is an application error.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#DAML_INTERPRETATION_ERROR"><dt>DAML_INTERPRETATION_ERROR<span class="target" id="DAML_INTERPRETATION_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a Daml transaction fails during interpretation.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error type occurs if there is an application error.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#DAML_INTERPRETER_INVALID_ARGUMENT"><dt>DAML_INTERPRETER_INVALID_ARGUMENT<span class="target" id="DAML_INTERPRETER_INVALID_ARGUMENT"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a Daml transaction fails during interpretation due to an invalid argument.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error type occurs if there is an application error.</span></dd>
+</dd>
+</dl>
+<p class="rubric">1.1.1.3.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Interpreter / LookupErrors<dl class="docutils">
+<a class="reference external image-reference" href="#CONTRACT_KEY_NOT_FOUND"><dt>CONTRACT_KEY_NOT_FOUND<span class="target" id="CONTRACT_KEY_NOT_FOUND"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if the Daml engine interpreter cannot resolve a contract key to an active contract. This
+can be caused by either the contract key not being known to the participant, or not being known to
+the submitting parties or the contract representing an already archived key.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error type occurs if there is contention on a contract.</span></dd>
+</dd>
+</dl>
+</p>
+</p>
+</p>
+<p class="rubric">1.1.2. ParticipantErrorGroup / LedgerApiErrors / ConsistencyErrors<dl class="docutils">
+<a class="reference external image-reference" href="#CONTRACT_NOT_FOUND"><dt>CONTRACT_NOT_FOUND<span class="target" id="CONTRACT_NOT_FOUND"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if the Daml engine can not find a referenced contract. This
+can be caused by either the contract not being known to the participant, or not being known to
+the submitting parties or already being archived.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error type occurs if there is contention on a contract.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#DUPLICATE_COMMAND"><dt>DUPLICATE_COMMAND<span class="target" id="DUPLICATE_COMMAND"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">A command with the given command id has already been successfully processed.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceExists</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status ALREADY_EXISTS including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">The correct resolution depends on the use case. If the error received pertains to a submission retried due to a timeout,
+do nothing, as the previous command has already been accepted.
+If the intent is to submit a new command, re-submit using a distinct command id. 
+</span></dd>
+</dd>
+<a class="reference external image-reference" href="#DUPLICATE_CONTRACT_KEY"><dt>DUPLICATE_CONTRACT_KEY<span class="target" id="DUPLICATE_CONTRACT_KEY"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error signals that within the transaction we got to a point where two contracts with the same key were active.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceExists</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status ALREADY_EXISTS including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">This error indicates an application error.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INCONSISTENT"><dt>INCONSISTENT<span class="target" id="INCONSISTENT"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">At least one input has been altered by a concurrent transaction submission.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">The correct resolution depends on the business flow, for example it may be possible to proceed without an archived contract as an input, or the transaction submission may be retried to load the up-to-date value of a contract key.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INCONSISTENT_CONTRACTS"><dt>INCONSISTENT_CONTRACTS<span class="target" id="INCONSISTENT_CONTRACTS"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">An input contract has been archived by a concurrent transaction submission.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">The correct resolution depends on the business flow, for example it may be possible to proceed without the archived contract as an input, or a different contract could be used.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INCONSISTENT_CONTRACT_KEY"><dt>INCONSISTENT_CONTRACT_KEY<span class="target" id="INCONSISTENT_CONTRACT_KEY"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">An input contract key was re-assigned to a different contract by a concurrent transaction submission.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the transaction submission.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_LEDGER_TIME"><dt>INVALID_LEDGER_TIME<span class="target" id="INVALID_LEDGER_TIME"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The ledger time of the submission violated some constraint on the ledger time.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the transaction submission.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">1.1.3. ParticipantErrorGroup / LedgerApiErrors / PackageServiceError<dl class="docutils">
+<a class="reference external image-reference" href="#DAR_NOT_SELF_CONSISTENT"><dt>DAR_NOT_SELF_CONSISTENT<span class="target" id="DAR_NOT_SELF_CONSISTENT"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the uploaded Dar is broken because it is missing internal dependencies.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact the supplier of the Dar.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#DAR_VALIDATION_ERROR"><dt>DAR_VALIDATION_ERROR<span class="target" id="DAR_VALIDATION_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the validation of the uploaded dar failed.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message and contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PACKAGE_SERVICE_INTERNAL_ERROR"><dt>PACKAGE_SERVICE_INTERNAL_ERROR<span class="target" id="PACKAGE_SERVICE_INTERNAL_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates an internal issue within the package service.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message and contact support.</span></dd>
+</dd>
+</dl>
+<p class="rubric">1.1.3.1. ParticipantErrorGroup / LedgerApiErrors / PackageServiceError / Reading<dl class="docutils">
+<a class="reference external image-reference" href="#DAR_PARSE_ERROR"><dt>DAR_PARSE_ERROR<span class="target" id="DAR_PARSE_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the content of the Dar file could not be parsed successfully.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message and contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_DAR"><dt>INVALID_DAR<span class="target" id="INVALID_DAR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the supplied dar file was invalid.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message for details and contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_DAR_FILE_NAME"><dt>INVALID_DAR_FILE_NAME<span class="target" id="INVALID_DAR_FILE_NAME"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the supplied dar file name did not meet the requirements to be stored in the persistence store.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect error message for details and change the file name accordingly</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_LEGACY_DAR"><dt>INVALID_LEGACY_DAR<span class="target" id="INVALID_LEGACY_DAR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the supplied zipped dar is an unsupported legacy Dar.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Please use a more recent dar version.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_ZIP_ENTRY"><dt>INVALID_ZIP_ENTRY<span class="target" id="INVALID_ZIP_ENTRY"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the supplied zipped dar file was invalid.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message for details and contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#ZIP_BOMB"><dt>ZIP_BOMB<span class="target" id="ZIP_BOMB"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error indicates that the supplied zipped dar is regarded as zip-bomb.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the dar and contact support.</span></dd>
+</dd>
+</dl>
+</p>
+</p>
+<p class="rubric">1.1.4. ParticipantErrorGroup / LedgerApiErrors / WriteServiceRejections<dl class="docutils">
+<a class="reference external image-reference" href="#DISPUTED"><dt>DISPUTED<span class="target" id="DISPUTED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Deprecated: </strong><span class="last">Corresponds to transaction submission rejections that are not produced anymore.</span></dd>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">An invalid transaction submission was not detected by the participant.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#OUT_OF_QUOTA"><dt>OUT_OF_QUOTA<span class="target" id="OUT_OF_QUOTA"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Deprecated: </strong><span class="last">Corresponds to transaction submission rejections that are not produced anymore.</span></dd>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The Participant node did not have sufficient resource quota to submit the transaction.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">ContentionOnSharedResources</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status ABORTED including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message and retry after after correcting the underlying issue.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PARTY_NOT_KNOWN_ON_LEDGER"><dt>PARTY_NOT_KNOWN_ON_LEDGER<span class="target" id="PARTY_NOT_KNOWN_ON_LEDGER"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">One or more informee parties have not been allocated.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Check that all the informee party identifiers are correct, allocate all the informee parties, request their allocation or wait for them to be allocated before retrying the transaction submission.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#SUBMITTER_CANNOT_ACT_VIA_PARTICIPANT"><dt>SUBMITTER_CANNOT_ACT_VIA_PARTICIPANT<span class="target" id="SUBMITTER_CANNOT_ACT_VIA_PARTICIPANT"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">A submitting party is not authorized to act through the participant.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InsufficientPermission</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level WARN on the server side.
+This error is exposed on the API with grpc-status PERMISSION_DENIED without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact the participant operator or re-submit with an authorized party.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#SUBMITTING_PARTY_NOT_KNOWN_ON_LEDGER"><dt>SUBMITTING_PARTY_NOT_KNOWN_ON_LEDGER<span class="target" id="SUBMITTING_PARTY_NOT_KNOWN_ON_LEDGER"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The submitting party has not been allocated.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Check that the party identifier is correct, allocate the submitting party, request its allocation or wait for it to be allocated before retrying the transaction submission.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">1.1.5. ParticipantErrorGroup / LedgerApiErrors / AuthorizationChecks<dl class="docutils">
+<a class="reference external image-reference" href="#INTERNAL_AUTHORIZATION_ERROR"><dt>INTERNAL_AUTHORIZATION_ERROR<span class="target" id="INTERNAL_AUTHORIZATION_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">An internal system authorization error occurred.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact the participant operator.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PERMISSION_DENIED"><dt>PERMISSION_DENIED<span class="target" id="PERMISSION_DENIED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given if the supplied authorization token is not sufficient for the intended command.
+The exact reason is logged on the participant, but not given to the user for security reasons.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InsufficientPermission</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level WARN on the server side.
+This error is exposed on the API with grpc-status PERMISSION_DENIED without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect your command and your token or ask your participant operator for an explanation why this command failed.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#UNAUTHENTICATED"><dt>UNAUTHENTICATED<span class="target" id="UNAUTHENTICATED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given if the submitted command does not contain a JWT token on a participant enforcing JWT authentication.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">AuthInterceptorInvalidAuthenticationCredentials</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level WARN on the server side.
+This error is exposed on the API with grpc-status UNAUTHENTICATED without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Ask your participant operator to provide you with an appropriate JWT token.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">1.1.6. ParticipantErrorGroup / LedgerApiErrors / RequestValidation<dl class="docutils">
+<a class="reference external image-reference" href="#INVALID_ARGUMENT"><dt>INVALID_ARGUMENT<span class="target" id="INVALID_ARGUMENT"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error is emitted when a submitted ledger API command contains an invalid argument.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the reason given and correct your application.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_DEDUPLICATION_PERIOD"><dt>INVALID_DEDUPLICATION_PERIOD<span class="target" id="INVALID_DEDUPLICATION_PERIOD"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error is emitted when a submitted ledger API command specifies an invalid deduplication period.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message, adjust the value of the deduplication period or ask the participant operator to increase the maximum deduplication period.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_FIELD"><dt>INVALID_FIELD<span class="target" id="INVALID_FIELD"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error is emitted when a submitted ledger API command contains a field value that cannot be understood.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the reason given and correct your application.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#LEDGER_ID_MISMATCH"><dt>LEDGER_ID_MISMATCH<span class="target" id="LEDGER_ID_MISMATCH"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">Every ledger API command contains a ledger-id which is verified against the running ledger.
+          This error indicates that the provided ledger-id does not match the expected one.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Ensure that your application is correctly configured to use the correct ledger.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#MISSING_FIELD"><dt>MISSING_FIELD<span class="target" id="MISSING_FIELD"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error is emitted when a mandatory field is not set in a submitted ledger API command.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the reason given and correct your application.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#NON_HEXADECIMAL_OFFSET"><dt>NON_HEXADECIMAL_OFFSET<span class="target" id="NON_HEXADECIMAL_OFFSET"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The supplied offset could not be converted to a binary offset.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidIndependentOfSystemState</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Ensure the offset is specified as a hexadecimal string.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#OFFSET_AFTER_LEDGER_END"><dt>OFFSET_AFTER_LEDGER_END<span class="target" id="OFFSET_AFTER_LEDGER_END"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a read request uses an offset beyond the current ledger end.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateSeekAfterEnd</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status OUT_OF_RANGE including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Use an offset that is before the ledger end.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#OFFSET_OUT_OF_RANGE"><dt>OFFSET_OUT_OF_RANGE<span class="target" id="OFFSET_OUT_OF_RANGE"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a read request uses an offset invalid in the requests' context.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Inspect the error message and use a valid offset.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PARTICIPANT_PRUNED_DATA_ACCESSED"><dt>PARTICIPANT_PRUNED_DATA_ACCESSED<span class="target" id="PARTICIPANT_PRUNED_DATA_ACCESSED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a read request tries to access pruned data.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Use an offset that is after the pruning offset.</span></dd>
+</dd>
+</dl>
+<p class="rubric">1.1.6.1. ParticipantErrorGroup / LedgerApiErrors / RequestValidation / NotFound<dl class="docutils">
+<a class="reference external image-reference" href="#LEDGER_CONFIGURATION_NOT_FOUND"><dt>LEDGER_CONFIGURATION_NOT_FOUND<span class="target" id="LEDGER_CONFIGURATION_NOT_FOUND"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The ledger configuration could not be retrieved. This could happen due to incomplete initialization of the participant or due to an internal system error.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact the participant operator.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#PACKAGE_NOT_FOUND"><dt>PACKAGE_NOT_FOUND<span class="target" id="PACKAGE_NOT_FOUND"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This rejection is given when a read request tries to access a package which does not exist on the ledger.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Use a package id pertaining to a package existing on the ledger.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#TRANSACTION_NOT_FOUND"><dt>TRANSACTION_NOT_FOUND<span class="target" id="TRANSACTION_NOT_FOUND"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The transaction does not exist or the requesting set of parties are not authorized to fetch it.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateResourceMissing</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Check the transaction id and verify that the requested transaction is visible to the requesting parties.</span></dd>
+</dd>
+</dl>
+</p>
+</p>
+</p>
+<p class="rubric">1.2. ParticipantErrorGroup / IndexErrors<p class="rubric">1.2.1. ParticipantErrorGroup / IndexErrors / DatabaseErrors<dl class="docutils">
+<a class="reference external image-reference" href="#INDEX_DB_SQL_NON_TRANSIENT_ERROR"><dt>INDEX_DB_SQL_NON_TRANSIENT_ERROR<span class="target" id="INDEX_DB_SQL_NON_TRANSIENT_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a non-transient error arises when executing a query against the index database.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact the participant operator.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INDEX_DB_SQL_TRANSIENT_ERROR"><dt>INDEX_DB_SQL_TRANSIENT_ERROR<span class="target" id="INDEX_DB_SQL_TRANSIENT_ERROR"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">This error occurs if a transient error arises when executing a query against the index database.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">TransientServerFailure</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status UNAVAILABLE including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Re-submit the request.</span></dd>
+</dd>
+</dl>
+</p>
+</p>
+</p>
+<p class="rubric">2. KVErrors<p>Errors that are specific to ledgers based on the KV architecture. Note that this section will soon cover all ledgers due to an ongoing error consolidation effort.</p>
+<p class="rubric">2.1. KVErrors / Time<p>Errors that relate to the Daml concepts of time.</p>
+<dl class="docutils">
+<a class="reference external image-reference" href="#CAUSAL_MONOTONICITY_VIOLATED"><dt>CAUSAL_MONOTONICITY_VIOLATED<span class="target" id="CAUSAL_MONOTONICITY_VIOLATED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">At least one input contract's ledger time is later than that of the submitted transaction.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the transaction submission.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_RECORD_TIME"><dt>INVALID_RECORD_TIME<span class="target" id="INVALID_RECORD_TIME"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The record time is not within bounds for reasons other than deduplication, such as excessive latency. Excessive clock skew between the participant and the committer or a time model that is too restrictive may also produce this rejection.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the submission or contact the participant operator.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#RECORD_TIME_OUT_OF_RANGE"><dt>RECORD_TIME_OUT_OF_RANGE<span class="target" id="RECORD_TIME_OUT_OF_RANGE"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The record time is not within bounds for reasons other than deduplication, such as excessive latency. Excessive clock skew between the participant and the committer or a time model that is too restrictive may also produce this rejection.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">InvalidGivenCurrentSystemStateOther</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the transaction submission or contact the participant operator.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">2.2. KVErrors / Internal<p>Errors that arise from an internal system misbehavior.</p>
+<dl class="docutils">
+<a class="reference external image-reference" href="#INTERNALLY_DUPLICATE_KEYS"><dt>INTERNALLY_DUPLICATE_KEYS<span class="target" id="INTERNALLY_DUPLICATE_KEYS"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The participant didn't detect an attempt by the transaction submission to use the same key for two active contracts.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INTERNALLY_INCONSISTENT_KEYS"><dt>INTERNALLY_INCONSISTENT_KEYS<span class="target" id="INTERNALLY_INCONSISTENT_KEYS"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The participant didn't detect an attempt by the transaction submission to use a stale contract key.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#INVALID_PARTICIPANT_STATE"><dt>INVALID_PARTICIPANT_STATE<span class="target" id="INVALID_PARTICIPANT_STATE"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">An invalid participant state has been detected.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#MISSING_INPUT_STATE"><dt>MISSING_INPUT_STATE<span class="target" id="MISSING_INPUT_STATE"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">The participant didn't provide a necessary transaction submission input.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#REJECTION_REASON_NOT_SET"><dt>REJECTION_REASON_NOT_SET<span class="target" id="REJECTION_REASON_NOT_SET"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">A rejection reason has not been set.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+<a class="reference external image-reference" href="#VALIDATION_FAILURE"><dt>VALIDATION_FAILURE<span class="target" id="VALIDATION_FAILURE"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">An invalid transaction submission was not detected by the participant.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">SystemInternalAssumptionViolated</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level ERROR on the server side.
+This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Contact support.</span></dd>
+</dd>
+</dl>
+</p>
+<p class="rubric">2.3. KVErrors / Resources<p>Errors that relate to system resources.</p>
+<dl class="docutils">
+<a class="reference external image-reference" href="#RESOURCE_EXHAUSTED"><dt>RESOURCE_EXHAUSTED<span class="target" id="RESOURCE_EXHAUSTED"></span></a>
+</dt>
+<dd><p class="first"></p>
+</dt>
+<dd><strong class="first">Explanation: </strong><span class="last">A system resource has been exhausted.</span></dd>
+</dt>
+<dd><strong class="first">Category: </strong><span class="last">ContentionOnSharedResources</span></dd>
+</dt>
+<dd><strong class="first">Conveyance: </strong><span class="last">This error is logged with log-level INFO on the server side.
+This error is exposed on the API with grpc-status ABORTED including a detailed error message</span></dd>
+</dt>
+<dd class="last"><strong class="first">Resolution: </strong><span class="last">Retry the transaction submission or provide the details to the participant operator.</span></dd>
+</dd>
+</dl>
+</p>
+</p>
+</p>
+</div>
+</div>
+</div>
+<div class="section" id="self-service-error-codes-migration-guide">
+<h1>Self-Service Error Codes Migration Guide<a class="headerlink" href="#self-service-error-codes-migration-guide" title="Permalink to this headline">¶</a></h1>
+<p>The introduction of the self-service error codes means that some of the gRPC error codes returned from service methods change.
+Consult the table below for details on those changes.</p>
+<p>Note that the table below contains entries only for cases where a gRPC codes was changed.
+For example, a service method previously returning gRPC error code <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> may now return
+<code class="docutils literal notranslate"><span class="pre">CODE_B</span></code> for some error condition while returning <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> for other conditions,
+and only an entry for the change from <code class="docutils literal notranslate"><span class="pre">CODE_A</span></code> in <code class="docutils literal notranslate"><span class="pre">CODE_B</span></code> is included in the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="11%" />
+<col width="13%" />
+<col width="43%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Service method</th>
+<th class="head">gRPC error code (legacy errors)</th>
+<th class="head">gRPC error code (self-service errors)</th>
+<th class="head">Remarks</th>
+<th class="head">Sef-service error code id</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ActiveContractsService.getActiveContracts</td>
+<td>NOT_FOUND</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
+</tr>
+<tr class="row-odd"><td>CommandCompletionService.completionStream</td>
+<td>NOT_FOUND</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
+</tr>
+<tr class="row-even"><td>CommandService.submitAndWait</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>CommandService.submitAndWaitForTransaction</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-even"><td>CommandService.submitAndWaitForTransactionId</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>CommandService.submitAndWaitForTransactionTree</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-even"><td>CommandSubmissionService.submit</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>ConfigManagementService.setTimeModel</td>
+<td>ABORTED</td>
+<td>DEADLINE_EXCEEDED</td>
+<td>DEADLINE_EXCEEDED can now be returned when a time out was reached.</td>
+<td>REQUEST_TIME_OUT</td>
+</tr>
+<tr class="row-even"><td>ConfigManagementService.setTimeModel</td>
+<td>ABORTED</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when a configuration update was rejected.</td>
+<td>CONFIGURATION_ENTRY_REJECTED</td>
+</tr>
+<tr class="row-odd"><td>ConfigManagementService.setTimeModel</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-even"><td>GrpcHealthService.check</td>
+<td>NOT_FOUND</td>
+<td>INVALID_ARGUMENT</td>
+<td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
+<td>INVALID_ARGUMENT</td>
+</tr>
+<tr class="row-odd"><td>GrpcHealthService.watch</td>
+<td>NOT_FOUND</td>
+<td>INVALID_ARGUMENT</td>
+<td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
+<td>INVALID_ARGUMENT</td>
+</tr>
+<tr class="row-even"><td>PackageManagementService.uploadDarFile</td>
+<td>ABORTED</td>
+<td>DEADLINE_EXCEEDED</td>
+<td>DEADLINE_EXCEEDED can now be returned when a time out was reached.</td>
+<td>REQUEST_TIME_OUT</td>
+</tr>
+<tr class="row-odd"><td>PackageManagementService.uploadDarFile</td>
+<td>INVALID_ARGUMENT</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when a package upload was rejected.</td>
+<td>PACKAGE_UPLOAD_REJECTED</td>
+</tr>
+<tr class="row-even"><td>ParticipantPruningService.prune</td>
+<td>INVALID_ARGUMENT</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when the supplied pruning offset was out of range.</td>
+<td>REQUESTED_OFFSET_OUT_OF_RANGE</td>
+</tr>
+<tr class="row-odd"><td>PartyManagementService.allocateParty</td>
+<td>ABORTED</td>
+<td>DEADLINE_EXCEEDED</td>
+<td>DEADLINE_EXCEEDED can now be returned when a time out was reached.</td>
+<td>REQUEST_TIME_OUT</td>
+</tr>
+<tr class="row-even"><td>SubmissionService.submit</td>
+<td>ABORTED</td>
+<td>ALREADY_EXISTS</td>
+<td>ALREADY_EXISTS can now be returned when there was a duplicate contract key during interpretation.</td>
+<td>DUPLICATE_CONTRACT_KEY_DURING_INTERPRETATION</td>
+</tr>
+<tr class="row-odd"><td>SubmissionService.submit</td>
+<td>ABORTED</td>
+<td>INTERNAL</td>
+<td>INTERNAL can now be returned when validation fails on a mismatch during relay of the submitted transaction.</td>
+<td>LEDGER_API_INTERNAL_ERROR</td>
+</tr>
+<tr class="row-even"><td>SubmissionService.submit</td>
+<td>ABORTED</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when contract key was not found during interpretation.</td>
+<td>CONTRACT_NOT_FOUND</td>
+</tr>
+<tr class="row-odd"><td>SubmissionService.submit</td>
+<td>INVALID_ARGUMENT</td>
+<td>FAILED_PRECONDITION</td>
+<td>FAILED_PRECONDITION can now be returned when a Daml transaction fails during interpretation.</td>
+<td>DAML_INTERPRETATION_ERROR</td>
+</tr>
+<tr class="row-even"><td>SubmissionService.submit</td>
+<td>INVALID_ARGUMENT</td>
+<td>INTERNAL</td>
+<td>INTERNAL can now be returned in case of internal errors.</td>
+<td>LEDGER_API_INTERNAL_ERROR</td>
+</tr>
+<tr class="row-odd"><td>SubmissionService.submit</td>
+<td>INVALID_ARGUMENT</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a Daml interpreter can not resolve a contract key to an active contract.</td>
+<td>CONTRACT_KEY_NOT_FOUND</td>
+</tr>
+<tr class="row-even"><td>SubmissionService.submit</td>
+<td>INVALID_ARGUMENT</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a Daml transaction was referring to a package which was not known to the participant.</td>
+<td>MISSING_PACKAGE</td>
+</tr>
+<tr class="row-odd"><td>SubmissionService.submit</td>
+<td>INVALID_ARGUMENT</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when an exercise or fetch happens on a transaction-locally consumed contract.</td>
+<td>CONTRACT_NOT_ACTIVE</td>
+</tr>
+<tr class="row-even"><td>SubmissionService.submit</td>
+<td>INVALID_ARGUMENT</td>
+<td>UNKNOWN</td>
+<td>UNKNOWN can now be returned when package validation fails.</td>
+<td>PACKAGE_VALIDATION_FAILED</td>
+</tr>
+<tr class="row-odd"><td>SubmissionService.submit</td>
+<td>UNAVAILABLE</td>
+<td>NOT_FOUND</td>
+<td>NOT_FOUND can now be returned when a ledger configuration was not found.</td>
+<td>LEDGER_CONFIGURATION_NOT_FOUND</td>
+</tr>
+<tr class="row-even"><td>TransactionService.getFlatTransactionByEventId</td>
+<td>NOT_FOUND</td>
+<td>INVALID_ARGUMENT</td>
+<td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
+<td>INVALID_ARGUMENT</td>
+</tr>
+<tr class="row-odd"><td>TransactionService.getTransactionByEventId</td>
+<td>NOT_FOUND</td>
+<td>INVALID_ARGUMENT</td>
+<td>INVALID_ARGUMENT can now be returned when the received request contains invalid values.</td>
+<td>INVALID_ARGUMENT</td>
+</tr>
+<tr class="row-even"><td>TransactionService.getTransactionTrees</td>
+<td>INVALID_ARGUMENT</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when the supplied offset was out of range.</td>
+<td>REQUESTED_OFFSET_OUT_OF_RANGE</td>
+</tr>
+<tr class="row-odd"><td>TransactionService.getTransactionTrees</td>
+<td>NOT_FOUND</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
+</tr>
+<tr class="row-even"><td>TransactionService.getTransactions</td>
+<td>INVALID_ARGUMENT</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when the supplied offset was out of range.</td>
+<td>REQUESTED_OFFSET_OUT_OF_RANGE</td>
+</tr>
+<tr class="row-odd"><td>TransactionService.getTransactions</td>
+<td>NOT_FOUND</td>
+<td>OUT_OF_RANGE</td>
+<td>OUT_OF_RANGE can now be returned when attempting to access the data that has already been pruned.</td>
+<td>PARTICIPANT_PRUNED_DATA_ACCESSED</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../tools/auth-middleware/oauth2.html" class="da-btn da-btn-label btn-prev" title="OAuth 2.0 Auth Middleware" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../../deploy/index.html" class="da-btn da-btn-label btn-next" title="Overview of Daml ledgers" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

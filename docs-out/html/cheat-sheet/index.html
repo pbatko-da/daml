@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8">
+   <title>The Fast Track to DAML</title>
+   <link href="./cheatsheet.css" rel="stylesheet" type="text/css">
+  
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64532708-3"></script>
+   <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+
+   gtag('config', 'UA-64532708-3');
+   </script>
+
+ </head>
+
+ <body>
+
+   <div id="top">
+  <div id="title">
+    <h1>The Fast Track to </h1>
+    <h2>The TL;DR; for </h2>
+  </div>
+  <img src="./daml-logo.png" alt="DAML" style="height:100%;">
+  <!-- <div id="version"> -->
+    <!-- <h1>1.0</h1> -->
+  <!-- </div> -->
+</div>
+
+<div class="github-info">
+  This page's source is
+  <a href="https://github.com/digital-asset/daml-cheat-sheet">
+    located here
+  </a>.
+  Pull requests are welcome!
+</div>
+
+
+   <div id="contents">
+  <ul>
+    <li>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>What is…?</h1>
+          
+        </div>
+        
+        <p><a href="https://daml.com">Daml</a> is an open-source smart contract language designed to build composable
+applications on an abstract ledger model.</p>
+
+<p>Daml is a high level language that focuses on data privacy and authorization of distributed
+applications. These concepts are represented first class in the language.</p>
+
+<p>By abstracting data privacy and authorization, Daml takes the burden off the programmer to think
+about concrete cryptographic primitives and lets her focus on workflow logic.</p>
+
+<p>Daml is a statically typed functional language.</p>
+
+<p>Applications specified in Daml can be deployed on a growing number of platforms including
+<a href="https://aws.amazon.com/rds/aurora"> Amazon Aurora </a>,
+<a href="https://vmware.github.io/concord-bft"> VMWare Concord </a>,
+<a href="https://www.corda.net">  R3 Corda </a>,
+<a href="https://www.hyperledger.org/projects/fabric"> Hyperledger Fabric </a>,
+<a href="https://sawtooth.hyperledger.org"> Hyperledger Sawtooth </a>,
+<a href="https://projectdabl.com"> Project DABL </a> and <a href="https://www.postgresql.org"> PostgreSQL </a>.</p>
+
+<p>The full documentation of Daml can be found <a href="https://docs.daml.com"> here </a>.</p>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Concepts</h1>
+          
+        </div>
+        
+        <table>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Party</code></td>
+      <td>A party represents a person or legal entity (for example a bank). Parties can create contracts and exercise choices and are represented by the <code class="language-plaintext highlighter-rouge">Party</code> data type in Daml.<br /><br /></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Signatories, observers, and controllers</code></td>
+      <td>Signatories, observers, and controllers are parties involved in actions taken on a contract, i.e., actions that are <em>exercised</em> on a contract. Signatories, observers, and controllers are therefore represented by the <code class="language-plaintext highlighter-rouge">Party</code> data type. They control who can read, create and archive a contract. <br /><br /></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Contract</code></td>
+      <td>Contracts are created from blueprints called <code class="language-plaintext highlighter-rouge">templates</code> - this is the Daml code you write. Templates include:<br /><br />- contract data (e.g., date, description, parties involved etc.)<br />- roles (signatory, observer)<br />- choices and their respective controllers (<em>who</em> gets to do <em>what</em>)<br /><br />Every contract is a <em>template instance</em> stored as a row on the ledger. Contracts are immutable: once they are created on the ledger, the information in the contract cannot be changed. In order to “change” a contract you need to create a new one with the desired contract data. <br /><br /></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Choice</code></td>
+      <td>A choice is something that a party can exercise (take action) on a contract. Choices give you a way to transform the data in a contract: while the contract itself is immutable, you can write a choice that archives the contract and creates a new version of it with the updated data. <br /><br /> A choice can only be exercised by its controller and contains the <code class="language-plaintext highlighter-rouge">authorization</code> of all of the contract’s signatories as well as of the controller. <br /><br /></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Ledger</code></td>
+      <td>The ledger represents the database where all contracts are recorded. More information on Daml Ledgers can be found <a href="https://docs.daml.com/concepts/ledger-model/ledger-structure.html#ledgers">here</a>.<br /><br /></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If you are interested you can find the detailed glossary <a href="https://docs.daml.com/concepts/glossary.html">here</a> and a free online course <a href="https://daml.com/learn/fundamental-concepts/">here</a>.</p>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Command line tools</h1>
+          
+        </div>
+        
+        <table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Install the daml assistant</td>
+      <td><code class="language-plaintext highlighter-rouge">curl -sSL https://get.daml.com | sh -s &lt;version&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Create a new Daml project</td>
+      <td><code class="language-plaintext highlighter-rouge">daml new &lt;myproject&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Create a new Daml/React full stack project</td>
+      <td><code class="language-plaintext highlighter-rouge">daml new create-daml-app --template create-daml-app</code></td>
+    </tr>
+    <tr>
+      <td>Start the IDE</td>
+      <td><code class="language-plaintext highlighter-rouge">daml studio</code></td>
+    </tr>
+    <tr>
+      <td>Build project</td>
+      <td><code class="language-plaintext highlighter-rouge">daml build</code></td>
+    </tr>
+    <tr>
+      <td>Build project, start the sandbox and JSON-API</td>
+      <td><code class="language-plaintext highlighter-rouge">daml start</code></td>
+    </tr>
+    <tr>
+      <td>Start the sandbox ledger (in wall-clock time-mode)</td>
+      <td><code class="language-plaintext highlighter-rouge">daml sandbox</code></td>
+    </tr>
+    <tr>
+      <td>Start the sandbox ledger (in static time-mode)</td>
+      <td><code class="language-plaintext highlighter-rouge">daml sandbox --static-time</code></td>
+    </tr>
+    <tr>
+      <td>Start the JSON-API server (requires a running ledger)</td>
+      <td><code class="language-plaintext highlighter-rouge">daml json-api --ledger-host localhost --ledger-port 6865 --http-port 7575</code></td>
+    </tr>
+    <tr>
+      <td>Upload a dar to the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">daml ledger upload-dar &lt;dar file&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Run all test scripts and output test coverage report</td>
+      <td><code class="language-plaintext highlighter-rouge">daml test --show-coverage --all --files Test.daml</code></td>
+    </tr>
+    <tr>
+      <td>Project configuration file</td>
+      <td><code class="language-plaintext highlighter-rouge">daml.yaml</code></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Basics</h1>
+          
+        </div>
+        
+        <table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>End-of-line comment</td>
+      <td><code class="language-plaintext highlighter-rouge">let i = 1 -- This is a comment</code></td>
+    </tr>
+    <tr>
+      <td>Delimited comment</td>
+      <td><code class="language-plaintext highlighter-rouge">{- This is another comment -}</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Every Daml file starts with a module header like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daml 1.2
+module Foo where
+</code></pre></div></div>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Types</h1>
+          
+        </div>
+        
+        <table>
+  <tbody>
+    <tr>
+      <td>Type annotation</td>
+      <td><code class="language-plaintext highlighter-rouge">var : TypeName</code></td>
+    </tr>
+    <tr>
+      <td>Builtin types</td>
+      <td><code class="language-plaintext highlighter-rouge">Int, Decimal, Numeric n, Text, Bool, Party, Date, Time, RelTime</code></td>
+    </tr>
+    <tr>
+      <td>Type synonym</td>
+      <td><code class="language-plaintext highlighter-rouge">type MyInt = Int</code></td>
+    </tr>
+    <tr>
+      <td>Lists</td>
+      <td><code class="language-plaintext highlighter-rouge">type ListOfInts = [Int]</code></td>
+    </tr>
+    <tr>
+      <td>Tuples</td>
+      <td><code class="language-plaintext highlighter-rouge">type MyTuple = (Int, Text)</code></td>
+    </tr>
+    <tr>
+      <td>Polymorphic types</td>
+      <td><code class="language-plaintext highlighter-rouge">type MyType a b = [(a, b)]</code></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Data</h1>
+          
+        </div>
+        
+        <table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Record</td>
+      <td><code class="language-plaintext highlighter-rouge">data Record = Record { label1 : Int, label2 : Text}</code></td>
+    </tr>
+    <tr>
+      <td>Product type</td>
+      <td><code class="language-plaintext highlighter-rouge">data Product = Product Int Text</code></td>
+    </tr>
+    <tr>
+      <td>Sum type</td>
+      <td><code class="language-plaintext highlighter-rouge">data IntOrText = MyInt Int | MyText Text</code></td>
+    </tr>
+    <tr>
+      <td>Record with type parameters</td>
+      <td><code class="language-plaintext highlighter-rouge">data Record a b = Record {label1 : a, label2 : b}</code></td>
+    </tr>
+    <tr>
+      <td>Deriving Show/Eq instances</td>
+      <td><code class="language-plaintext highlighter-rouge">data Record = Record {label : Int} deriving (Show, Eq)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Functions</h1>
+          
+        </div>
+        
+        <table>
+  <tbody>
+    <tr>
+      <td>Signature</td>
+      <td><code class="language-plaintext highlighter-rouge">f : Text -&gt; Text -&gt; Text</code></td>
+    </tr>
+    <tr>
+      <td>Definition</td>
+      <td><code class="language-plaintext highlighter-rouge">f x y = x &lt;&gt; " " &lt;&gt; y</code></td>
+    </tr>
+    <tr>
+      <td>Lambda definition</td>
+      <td><code class="language-plaintext highlighter-rouge">\x y -&gt; x &lt;&gt; y</code></td>
+    </tr>
+    <tr>
+      <td>Polymorphic functions</td>
+      <td><code class="language-plaintext highlighter-rouge">f : (Show a, Eq a) =&gt; a -&gt; Text -&gt; Text</code></td>
+    </tr>
+    <tr>
+      <td>Function application</td>
+      <td><code class="language-plaintext highlighter-rouge">f "hello" "world!"</code></td>
+    </tr>
+    <tr>
+      <td>Partial application of functions</td>
+      <td><code class="language-plaintext highlighter-rouge">salute : Text -&gt; Text</code><br /><code class="language-plaintext highlighter-rouge">salute = f "Hello"</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Functions are first class members of Daml, in particular, functions can be arguments to functions</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apply : (Text -&gt; Text) -&gt; Text -&gt; Text
+apply h x = h x 
+
+apply salute "John" -- "Hello John"
+</code></pre></div></div>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Contract Templates</h1>
+          
+        </div>
+        
+        <p>Contract templates describe data that will be stored on the ledger. Templates determine who can read
+and write data; and by whom and how this data can be altered.
+A contract template is defined with the <code class="language-plaintext highlighter-rouge">template</code> keyword:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>template MyData
+  with
+    i : Int
+    party1 : Party
+    party2 : Party
+    dataKey : (Party, Text)
+  where
+    signatory party1
+    observer  party2
+    key dataKey : (Party, Text)
+    maintainer key._1
+
+    choice MyChoice : ()
+    ...
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">with</code> and <code class="language-plaintext highlighter-rouge">where</code> are keywords to structure the template.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">signatory</code></td>
+      <td>Observes the contract and its evolution. Gives the signatory’s authority to all the defined contract updates in the contract choices.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">observer</code></td>
+      <td>Observes the contract and its evolution.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">key</code></td>
+      <td>A field of the contract data used as primary index of contracts defined by this template, see <code class="language-plaintext highlighter-rouge">Contract Keys</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">maintainer</code></td>
+      <td>A set of parties that guarantee uniqueness of contract keys of this template on the ledger, see <code class="language-plaintext highlighter-rouge">Contract Keys</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Contract keys</h1>
+          
+        </div>
+        
+        <p>Contract keys are unique and stable references to a contract that won’t change even if the contract
+id of that contract changes due to an update.</p>
+
+<p>Contract keys are optional.</p>
+
+<p>Contract keys have an associated set of key maintainer parties. These parties guarantee the uniquess
+of their maintained keys.</p>
+
+<p>Contract keys are specified on a contract template with the <code class="language-plaintext highlighter-rouge">key</code> and <code class="language-plaintext highlighter-rouge">maintainer</code> keywords. If you
+specify a <code class="language-plaintext highlighter-rouge">key</code> you also have to specify its <code class="language-plaintext highlighter-rouge">maintainers</code>.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">key</code></td>
+      <td>Can be any expression of the contract arguments that does <em>not</em> contain a contract id. It <em>must</em> include all maintainer parties specified in the <code class="language-plaintext highlighter-rouge">maintainer</code> field.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">maintainer</code></td>
+      <td>Keys are unique for all specified maintainers. The maintainers need to be a projection of the expression specified with <code class="language-plaintext highlighter-rouge">key</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Choices</h1>
+          
+        </div>
+        
+        <p>The choices of a contract template specify the rules on how and by whom contract data can be
+changed.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(nonconsuming) choice NameOfChoice : ()
+-- optional nonconsuming annotation, name and choice return type
+  with
+    party1 : Party          -- choice arguments
+    party2 : Party
+    i : Int
+  controller party1, party2 -- parties that can execute this choice
+    do                      -- the update that will be executed
+      assert (i == 42)
+      create ...
+      exercise ...
+      return ()
+</code></pre></div></div>
+
+<p>Choices can be <code class="language-plaintext highlighter-rouge">consuming</code> or <code class="language-plaintext highlighter-rouge">nonconsuming</code>.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">consuming</code></td>
+      <td>The default. The contract is consumed by this choice. Trying to exercise another choice on the same contract id will fail.</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">nonconsuming</code></td>
+      <td>The contract is not consumed by this choice and more choices can be exercised.</td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Updates</h1>
+          
+        </div>
+        
+        <p>Updates specify the transactions that will be committed to the ledger. Updates are described within
+a <code class="language-plaintext highlighter-rouge">do</code> block:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>do
+  cid &lt;- create NewContract with field1 = 1
+                                 , field2 = "hello world"
+  let answer = 42
+  exercise cid SomeChoice with choiceArgument = "123"
+  return answer
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">create</code></td>
+      <td>create an instance of the given template on the ledger <br /> <code class="language-plaintext highlighter-rouge">create NameOfTemplate with exampleParameters</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">exercise</code></td>
+      <td>exercise a choice on a given contract by contract id <br /> <code class="language-plaintext highlighter-rouge">exercise IdOfContract NameOfChoiceContract with choiceArgument1 = value1 </code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">exerciseByKey</code></td>
+      <td>exercise a choice on a given contract by contract key <br /> <code class="language-plaintext highlighter-rouge">exerciseByKey @ContractType contractKey NameOfChoiceOnContract with choiceArgument1 = value1 </code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">fetch</code></td>
+      <td>fetch the contract data from the ledger by contract id <br /> <code class="language-plaintext highlighter-rouge">fetchedContract &lt;- fetch IdOfContract </code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">fetchByKey</code></td>
+      <td>fetch the contract id and data from the ledger by contract key <br /> <code class="language-plaintext highlighter-rouge">fetchedContract &lt;- fetchByKey @ContractType contractKey</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">lookupByKey</code></td>
+      <td>check whether a contract with the given key exists and if yes, return the contract id <br /> <code class="language-plaintext highlighter-rouge">fetchedContractId &lt;- lookupByKey @ContractType contractKey</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">abort</code></td>
+      <td>abort a transaction with an error message, the transaction will not be committed to the ledger <br /> <code class="language-plaintext highlighter-rouge">abort errorMessage</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">assert</code></td>
+      <td>assert that a given predicate holds, otherwise fail the transaction <br /> <code class="language-plaintext highlighter-rouge">assert (condition == True)</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">getTime</code></td>
+      <td>get the ledger effective time <br /> <code class="language-plaintext highlighter-rouge">currentTime &lt;- getTime </code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">return</code></td>
+      <td>return a value from a <code class="language-plaintext highlighter-rouge">do</code> block <br /> <code class="language-plaintext highlighter-rouge">return 42</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">let</code></td>
+      <td>bind a local variable or define a local function within the update <code class="language-plaintext highlighter-rouge">do</code> block <br /> <code class="language-plaintext highlighter-rouge">let createContract x = create NameOfContract with issuer = x; owner = x</code> <br /> <code class="language-plaintext highlighter-rouge">let answer = 42 </code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">this</code></td>
+      <td>refers to the current contract data that contains this update in a choice <br /> <code class="language-plaintext highlighter-rouge">create NewContract with owner = this.owner</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">forA</code></td>
+      <td>run a for loop of actions over a list <br /> <code class="language-plaintext highlighter-rouge">forA [alice, bob, charlie] $ \p -&gt; create NewContract with owner = p</code></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>Scripts</h1>
+          
+        </div>
+        
+        <p>Daml script is a scripting language to run Daml commands against a ledger. For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module Test where
+
+import Daml.Script
+
+test = Script ()
+test = do 
+  alice &lt;- allocateParty "Alice" 
+  bob &lt;- allocateParty "Bob"
+  c &lt;- submit alice $ createCmd NewContract with ...
+  submit bob $ exerciseCmd c Accept with ...
+</code></pre></div></div>
+
+<p>Scripts are compiled like usual Daml code to a <code class="language-plaintext highlighter-rouge">dar</code> package with the <code class="language-plaintext highlighter-rouge">daml build</code> command.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Running a script</td>
+      <td><code class="language-plaintext highlighter-rouge">daml script --dar example-0.0.1.dar --script-name ModuleName:scriptFunction --ledger-host localhost --ledger-port 6865</code></td>
+    </tr>
+    <tr>
+      <td>Running a script with initial arguments given</td>
+      <td><code class="language-plaintext highlighter-rouge">daml script --dar example-0.0.1.dar --input-file arguments_in_damllf_json.json --script-name ModuleName:scriptFunction --ledger-host localhost --ledger-port 6865</code></td>
+    </tr>
+    <tr>
+      <td>Allocating a party on the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">alice &lt;- allocateParty "Alice"</code></td>
+    </tr>
+    <tr>
+      <td>List all known parties on the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">parties &lt;- listKnownParties</code></td>
+    </tr>
+    <tr>
+      <td>Query for a given contract template visible to a given party</td>
+      <td><code class="language-plaintext highlighter-rouge">query @ExampleTemplate alice</code></td>
+    </tr>
+    <tr>
+      <td>Create a new contract</td>
+      <td><code class="language-plaintext highlighter-rouge">createCmd ExampleTemplate with ...</code></td>
+    </tr>
+    <tr>
+      <td>Exercise a choice on a contract</td>
+      <td><code class="language-plaintext highlighter-rouge">exerciseCmd contractId ChoiceName with ... </code></td>
+    </tr>
+    <tr>
+      <td>Exercise a choice on a contract by contract key</td>
+      <td><code class="language-plaintext highlighter-rouge">exerciseByKeyCmd contractKey ChoiceName with ... </code></td>
+    </tr>
+    <tr>
+      <td>Create and then exercise a choice on the created contract</td>
+      <td><code class="language-plaintext highlighter-rouge">createAndExerciseCmd (ExampleTemplate with ... ) (ChoiceName with ...)</code></td>
+    </tr>
+    <tr>
+      <td>Pass time on the ledger (only applicable for a ledger running in <strong>STATIC TIME MODE</strong>, like the in-memory ledger of Daml Studio or <code class="language-plaintext highlighter-rouge">daml test</code>)</td>
+      <td><code class="language-plaintext highlighter-rouge">passTime (hours 10)</code></td>
+    </tr>
+    <tr>
+      <td>Set time on the ledger (only applicable for a ledger running in <strong>STATIC TIME MODE</strong>, like the in-memory ledger of Daml Studio or <code class="language-plaintext highlighter-rouge">daml test</code>)</td>
+      <td><code class="language-plaintext highlighter-rouge">setTime (time (date 2007 Apr 5) 14 30 05)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>JavaScript/React API</h1>
+          
+        </div>
+        
+        <p>Daml ledgers expose a unified API for interaction.</p>
+
+<p>The following describes how to interact with a ledger using the <a href="https://www.typescriptlang.org"> TypeScript </a> libraries <code class="language-plaintext highlighter-rouge">@daml/ledger</code>, <code class="language-plaintext highlighter-rouge">@daml/react</code> in a
+frontend build with <a href="https://reactjs.org"> React </a>.</p>
+
+<p>Import the libraries via:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import Ledger from @daml/ledger
+import {useParty, ...} from @daml/react
+</code></pre></div></div>
+
+<p>React entry point:</p>
+
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">DamlLeddger</span> <span class="k">from</span> <span class="p">@</span><span class="nd">daml</span><span class="sr">/reac</span><span class="err">t
+</span>
+<span class="kd">const</span> <span class="nx">App</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+     <span class="o">&lt;</span><span class="nx">DamlLedger</span>
+      <span class="na">token</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">your</span> <span class="nx">authentication</span> <span class="nx">token</span><span class="o">&gt;</span>
+      <span class="nx">httpBaseUrl</span><span class="p">?:</span> <span class="o">&lt;</span><span class="nx">optional</span> <span class="nx">http</span> <span class="nx">base</span> <span class="nx">url</span><span class="o">&gt;</span>
+      <span class="nx">wsBaseUrl</span><span class="p">?:</span> <span class="o">&lt;</span><span class="nx">optional</span> <span class="nx">websocket</span> <span class="nx">base</span> <span class="nx">url</span><span class="o">&gt;</span>
+      <span class="na">party</span><span class="p">:</span> <span class="o">&lt;</span><span class="nx">the</span> <span class="nx">logged</span> <span class="k">in</span> <span class="nx">party</span><span class="o">&gt;</span>
+    <span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">MainScreen</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/DamlLedger</span><span class="err">&gt;
+</span><span class="p">};</span>
+</code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Get the logged in party</td>
+      <td><code class="language-plaintext highlighter-rouge">const party = useParty();</code> <br /> <code class="language-plaintext highlighter-rouge">...</code> <br /> <code class="language-plaintext highlighter-rouge">&lt;h1&gt; You're logged in as {party} &lt;/h1&gt;</code></td>
+    </tr>
+    <tr>
+      <td>Query the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">const {contracts: queryResult, loading: isLoading, } = useQuery(ContractTemplate, () =&gt; ({field: value}), [dep1, dep2, ...]) </code></td>
+    </tr>
+    <tr>
+      <td>Query for contract keys</td>
+      <td><code class="language-plaintext highlighter-rouge">const {contracts, loading} = useFetchByKey(ContractTemplate, () =&gt; key, [dep1, dep2, ...])</code></td>
+    </tr>
+    <tr>
+      <td>Reload the query results</td>
+      <td><code class="language-plaintext highlighter-rouge">reload = useReload();</code> <br /> <code class="language-plaintext highlighter-rouge">...</code> <br /> <code class="language-plaintext highlighter-rouge">onClick={() =&gt; reload()}</code></td>
+    </tr>
+    <tr>
+      <td>Query the ledger, returns a refreshing stream</td>
+      <td><code class="language-plaintext highlighter-rouge">const {contracts, loading}</code> = useStreamQuery(ContractTemplate, () =&gt; ({field: value}), [dep1, dep2, …]) `</td>
+    </tr>
+    <tr>
+      <td>Query for contract keys, returns a refreshing stream</td>
+      <td><code class="language-plaintext highlighter-rouge">const {contracts, loading} = useStreamFetchByKey(ContractTemplate, () =&gt; key, [dep1, dep2, ...])</code></td>
+    </tr>
+    <tr>
+      <td>Create a contract on the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">const ledger = useLedger();</code> <br /> <code class="language-plaintext highlighter-rouge">const newContract = await ledger.create(ContractTemplate, arguments)</code></td>
+    </tr>
+    <tr>
+      <td>Archive a contract on the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">const ledger = useLedger();</code> <br /> <code class="language-plaintext highlighter-rouge">const archiveEvent = await ledger.archive(ContractTemplate, contractId)</code></td>
+    </tr>
+    <tr>
+      <td>Exercise a contract choice on the ledger</td>
+      <td><code class="language-plaintext highlighter-rouge">const ledger = useLedger();</code> <br /> <code class="language-plaintext highlighter-rouge">const [choiceReturnValue, events] = await ledger.exercise(ContractChoice, contractId, choiceArguments)</code></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div>
+      
+      <div class="box">
+        <div class="title">
+
+          
+          <h1>DAML resources</h1>
+          
+        </div>
+        
+        <ul>
+  <li><a href="https://docs.daml.com">Official documentation</a></li>
+  <li><a href="https://github.com/digital-asset/daml">The Daml code repository</a></li>
+  <li><a href="https://github.com/digital-asset/create-daml-app">A Daml project template</a></li>
+  <li><a href="https://daml.com/blog">Read about how people are using Daml on the Daml Blog</a></li>
+</ul>
+
+      </div>
+      
+    </li>
+  </ul>
+</div>
+
+
+
+   <!-- <footer> -->
+     <!-- <div>Country flag icons made by -->
+       <!-- <a href="https://www.flaticon.com/authors/freepik">Freepik</a> -->
+       <!-- from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> -->
+       <!-- is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" -->
+       <!-- title="Creative Commons BY 3.0" target="_blank">CC 3.0 -->
+       <!-- BY.</a></div></a></a></a></div> -->
+   <!-- </footer> -->
+
+ </body>
+</html>

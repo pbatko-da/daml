@@ -1,0 +1,701 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Ledger API services &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="gRPC" href="grpc/index.html" />
+  <link rel="prev" title="The Ledger API" href="ledger-api.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authorization.html">Authorization</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ledger-api.html">The Ledger API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">The Ledger API services</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#glossary">Glossary</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#submitting-commands-to-the-ledger">Submitting commands to the ledger</a><ul>
+<li><a class="reference internal" href="#command-submission-service">Command submission service</a><ul>
+<li><a class="reference internal" href="#change-id">Change ID</a></li>
+<li><a class="reference internal" href="#application-specific-ids">Application-specific IDs</a></li>
+<li><a class="reference internal" href="#command-deduplication">Command deduplication</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#command-completion-service">Command completion service</a></li>
+<li><a class="reference internal" href="#command-service">Command service</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reading-from-the-ledger">Reading from the ledger</a><ul>
+<li><a class="reference internal" href="#transaction-service">Transaction service</a><ul>
+<li><a class="reference internal" href="#transaction-and-transaction-trees">Transaction and transaction trees</a></li>
+<li><a class="reference internal" href="#verbosity">Verbosity</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#active-contracts-service">Active contracts service</a><ul>
+<li><a class="reference internal" href="#id7">Verbosity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#utility-services">Utility services</a><ul>
+<li><a class="reference internal" href="#party-management-service">Party management service</a></li>
+<li><a class="reference internal" href="#package-service">Package service</a></li>
+<li><a class="reference internal" href="#ledger-identity-service">Ledger identity service</a></li>
+<li><a class="reference internal" href="#ledger-configuration-service">Ledger configuration service</a></li>
+<li><a class="reference internal" href="#version-service">Version service</a></li>
+<li><a class="reference internal" href="#pruning-service">Pruning service</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing-services">Testing services</a><ul>
+<li><a class="reference internal" href="#time-service">Time service</a></li>
+<li><a class="reference internal" href="#reset-service">Reset service</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#services-diagram">Services diagram</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="the-ledger-api-services">
+<span id="ledger-api-services"></span><h1>The Ledger API services<a class="headerlink" href="#the-ledger-api-services" title="Permalink to this headline">¶</a></h1>
+<p>The Ledger API is structured as a set of services. The core services are implemented using <a class="reference external" href="https://grpc.io/">gRPC</a> and <a class="reference external" href="https://developers.google.com/protocol-buffers/">Protobuf</a>, but most applications access this API through the mediation of the language bindings.</p>
+<p>This page gives more detail about each of the services in the API, and will be relevant whichever way you’re accessing it.</p>
+<p>If you want to read low-level detail about each service, see the <a class="reference internal" href="grpc/proto-docs.html"><span class="doc">protobuf documentation of the API</span></a>.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The API is structured as two separate data streams:</p>
+<ul class="simple">
+<li>A stream of <strong>commands</strong> TO the ledger that allow an application to submit transactions and change state.</li>
+<li>A stream of <strong>transactions</strong> and corresponding <strong>events</strong> FROM the ledger that indicate all state changes that have taken place on the ledger.</li>
+</ul>
+<p>Commands are the only way an application can cause the state of the ledger to change, and events are the only mechanism to read those changes.</p>
+<p>For an application, the most important consequence of these architectural decisions and implementation is that the ledger API is asynchronous. This means:</p>
+<ul class="simple">
+<li>The outcome of commands is only known some time after they are submitted.</li>
+<li>The application must deal with successful and erroneous command completions separately from command submission.</li>
+<li>Ledger state changes are indicated by events received asynchronously from the command submissions that cause them.</li>
+</ul>
+<p>The need to handle these issues is a major determinant of application architecture. Understanding the consequences of the API characteristics is important for a successful application design.</p>
+<p>For more help understanding these issues so you can build correct, performant and maintainable applications, read the <a class="reference internal" href="app-arch.html"><span class="doc">application architecture guide</span></a>.</p>
+<div class="section" id="glossary">
+<h3>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The ledger is a list of <code class="docutils literal notranslate"><span class="pre">transactions</span></code>. The transaction service returns these.</li>
+<li>A <code class="docutils literal notranslate"><span class="pre">transaction</span></code> is a tree of <code class="docutils literal notranslate"><span class="pre">actions</span></code>, also called <code class="docutils literal notranslate"><span class="pre">events</span></code>, which are of type <code class="docutils literal notranslate"><span class="pre">create</span></code>, <code class="docutils literal notranslate"><span class="pre">exercise</span></code> or <code class="docutils literal notranslate"><span class="pre">archive</span></code>. The transaction service can return the whole tree, or a flattened list.</li>
+<li>A <code class="docutils literal notranslate"><span class="pre">submission</span></code> is a proposed transaction, consisting of a list of <code class="docutils literal notranslate"><span class="pre">commands</span></code>, which correspond to the top-level <code class="docutils literal notranslate"><span class="pre">actions</span></code> in that transaction.</li>
+<li>A <code class="docutils literal notranslate"><span class="pre">completion</span></code> indicates the success or failure of a <code class="docutils literal notranslate"><span class="pre">submission</span></code>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submitting-commands-to-the-ledger">
+<span id="ledger-api-submission-services"></span><h2>Submitting commands to the ledger<a class="headerlink" href="#submitting-commands-to-the-ledger" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="command-submission-service">
+<span id="id1"></span><h3>Command submission service<a class="headerlink" href="#command-submission-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>command submission service</strong> to submit commands to the ledger. Commands either create a new contract, or exercise a choice on an existing contract.</p>
+<p>A call to the command submission service will return as soon as the ledger server has parsed the command, and has either accepted or rejected it. This does not mean the command has been executed, only that the server has looked at the command and decided that its format is acceptable, or has rejected it for syntactic or content reasons.</p>
+<p>The on-ledger effect of the command execution will be reported via the <a class="reference external" href="#transaction-service">transaction service</a>, described below. The completion status of the command is reported via the <a class="reference external" href="#command-completion-service">command completion service</a>. Your application should receive completions, correlate them with command submission, and handle errors and failed commands. Alternatively, you can use the <a class="reference external" href="#command-service">command service</a>, which conveniently wraps the command submission and completion services.</p>
+<div class="section" id="change-id">
+<span id="id2"></span><h4>Change ID<a class="headerlink" href="#change-id" title="Permalink to this headline">¶</a></h4>
+<p>Each intended ledger change is identified by its <strong>change ID</strong>, consisting of of the submitting parties (i.e., the union of <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-party"><span class="std std-ref">party</span></a> and <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-act-as"><span class="std std-ref">act_as</span></a>), <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-application-id"><span class="std std-ref">application ID</span></a> and <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-command-id"><span class="std std-ref">command ID</span></a>.</p>
+</div>
+<div class="section" id="application-specific-ids">
+<h4>Application-specific IDs<a class="headerlink" href="#application-specific-ids" title="Permalink to this headline">¶</a></h4>
+<p>The following application-specific IDs, all of which are included in completion events, can be set in commands:</p>
+<ul class="simple">
+<li>A <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-submission-id"><span class="std std-ref">submissionId</span></a>, returned to the submitting application only. It may be used to correlate specific submissions to specific completions.</li>
+<li>A <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-command-id"><span class="std std-ref">commandId</span></a>, returned to the submitting application only; it can be used to correlate commands to completions.</li>
+<li>A <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-workflow-id"><span class="std std-ref">workflowId</span></a>, returned as part of the resulting transaction to all applications receiving it. It can be used to track workflows between parties, consisting of several transactions.</li>
+</ul>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commandsubmissionservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="command-deduplication">
+<span id="command-submission-service-deduplication"></span><h4>Command deduplication<a class="headerlink" href="#command-deduplication" title="Permalink to this headline">¶</a></h4>
+<p>The command submission service deduplicates submitted commands based on their <a class="reference internal" href="#change-id"><span class="std std-ref">change ID</span></a>:</p>
+<ul class="simple">
+<li>Applications can provide a <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commands-deduplication-duration"><span class="std std-ref">deduplication duration</span></a> for each command. If this parameter is not set, the default maximum deduplication period is used.</li>
+<li>A command submission is considered a duplicate submission if the ledger API server is aware of another command within the deduplication period and with the same <a class="reference internal" href="#change-id"><span class="std std-ref">change ID</span></a>.</li>
+<li>Duplicate command submissions will be ignored until either the deduplication period of the original command has passed or the original submission was rejected (i.e. the command failed and resulted in a rejected transaction), whichever comes first.</li>
+<li>Command deduplication is only <em>guaranteed</em> to work if all commands are submitted to the same participant. Ledgers are free to perform additional command deduplication across participants. Consult the respective ledger’s manual for more details.</li>
+<li>A command submission will return:<ul>
+<li>The result of the submission (<code class="docutils literal notranslate"><span class="pre">Empty</span></code> or a gRPC error), if the command was submitted outside of the deduplication period of a previous command with the same <a class="reference internal" href="#change-id"><span class="std std-ref">change ID</span></a> on the same participant.</li>
+<li>The status error <code class="docutils literal notranslate"><span class="pre">ALREADY_EXISTS</span></code>, if the command was discarded by the ledger server because it was sent within the deduplication period of a previous command with the same <a class="reference internal" href="#change-id"><span class="std std-ref">change ID</span></a>.</li>
+</ul>
+</li>
+<li>If the ledger provides additional command deduplication across participants, the initial command submission might be successful, but ultimately the command can be rejected if the deduplication check fails on the ledger.</li>
+</ul>
+<p>For details on how to use command deduplication, see the <a class="reference internal" href="app-arch.html#command-deduplication"><span class="std std-ref">Application Architecture Guide</span></a>.</p>
+</div>
+</div>
+<div class="section" id="command-completion-service">
+<span id="id3"></span><h3>Command completion service<a class="headerlink" href="#command-completion-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>command completion service</strong> to find out the completion status of commands you have submitted.</p>
+<p>Completions contain the <code class="docutils literal notranslate"><span class="pre">commandId</span></code> of the completed command, and the completion status of the command. This status indicates failure or success, and your application should use it to update what it knows about commands in flight, and implement any application-specific error recovery.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commandcompletionservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="command-service">
+<span id="id4"></span><h3>Command service<a class="headerlink" href="#command-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>command service</strong> when you want to submit a command and wait for it to be executed. This service is similar to the command submission service, but also receives completions and waits until it knows whether or not the submitted command has completed. It returns the completion status of the command execution.</p>
+<p>You can use either the command or command submission services to submit commands to effect a ledger change. The command service is useful for simple applications, as it handles a basic form of coordination between command submission and completion, correlating submissions with completions, and returning a success or failure status. This allow simple applications to be completely stateless, and alleviates the need for them to track command submissions.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-commandservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+</div>
+<div class="section" id="reading-from-the-ledger">
+<h2>Reading from the ledger<a class="headerlink" href="#reading-from-the-ledger" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="transaction-service">
+<span id="id5"></span><h3>Transaction service<a class="headerlink" href="#transaction-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>transaction service</strong> to listen to changes in the ledger state, reported via a stream of transactions.</p>
+<p>Transactions detail the changes on the ledger, and contains all the events (create, exercise, archive of contracts) that had an effect in that transaction.</p>
+<p>Transactions contain a <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-transaction-transaction-id"><span class="std std-ref">transactionId</span></a> (assigned by the server), the <code class="docutils literal notranslate"><span class="pre">workflowId</span></code>, the <code class="docutils literal notranslate"><span class="pre">commandId</span></code>, and the events in the transaction.</p>
+<p>Subscribe to the transaction service to read events from an arbitrary point on the ledger. This arbitrary point is specified by the ledger offset. This is important when starting or restarting and application, and to work in conjunction with the <a class="reference external" href="#active-contract-service">active contracts service</a>.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-transactionservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+<div class="section" id="transaction-and-transaction-trees">
+<h4>Transaction and transaction trees<a class="headerlink" href="#transaction-and-transaction-trees" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">TransactionService</span></code> offers several different subscriptions. The most commonly used is <code class="docutils literal notranslate"><span class="pre">GetTransactions</span></code>. If you need more details, you can use <code class="docutils literal notranslate"><span class="pre">GetTransactionTrees</span></code> instead, which returns transactions as flattened trees, represented as a map of event IDs to events and a list of root event IDs.</p>
+</div>
+<div class="section" id="verbosity">
+<span id="id6"></span><h4>Verbosity<a class="headerlink" href="#verbosity" title="Permalink to this headline">¶</a></h4>
+<p>The service works in a non-verbose mode by default, which means that some identifiers are omitted:</p>
+<ul class="simple">
+<li>Record IDs</li>
+<li>Record field labels</li>
+<li>Variant IDs</li>
+</ul>
+<p>You can get these included in requests related to Transactions by setting the <code class="docutils literal notranslate"><span class="pre">verbose</span></code> field in message <code class="docutils literal notranslate"><span class="pre">GetTransactionsRequest</span></code> or <code class="docutils literal notranslate"><span class="pre">GetActiveContractsRequest</span></code> to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+</div>
+</div>
+<div class="section" id="active-contracts-service">
+<span id="active-contract-service"></span><h3>Active contracts service<a class="headerlink" href="#active-contracts-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>active contracts service</strong> to obtain a party-specific view of all contracts that are active on the ledger at the time of the request.</p>
+<p>The active contracts service returns its response as a stream of batches of the created events that would re-create the state being reported (the size of these batches is left to the ledger implementation). As part of the last message message, the offset at which the reported active contract set was valid is included. This offset can be used to subscribe to the “flat transactions” stream to keep a consistent view of the active contract set without querying the active contract service further.</p>
+<p>This is most important at application start, if the application needs to synchronize its initial state with a known view of the ledger. Without this service, the only way to do this would be to read the Transaction Stream from the beginning of the ledger, which can be prohibitively expensive with a large ledger.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-activecontractsservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+<div class="section" id="id7">
+<h4>Verbosity<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>See <a class="reference internal" href="#verbosity"><span class="std std-ref">Verbosity</span></a> above.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The RPCs exposed as part of the transaction and active contracts services make use of offsets.</p>
+<p>An offset is an opaque string of bytes assigned by the participant to each transaction as they are received from the ledger.
+Two offsets returned by the same participant are guaranteed to be lexicographically ordered: while interacting with a single participant, the offset of two transactions can be compared to tell which was committed earlier.
+The state of a ledger (i.e. the set of active contracts) as exposed by the Ledger API is valid at a specific offset, which is why the last message your application receives when calling the <code class="docutils literal notranslate"><span class="pre">ActiveContractsService</span></code> is precisely that offset.
+In this way, the client can keep track of the relevant state without needing to invoke the <code class="docutils literal notranslate"><span class="pre">ActiveContractsService</span></code> again, by starting to read transactions from the given offset.</p>
+<p>Offsets are also useful to perform crash recovery and failover as documented more in depth in the <a class="reference internal" href="app-arch.html#dealing-with-failures"><span class="std std-ref">application architecture</span></a> page.</p>
+<p class="last">You can read more about offsets in the <a class="reference external" href="../app-dev/grpc/proto-docs.html#ledgeroffset">protobuf documentation of the API</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="utility-services">
+<span id="ledger-api-utility-services"></span><h2>Utility services<a class="headerlink" href="#utility-services" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="party-management-service">
+<span id="party-service"></span><h3>Party management service<a class="headerlink" href="#party-management-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>party management service</strong> to allocate parties on the ledger and retrieve information about allocated parties.</p>
+<p>Allocating parties is necessary to interact with the ledger. For more information, refer to the pages on <a class="reference internal" href="../concepts/identity-and-package-management.html"><span class="doc">Identity Management</span></a> and <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-admin-partymanagementservice"><span class="std std-ref">the API reference documentation</span></a>.</p>
+</div>
+<div class="section" id="package-service">
+<span id="id8"></span><h3>Package service<a class="headerlink" href="#package-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>package service</strong> to obtain information about Daml packages available on the ledger.</p>
+<p>This is useful for obtaining type and metadata information that allow you to interpret event data in a more useful way.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-packageservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="ledger-identity-service">
+<span id="id9"></span><h3>Ledger identity service<a class="headerlink" href="#ledger-identity-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>ledger identity service</strong> to get the identity string of the ledger that your application is connected to.</p>
+<p>You need to include this identity string when submitting commands. Commands with an incorrect identity string are rejected.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-ledgeridentityservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="ledger-configuration-service">
+<span id="id10"></span><h3>Ledger configuration service<a class="headerlink" href="#ledger-configuration-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>ledger configuration service</strong> to subscribe to changes in ledger configuration.</p>
+<p>This configuration includes the maximum command deduplication period (see <a class="reference external" href="#command-submission-service-deduplication">Command Deduplication</a> for details).</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-ledgerconfigurationservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="version-service">
+<span id="id11"></span><h3>Version service<a class="headerlink" href="#version-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>version service</strong> to retrieve information about the Ledger API version.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-versionservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="pruning-service">
+<span id="ledger-api-testing-services"></span><h3>Pruning service<a class="headerlink" href="#pruning-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>pruning service</strong> to prune archived contracts and transactions before or at a given offset.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-admin-participantpruningservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+</div>
+<div class="section" id="testing-services">
+<span id="id12"></span><h2>Testing services<a class="headerlink" href="#testing-services" title="Permalink to this headline">¶</a></h2>
+<p><strong>These are only for use for testing with the Sandbox, not for on production ledgers.</strong></p>
+<div class="section" id="time-service">
+<span id="id13"></span><h3>Time service<a class="headerlink" href="#time-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>time service</strong> to obtain the time as known by the ledger server.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-testing-timeservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+<div class="section" id="reset-service">
+<span id="id14"></span><h3>Reset service<a class="headerlink" href="#reset-service" title="Permalink to this headline">¶</a></h3>
+<p>Use the <strong>reset service</strong> to reset the ledger state, as a quicker alternative to restarting the whole ledger application.</p>
+<p>This resets all state in the ledger, <em>including the ledger ID</em>, so clients will have to re-fetch the ledger ID from the identity service after hitting this endpoint.</p>
+<p>For full details, see <a class="reference internal" href="grpc/proto-docs.html#com-daml-ledger-api-v1-testing-resetservice"><span class="std std-ref">the proto documentation for the service</span></a>.</p>
+</div>
+</div>
+<div class="section" id="services-diagram">
+<h2>Services diagram<a class="headerlink" href="#services-diagram" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/services.svg" src="../_images/services.svg" /></div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ledger-api.html" class="da-btn da-btn-label btn-prev" title="The Ledger API" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="grpc/index.html" class="da-btn da-btn-label btn-next" title="gRPC" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

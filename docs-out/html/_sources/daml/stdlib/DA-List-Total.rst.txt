@@ -1,0 +1,86 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-list-total-43846:
+
+Module DA.List.Total
+====================
+
+Functions
+---------
+
+.. _function-da-list-total-head-74336:
+
+`head <function-da-list-total-head-74336_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> \[a\] \-\> m a
+
+.. _function-da-list-total-tail-79400:
+
+`tail <function-da-list-total-tail-79400_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> \[a\] \-\> m \[a\]
+
+.. _function-da-list-total-last-89790:
+
+`last <function-da-list-total-last-89790_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> \[a\] \-\> m a
+
+.. _function-da-list-total-init-82764:
+
+`init <function-da-list-total-init-82764_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> \[a\] \-\> m \[a\]
+
+.. _function-da-list-total-bangbang-23030:
+
+`(!!) <function-da-list-total-bangbang-23030_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> \[a\] \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> m a
+
+.. _function-da-list-total-foldl1-42644:
+
+`foldl1 <function-da-list-total-foldl1-42644_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> (a \-\> a \-\> a) \-\> \[a\] \-\> m a
+
+.. _function-da-list-total-foldr1-20338:
+
+`foldr1 <function-da-list-total-foldr1-20338_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> (a \-\> a \-\> a) \-\> \[a\] \-\> m a
+
+.. _function-da-list-total-foldbalanced1-80423:
+
+`foldBalanced1 <function-da-list-total-foldbalanced1-80423_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> (a \-\> a \-\> a) \-\> \[a\] \-\> m a
+
+.. _function-da-list-total-minimumby-32090:
+
+`minimumBy <function-da-list-total-minimumby-32090_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> m a
+  
+  ``minimumBy f xs`` returns the first element ``x`` of ``xs`` for which ``f x y``
+  is either ``LT`` or ``EQ`` for all other ``y`` in ``xs``\. The result is
+  wrapped in a monadic context, with a failure if ``xs`` is empty\.
+
+.. _function-da-list-total-maximumby-61280:
+
+`maximumBy <function-da-list-total-maximumby-61280_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> m a
+  
+  ``maximumBy f xs`` returns the first element ``x`` of ``xs`` for which ``f x y``
+  is either ``GT`` or ``EQ`` for all other ``y`` in ``xs``\. The result is
+  wrapped in a monadic context, with a failure if ``xs`` is empty\.
+
+.. _function-da-list-total-minimumon-21626:
+
+`minimumOn <function-da-list-total-minimumon-21626_>`_
+  \: (:ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m, :ref:`Ord <class-ghc-classes-ord-70960>` k) \=\> (a \-\> k) \-\> \[a\] \-\> m a
+  
+  ``minimumOn f xs`` returns the first element ``x`` of ``xs`` for which ``f x``
+  is smaller than or equal to any other ``f y`` for ``y`` in ``xs``\. The result is
+  wrapped in a monadic context, with a failure if ``xs`` is empty\.
+
+.. _function-da-list-total-maximumon-67732:
+
+`maximumOn <function-da-list-total-maximumon-67732_>`_
+  \: (:ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m, :ref:`Ord <class-ghc-classes-ord-70960>` k) \=\> (a \-\> k) \-\> \[a\] \-\> m a
+  
+  ``maximumOn f xs`` returns the first element ``x`` of ``xs`` for which ``f x``
+  is greater than or equal to any other ``f y`` for ``y`` in ``xs``\. The result is
+  wrapped in a monadic context, with a failure if ``xs`` is empty\.

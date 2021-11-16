@@ -1,0 +1,631 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>12 Testing Daml Contracts &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Language reference docs" href="../reference/index.html" />
+  <link rel="prev" title="11 Intro to the Daml Standard Library" href="11_StdLib.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="0_Intro.html">An introduction to Daml</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">12 Testing Daml Contracts</a><ul>
+<li><a class="reference internal" href="#daml-test-tooling">Daml Test Tooling</a></li>
+<li><a class="reference internal" href="#debug-trace-and-stacktraces">Debug, Trace, and Stacktraces</a></li>
+<li><a class="reference internal" href="#diagnosing-contention-errors">Diagnosing Contention Errors</a><ul>
+<li><a class="reference internal" href="#common-errors">Common Errors</a><ul>
+<li><a class="reference internal" href="#contractid-not-found-during-interpretation">ContractId Not Found During Interpretation</a></li>
+<li><a class="reference internal" href="#contractid-not-found-during-validation">ContractId Not Found During Validation</a></li>
+<li><a class="reference internal" href="#fetchbykey-error-during-interpretation">fetchByKey Error during Interpretation</a></li>
+<li><a class="reference internal" href="#fetchbykey-dispute-during-validation">fetchByKey Dispute During Validation</a></li>
+<li><a class="reference internal" href="#lookupbykey-dispute-during-validation">lookupByKey Dispute During Validation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#avoiding-race-conditions-and-stale-references">Avoiding Race Conditions and Stale References</a></li>
+<li><a class="reference internal" href="#collisions-due-to-ignorance">Collisions due to Ignorance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-up">Next up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="testing-daml-contracts">
+<h1>12 Testing Daml Contracts<a class="headerlink" href="#testing-daml-contracts" title="Permalink to this headline">¶</a></h1>
+<p>This chapter is all about testing and debugging the Daml contracts you’ve built using the tools from chapters 1-10. You’ve already met Daml Script as a way of testing your code inside the IDE. In this chapter you’ll learn about more ways to test with Daml Script and its other uses, as well as other tools you can use for testing and debugging. You’ll also learn about a few error cases that are most likely to crop up only in actual distributed testing, and which need some care to avoid. Specifically we will cover:</p>
+<ul class="simple">
+<li>Daml Test tooling - Script, REPL, and Navigator</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">trace</span></code> and <code class="docutils literal notranslate"><span class="pre">debug</span></code> functions</li>
+<li>Contention</li>
+</ul>
+<p>Note that this section only covers testing your Daml contracts. For more holistic application testing, please refer to <a class="reference internal" href="../../app-dev/bindings-ts/testing.html"><span class="doc">Testing Your Web App</span></a>.</p>
+<p>If you no longer have your projects set up, please follow the setup instructions in <a class="reference internal" href="9_Dependencies.html"><span class="doc">9 Working with Dependencies</span></a> to get hold of the code for this chapter. There is no code specific to this chapter.</p>
+<div class="section" id="daml-test-tooling">
+<h2>Daml Test Tooling<a class="headerlink" href="#daml-test-tooling" title="Permalink to this headline">¶</a></h2>
+<p>There are three primary tools available in the SDK to test and interact with Daml contracts. It is highly recommended to explore the respective docs. The chapter 8 model lends itself well to being tested using these tools.</p>
+<p><a class="reference internal" href="../../daml-script/index.html"><span class="doc">Daml Script</span></a></p>
+<blockquote>
+<div><p><a class="reference internal" href="../../daml-script/index.html"><span class="doc">Daml Script</span></a> should be familiar by now. It’s a way to script commands and queries from multiple parties against a Daml Ledger. Unless you’ve browsed other sections of the documentation already, you have probably used it mostly in the IDE. However, Daml Script can do much more than that. It has four different modes of operation:</p>
+<ol class="arabic simple">
+<li>Run on a special Script Service in the IDE, providing the Script Views.</li>
+<li>Run the Script Service via the CLI, which is useful for quick regression testing.</li>
+<li>Start a Sandbox and run against that for regression testing against an actual Ledger API.</li>
+<li>Run against any other already running Ledger.</li>
+</ol>
+</div></blockquote>
+<p><a class="reference internal" href="../../tools/navigator/index.html"><span class="doc">Daml Navigator</span></a></p>
+<blockquote>
+<div>Daml Navigator is a UI that runs against a Ledger API and allows interaction with contracts.</div></blockquote>
+<p><a class="reference internal" href="../../daml-repl/index.html"><span class="doc">Daml REPL</span></a></p>
+<blockquote>
+<div>If you want to do things interactively, Daml REPL is the tool to use. The best way to think of Daml REPL is as an interactive version of Daml Script, but it doubles up as a language REPL (Read-Evaluate-Print Loop), allowing you to evaluate pure expressions and inspect the results.</div></blockquote>
+</div>
+<div class="section" id="debug-trace-and-stacktraces">
+<h2>Debug, Trace, and Stacktraces<a class="headerlink" href="#debug-trace-and-stacktraces" title="Permalink to this headline">¶</a></h2>
+<p>The above demonstrates nicely how to test the happy path, but what if a function doesn’t behave as you expected? Daml has two functions that allow you to do fine-grained printf debugging: <code class="docutils literal notranslate"><span class="pre">debug</span></code> and <code class="docutils literal notranslate"><span class="pre">trace</span></code>. Both allow you to print something to StdOut if the code is reached. The difference between <code class="docutils literal notranslate"><span class="pre">debug</span></code> and <code class="docutils literal notranslate"><span class="pre">trace</span></code> is similar to the relationship between <code class="docutils literal notranslate"><span class="pre">abort</span></code> and <code class="docutils literal notranslate"><span class="pre">error</span></code>:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">debug</span> <span class="pre">:</span> <span class="pre">Text</span> <span class="pre">-&gt;</span> <span class="pre">m</span> <span class="pre">()</span></code> maps a text to an Action that has the side-effect of printing to StdOut.</li>
+<li><code class="docutils literal notranslate"><span class="pre">trace</span> <span class="pre">:</span> <span class="pre">Text</span> <span class="pre">-&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span></code> prints to StdOut when the expression is evaluated.</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>daml&gt; let a : Script () = debug &quot;foo&quot;
+daml&gt; let b : Script () = trace &quot;bar&quot; (debug &quot;baz&quot;)
+[Daml.Script:378]: &quot;bar&quot;
+daml&gt; a
+[DA.Internal.Prelude:532]: &quot;foo&quot;
+daml&gt; b
+[DA.Internal.Prelude:532]: &quot;baz&quot;
+daml&gt;
+</pre></div>
+</div>
+<p>If in doubt, use <code class="docutils literal notranslate"><span class="pre">debug</span></code>. It’s the easier of the two to interpret the results of.</p>
+<p>The thing in the square brackets is the last location. It’ll tell you the Daml file and line number that triggered the printing, but often no more than that because full stacktraces could violate subtransaction privacy quite easily. If you want to enable stacktraces for some purely functional code in your modules, you can use the machinery in <a class="reference internal" href="../stdlib/DA-Stack.html"><span class="doc">Module DA.Stack</span></a> to do so, but we won’t cover that any further here.</p>
+</div>
+<div class="section" id="diagnosing-contention-errors">
+<h2>Diagnosing Contention Errors<a class="headerlink" href="#diagnosing-contention-errors" title="Permalink to this headline">¶</a></h2>
+<p>The above tools and functions allow you to diagnose most problems with Daml code, but they are all synchronous. The sequence of commands is determined by the sequence of inputs. That means one of the main pitfalls of distributed applications doesn’t come into play: Contention.</p>
+<p>Contention refers to conflicts over access to contracts. Daml guarantees that there can only be one consuming choice exercised per contract so what if two parties simultaneously submit an exercise command on the same contract? Only one can succeed. Contention can also occur due to incomplete or stale knowledge. Maybe a contract was archived a little while ago, but due to latencies, a client hasn’t found out yet, or maybe due to the privacy model, they never will. What all these cases have in common is that someone has incomplete knowledge of the state the ledger will be in at the time a transaction will be processed and/or committed.</p>
+<p>If we look back at <a class="reference internal" href="7_Composing.html#execution-model"><span class="std std-ref">Daml’s execution model</span></a> we’ll see there are three places where ledger state is consumed:</p>
+<ol class="arabic simple">
+<li>A command is submitted by some client, probably looking at the state of the ledger to build that command. Maybe the command includes references to ContractIds that the client believes are active.</li>
+<li>During interpretation, ledger state is used to look up active contracts.</li>
+<li>During commit, ledger state is again used to look up contracts and validate the transaction by reinterpreting it.</li>
+</ol>
+<p>Collisions can occur both between 1 and 2 and between 2 and 3. Only during the commit phase is the complete relevant ledger state at the time of the transaction known, which means the ledger state at commit time is king. As a Daml contract developer, you need to understand the different causes of contention, be able to diagnose the root cause if errors of this type occur, and be able to avoid collisions by designing contracts appropriately.</p>
+<div class="section" id="common-errors">
+<h3>Common Errors<a class="headerlink" href="#common-errors" title="Permalink to this headline">¶</a></h3>
+<p>The most common error messages you’ll see are listed below. All of them can be due to one of three reasons.</p>
+<ol class="arabic simple">
+<li>Race Conditions - knowledge of a state change is not yet known during command submission</li>
+<li>Stale References - the state change is known, but contracts have stale references to keys or ContractIds</li>
+<li>Ignorance - due to privacy or operational semantics, the requester doesn’t know the current state</li>
+</ol>
+<p>Following the possible error messages, we’ll discuss a few possible causes and remedies.</p>
+<div class="section" id="contractid-not-found-during-interpretation">
+<h4>ContractId Not Found During Interpretation<a class="headerlink" href="#contractid-not-found-during-interpretation" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Command interpretation error in LF-Damle: dependency error: couldn&#39;t find contract ContractId(004481eb78464f1ed3291b06504d5619db4f110df71cb5764717e1c4d3aa096b9f).
+</pre></div>
+</div>
+</div>
+<div class="section" id="contractid-not-found-during-validation">
+<h4>ContractId Not Found During Validation<a class="headerlink" href="#contractid-not-found-during-validation" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Disputed: dependency error: couldn&#39;t find contract ContractId (00c06fa370f8858b20fd100423d928b1d200d8e3c9975600b9c038307ed6e25d6f).
+</pre></div>
+</div>
+</div>
+<div class="section" id="fetchbykey-error-during-interpretation">
+<h4>fetchByKey Error during Interpretation<a class="headerlink" href="#fetchbykey-error-during-interpretation" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Command interpretation error in LF-Damle: dependency error: couldn&#39;t find key com.daml.lf.transaction.GlobalKey@11f4913d.
+</pre></div>
+</div>
+</div>
+<div class="section" id="fetchbykey-dispute-during-validation">
+<h4>fetchByKey Dispute During Validation<a class="headerlink" href="#fetchbykey-dispute-during-validation" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Disputed: dependency error: couldn&#39;t find key com.daml.lf.transaction.GlobalKey@11f4913d
+</pre></div>
+</div>
+</div>
+<div class="section" id="lookupbykey-dispute-during-validation">
+<h4>lookupByKey Dispute During Validation<a class="headerlink" href="#lookupbykey-dispute-during-validation" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Disputed: recreated and original transaction mismatch VersionedTransaction(...) expected, but VersionedTransaction(...) is recreated.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="avoiding-race-conditions-and-stale-references">
+<h3>Avoiding Race Conditions and Stale References<a class="headerlink" href="#avoiding-race-conditions-and-stale-references" title="Permalink to this headline">¶</a></h3>
+<p>The first thing to avoid is write-write or write-read contention on contracts. In other words, one requester submitting a transaction with a consuming exercise on a contract while another requester submits another exercise or fetch on the same contract. This type of contention cannot be eliminated entirely, for there will always be some latency between a client submitting a command to a participant, and other clients learning of the committed transaction.</p>
+<p>Here are a few scenarios and measures you can take to reduce this type of collision:</p>
+<ol class="arabic">
+<li><p class="first">Shard data. Imagine you want to store a user directory on the Ledger. At the core, this is of type <code class="docutils literal notranslate"><span class="pre">[(Text,</span> <span class="pre">Party)]</span></code>, where <code class="docutils literal notranslate"><span class="pre">Text</span></code> is a display name and <cite>Party</cite> the associated Party. If you store this entire list on a single contract, any two users wanting to update their display name at the same time will cause a collision. If you instead keep each <code class="docutils literal notranslate"><span class="pre">(Text,</span> <span class="pre">Party)</span></code> on a separate contract, these write operations become independent from each other.</p>
+<p>The Analogy to keep in mind when structuring your data is that a template defines a table, and a contract is a row in that table. Keeping large pieces of data on a contract is like storing big blobs in a database row. If these blobs can change through different actions, you get write conflicts.</p>
+</li>
+<li><p class="first">Use nonconsuming choices if you can. Nonconsuming exercises have the same contention properties as fetches: they don’t collide with each other.</p>
+<p>Contract keys can seem like a way out, but they are not. Contract keys are resolved to Contract IDs during the interpretation phase on the participant node. So it reduces latencies slightly by moving resolution from the client layer to the participant layer, but it doesn’t remove the issue. Going back to the auction example above, if Alice sent a command <code class="docutils literal notranslate"><span class="pre">exerciseByKey</span> <span class="pre">&#64;Auction</span> <span class="pre">auctionKey</span> <span class="pre">Bid</span> <span class="pre">with</span> <span class="pre">amount</span> <span class="pre">=</span> <span class="pre">100</span></code>, this would be resolved to an <code class="docutils literal notranslate"><span class="pre">exercise</span> <span class="pre">cid</span> <span class="pre">Bid</span> <span class="pre">with</span> <span class="pre">amount</span> <span class="pre">=</span> <span class="pre">100</span></code> during interpretation, where <code class="docutils literal notranslate"><span class="pre">cid</span></code> is the participant’s best guess what ContractId the key refers to.</p>
+</li>
+<li><p class="first">Avoid workflows that encourage multiple parties to simultaneously try to exercise a consuming choice on the same contract. For example, imagine an <code class="docutils literal notranslate"><span class="pre">Auction</span></code> contract containing a field <code class="docutils literal notranslate"><span class="pre">highestBid</span> <span class="pre">:</span> <span class="pre">(Party,</span> <span class="pre">Decimal)</span></code>. If Alice tries to bid $100 at the same time that Bob tries to bid $90, it doesn’t matter that Alice’s bid is higher. The second transaction to be sequenced will be rejected as it has a write collision with the first. It’s better to record the bids in separate <code class="docutils literal notranslate"><span class="pre">Bid</span></code> contracts, which can be written to independently. Again, think about how you would structure this data in a relational database to avoid data loss due to race conditions.</p>
+</li>
+<li><p class="first">Think carefully about storing ContractIds. Imagine you had created a sharded user directory according to 1. Each user has a <code class="docutils literal notranslate"><span class="pre">User</span></code> contract that store their display name and party. Now you write a chat application where each <code class="docutils literal notranslate"><span class="pre">Message</span></code> contract refers to the sender by <code class="docutils literal notranslate"><span class="pre">ContractId</span> <span class="pre">User</span></code>. If the user changes their display name, that reference goes stale. You either have to modify all messages that user ever sent, or become unable to use the sender contract in Daml. If you need to be able to make this link inside Daml, Contract Keys help here. If the only place you need to link <code class="docutils literal notranslate"><span class="pre">Party</span></code> to <code class="docutils literal notranslate"><span class="pre">User</span></code> is the UI, it might be best to not store contract references in Daml at all.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="collisions-due-to-ignorance">
+<h3>Collisions due to Ignorance<a class="headerlink" href="#collisions-due-to-ignorance" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../../concepts/ledger-model/index.html"><span class="doc">Daml Ledger Model</span></a> specifies authorization rules, and privacy rules. Ie it specifies what makes a transaction conformant, and who gets to see which parts of a committed transaction. It does <em>not</em> specify how a command is translated to a transaction. This may seem strange at first since the commands - create, exercise, exerciseByKey, createAndExercise - correspond so closely to actions in the ledger model. But the subtlety comes in on the read side. What happens when the participant, during interpretation, encounters a <code class="docutils literal notranslate"><span class="pre">fetch</span></code>, <code class="docutils literal notranslate"><span class="pre">fetchByKey</span></code>, or <code class="docutils literal notranslate"><span class="pre">lookupByKey</span></code>?</p>
+<p>To illustrate the problem, let’s assume there is a template <code class="docutils literal notranslate"><span class="pre">T</span></code> with a contract key, and Alice has witnessed two <code class="docutils literal notranslate"><span class="pre">Create</span></code> nodes of a contract of type <code class="docutils literal notranslate"><span class="pre">T</span></code> with key <code class="docutils literal notranslate"><span class="pre">k</span></code>, but no corresponding archive nodes. Alice may not be able to order these two nodes causally in the sense of “one create came before the other”. See <a class="reference internal" href="../../concepts/local-ledger.html"><span class="doc">Causality and Local Ledgers</span></a> for an in-depth treatment of causality on Daml Ledgers.</p>
+<p>So what should happen now if Alice’s participant encounters a <code class="docutils literal notranslate"><span class="pre">fetchByKey</span> <span class="pre">&#64;T</span> <span class="pre">k</span></code> or <code class="docutils literal notranslate"><span class="pre">lookupByKey</span> <span class="pre">&#64;T</span> <span class="pre">k</span></code> during interpretation? What if it encounters a <code class="docutils literal notranslate"><span class="pre">fetch</span></code> node? These decisions are part of the operational semantics, and the decision of what should happen is based on the consideration that the chance of a participant submitting an invalid transaction should be minimized.</p>
+<p>If a <code class="docutils literal notranslate"><span class="pre">fetch</span></code> or <code class="docutils literal notranslate"><span class="pre">exercise</span></code> is encountered, the participant resolves the contract as long as it has not witnessed an archive node for that contract - ie as long as it can’t guarantee that the contract is no longer active. The rationale behind this is that <code class="docutils literal notranslate"><span class="pre">fetch</span></code> and <code class="docutils literal notranslate"><span class="pre">exercise</span></code> use ContractIds, which need to come from somewhere: Command arguments, Contract arguments, or key lookups. In all three cases, someone believes the ContractId to be active still so it’s worth trying.</p>
+<p>If a <code class="docutils literal notranslate"><span class="pre">fetchByKey</span></code> or <code class="docutils literal notranslate"><span class="pre">lookupByKey</span></code> node is encountered, the contract is only resolved if the requester is a stakeholder on an active contract with the given key. If that’s not the case, there is no reason to believe that the key still resolves to some contract that was witnessed earlier. Thus, when using contract keys, make sure you make the likely requesters of transactions observers on your contracts. If you don’t, <code class="docutils literal notranslate"><span class="pre">fetchByKey</span></code> will always fail, and <code class="docutils literal notranslate"><span class="pre">lookupByKey</span></code> will always return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>Let’s illustrate how collisions and operational semantics and interleave:</p>
+<ol class="arabic simple">
+<li>Bob creates <code class="docutils literal notranslate"><span class="pre">T</span></code> with key <code class="docutils literal notranslate"><span class="pre">k</span></code>. Alice is not a stakeholder.</li>
+<li>Alice submits a command resulting in well-authorized <code class="docutils literal notranslate"><span class="pre">lookupByKey</span> <span class="pre">&#64;T</span> <span class="pre">k</span></code> during interpretation. Even if Alice witnessed 1, this will resolve to a <code class="docutils literal notranslate"><span class="pre">None</span></code> as Alice is not a stakeholder. This transaction is invalid at the time of interpretation, but Alice doesn’t know that.</li>
+<li>Bob submits an <code class="docutils literal notranslate"><span class="pre">exerciseByKey</span> <span class="pre">&#64;T</span> <span class="pre">k</span> <span class="pre">Archive</span></code>.</li>
+<li>Depending on which of the transactions from 2 and 3 gets sequenced first, either just 3, or both 2 and 3 get committed. If 3 is committed before 2, 2 becomes valid while in transit.</li>
+</ol>
+<p>As you can see, the behavior of <code class="docutils literal notranslate"><span class="pre">fetch</span></code>, <code class="docutils literal notranslate"><span class="pre">fetchByKey</span></code> and <code class="docutils literal notranslate"><span class="pre">lookupByKey</span></code> at interpretation time depend on what information is available to the requester at that time. That’s something to keep in mind when writing Daml contracts, and something to think about when encountering frequent “Disputed” errors.</p>
+</div>
+</div>
+<div class="section" id="next-up">
+<h2>Next up<a class="headerlink" href="#next-up" title="Permalink to this headline">¶</a></h2>
+<p>You’ve reached the end of the Introduction to Daml. Congratulations. If you think you understand all this material, you could test yourself by getting Daml certified at <a class="reference external" href="https://academy.daml.com">https://academy.daml.com</a>. Or put your skills to good use by developing a Daml application. There are plenty of examples to inspire you on the <a class="reference external" href="https://daml.com/examples">Examples</a> page.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="11_StdLib.html" class="da-btn da-btn-label btn-prev" title="11 Intro to the Daml Standard Library" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../reference/index.html" class="da-btn da-btn-label btn-next" title="Language reference docs" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

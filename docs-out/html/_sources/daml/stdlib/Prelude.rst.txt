@@ -1,0 +1,2950 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-prelude-6842:
+
+Module Prelude
+==============
+
+The pieces that make up the Daml language\.
+
+Typeclasses
+-----------
+
+.. _class-da-internal-assert-canassert-55474:
+
+**class** `Action <class-da-internal-prelude-action-24943_>`_ m \=\> `CanAssert <class-da-internal-assert-canassert-55474_>`_ m **where**
+
+  Constraint that determines whether an assertion can be made
+  in this context\.
+  
+  .. _function-da-internal-assert-assertfail-35144:
+  
+  `assertFail <function-da-internal-assert-assertfail-35144_>`_
+    \: `Text <type-ghc-types-text-57703_>`_ \-\> m t
+    
+    Abort since an assertion has failed\. In an Update, Scenario,
+    Script, or Trigger context this will throw an AssertionFailed
+    exception\. In an ``Either Text`` context, this will return the
+    message as an error\.
+  
+  **instance** `CanAssert <class-da-internal-assert-canassert-55474_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `CanAssert <class-da-internal-assert-canassert-55474_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `CanAssert <class-da-internal-assert-canassert-55474_>`_ (`Either <type-da-types-either-20245_>`_ `Text <type-ghc-types-text-57703_>`_)
+
+.. _class-da-internal-lf-hastime-88667:
+
+**class** `HasTime <class-da-internal-lf-hastime-88667_>`_ m **where**
+
+  The ``HasTime`` class is for where the time is available\: ``Scenario`` and ``Update``\.
+  
+  .. _function-da-internal-lf-gettime-99334:
+  
+  `getTime <function-da-internal-lf-gettime-99334_>`_
+    \: :ref:`HasCallStack <type-ghc-stack-types-hascallstack-64230>` \=\> m `Time <type-da-internal-lf-time-19011_>`_
+    
+    Get the current time\.
+  
+  **instance** `HasTime <class-da-internal-lf-hastime-88667_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `HasTime <class-da-internal-lf-hastime-88667_>`_ `Update <type-da-internal-lf-update-36457_>`_
+
+.. _class-da-internal-lf-canabort-20311:
+
+**class** `Action <class-da-internal-prelude-action-24943_>`_ m \=\> `CanAbort <class-da-internal-lf-canabort-20311_>`_ m **where**
+
+  The ``CanAbort`` class is for ``Action`` s that can be aborted\.
+  
+  .. _function-da-internal-lf-abort-99565:
+  
+  `abort <function-da-internal-lf-abort-99565_>`_
+    \: `Text <type-ghc-types-text-57703_>`_ \-\> m a
+    
+    Abort the current action with a message\.
+  
+  **instance** `CanAbort <class-da-internal-lf-canabort-20311_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `CanAbort <class-da-internal-lf-canabort-20311_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `CanAbort <class-da-internal-lf-canabort-20311_>`_ (`Either <type-da-types-either-20245_>`_ `Text <type-ghc-types-text-57703_>`_)
+
+.. _class-da-internal-lf-hassubmit-11802:
+
+**class** `HasSubmit <class-da-internal-lf-hassubmit-11802_>`_ m cmds **where**
+
+  .. _function-da-internal-lf-submit-94018:
+  
+  `submit <function-da-internal-lf-submit-94018_>`_
+    \: :ref:`HasCallStack <type-ghc-stack-types-hascallstack-64230>` \=\> `Party <type-da-internal-lf-party-50311_>`_ \-\> cmds a \-\> m a
+    
+    ``submit p cmds`` submits the commands ``cmds`` as a single transaction
+    from party ``p`` and returns the value returned by ``cmds``\.
+    
+    If the transaction fails, ``submit`` also fails\.
+  
+  .. _function-da-internal-lf-submitmustfail-37077:
+  
+  `submitMustFail <function-da-internal-lf-submitmustfail-37077_>`_
+    \: :ref:`HasCallStack <type-ghc-stack-types-hascallstack-64230>` \=\> `Party <type-da-internal-lf-party-50311_>`_ \-\> cmds a \-\> m ()
+    
+    ``submitMustFail p cmds`` submits the commands ``cmds`` as a single transaction
+    from party ``p``\.
+    
+    It only succeeds if the submitting the transaction fails\.
+  
+  **instance** `HasSubmit <class-da-internal-lf-hassubmit-11802_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_ `Update <type-da-internal-lf-update-36457_>`_
+
+.. _class-da-internal-prelude-applicative-43914:
+
+**class** `Functor <class-ghc-base-functor-73448_>`_ f \=\> `Applicative <class-da-internal-prelude-applicative-43914_>`_ f **where**
+
+  .. _function-da-internal-prelude-pure-23804:
+  
+  `pure <function-da-internal-prelude-pure-23804_>`_
+    \: a \-\> f a
+    
+    Lift a value\.
+  
+  .. _function-da-internal-prelude-ltstargt-26719:
+  
+  `(<*>) <function-da-internal-prelude-ltstargt-26719_>`_
+    \: f (a \-\> b) \-\> f a \-\> f b
+    
+    Sequentially apply the function\.
+    
+    A few functors support an implementation of ``<*>`` that is more
+    efficient than the default one\.
+  
+  .. _function-da-internal-prelude-lifta2-3970:
+  
+  `liftA2 <function-da-internal-prelude-lifta2-3970_>`_
+    \: (a \-\> b \-\> c) \-\> f a \-\> f b \-\> f c
+    
+    Lift a binary function to actions\.
+    
+    Some functors support an implementation of ``liftA2`` that is more
+    efficient than the default one\. In particular, if ``fmap`` is an
+    expensive operation, it is likely better to use ``liftA2`` than to
+    ``fmap`` over the structure and then use ``<*>``\.
+  
+  .. _function-da-internal-prelude-stargt-83764:
+  
+  `(*>) <function-da-internal-prelude-stargt-83764_>`_
+    \: f a \-\> f b \-\> f b
+    
+    Sequence actions, discarding the value of the first argument\.
+  
+  .. _function-da-internal-prelude-ltstar-88218:
+  
+  `(<*) <function-da-internal-prelude-ltstar-88218_>`_
+    \: f a \-\> f b \-\> f a
+    
+    Sequence actions, discarding the value of the second argument\.
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ ((\-\>) r)
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ (:ref:`State <type-da-action-state-state-28299>` s)
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Down <type-da-internal-down-down-72416_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ :ref:`Formula <type-da-logic-types-formula-86297>`
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>`
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ (:ref:`Validation <type-da-validation-types-validation-13527>` err)
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ (`Either <type-da-types-either-20245_>`_ e)
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `([]) <type-ghc-types-x-9664_>`_
+
+.. _class-da-internal-prelude-action-24943:
+
+**class** `Applicative <class-da-internal-prelude-applicative-43914_>`_ m \=\> `Action <class-da-internal-prelude-action-24943_>`_ m **where**
+
+  .. _function-da-internal-prelude-gtgteq-6490:
+  
+  `(>>=) <function-da-internal-prelude-gtgteq-6490_>`_
+    \: m a \-\> (a \-\> m b) \-\> m b
+    
+    Sequentially compose two actions, passing any value produced
+    by the first as an argument to the second\.
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ ((\-\>) r)
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ (:ref:`State <type-da-action-state-state-28299>` s)
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Down <type-da-internal-down-down-72416_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ :ref:`Formula <type-da-logic-types-formula-86297>`
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>`
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ (`Either <type-da-types-either-20245_>`_ e)
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `([]) <type-ghc-types-x-9664_>`_
+
+.. _class-da-internal-prelude-actionfail-8575:
+
+**class** `Action <class-da-internal-prelude-action-24943_>`_ m \=\> `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ m **where**
+
+  This class exists to desugar pattern matches in do\-notation\.
+  Polymorphic usage, or calling ``fail`` directly, is not recommended\.
+  Instead consider using ``CanAbort``\.
+  
+  .. _function-da-internal-prelude-fail-86134:
+  
+  `fail <function-da-internal-prelude-fail-86134_>`_
+    \: `Text <type-ghc-types-text-57703_>`_ \-\> m a
+    
+    Fail with an error message\.
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ (`Either <type-da-types-either-20245_>`_ `Text <type-ghc-types-text-57703_>`_)
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `([]) <type-ghc-types-x-9664_>`_
+
+.. _class-da-internal-prelude-semigroup-80733:
+
+**class** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ a **where**
+
+  The class of semigroups (types with an associative binary operation)\.
+  
+  .. _function-da-internal-prelude-ltgt-4998:
+  
+  `(<>) <function-da-internal-prelude-ltgt-4998_>`_
+    \: a \-\> a \-\> a
+    
+    An associative operation\.
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ b)
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ :ref:`All <type-da-monoid-types-all-18403>`
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ :ref:`Any <type-da-monoid-types-any-61996>`
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Endo <type-da-monoid-types-endo-28655>` a)
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ a \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Product <type-da-monoid-types-product-33395>` a)
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ a \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Sum <type-da-monoid-types-sum-70419>` a)
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` k \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Map <type-da-next-map-map-36848>` k v)
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Set <type-da-next-set-set-92560>` a)
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ a \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Max <type-da-semigroup-types-max-9956>` a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ a \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Min <type-da-semigroup-types-min-56710>` a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (:ref:`Set <type-da-set-types-set-65731>` k)
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ \[a\]
+
+.. _class-da-internal-prelude-monoid-13063:
+
+**class** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ a \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ a **where**
+
+  The class of monoids (types with an associative binary operation that has an identity)\.
+  
+  .. _function-da-internal-prelude-mempty-7524:
+  
+  `mempty <function-da-internal-prelude-mempty-7524_>`_
+    \: a
+    
+    Identity of ``(<>)``
+  
+  .. _function-da-internal-prelude-mconcat-21170:
+  
+  `mconcat <function-da-internal-prelude-mconcat-21170_>`_
+    \: \[a\] \-\> a
+    
+    Fold a list using the monoid\.
+    For example using ``mconcat`` on a list of strings would concatenate all strings to one lone string\.
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ b)
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ :ref:`All <type-da-monoid-types-all-18403>`
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ :ref:`Any <type-da-monoid-types-any-61996>`
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ (:ref:`Endo <type-da-monoid-types-endo-28655>` a)
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ a \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (:ref:`Product <type-da-monoid-types-product-33395>` a)
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ a \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (:ref:`Sum <type-da-monoid-types-sum-70419>` a)
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` k \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (:ref:`Map <type-da-next-map-map-36848>` k v)
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (:ref:`Set <type-da-next-set-set-92560>` a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (:ref:`Set <type-da-set-types-set-65731>` k)
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ \[a\]
+
+.. _class-da-internal-template-functions-hassignatory-91136:
+
+**class** `HasSignatory <class-da-internal-template-functions-hassignatory-91136_>`_ t **where**
+
+  Exposes ``signatory`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-signatory-40538:
+  
+  `signatory <function-da-internal-template-functions-signatory-40538_>`_
+    \: t \-\> \[`Party <type-da-internal-lf-party-50311_>`_\]
+    
+    The signatories of a contract\.
+
+.. _class-da-internal-template-functions-hasobserver-11911:
+
+**class** `HasObserver <class-da-internal-template-functions-hasobserver-11911_>`_ t **where**
+
+  Exposes ``observer`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-observer-65745:
+  
+  `observer <function-da-internal-template-functions-observer-65745_>`_
+    \: t \-\> \[`Party <type-da-internal-lf-party-50311_>`_\]
+    
+    The observers of a contract\.
+
+.. _class-da-internal-template-functions-hasensure-12785:
+
+**class** `HasEnsure <class-da-internal-template-functions-hasensure-12785_>`_ t **where**
+
+  Exposes ``ensure`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-ensure-14463:
+  
+  `ensure <function-da-internal-template-functions-ensure-14463_>`_
+    \: t \-\> `Bool <type-ghc-types-bool-8654_>`_
+    
+    A predicate that must be true, otherwise contract creation will fail\.
+
+.. _class-da-internal-template-functions-hasagreement-16428:
+
+**class** `HasAgreement <class-da-internal-template-functions-hasagreement-16428_>`_ t **where**
+
+  Exposes ``agreement`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-agreement-73134:
+  
+  `agreement <function-da-internal-template-functions-agreement-73134_>`_
+    \: t \-\> `Text <type-ghc-types-text-57703_>`_
+    
+    The agreement text of a contract\.
+
+.. _class-da-internal-template-functions-hascreate-33331:
+
+**class** `HasCreate <class-da-internal-template-functions-hascreate-33331_>`_ t **where**
+
+  Exposes ``create`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-create-92949:
+  
+  `create <function-da-internal-template-functions-create-92949_>`_
+    \: t \-\> `Update <type-da-internal-lf-update-36457_>`_ (`ContractId <type-da-internal-lf-contractid-47171_>`_ t)
+    
+    Create a contract based on a template ``t``\.
+
+.. _class-da-internal-template-functions-hasfetch-3252:
+
+**class** `HasFetch <class-da-internal-template-functions-hasfetch-3252_>`_ t **where**
+
+  Exposes ``fetch`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-fetch-85294:
+  
+  `fetch <function-da-internal-template-functions-fetch-85294_>`_
+    \: `ContractId <type-da-internal-lf-contractid-47171_>`_ t \-\> `Update <type-da-internal-lf-update-36457_>`_ t
+    
+    Fetch the contract data associated with the given contract ID\.
+    If the ``ContractId t`` supplied is not the contract ID of an active
+    contract, this fails and aborts the entire transaction\.
+
+.. _class-da-internal-template-functions-hasarchive-99448:
+
+**class** `HasArchive <class-da-internal-template-functions-hasarchive-99448_>`_ t **where**
+
+  Exposes ``archive`` function\. Part of the ``Template`` constraint\.
+  
+  .. _function-da-internal-template-functions-archive-52202:
+  
+  `archive <function-da-internal-template-functions-archive-52202_>`_
+    \: `ContractId <type-da-internal-lf-contractid-47171_>`_ t \-\> `Update <type-da-internal-lf-update-36457_>`_ ()
+    
+    Archive the contract with the given contract ID\.
+
+.. _class-da-internal-template-functions-hastemplatetyperep-79145:
+
+**class** `HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t **where**
+
+  Exposes ``templateTypeRep`` function in Daml\-LF 1\.7 or later\.
+  Part of the ``Template`` constraint\.
+
+.. _class-da-internal-template-functions-hastoanytemplate-14601:
+
+**class** `HasToAnyTemplate <class-da-internal-template-functions-hastoanytemplate-14601_>`_ t **where**
+
+  Exposes ``toAnyTemplate`` function in Daml\-LF 1\.7 or later\.
+  Part of the ``Template`` constraint\.
+
+.. _class-da-internal-template-functions-hasfromanytemplate-68598:
+
+**class** `HasFromAnyTemplate <class-da-internal-template-functions-hasfromanytemplate-68598_>`_ t **where**
+
+  Exposes ``fromAnyTemplate`` function in Daml\-LF 1\.7 or later\.
+  Part of the ``Template`` constraint\.
+
+.. _class-da-internal-template-functions-hasexercise-57127:
+
+**class** `HasExercise <class-da-internal-template-functions-hasexercise-57127_>`_ t c r **where**
+
+  Exposes ``exercise`` function\. Part of the ``Choice`` constraint\.
+  
+  .. _function-da-internal-template-functions-exercise-24549:
+  
+  `exercise <function-da-internal-template-functions-exercise-24549_>`_
+    \: `ContractId <type-da-internal-lf-contractid-47171_>`_ t \-\> c \-\> `Update <type-da-internal-lf-update-36457_>`_ r
+    
+    Exercise a choice on the contract with the given contract ID\.
+
+.. _class-da-internal-template-functions-hastoanychoice-15952:
+
+**class** `HasToAnyChoice <class-da-internal-template-functions-hastoanychoice-15952_>`_ t c r **where**
+
+  Exposes ``toAnyChoice`` function for Daml\-LF 1\.7 or later\.
+  Part of the ``Choice`` constraint\.
+
+.. _class-da-internal-template-functions-hasfromanychoice-31079:
+
+**class** `HasFromAnyChoice <class-da-internal-template-functions-hasfromanychoice-31079_>`_ t c r **where**
+
+  Exposes ``fromAnyChoice`` function for Daml\-LF 1\.7 or later\.
+  Part of the ``Choice`` constraint\.
+
+.. _class-da-internal-template-functions-haskey-16087:
+
+**class** `HasKey <class-da-internal-template-functions-haskey-16087_>`_ t k **where**
+
+  Exposes ``key`` function\. Part of the ``TemplateKey`` constraint\.
+  
+  .. _function-da-internal-template-functions-key-62001:
+  
+  `key <function-da-internal-template-functions-key-62001_>`_
+    \: t \-\> k
+    
+    The key of a contract\.
+
+.. _class-da-internal-template-functions-haslookupbykey-72740:
+
+**class** `HasLookupByKey <class-da-internal-template-functions-haslookupbykey-72740_>`_ t k **where**
+
+  Exposes ``lookupByKey`` function\. Part of the ``TemplateKey`` constraint\.
+  
+  .. _function-da-internal-template-functions-lookupbykey-46518:
+  
+  `lookupByKey <function-da-internal-template-functions-lookupbykey-46518_>`_
+    \: k \-\> `Update <type-da-internal-lf-update-36457_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ (`ContractId <type-da-internal-lf-contractid-47171_>`_ t))
+    
+    Look up the contract ID ``t`` associated with a given contract key ``k``\.
+    
+    You must pass the ``t`` using an explicit type application\. For
+    instance, if you want to look up a contract of template ``Account`` by its
+    key ``k``, you must call ``lookupByKey @Account k``\.
+
+.. _class-da-internal-template-functions-hasfetchbykey-68031:
+
+**class** `HasFetchByKey <class-da-internal-template-functions-hasfetchbykey-68031_>`_ t k **where**
+
+  Exposes ``fetchByKey`` function\. Part of the ``TemplateKey`` constraint\.
+  
+  .. _function-da-internal-template-functions-fetchbykey-85185:
+  
+  `fetchByKey <function-da-internal-template-functions-fetchbykey-85185_>`_
+    \: k \-\> `Update <type-da-internal-lf-update-36457_>`_ (`ContractId <type-da-internal-lf-contractid-47171_>`_ t, t)
+    
+    Fetch the contract ID and contract data associated with a given
+    contract key\.
+    
+    You must pass the ``t`` using an explicit type application\. For
+    instance, if you want to fetch a contract of template ``Account`` by its
+    key ``k``, you must call ``fetchByKey @Account k``\.
+
+.. _class-da-internal-template-functions-hasmaintainer-85945:
+
+**class** `HasMaintainer <class-da-internal-template-functions-hasmaintainer-85945_>`_ t k **where**
+
+  Exposes ``maintainer`` function\. Part of the ``TemplateKey`` constraint\.
+
+.. _class-da-internal-template-functions-hastoanycontractkey-8451:
+
+**class** `HasToAnyContractKey <class-da-internal-template-functions-hastoanycontractkey-8451_>`_ t k **where**
+
+  Exposes ``toAnyContractKey`` function in Daml\-LF 1\.7 or later\.
+  Part of the ``TemplateKey`` constraint\.
+
+.. _class-da-internal-template-functions-hasfromanycontractkey-10058:
+
+**class** `HasFromAnyContractKey <class-da-internal-template-functions-hasfromanycontractkey-10058_>`_ t k **where**
+
+  Exposes ``fromAnyContractKey`` function in Daml\-LF 1\.7 or later\.
+  Part of the ``TemplateKey`` constraint\.
+
+.. _class-da-internal-template-functions-isparties-57119:
+
+**class** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ a **where**
+
+  Accepted ways to specify a list of parties\: either a single party, or a list of parties\.
+  
+  .. _function-da-internal-template-functions-toparties-84507:
+  
+  `toParties <function-da-internal-template-functions-toparties-84507_>`_
+    \: a \-\> \[`Party <type-da-internal-lf-party-50311_>`_\]
+    
+    Convert to list of parties\.
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ `Party <type-da-internal-lf-party-50311_>`_
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (:ref:`Set <type-da-next-set-set-92560>` `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (:ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (:ref:`Set <type-da-set-types-set-65731>` `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ \[`Party <type-da-internal-lf-party-50311_>`_\]
+
+.. _class-ghc-base-functor-73448:
+
+**class** `Functor <class-ghc-base-functor-73448_>`_ f **where**
+
+  A ``Functor`` is a typeclass for things that can be mapped over (using
+  its ``fmap`` function\. Examples include ``Optional``, ``[]`` and ``Update``)\.
+  
+  .. _function-ghc-base-fmap-41707:
+  
+  `fmap <function-ghc-base-fmap-41707_>`_
+    \: (a \-\> b) \-\> f a \-\> f b
+    
+    ``fmap`` takes a function of type ``a -> b``, and turns it into a
+    function of type ``f a -> f b``, where ``f`` is the type which is an
+    instance of ``Functor``\.
+    
+    For example, ``map`` is an ``fmap`` that only works on lists\.
+    It takes a function ``a -> b`` and a ``[a]``, and returns a ``[b]``\.
+  
+  .. _function-ghc-base-ltdollar-9605:
+  
+  `(<$) <function-ghc-base-ltdollar-9605_>`_
+    \: a \-\> f b \-\> f a
+    
+    Replace all locations in the input ``f b`` with the same value ``a``\.
+    The default definition is ``fmap . const``, but you can override
+    this with a more efficient version\.
+
+.. _class-ghc-classes-eq-21216:
+
+**class** `Eq <class-ghc-classes-eq-21216_>`_ a **where**
+
+  The ``Eq`` class defines equality (``==``) and inequality (``/=``)\.
+  All the basic datatypes exported by the \"Prelude\" are instances of ``Eq``,
+  and ``Eq`` may be derived for any datatype whose constituents are also
+  instances of ``Eq``\.
+  
+  Usually, ``==`` is expected to implement an equivalence relationship where two
+  values comparing equal are indistinguishable by \"public\" functions, with
+  a \"public\" function being one not allowing to see implementation details\. For
+  example, for a type representing non\-normalised natural numbers modulo 100,
+  a \"public\" function doesn't make the difference between 1 and 201\. It is
+  expected to have the following properties\:
+  
+  **Reflexivity**\: ``x == x`` \= ``True``
+  
+  **Symmetry**\: ``x == y`` \= ``y == x``
+  
+  **Transitivity**\: if ``x == y && y == z`` \= ``True``, then ``x == z`` \= ``True``
+  
+  **Substitutivity**\: if ``x == y`` \= ``True`` and ``f`` is a \"public\" function
+  whose return type is an instance of ``Eq``, then ``f x == f y`` \= ``True``
+  
+  **Negation**\: ``x /= y`` \= ``not (x == y)``
+  
+  Minimal complete definition\: either ``==`` or ``/=``\.
+  
+  .. _function-ghc-classes-eqeq-15381:
+  
+  `(==) <function-ghc-classes-eqeq-15381_>`_
+    \: a \-\> a \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  .. _function-ghc-classes-slasheq-88907:
+  
+  `(/=) <function-ghc-classes-slasheq-88907_>`_
+    \: a \-\> a \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (`Either <type-da-types-either-20245_>`_ a b)
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ a \=\> `Eq <class-ghc-classes-eq-21216_>`_ \[a\]
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ ()
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i, `Eq <class-ghc-classes-eq-21216_>`_ j) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i, j)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i, `Eq <class-ghc-classes-eq-21216_>`_ j, `Eq <class-ghc-classes-eq-21216_>`_ k) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i, j, k)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i, `Eq <class-ghc-classes-eq-21216_>`_ j, `Eq <class-ghc-classes-eq-21216_>`_ k, `Eq <class-ghc-classes-eq-21216_>`_ l) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i, j, k, l)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i, `Eq <class-ghc-classes-eq-21216_>`_ j, `Eq <class-ghc-classes-eq-21216_>`_ k, `Eq <class-ghc-classes-eq-21216_>`_ l, `Eq <class-ghc-classes-eq-21216_>`_ m) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i, j, k, l, m)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i, `Eq <class-ghc-classes-eq-21216_>`_ j, `Eq <class-ghc-classes-eq-21216_>`_ k, `Eq <class-ghc-classes-eq-21216_>`_ l, `Eq <class-ghc-classes-eq-21216_>`_ m, `Eq <class-ghc-classes-eq-21216_>`_ n) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b, `Eq <class-ghc-classes-eq-21216_>`_ c, `Eq <class-ghc-classes-eq-21216_>`_ d, `Eq <class-ghc-classes-eq-21216_>`_ e, `Eq <class-ghc-classes-eq-21216_>`_ f, `Eq <class-ghc-classes-eq-21216_>`_ g, `Eq <class-ghc-classes-eq-21216_>`_ h, `Eq <class-ghc-classes-eq-21216_>`_ i, `Eq <class-ghc-classes-eq-21216_>`_ j, `Eq <class-ghc-classes-eq-21216_>`_ k, `Eq <class-ghc-classes-eq-21216_>`_ l, `Eq <class-ghc-classes-eq-21216_>`_ m, `Eq <class-ghc-classes-eq-21216_>`_ n, `Eq <class-ghc-classes-eq-21216_>`_ o) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+
+.. _class-ghc-classes-ord-70960:
+
+**class** `Eq <class-ghc-classes-eq-21216_>`_ a \=\> `Ord <class-ghc-classes-ord-70960_>`_ a **where**
+
+  The ``Ord`` class is used for totally ordered datatypes\.
+  
+  Instances of ``Ord`` can be derived for any user\-defined datatype whose
+  constituent types are in ``Ord``\. The declared order of the constructors in
+  the data declaration determines the ordering in derived ``Ord`` instances\. The
+  ``Ordering`` datatype allows a single comparison to determine the precise
+  ordering of two objects\.
+  
+  The Haskell Report defines no laws for ``Ord``\. However, ``<=`` is customarily
+  expected to implement a non\-strict partial order and have the following
+  properties\:
+  
+  **Transitivity**\: if ``x <= y && y <= z`` \= ``True``, then ``x <= z`` \= ``True``
+  
+  **Reflexivity**\: ``x <= x`` \= ``True``
+  
+  **Antisymmetry**\: if ``x <= y && y <= x`` \= ``True``, then ``x == y`` \= ``True``
+  
+  Note that the following operator interactions are expected to hold\:
+  
+  1. ``x >= y`` \= ``y <= x``
+  2. ``x < y`` \= ``x <= y && x /= y``
+  3. ``x > y`` \= ``y < x``
+  4. ``x < y`` \= ``compare x y == LT``
+  5. ``x > y`` \= ``compare x y == GT``
+  6. ``x == y`` \= ``compare x y == EQ``
+  7. ``min x y == if x <= y then x else y`` \= 'True'
+  8. ``max x y == if x >= y then x else y`` \= 'True'
+  
+  Minimal complete definition\: either ``compare`` or ``<=``\.
+  Using ``compare`` can be more efficient for complex types\.
+  
+  .. _function-ghc-classes-compare-59343:
+  
+  `compare <function-ghc-classes-compare-59343_>`_
+    \: a \-\> a \-\> `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  .. _function-ghc-classes-lt-52660:
+  
+  `(<) <function-ghc-classes-lt-52660_>`_
+    \: a \-\> a \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  .. _function-ghc-classes-lteq-84582:
+  
+  `(<=) <function-ghc-classes-lteq-84582_>`_
+    \: a \-\> a \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  .. _function-ghc-classes-gt-34338:
+  
+  `(>) <function-ghc-classes-gt-34338_>`_
+    \: a \-\> a \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  .. _function-ghc-classes-gteq-26452:
+  
+  `(>=) <function-ghc-classes-gteq-26452_>`_
+    \: a \-\> a \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  .. _function-ghc-classes-max-79688:
+  
+  `max <function-ghc-classes-max-79688_>`_
+    \: a \-\> a \-\> a
+  
+  .. _function-ghc-classes-min-61362:
+  
+  `min <function-ghc-classes-min-61362_>`_
+    \: a \-\> a \-\> a
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (`Either <type-da-types-either-20245_>`_ a b)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ a \=\> `Ord <class-ghc-classes-ord-70960_>`_ \[a\]
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ ()
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i, `Ord <class-ghc-classes-ord-70960_>`_ j) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i, j)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i, `Ord <class-ghc-classes-ord-70960_>`_ j, `Ord <class-ghc-classes-ord-70960_>`_ k) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i, j, k)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i, `Ord <class-ghc-classes-ord-70960_>`_ j, `Ord <class-ghc-classes-ord-70960_>`_ k, `Ord <class-ghc-classes-ord-70960_>`_ l) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i, j, k, l)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i, `Ord <class-ghc-classes-ord-70960_>`_ j, `Ord <class-ghc-classes-ord-70960_>`_ k, `Ord <class-ghc-classes-ord-70960_>`_ l, `Ord <class-ghc-classes-ord-70960_>`_ m) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i, j, k, l, m)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i, `Ord <class-ghc-classes-ord-70960_>`_ j, `Ord <class-ghc-classes-ord-70960_>`_ k, `Ord <class-ghc-classes-ord-70960_>`_ l, `Ord <class-ghc-classes-ord-70960_>`_ m, `Ord <class-ghc-classes-ord-70960_>`_ n) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i, j, k, l, m, n)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b, `Ord <class-ghc-classes-ord-70960_>`_ c, `Ord <class-ghc-classes-ord-70960_>`_ d, `Ord <class-ghc-classes-ord-70960_>`_ e, `Ord <class-ghc-classes-ord-70960_>`_ f, `Ord <class-ghc-classes-ord-70960_>`_ g, `Ord <class-ghc-classes-ord-70960_>`_ h, `Ord <class-ghc-classes-ord-70960_>`_ i, `Ord <class-ghc-classes-ord-70960_>`_ j, `Ord <class-ghc-classes-ord-70960_>`_ k, `Ord <class-ghc-classes-ord-70960_>`_ l, `Ord <class-ghc-classes-ord-70960_>`_ m, `Ord <class-ghc-classes-ord-70960_>`_ n, `Ord <class-ghc-classes-ord-70960_>`_ o) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)
+
+.. _class-ghc-classes-numericscale-98085:
+
+**class** `NumericScale <class-ghc-classes-numericscale-98085_>`_ n **where**
+
+  Is this a valid scale for the ``Numeric`` type?
+  
+  This typeclass is used to prevent the creation of Numeric values
+  with too large a scale\. The scale controls the number of digits available
+  after the decimal point, and it must be between 0 and 37 inclusive\.
+  
+  Thus the only available instances of this typeclass are ``NumericScale 0``
+  through ``NumericScale 37``\. This cannot be extended without additional
+  compiler and runtime support\. You cannot implement a custom instance
+  of this typeclass\.
+  
+  If you have an error message in your code of the form \"No instance for
+  ``(NumericScale n)``\", this is probably caused by having a numeric literal
+  whose scale cannot be inferred by the compiler\. You can usually fix this
+  by adding a type signature to the definition, or annotating the numeric
+  literal directly (for example, instead of writing ``3.14159`` you can write
+  ``(3.14159 : Numeric 5)``)\.
+  
+  .. _function-ghc-classes-numericscale-62256:
+  
+  `numericScale <function-ghc-classes-numericscale-62256_>`_
+    \: proxy n \-\> `Int <type-ghc-types-int-68728_>`_
+    
+    Get the scale of a ``Numeric`` as an integer\. For example,
+    ``numericScale (3.14159 : Numeric 5)`` equals ``5``\.
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 0
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 1
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 10
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 11
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 12
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 13
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 14
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 15
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 16
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 17
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 18
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 19
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 2
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 20
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 21
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 22
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 23
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 24
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 25
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 26
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 27
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 28
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 29
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 3
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 30
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 31
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 32
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 33
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 34
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 35
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 36
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 37
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 4
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 5
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 6
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 7
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 8
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ 9
+
+.. _class-ghc-classes-isnumeric-89094:
+
+**class** `IsNumeric <class-ghc-classes-isnumeric-89094_>`_ t **where**
+
+  Types that can be represented by decimal literals in Daml\.
+  
+  .. _function-ghc-classes-fromnumeric-55051:
+  
+  `fromNumeric <function-ghc-classes-fromnumeric-55051_>`_
+    \: `NumericScale <class-ghc-classes-numericscale-98085_>`_ m \=\> `Numeric <type-ghc-types-numeric-34702_>`_ m \-\> t
+    
+    Convert from ``Numeric``\. Raises an error if the number can't be
+    represented exactly in the target type\.
+  
+  .. _function-ghc-classes-frombignumeric-65276:
+  
+  `fromBigNumeric <function-ghc-classes-frombignumeric-65276_>`_
+    \: `BigNumeric <type-ghc-types-bignumeric-70343_>`_ \-\> t
+    
+    Convert from ``BigNumeric``\. Raises an error if the number can't be
+    represented exactly in the target type\.
+  
+  **instance** `IsNumeric <class-ghc-classes-isnumeric-89094_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ n \=\> `IsNumeric <class-ghc-classes-isnumeric-89094_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-enum-bounded-74406:
+
+**class** `Bounded <class-ghc-enum-bounded-74406_>`_ a **where**
+
+  Use the ``Bounded`` class to name the upper and lower limits of a
+  type\.
+  
+  You can derive an instance of the ``Bounded`` class for any enumeration
+  type\. ``minBound``  is the first constructor listed in the ``data``
+  declaration and ``maxBound`` is the last\.
+  
+  You can also derive an instance of ``Bounded`` for single\-constructor data types whose
+  constituent types are in ``Bounded``\.
+  
+  ``Ord`` is not a superclass of ``Bounded`` because types that are not
+  totally ordered can still have upper and lower bounds\.
+  
+  .. _function-ghc-enum-minbound-41331:
+  
+  `minBound <function-ghc-enum-minbound-41331_>`_
+    \: a
+  
+  .. _function-ghc-enum-maxbound-7249:
+  
+  `maxBound <function-ghc-enum-maxbound-7249_>`_
+    \: a
+  
+  **instance** `Bounded <class-ghc-enum-bounded-74406_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Bounded <class-ghc-enum-bounded-74406_>`_ `Int <type-ghc-types-int-68728_>`_
+
+.. _class-ghc-enum-enum-67791:
+
+**class** `Enum <class-ghc-enum-enum-67791_>`_ a **where**
+
+  Use the ``Enum`` class to define operations on sequentially ordered
+  types\: that is, types that can be enumerated\. ``Enum`` members have
+  defined successors and predecessors, which you can get with the ``succ``
+  and ``pred`` functions\.
+  
+  Types that are an instance of class ``Bounded`` as well as ``Enum``
+  should respect the following laws\:
+  
+  * Both ``succ maxBound`` and ``pred minBound`` should result in
+    a runtime error\.
+  * ``fromEnum`` and ``toEnum`` should give a runtime error if the
+    result value is not representable in the result type\.
+    For example, ``toEnum 7 : Bool`` is an error\.
+  * ``enumFrom`` and ``enumFromThen`` should be defined with an implicit bound,
+    like this\:
+  
+  .. code-block:: daml
+  
+    enumFrom     x   = enumFromTo     x maxBound
+    enumFromThen x y = enumFromThenTo x y bound
+        where
+            bound | fromEnum y >= fromEnum x = maxBound
+                  | otherwise                = minBound
+  
+  .. _function-ghc-enum-succ-92785:
+  
+  `succ <function-ghc-enum-succ-92785_>`_
+    \: a \-\> a
+    
+    Returns the successor of the given value\. For example, for
+    numeric types, ``succ`` adds 1\.
+    
+    If the type is also an instance of ``Bounded``, ``succ maxBound``
+    results in a runtime error\.
+  
+  .. _function-ghc-enum-pred-94138:
+  
+  `pred <function-ghc-enum-pred-94138_>`_
+    \: a \-\> a
+    
+    Returns the predecessor of the given value\. For example, for
+    numeric types, ``pred`` subtracts 1\.
+    
+    If the type is also an instance of ``Bounded``, ``pred minBound``
+    results in a runtime error\.
+  
+  .. _function-ghc-enum-toenum-4537:
+  
+  `toEnum <function-ghc-enum-toenum-4537_>`_
+    \: `Int <type-ghc-types-int-68728_>`_ \-\> a
+    
+    Convert a value from an ``Int`` to an ``Enum`` value\: ie,
+    ``toEnum i`` returns the item at the ``i`` th position of
+    (the instance of) ``Enum``
+  
+  .. _function-ghc-enum-fromenum-20988:
+  
+  `fromEnum <function-ghc-enum-fromenum-20988_>`_
+    \: a \-\> `Int <type-ghc-types-int-68728_>`_
+    
+    Convert a value from an ``Enum`` value to an ``Int``\: ie, returns
+    the ``Int`` position of the element within the ``Enum``\.
+    
+    If ``fromEnum`` is applied to a value that's too large to
+    fit in an ``Int``, what is returned is up to your implementation\.
+  
+  .. _function-ghc-enum-enumfrom-34764:
+  
+  `enumFrom <function-ghc-enum-enumfrom-34764_>`_
+    \: a \-\> \[a\]
+    
+    Return a list of the ``Enum`` values starting at the ``Int``
+    position\. For example\:
+    
+    * ``enumFrom 6 : [Int] = [6,7,8,9,...,maxBound : Int]``
+  
+  .. _function-ghc-enum-enumfromthen-22429:
+  
+  `enumFromThen <function-ghc-enum-enumfromthen-22429_>`_
+    \: a \-\> a \-\> \[a\]
+    
+    Returns a list of the ``Enum`` values with the first value at
+    the first ``Int`` position, the second value at the second ``Int``
+    position, and further values with the same distance between them\.
+    
+    For example\:
+    
+    * ``enumFromThen 4 6 : [Int] = [4,6,8,10...]``
+    * ``enumFromThen 6 2 : [Int] = [6,2,-2,-6,...,minBound :: Int]``
+  
+  .. _function-ghc-enum-enumfromto-43901:
+  
+  `enumFromTo <function-ghc-enum-enumfromto-43901_>`_
+    \: a \-\> a \-\> \[a\]
+    
+    Returns a list of the ``Enum`` values with the first value at
+    the first ``Int`` position, and the last value at the last ``Int``
+    position\.
+    
+    This is what's behind the language feature that lets you write
+    ``[n,m..]``\.
+    
+    For example\:
+    
+    * ``enumFromTo 6 10 : [Int] = [6,7,8,9,10]``
+  
+  .. _function-ghc-enum-enumfromthento-50560:
+  
+  `enumFromThenTo <function-ghc-enum-enumfromthento-50560_>`_
+    \: a \-\> a \-\> a \-\> \[a\]
+    
+    Returns a list of the ``Enum`` values with the first value at
+    the first ``Int`` position, the second value at the second ``Int``
+    position, and further values with the same distance between them,
+    with the final value at the final ``Int`` position\.
+    
+    This is what's behind the language feature that lets you write
+    ``[n,n'..m]``\.
+    
+    For example\:
+    
+    * ``enumFromThenTo 4 2 -6 : [Int] = [4,2,0,-2,-4,-6]``
+    * ``enumFromThenTo 6 8 2 : [Int] = []``
+  
+  **instance** `Enum <class-ghc-enum-enum-67791_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Enum <class-ghc-enum-enum-67791_>`_ `Int <type-ghc-types-int-68728_>`_
+
+.. _class-ghc-num-additive-5364:
+
+**class** `Additive <class-ghc-num-additive-5364_>`_ a **where**
+
+  Use the ``Additive`` class for types that can be added\.
+  Instances have to respect the following laws\:
+  
+  * ``(+)`` must be associative, ie\: ``(x + y) + z`` \= ``x + (y + z)``
+  * ``(+)`` must be commutative, ie\: ``x + y`` \= ``y + x``
+  * ``x + aunit`` \= ``x``
+  * ``negate`` gives the additive inverse, ie\: ``x + negate x`` \= ``aunit``
+  
+  .. _function-ghc-num-plus-58871:
+  
+  `(+) <function-ghc-num-plus-58871_>`_
+    \: a \-\> a \-\> a
+    
+    Add the two arguments together\.
+  
+  .. _function-ghc-num-aunit-2763:
+  
+  `aunit <function-ghc-num-aunit-2763_>`_
+    \: a
+    
+    The additive identity for the type\. For example, for numbers, this is 0\.
+  
+  .. _function-ghc-num-dash-40549:
+  
+  `(-) <function-ghc-num-dash-40549_>`_
+    \: a \-\> a \-\> a
+    
+    Subtract the second argument from the first argument, ie\. ``x - y`` \= ``x + negate y``
+  
+  .. _function-ghc-num-negate-39905:
+  
+  `negate <function-ghc-num-negate-39905_>`_
+    \: a \-\> a
+    
+    Negate the argument\: ``x + negate x`` \= ``aunit``
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-num-multiplicative-86900:
+
+**class** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ a **where**
+
+  Use the ``Multiplicative`` class for types that can be multiplied\.
+  Instances have to respect the following laws\:
+  
+  * ``(*)`` is associative, ie\:``(x * y) * z`` \= ``x * (y * z)``
+  * ``(*)`` is commutative, ie\: ``x * y`` \= ``y * x``
+  * ``x * munit`` \= ``x``
+  
+  .. _function-ghc-num-star-12794:
+  
+  `(*) <function-ghc-num-star-12794_>`_
+    \: a \-\> a \-\> a
+    
+    Multipy the arguments together
+  
+  .. _function-ghc-num-munit-27887:
+  
+  `munit <function-ghc-num-munit-27887_>`_
+    \: a
+    
+    The multiplicative identity for the type\. For example, for numbers, this is 1\.
+  
+  .. _function-ghc-num-hat-15878:
+  
+  `(^) <function-ghc-num-hat-15878_>`_
+    \: a \-\> `Int <type-ghc-types-int-68728_>`_ \-\> a
+    
+    ``x ^ n`` raises ``x`` to the power of ``n``\.
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-num-number-52917:
+
+**class** (`Additive <class-ghc-num-additive-5364_>`_ a, `Multiplicative <class-ghc-num-multiplicative-86900_>`_ a) \=\> `Number <class-ghc-num-number-52917_>`_ a **where**
+
+  ``Number`` is a class for numerical types\.
+  As well as the rules for ``Additive`` and ``Multiplicative``, instances
+  also have to respect the following law\:
+  
+  * ``(*)`` is distributive with respect to ``(+)``\. That is\:
+    ``a * (b + c)`` \= ``(a * b) + (a * c)`` and ``(b + c) * a`` \= ``(b * a) + (c * a)``
+  
+  **instance** `Number <class-ghc-num-number-52917_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Number <class-ghc-num-number-52917_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Number <class-ghc-num-number-52917_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-num-signed-13386:
+
+**class** `Signed <class-ghc-num-signed-13386_>`_ a **where**
+
+  The ``Signed`` is for the sign of a number\.
+  
+  .. _function-ghc-num-signum-48178:
+  
+  `signum <function-ghc-num-signum-48178_>`_
+    \: a \-\> a
+    
+    Sign of a number\.
+    For real numbers, the 'signum' is either ``-1`` (negative), ``0`` (zero)
+    or ``1`` (positive)\.
+  
+  .. _function-ghc-num-abs-12694:
+  
+  `abs <function-ghc-num-abs-12694_>`_
+    \: a \-\> a
+    
+    The absolute value\: that is, the value without the sign\.
+  
+  **instance** `Signed <class-ghc-num-signed-13386_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Signed <class-ghc-num-signed-13386_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Signed <class-ghc-num-signed-13386_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-num-divisible-58654:
+
+**class** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ a \=\> `Divisible <class-ghc-num-divisible-58654_>`_ a **where**
+
+  Use the ``Divisible`` class for types that can be divided\.
+  Instances should respect that division is the inverse of
+  multiplication, i\.e\. ``x * y / y`` is equal to ``x`` whenever
+  it is defined\.
+  
+  .. _function-ghc-num-slash-22227:
+  
+  `(/) <function-ghc-num-slash-22227_>`_
+    \: a \-\> a \-\> a
+    
+    ``x / y`` divides ``x`` by ``y``
+  
+  **instance** `Divisible <class-ghc-num-divisible-58654_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Divisible <class-ghc-num-divisible-58654_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-num-fractional-41319:
+
+**class** `Divisible <class-ghc-num-divisible-58654_>`_ a \=\> `Fractional <class-ghc-num-fractional-41319_>`_ a **where**
+
+  Use the ``Fractional`` class for types that can be divided
+  and where the reciprocal is well defined\. Instances
+  have to respect the following laws\:
+  
+  * When ``recip x`` is defined, it must be the inverse of
+    ``x`` with respect to multiplication\: ``x * recip x = munit``
+  * When ``recip y`` is defined, then ``x / y = x * recip y``
+  
+  .. _function-ghc-num-recip-26345:
+  
+  `recip <function-ghc-num-recip-26345_>`_
+    \: a \-\> a
+    
+    Calculates the reciprocal\: ``recip x`` is ``1/x``\.
+  
+  **instance** `Fractional <class-ghc-num-fractional-41319_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _class-ghc-show-show-56447:
+
+**class** `Show <class-ghc-show-show-56447_>`_ a **where**
+
+  Use the ``Show`` class for values that can be converted to a
+  readable ``Text`` value\.
+  
+  Derived instances of ``Show`` have the following properties\:
+  
+  * The result of ``show`` is a syntactically correct expression
+    that only contains constants (given the fixity declarations in
+    force at the point where the type is declared)\.
+    It only contains the constructor names defined in the data type,
+    parentheses, and spaces\. When labelled constructor fields are
+    used, braces, commas, field names, and equal signs are also used\.
+  * If the constructor is defined to be an infix operator, then
+    ``showsPrec`` produces infix applications of the constructor\.
+  * If the precedence of the top\-level constructor in ``x`` is less than ``d``
+    (associativity is ignored), the representation will be enclosed in
+    parentheses\. For example, if ``d`` is ``0`` then the result
+    is never surrounded in parentheses; if ``d`` is ``11`` it is always
+    surrounded in parentheses, unless it is an atomic expression\.
+  * If the constructor is defined using record syntax, then ``show``
+    will produce the record\-syntax form, with the fields given in the
+    same order as the original declaration\.
+  
+  .. _function-ghc-show-showsprec-34746:
+  
+  `showsPrec <function-ghc-show-showsprec-34746_>`_
+    \: `Int <type-ghc-types-int-68728_>`_ \-\> a \-\> `ShowS <type-ghc-show-shows-65652_>`_
+    
+    Convert a value to a readable ``Text`` value\. Unlike ``show``,
+    ``showsPrec`` should satisfy the rule
+    ``showsPrec d x r ++ s == showsPrec d x (r ++ s)``
+  
+  .. _function-ghc-show-show-91464:
+  
+  `show <function-ghc-show-show-91464_>`_
+    \: a \-\> `Text <type-ghc-types-text-57703_>`_
+    
+    Convert a value to a readable ``Text`` value\.
+  
+  .. _function-ghc-show-showlist-81156:
+  
+  `showList <function-ghc-show-showlist-81156_>`_
+    \: \[a\] \-\> `ShowS <type-ghc-show-shows-65652_>`_
+    
+    Allows you to show lists of values\.
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ a, `Show <class-ghc-show-show-56447_>`_ b) \=\> `Show <class-ghc-show-show-56447_>`_ (`Either <type-da-types-either-20245_>`_ a b)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ a \=\> `Show <class-ghc-show-show-56447_>`_ \[a\]
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ ()
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ a, `Show <class-ghc-show-show-56447_>`_ b) \=\> `Show <class-ghc-show-show-56447_>`_ (a, b)
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ a, `Show <class-ghc-show-show-56447_>`_ b, `Show <class-ghc-show-show-56447_>`_ c) \=\> `Show <class-ghc-show-show-56447_>`_ (a, b, c)
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ a, `Show <class-ghc-show-show-56447_>`_ b, `Show <class-ghc-show-show-56447_>`_ c, `Show <class-ghc-show-show-56447_>`_ d) \=\> `Show <class-ghc-show-show-56447_>`_ (a, b, c, d)
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ a, `Show <class-ghc-show-show-56447_>`_ b, `Show <class-ghc-show-show-56447_>`_ c, `Show <class-ghc-show-show-56447_>`_ d, `Show <class-ghc-show-show-56447_>`_ e) \=\> `Show <class-ghc-show-show-56447_>`_ (a, b, c, d, e)
+
+Data Types
+----------
+
+.. _type-da-internal-any-anychoice-69843:
+
+**data** `AnyChoice <type-da-internal-any-anychoice-69843_>`_
+
+  Existential choice type that can wrap an arbitrary choice\.
+  
+  .. _constr-da-internal-any-anychoice-32416:
+  
+  `AnyChoice <constr-da-internal-any-anychoice-32416_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - getAnyChoice
+         - Any
+         - 
+       * - getAnyChoiceTemplateTypeRep
+         - `TemplateTypeRep <type-da-internal-any-templatetyperep-80793_>`_
+         - 
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `AnyChoice <type-da-internal-any-anychoice-69843_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `AnyChoice <type-da-internal-any-anychoice-69843_>`_
+
+.. _type-da-internal-any-anycontractkey-17206:
+
+**data** `AnyContractKey <type-da-internal-any-anycontractkey-17206_>`_
+
+  Existential contract key type that can wrap an arbitrary contract key\.
+  
+  .. _constr-da-internal-any-anycontractkey-18827:
+  
+  `AnyContractKey <constr-da-internal-any-anycontractkey-18827_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - getAnyContractKey
+         - Any
+         - 
+       * - getAnyContractKeyTemplateTypeRep
+         - `TemplateTypeRep <type-da-internal-any-templatetyperep-80793_>`_
+         - 
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `AnyContractKey <type-da-internal-any-anycontractkey-17206_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `AnyContractKey <type-da-internal-any-anycontractkey-17206_>`_
+
+.. _type-da-internal-any-anytemplate-41334:
+
+**data** `AnyTemplate <type-da-internal-any-anytemplate-41334_>`_
+
+  Existential template type that can wrap an arbitrary template\.
+  
+  .. _constr-da-internal-any-anytemplate-66405:
+  
+  `AnyTemplate <constr-da-internal-any-anytemplate-66405_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - getAnyTemplate
+         - Any
+         - 
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `AnyTemplate <type-da-internal-any-anytemplate-41334_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `AnyTemplate <type-da-internal-any-anytemplate-41334_>`_
+
+.. _type-da-internal-any-templatetyperep-80793:
+
+**data** `TemplateTypeRep <type-da-internal-any-templatetyperep-80793_>`_
+
+  Unique textual representation of a template Id\.
+  
+  .. _constr-da-internal-any-templatetyperep-92238:
+  
+  `TemplateTypeRep <constr-da-internal-any-templatetyperep-92238_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - getTemplateTypeRep
+         - TypeRep
+         - 
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `TemplateTypeRep <type-da-internal-any-templatetyperep-80793_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `TemplateTypeRep <type-da-internal-any-templatetyperep-80793_>`_
+
+.. _type-da-internal-down-down-72416:
+
+**data** `Down <type-da-internal-down-down-72416_>`_ a
+
+  The ``Down`` type can be used for reversing sorting order\.
+  For example, ``sortOn (\x -> Down x.field)`` would sort by descending ``field``\.
+  
+  .. _constr-da-internal-down-down-74447:
+  
+  `Down <constr-da-internal-down-down-74447_>`_ a
+  
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Down <type-da-internal-down-down-72416_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Down <type-da-internal-down-down-72416_>`_
+  
+  **instance** `Functor <class-ghc-base-functor-73448_>`_ `Down <type-da-internal-down-down-72416_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ a \=\> `Eq <class-ghc-classes-eq-21216_>`_ (`Down <type-da-internal-down-down-72416_>`_ a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ a \=\> `Ord <class-ghc-classes-ord-70960_>`_ (`Down <type-da-internal-down-down-72416_>`_ a)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ a \=\> `Show <class-ghc-show-show-56447_>`_ (`Down <type-da-internal-down-down-72416_>`_ a)
+
+.. _type-da-internal-lf-anyexception-56385:
+
+**data** `AnyException <type-da-internal-lf-anyexception-56385_>`_
+
+  A wrapper for all exception types\.
+  
+  **instance** :ref:`HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599>` `AnyException <type-da-internal-lf-anyexception-56385_>`_
+  
+  **instance** :ref:`HasMessage <class-da-internal-exception-hasmessage-38746>` `AnyException <type-da-internal-lf-anyexception-56385_>`_
+  
+  **instance** :ref:`HasToAnyException <class-da-internal-exception-hastoanyexception-63250>` `AnyException <type-da-internal-lf-anyexception-56385_>`_
+
+.. _type-da-internal-lf-contractid-47171:
+
+**data** `ContractId <type-da-internal-lf-contractid-47171_>`_ a
+
+  The ``ContractId a`` type represents an ID for a contract created from a template ``a``\.
+  You can use the ID to fetch the contract, among other things\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ (`ContractId <type-da-internal-lf-contractid-47171_>`_ a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ (`ContractId <type-da-internal-lf-contractid-47171_>`_ a)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ (`ContractId <type-da-internal-lf-contractid-47171_>`_ a)
+
+.. _type-da-internal-lf-date-71388:
+
+**data** `Date <type-da-internal-lf-date-71388_>`_
+
+  The ``Date`` type represents a date, for example ``date 2007 Apr 5``\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Date <type-da-internal-lf-date-71388_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Date <type-da-internal-lf-date-71388_>`_
+  
+  **instance** `Bounded <class-ghc-enum-bounded-74406_>`_ `Date <type-da-internal-lf-date-71388_>`_
+  
+  **instance** `Enum <class-ghc-enum-enum-67791_>`_ `Date <type-da-internal-lf-date-71388_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Date <type-da-internal-lf-date-71388_>`_
+
+.. _type-da-internal-lf-map-85851:
+
+**data** `Map <type-da-internal-lf-map-85851_>`_ a b
+
+  The ``Map a b`` type represents an associative array from keys of type ``a``
+  to values of type ``b``\. It uses the built\-in equality for keys\. Import
+  ``DA.Map`` to use it\.
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> :ref:`Foldable <class-da-foldable-foldable-61699>` (`Map <type-da-internal-lf-map-85851_>`_ k)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Monoid <class-da-internal-prelude-monoid-13063_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> :ref:`Traversable <class-da-traversable-traversable-25469>` (`Map <type-da-internal-lf-map-85851_>`_ k)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ k \=\> `Functor <class-ghc-base-functor-73448_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ k, `Eq <class-ghc-classes-eq-21216_>`_ v) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ k, `Ord <class-ghc-classes-ord-70960_>`_ v) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ k, `Show <class-ghc-show-show-56447_>`_ v) \=\> `Show <class-ghc-show-show-56447_>`_ (`Map <type-da-internal-lf-map-85851_>`_ k v)
+
+.. _type-da-internal-lf-party-50311:
+
+**data** `Party <type-da-internal-lf-party-50311_>`_
+
+  The ``Party`` type represents a party to a contract\.
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ `Party <type-da-internal-lf-party-50311_>`_
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (:ref:`Set <type-da-next-set-set-92560>` `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (:ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (:ref:`Set <type-da-set-types-set-65731>` `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ \[`Party <type-da-internal-lf-party-50311_>`_\]
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` `Party <type-da-internal-lf-party-50311_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Party <type-da-internal-lf-party-50311_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Party <type-da-internal-lf-party-50311_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Party <type-da-internal-lf-party-50311_>`_
+
+.. _type-da-internal-lf-scenario-45418:
+
+**data** `Scenario <type-da-internal-lf-scenario-45418_>`_ a
+
+  The ``Scenario`` type is for simulating ledger interactions\.
+  The type ``Scenario a`` describes a set of actions taken by various parties during
+  the simulated scenario, before returning a value of type ``a``\.
+  
+  **instance** `CanAssert <class-da-internal-assert-canassert-55474_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** :ref:`ActionThrow <class-da-internal-exception-actionthrow-91588>` `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `CanAbort <class-da-internal-lf-canabort-20311_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `HasSubmit <class-da-internal-lf-hassubmit-11802_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `HasTime <class-da-internal-lf-hastime-88667_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+  
+  **instance** `Functor <class-ghc-base-functor-73448_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_
+
+.. _type-da-internal-lf-textmap-34396:
+
+**data** `TextMap <type-da-internal-lf-textmap-34396_>`_ a
+
+  The ``TextMap a`` type represents an associative array from keys of type
+  ``Text`` to values of type ``a``\.
+  
+  **instance** :ref:`Foldable <class-da-foldable-foldable-61699>` `TextMap <type-da-internal-lf-textmap-34396_>`_
+  
+  **instance** `Monoid <class-da-internal-prelude-monoid-13063_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ b)
+  
+  **instance** `Semigroup <class-da-internal-prelude-semigroup-80733_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ b)
+  
+  **instance** :ref:`Traversable <class-da-traversable-traversable-25469>` `TextMap <type-da-internal-lf-textmap-34396_>`_
+  
+  **instance** `Functor <class-ghc-base-functor-73448_>`_ `TextMap <type-da-internal-lf-textmap-34396_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ a \=\> `Eq <class-ghc-classes-eq-21216_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ a \=\> `Ord <class-ghc-classes-ord-70960_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ a)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ a \=\> `Show <class-ghc-show-show-56447_>`_ (`TextMap <type-da-internal-lf-textmap-34396_>`_ a)
+
+.. _type-da-internal-lf-time-19011:
+
+**data** `Time <type-da-internal-lf-time-19011_>`_
+
+  The ``Time`` type represents a specific datetime in UTC,
+  for example ``time (date 2007 Apr 5) 14 30 05``\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Time <type-da-internal-lf-time-19011_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Time <type-da-internal-lf-time-19011_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Time <type-da-internal-lf-time-19011_>`_
+
+.. _type-da-internal-lf-update-36457:
+
+**data** `Update <type-da-internal-lf-update-36457_>`_ a
+
+  The ``Update a`` type represents an ``Action`` to update or query the ledger,
+  before returning a value of type ``a``\. Examples include ``create`` and ``fetch``\.
+  
+  **instance** `CanAssert <class-da-internal-assert-canassert-55474_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** :ref:`ActionCatch <class-da-internal-exception-actioncatch-7117>` `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** :ref:`ActionThrow <class-da-internal-exception-actionthrow-91588>` `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `CanAbort <class-da-internal-lf-canabort-20311_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `HasSubmit <class-da-internal-lf-hassubmit-11802_>`_ `Scenario <type-da-internal-lf-scenario-45418_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `HasTime <class-da-internal-lf-hastime-88667_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Update <type-da-internal-lf-update-36457_>`_
+  
+  **instance** `Functor <class-ghc-base-functor-73448_>`_ `Update <type-da-internal-lf-update-36457_>`_
+
+.. _type-da-internal-prelude-optional-79838:
+
+**data** `Optional <type-da-internal-prelude-optional-79838_>`_ a
+
+  The ``Optional`` type encapsulates an optional value\. A value of type
+  ``Optional a`` either contains a value of type ``a`` (represented as ``Some a``),
+  or it is empty (represented as ``None``)\. Using ``Optional`` is a good way to
+  deal with errors or exceptional cases without resorting to drastic
+  measures such as ``error``\.
+  
+  The ``Optional`` type is also an ``Action``\. It is a simple kind of error
+  ``Action``, where all errors are represented by ``None``\. A richer
+  error ``Action`` could be built using the ``Data.Either.Either`` type\.
+  
+  .. _constr-da-internal-prelude-none-77913:
+  
+  `None <constr-da-internal-prelude-none-77913_>`_
+  
+  
+  .. _constr-da-internal-prelude-some-87395:
+  
+  `Some <constr-da-internal-prelude-some-87395_>`_ a
+  
+  
+  **instance** :ref:`Foldable <class-da-foldable-foldable-61699>` `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `Action <class-da-internal-prelude-action-24943_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `Applicative <class-da-internal-prelude-applicative-43914_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `IsParties <class-da-internal-template-functions-isparties-57119_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ `Party <type-da-internal-lf-party-50311_>`_)
+  
+  **instance** :ref:`Traversable <class-da-traversable-traversable-25469>` `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `Functor <class-ghc-base-functor-73448_>`_ `Optional <type-da-internal-prelude-optional-79838_>`_
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ a \=\> `Eq <class-ghc-classes-eq-21216_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ a)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ a \=\> `Ord <class-ghc-classes-ord-70960_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ a)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ a \=\> `Show <class-ghc-show-show-56447_>`_ (`Optional <type-da-internal-prelude-optional-79838_>`_ a)
+
+.. _type-da-internal-template-archive-32873:
+
+**data** `Archive <type-da-internal-template-archive-32873_>`_
+
+  The data type corresponding to the implicit ``Archive``
+  choice in every template\.
+  
+  .. _constr-da-internal-template-archive-40188:
+  
+  `Archive <constr-da-internal-template-archive-40188_>`_
+  
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Archive <type-da-internal-template-archive-32873_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Archive <type-da-internal-template-archive-32873_>`_
+
+.. _type-da-internal-template-functions-choice-18672:
+
+**type** `Choice <type-da-internal-template-functions-choice-18672_>`_ t c r
+  \= (`TemplateOrInterface <type-da-internal-template-functions-templateorinterface-77718_>`_ t, `HasExercise <class-da-internal-template-functions-hasexercise-57127_>`_ t c r, `HasToAnyChoice <class-da-internal-template-functions-hastoanychoice-15952_>`_ t c r, `HasFromAnyChoice <class-da-internal-template-functions-hasfromanychoice-31079_>`_ t c r)
+  
+  Constraint satisfied by choices\.
+
+.. _type-da-internal-template-functions-template-77721:
+
+**type** `Template <type-da-internal-template-functions-template-77721_>`_ t
+  \= (`HasSignatory <class-da-internal-template-functions-hassignatory-91136_>`_ t, `HasObserver <class-da-internal-template-functions-hasobserver-11911_>`_ t, `HasEnsure <class-da-internal-template-functions-hasensure-12785_>`_ t, `HasAgreement <class-da-internal-template-functions-hasagreement-16428_>`_ t, `HasCreate <class-da-internal-template-functions-hascreate-33331_>`_ t, `HasFetch <class-da-internal-template-functions-hasfetch-3252_>`_ t, `HasArchive <class-da-internal-template-functions-hasarchive-99448_>`_ t, `HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t, `HasToAnyTemplate <class-da-internal-template-functions-hastoanytemplate-14601_>`_ t, `HasFromAnyTemplate <class-da-internal-template-functions-hasfromanytemplate-68598_>`_ t)
+  
+  Constraint satisfied by templates\.
+
+.. _type-da-internal-template-functions-templatekey-19131:
+
+**type** `TemplateKey <type-da-internal-template-functions-templatekey-19131_>`_ t k
+  \= (`Template <type-da-internal-template-functions-template-77721_>`_ t, `HasKey <class-da-internal-template-functions-haskey-16087_>`_ t k, `HasLookupByKey <class-da-internal-template-functions-haslookupbykey-72740_>`_ t k, `HasFetchByKey <class-da-internal-template-functions-hasfetchbykey-68031_>`_ t k, `HasMaintainer <class-da-internal-template-functions-hasmaintainer-85945_>`_ t k, `HasToAnyContractKey <class-da-internal-template-functions-hastoanycontractkey-8451_>`_ t k, `HasFromAnyContractKey <class-da-internal-template-functions-hasfromanycontractkey-10058_>`_ t k)
+  
+  Constraint satisfied by template keys\.
+
+.. _type-da-internal-template-functions-templateorinterface-77718:
+
+**type** `TemplateOrInterface <type-da-internal-template-functions-templateorinterface-77718_>`_ t
+  \= (`HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t, `HasToAnyTemplate <class-da-internal-template-functions-hastoanytemplate-14601_>`_ t, `HasFromAnyTemplate <class-da-internal-template-functions-hasfromanytemplate-68598_>`_ t)
+
+.. _type-da-types-either-20245:
+
+**data** `Either <type-da-types-either-20245_>`_ a b
+
+  The ``Either`` type represents values with two possibilities\: a value of
+  type ``Either a b`` is either ``Left a`` or ``Right b``\.
+  
+  The ``Either`` type is sometimes used to represent a value which is
+  either correct or an error; by convention, the ``Left`` constructor is
+  used to hold an error value and the ``Right`` constructor is used to
+  hold a correct value (mnemonic\: \"right\" also means \"correct\")\.
+  
+  .. _constr-da-types-left-31324:
+  
+  `Left <constr-da-types-left-31324_>`_ a
+  
+  
+  .. _constr-da-types-right-93824:
+  
+  `Right <constr-da-types-right-93824_>`_ b
+  
+  
+  **instance** (`Eq <class-ghc-classes-eq-21216_>`_ a, `Eq <class-ghc-classes-eq-21216_>`_ b) \=\> `Eq <class-ghc-classes-eq-21216_>`_ (`Either <type-da-types-either-20245_>`_ a b)
+  
+  **instance** (`Ord <class-ghc-classes-ord-70960_>`_ a, `Ord <class-ghc-classes-ord-70960_>`_ b) \=\> `Ord <class-ghc-classes-ord-70960_>`_ (`Either <type-da-types-either-20245_>`_ a b)
+  
+  **instance** (`Show <class-ghc-show-show-56447_>`_ a, `Show <class-ghc-show-show-56447_>`_ b) \=\> `Show <class-ghc-show-show-56447_>`_ (`Either <type-da-types-either-20245_>`_ a b)
+
+.. _type-ghc-show-shows-65652:
+
+**type** `ShowS <type-ghc-show-shows-65652_>`_
+  \= `Text <type-ghc-types-text-57703_>`_ \-\> `Text <type-ghc-types-text-57703_>`_
+  
+  ``showS`` should represent some text, and applying it to some argument
+  should prepend the argument to the represented text\.
+
+.. _type-ghc-types-bignumeric-70343:
+
+**data** `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+
+  A big numeric type, capable of holding large decimal values with many digits\.
+  
+  ``BigNumeric`` represents any positive or negative decimal number with up to
+  2\^15 digits before the decimal point, and up to 2\^15 digits after the decimal
+  point\.
+  
+  ``BigNumeric`` is not serializable, it is only intended for intermediate computation\.
+  You must round and convert ``BigNumeric`` to a fixed\-width numeric (``Numeric n``)
+  in order to store it in a template\. The rounding operations are ``round`` and
+  ``div`` from the ``DA.BigNumeric`` module\. The casting operations are ``fromNumeric``
+  and ``fromBigNumeric`` from the ``IsNumeric`` typeclass\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `IsNumeric <class-ghc-classes-isnumeric-89094_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Number <class-ghc-num-number-52917_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Signed <class-ghc-num-signed-13386_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `BigNumeric <type-ghc-types-bignumeric-70343_>`_
+
+.. _type-ghc-types-bool-8654:
+
+**data** `Bool <type-ghc-types-bool-8654_>`_
+
+  A type for Boolean values, ie ``True`` and ``False``\.
+  
+  .. _constr-ghc-types-false-66479:
+  
+  `False <constr-ghc-types-false-66479_>`_
+  
+  
+  .. _constr-ghc-types-true-94523:
+  
+  `True <constr-ghc-types-true-94523_>`_
+  
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Bounded <class-ghc-enum-bounded-74406_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Enum <class-ghc-enum-enum-67791_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Bool <type-ghc-types-bool-8654_>`_
+
+.. _type-ghc-types-decimal-54602:
+
+**type** `Decimal <type-ghc-types-decimal-54602_>`_
+  \= `Numeric <type-ghc-types-numeric-34702_>`_ 10
+
+.. _type-ghc-types-int-68728:
+
+**data** `Int <type-ghc-types-int-68728_>`_
+
+  A type representing a 64\-bit integer\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Bounded <class-ghc-enum-bounded-74406_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Enum <class-ghc-enum-enum-67791_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Divisible <class-ghc-num-divisible-58654_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Number <class-ghc-num-number-52917_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Signed <class-ghc-num-signed-13386_>`_ `Int <type-ghc-types-int-68728_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Int <type-ghc-types-int-68728_>`_
+
+.. _type-ghc-types-nat-92230:
+
+**data** `Nat <type-ghc-types-nat-92230_>`_
+
+  (Kind) This is the kind of type\-level naturals\.
+
+.. _type-ghc-types-numeric-34702:
+
+**data** `Numeric <type-ghc-types-numeric-34702_>`_ n
+
+  A type for fixed\-point decimal numbers, with the scale
+  being passed as part of the type\.
+  
+  ``Numeric n`` represents a fixed\-point decimal number with a
+  fixed precision of 38 (i\.e\. 38 digits not including a leading zero)
+  and a scale of ``n``, i\.e\., ``n`` digits after the decimal point\.
+  
+  ``n`` must be between 0 and 37 (bounds inclusive)\.
+  
+  Examples\:
+  
+  .. code-block:: daml
+  
+    0.01 : Numeric 2
+    0.0001 : Numeric 4
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `NumericScale <class-ghc-classes-numericscale-98085_>`_ n \=\> `IsNumeric <class-ghc-classes-isnumeric-89094_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Additive <class-ghc-num-additive-5364_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Divisible <class-ghc-num-divisible-58654_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Fractional <class-ghc-num-fractional-41319_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Multiplicative <class-ghc-num-multiplicative-86900_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Number <class-ghc-num-number-52917_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Signed <class-ghc-num-signed-13386_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ (`Numeric <type-ghc-types-numeric-34702_>`_ n)
+
+.. _type-ghc-types-ordering-20506:
+
+**data** `Ordering <type-ghc-types-ordering-20506_>`_
+
+  A type for giving information about ordering\:
+  being less than (``LT``), equal to (``EQ``), or greater than
+  (``GT``) something\.
+  
+  .. _constr-ghc-types-lt-21877:
+  
+  `LT <constr-ghc-types-lt-21877_>`_
+  
+  
+  .. _constr-ghc-types-eq-61659:
+  
+  `EQ <constr-ghc-types-eq-61659_>`_
+  
+  
+  .. _constr-ghc-types-gt-96388:
+  
+  `GT <constr-ghc-types-gt-96388_>`_
+  
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Ordering <type-ghc-types-ordering-20506_>`_
+
+.. _type-ghc-types-roundingmode-2651:
+
+**data** `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+
+  Rounding modes for ``BigNumeric`` operations like ``div`` and ``round`` from ``DA.BigNumeric``\.
+  
+  .. _constr-ghc-types-roundingup-79758:
+  
+  `RoundingUp <constr-ghc-types-roundingup-79758_>`_
+  
+    Round away from zero\.
+  
+  .. _constr-ghc-types-roundingdown-72459:
+  
+  `RoundingDown <constr-ghc-types-roundingdown-72459_>`_
+  
+    Round towards zero\.
+  
+  .. _constr-ghc-types-roundingceiling-79661:
+  
+  `RoundingCeiling <constr-ghc-types-roundingceiling-79661_>`_
+  
+    Round towards positive infinity\.
+  
+  .. _constr-ghc-types-roundingfloor-3008:
+  
+  `RoundingFloor <constr-ghc-types-roundingfloor-3008_>`_
+  
+    Round towards negative infinity\.
+  
+  .. _constr-ghc-types-roundinghalfup-8949:
+  
+  `RoundingHalfUp <constr-ghc-types-roundinghalfup-8949_>`_
+  
+    Round towards the nearest neighbor unless both neighbors
+    are equidistant, in which case round away from zero\.
+  
+  .. _constr-ghc-types-roundinghalfdown-59696:
+  
+  `RoundingHalfDown <constr-ghc-types-roundinghalfdown-59696_>`_
+  
+    Round towards the nearest neighbor unless both neighbors
+    are equidistant, in which case round towards zero\.
+  
+  .. _constr-ghc-types-roundinghalfeven-29216:
+  
+  `RoundingHalfEven <constr-ghc-types-roundinghalfeven-29216_>`_
+  
+    Round towards the nearest neighbor unless both neighbors
+    are equidistant, in which case round towards the even neighbor\.
+  
+  .. _constr-ghc-types-roundingunnecessary-91430:
+  
+  `RoundingUnnecessary <constr-ghc-types-roundingunnecessary-91430_>`_
+  
+    Do not round\. Raises an error if the result cannot
+    be represented without rounding at the targeted scale\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `RoundingMode <type-ghc-types-roundingmode-2651_>`_
+
+.. _type-ghc-types-text-57703:
+
+**data** `Text <type-ghc-types-text-57703_>`_
+
+  A type for text strings, that can represent any unicode code point\.
+  For example ``"Hello, world"``\.
+  
+  **instance** `Eq <class-ghc-classes-eq-21216_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Ord <class-ghc-classes-ord-70960_>`_ `Text <type-ghc-types-text-57703_>`_
+  
+  **instance** `Show <class-ghc-show-show-56447_>`_ `Text <type-ghc-types-text-57703_>`_
+
+.. _type-ghc-types-x-9664:
+
+**data** `[] <type-ghc-types-x-9664_>`_ a
+
+  A type for lists, for example ``[1,2,3]``\.
+  
+  .. _constr-ghc-types-x-90189:
+  
+  `([]) <constr-ghc-types-x-90189_>`_
+  
+  
+  .. _constr-ghc-types-colon-78956:
+  
+  `(:) <constr-ghc-types-colon-78956_>`_ \_ \_
+  
+
+Functions
+---------
+
+.. _function-da-internal-assert-assert-41852:
+
+`assert <function-da-internal-assert-assert-41852_>`_
+  \: `CanAssert <class-da-internal-assert-canassert-55474_>`_ m \=\> `Bool <type-ghc-types-bool-8654_>`_ \-\> m ()
+  
+  Check whether a condition is true\. If it's not, abort the transaction\.
+
+.. _function-da-internal-assert-assertmsg-99434:
+
+`assertMsg <function-da-internal-assert-assertmsg-99434_>`_
+  \: `CanAssert <class-da-internal-assert-canassert-55474_>`_ m \=\> `Text <type-ghc-types-text-57703_>`_ \-\> `Bool <type-ghc-types-bool-8654_>`_ \-\> m ()
+  
+  Check whether a condition is true\. If it's not, abort the transaction
+  with a message\.
+
+.. _function-da-internal-assert-assertafter-13049:
+
+`assertAfter <function-da-internal-assert-assertafter-13049_>`_
+  \: (`CanAssert <class-da-internal-assert-canassert-55474_>`_ m, `HasTime <class-da-internal-lf-hastime-88667_>`_ m) \=\> `Time <type-da-internal-lf-time-19011_>`_ \-\> m ()
+  
+  Check whether the given time is in the future\. If it's not, abort the transaction\.
+
+.. _function-da-internal-assert-assertbefore-67059:
+
+`assertBefore <function-da-internal-assert-assertbefore-67059_>`_
+  \: (`CanAssert <class-da-internal-assert-canassert-55474_>`_ m, `HasTime <class-da-internal-lf-hastime-88667_>`_ m) \=\> `Time <type-da-internal-lf-time-19011_>`_ \-\> m ()
+  
+  Check whether the given time is in the past\. If it's not, abort the transaction\.
+
+.. _function-da-internal-date-dayssinceepochtodate-81383:
+
+`daysSinceEpochToDate <function-da-internal-date-dayssinceepochtodate-81383_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> `Date <type-da-internal-lf-date-71388_>`_
+  
+  Convert from number of days since epoch (i\.e\. the number of days since
+  January 1, 1970) to a date\.
+
+.. _function-da-internal-date-datetodayssinceepoch-33947:
+
+`dateToDaysSinceEpoch <function-da-internal-date-datetodayssinceepoch-33947_>`_
+  \: `Date <type-da-internal-lf-date-71388_>`_ \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  Convert from a date to number of days from epoch (i\.e\. the number of days
+  since January 1, 1970)\.
+
+.. _function-da-internal-lf-partytotext-89343:
+
+`partyToText <function-da-internal-lf-partytotext-89343_>`_
+  \: `Party <type-da-internal-lf-party-50311_>`_ \-\> `Text <type-ghc-types-text-57703_>`_
+  
+  Convert the ``Party`` to ``Text``, giving back what you passed to ``getParty``\.
+  In most cases, you should use ``show`` instead\. ``show`` wraps
+  the party in ``'ticks'`` making it clear it was a ``Party`` originally\.
+
+.. _function-da-internal-lf-partyfromtext-40570:
+
+`partyFromText <function-da-internal-lf-partyfromtext-40570_>`_
+  \: `Text <type-ghc-types-text-57703_>`_ \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ `Party <type-da-internal-lf-party-50311_>`_
+  
+  Converts a ``Text`` to ``Party``\. It returns ``None`` if the provided text contains
+  any forbidden characters\. See Daml\-LF spec for a specification on which characters
+  are allowed in parties\. Note that this function accepts text *without*
+  single quotes\.
+  
+  This function does not check on whether the provided
+  text corresponds to a party that \"exists\" on a given ledger\: it merely converts
+  the given ``Text`` to a ``Party``\. The only way to guarantee that a given ``Party``
+  exists on a given ledger is to involve it in a contract\.
+  
+  This function, together with ``partyToText``, forms an isomorphism between
+  valid party strings and parties\. In other words, the following equations hold\:
+  
+  .. code-block:: daml
+  
+    ∀ p. partyFromText (partyToText p) = Some p
+    ∀ txt p. partyFromText txt = Some p ==> partyToText p = txt
+  
+  
+  This function will crash at runtime if you compile Daml to Daml\-LF \< 1\.2\.
+
+.. _function-da-internal-lf-getparty-10912:
+
+`getParty <function-da-internal-lf-getparty-10912_>`_
+  \: `Text <type-ghc-types-text-57703_>`_ \-\> `Scenario <type-da-internal-lf-scenario-45418_>`_ `Party <type-da-internal-lf-party-50311_>`_
+  
+  Get the party with the given name\. Party names must be non\-empty and only
+  contain alphanumeric charaters, space, ``-`` (dash) or ``_`` (underscore)\.
+
+.. _function-da-internal-lf-scenario-31086:
+
+`scenario <function-da-internal-lf-scenario-31086_>`_
+  \: `Scenario <type-da-internal-lf-scenario-45418_>`_ a \-\> `Scenario <type-da-internal-lf-scenario-45418_>`_ a
+  
+  Declare you are building a scenario\.
+
+.. _function-da-internal-prelude-curry-86620:
+
+`curry <function-da-internal-prelude-curry-86620_>`_
+  \: ((a, b) \-\> c) \-\> a \-\> b \-\> c
+  
+  Turn a function that takes a pair into a function that takes two arguments\.
+
+.. _function-da-internal-prelude-uncurry-28633:
+
+`uncurry <function-da-internal-prelude-uncurry-28633_>`_
+  \: (a \-\> b \-\> c) \-\> (a, b) \-\> c
+  
+  Turn a function that takes two arguments into a function that takes a pair\.
+
+.. _function-da-internal-prelude-gtgt-82832:
+
+`(>>) <function-da-internal-prelude-gtgt-82832_>`_
+  \: `Action <class-da-internal-prelude-action-24943_>`_ m \=\> m a \-\> m b \-\> m b
+  
+  Sequentially compose two actions, discarding any value produced
+  by the first\. This is like sequencing operators (such as the semicolon)
+  in imperative languages\.
+
+.. _function-da-internal-prelude-ap-56967:
+
+`ap <function-da-internal-prelude-ap-56967_>`_
+  \: `Applicative <class-da-internal-prelude-applicative-43914_>`_ f \=\> f (a \-\> b) \-\> f a \-\> f b
+  
+  Synonym for ``<*>``\.
+
+.. _function-da-internal-prelude-return-3410:
+
+`return <function-da-internal-prelude-return-3410_>`_
+  \: `Applicative <class-da-internal-prelude-applicative-43914_>`_ m \=\> a \-\> m a
+  
+  Inject a value into the monadic type\. For example, for ``Update`` and a
+  value of type ``a``, ``return`` would give you an ``Update a``\.
+
+.. _function-da-internal-prelude-join-29330:
+
+`join <function-da-internal-prelude-join-29330_>`_
+  \: `Action <class-da-internal-prelude-action-24943_>`_ m \=\> m (m a) \-\> m a
+  
+  Collapses nested actions into a single action\.
+
+.. _function-da-internal-prelude-identity-53588:
+
+`identity <function-da-internal-prelude-identity-53588_>`_
+  \: a \-\> a
+  
+  The identity function\.
+
+.. _function-da-internal-prelude-guard-49726:
+
+`guard <function-da-internal-prelude-guard-49726_>`_
+  \: `ActionFail <class-da-internal-prelude-actionfail-8575_>`_ m \=\> `Bool <type-ghc-types-bool-8654_>`_ \-\> m ()
+
+.. _function-da-internal-prelude-foldl-54746:
+
+`foldl <function-da-internal-prelude-foldl-54746_>`_
+  \: (b \-\> a \-\> b) \-\> b \-\> \[a\] \-\> b
+  
+  This function is a left fold, which you can use to inspect/analyse/consume lists\.
+  ``foldl f i xs`` performs a left fold over the list ``xs`` using
+  the function ``f``, using the starting value ``i``\.
+  
+  Examples\:
+  
+  .. code-block:: daml
+  
+    >>> foldl (+) 0 [1,2,3]
+    6
+  
+    >>> foldl (^) 10 [2,3]
+    1000000
+  
+  
+  Note that foldl works from left\-to\-right over the list arguments\.
+
+.. _function-da-internal-prelude-find-39535:
+
+`find <function-da-internal-prelude-find-39535_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ a
+  
+  ``find p xs`` finds the first element of the list ``xs`` where the
+  predicate ``p`` is true\. There might not be such an element, which
+  is why this function returns an ``Optional a``\.
+
+.. _function-da-internal-prelude-length-56396:
+
+`length <function-da-internal-prelude-length-56396_>`_
+  \: \[a\] \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  Gives the length of the list\.
+
+.. _function-da-internal-prelude-any-99153:
+
+`any <function-da-internal-prelude-any-99153_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Are there any elements in the list where the predicate is true?
+  ``any p xs`` is ``True`` if ``p`` holds for at least one element of ``xs``\.
+
+.. _function-da-internal-prelude-all-61250:
+
+`all <function-da-internal-prelude-all-61250_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Is the predicate true for all of the elements in the list?
+  ``all p xs`` is ``True`` if ``p`` holds for every element of ``xs``\.
+
+.. _function-da-internal-prelude-or-60267:
+
+`or <function-da-internal-prelude-or-60267_>`_
+  \: \[`Bool <type-ghc-types-bool-8654_>`_\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Is at least one of elements in a list of ``Bool`` true?
+  ``or bs`` is ``True`` if at least one element of ``bs`` is ``True``\.
+
+.. _function-da-internal-prelude-and-59380:
+
+`and <function-da-internal-prelude-and-59380_>`_
+  \: \[`Bool <type-ghc-types-bool-8654_>`_\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Is every element in a list of Bool true?
+  ``and bs`` is ``True`` if every element of ``bs`` is ``True``\.
+
+.. _function-da-internal-prelude-elem-22471:
+
+`elem <function-da-internal-prelude-elem-22471_>`_
+  \: `Eq <class-ghc-classes-eq-21216_>`_ a \=\> a \-\> \[a\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Does this value exist in this list?
+  ``elem x xs`` is ``True`` if ``x`` is an element of the list ``xs``\.
+
+.. _function-da-internal-prelude-notelem-12837:
+
+`notElem <function-da-internal-prelude-notelem-12837_>`_
+  \: `Eq <class-ghc-classes-eq-21216_>`_ a \=\> a \-\> \[a\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Negation of ``elem``\:
+  ``elem x xs`` is ``True`` if ``x`` is *not* an element of the list ``xs``\.
+
+.. _function-da-internal-prelude-ltdollargt-17481:
+
+`(<$>) <function-da-internal-prelude-ltdollargt-17481_>`_
+  \: `Functor <class-ghc-base-functor-73448_>`_ f \=\> (a \-\> b) \-\> f a \-\> f b
+  
+  Synonym for ``fmap``\.
+
+.. _function-da-internal-prelude-optional-56138:
+
+`optional <function-da-internal-prelude-optional-56138_>`_
+  \: b \-\> (a \-\> b) \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ a \-\> b
+  
+  The ``optional`` function takes a default value, a function, and a ``Optional``
+  value\. If the ``Optional`` value is ``None``, the function returns the
+  default value\. Otherwise, it applies the function to the value inside
+  the ``Some`` and returns the result\.
+  
+  Basic usage examples\:
+  
+  .. code-block:: daml
+  
+    >>> optional False (> 2) (Some 3)
+    True
+  
+  
+  .. code-block:: daml
+  
+    >>> optional False (> 2) None
+    False
+  
+  
+  .. code-block:: daml
+  
+    >>> optional 0 (*2) (Some 5)
+    10
+    >>> optional 0 (*2) None
+    0
+  
+  
+  This example applies ``show`` to a ``Optional Int``\. If you have ``Some n``,
+  this shows the underlying ``Int``, ``n``\. But if you have ``None``, this
+  returns the empty string instead of (for example) ``None``\:
+  
+  .. code-block:: daml
+  
+    >>> optional "" show (Some 5)
+    "5"
+    >>> optional "" show (None : Optional Int)
+    ""
+
+.. _function-da-internal-prelude-either-74935:
+
+`either <function-da-internal-prelude-either-74935_>`_
+  \: (a \-\> c) \-\> (b \-\> c) \-\> `Either <type-da-types-either-20245_>`_ a b \-\> c
+  
+  The ``either`` function provides case analysis for the ``Either`` type\.
+  If the value is ``Left a``, it applies the first function to ``a``;
+  if it is ``Right b``, it applies the second function to ``b``\.
+  
+  Examples\:
+  
+  This example has two values of type ``Either [Int] Int``, one using the
+  ``Left`` constructor and another using the ``Right`` constructor\. Then
+  it applies ``either`` the ``length`` function (if it has a ``[Int]``)
+  or the \"times\-two\" function (if it has an ``Int``)\:
+  
+  .. code-block:: daml
+  
+    >>> let s = Left [1,2,3] : Either [Int] Int in either length (*2) s
+    3
+    >>> let n = Right 3 : Either [Int] Int in either length (*2) n
+    6
+
+.. _function-da-internal-prelude-concat-37576:
+
+`concat <function-da-internal-prelude-concat-37576_>`_
+  \: \[\[a\]\] \-\> \[a\]
+  
+  Take a list of lists and concatenate those lists into one list\.
+
+.. _function-da-internal-prelude-plusplus-99314:
+
+`(++) <function-da-internal-prelude-plusplus-99314_>`_
+  \: \[a\] \-\> \[a\] \-\> \[a\]
+  
+  Concatenate two lists\.
+
+.. _function-da-internal-prelude-flip-57699:
+
+`flip <function-da-internal-prelude-flip-57699_>`_
+  \: (a \-\> b \-\> c) \-\> b \-\> a \-\> c
+  
+  Flip the order of the arguments of a two argument function\.
+
+.. _function-da-internal-prelude-reverse-36381:
+
+`reverse <function-da-internal-prelude-reverse-36381_>`_
+  \: \[a\] \-\> \[a\]
+  
+  Reverse a list\.
+
+.. _function-da-internal-prelude-mapa-99717:
+
+`mapA <function-da-internal-prelude-mapa-99717_>`_
+  \: `Applicative <class-da-internal-prelude-applicative-43914_>`_ m \=\> (a \-\> m b) \-\> \[a\] \-\> m \[b\]
+  
+  Apply an applicative function to each element of a list\.
+
+.. _function-da-internal-prelude-fora-90080:
+
+`forA <function-da-internal-prelude-fora-90080_>`_
+  \: `Applicative <class-da-internal-prelude-applicative-43914_>`_ m \=\> \[a\] \-\> (a \-\> m b) \-\> m \[b\]
+  
+  ``forA`` is ``mapA`` with its arguments flipped\.
+
+.. _function-da-internal-prelude-sequence-49837:
+
+`sequence <function-da-internal-prelude-sequence-49837_>`_
+  \: `Applicative <class-da-internal-prelude-applicative-43914_>`_ m \=\> \[m a\] \-\> m \[a\]
+  
+  Perform a list of actions in sequence and collect the results\.
+
+.. _function-da-internal-prelude-eqltlt-43702:
+
+`(=<<) <function-da-internal-prelude-eqltlt-43702_>`_
+  \: `Action <class-da-internal-prelude-action-24943_>`_ m \=\> (a \-\> m b) \-\> m a \-\> m b
+  
+  ``=<<`` is ``>>=`` with its arguments flipped\.
+
+.. _function-da-internal-prelude-concatmap-79299:
+
+`concatMap <function-da-internal-prelude-concatmap-79299_>`_
+  \: (a \-\> \[b\]) \-\> \[a\] \-\> \[b\]
+  
+  Map a function over each element of a list, and concatenate all the results\.
+
+.. _function-da-internal-prelude-replicate-20520:
+
+`replicate <function-da-internal-prelude-replicate-20520_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> a \-\> \[a\]
+  
+  ``replicate i x`` gives the list ``[x, x, x, ..., x]`` with ``i`` copies of ``x``\.
+
+.. _function-da-internal-prelude-take-38395:
+
+`take <function-da-internal-prelude-take-38395_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> \[a\] \-\> \[a\]
+  
+  Take the first ``n`` elements of a list\.
+
+.. _function-da-internal-prelude-drop-80637:
+
+`drop <function-da-internal-prelude-drop-80637_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> \[a\] \-\> \[a\]
+  
+  Drop the first ``n`` elements of a list\.
+
+.. _function-da-internal-prelude-splitat-54772:
+
+`splitAt <function-da-internal-prelude-splitat-54772_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  Split a list at a given index\.
+
+.. _function-da-internal-prelude-takewhile-72061:
+
+`takeWhile <function-da-internal-prelude-takewhile-72061_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> \[a\]
+  
+  Take elements from a list while the predicate holds\.
+
+.. _function-da-internal-prelude-dropwhile-94767:
+
+`dropWhile <function-da-internal-prelude-dropwhile-94767_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> \[a\]
+  
+  Drop elements from a list while the predicate holds\.
+
+.. _function-da-internal-prelude-span-44766:
+
+`span <function-da-internal-prelude-span-44766_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  ``span p xs`` is equivalent to ``(takeWhile p xs, dropWhile p xs)``\.
+
+.. _function-da-internal-prelude-partition-9151:
+
+`partition <function-da-internal-prelude-partition-9151_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  The ``partition`` function takes a predicate, a list and returns
+  the pair of lists of elements which do and do not satisfy the
+  predicate, respectively; i\.e\.,
+  
+  > partition p xs == (filter p xs, filter (not . p) xs)
+  
+  
+  .. code-block:: daml
+  
+    >>> partition (<0) [1, -2, -3, 4, -5, 6]
+    ([-2, -3, -5], [1, 4, 6])
+
+.. _function-da-internal-prelude-break-83512:
+
+`break <function-da-internal-prelude-break-83512_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  Break a list into two, just before the first element where the predicate holds\.
+  ``break p xs`` is equivalent to ``span (not . p) xs``\.
+
+.. _function-da-internal-prelude-lookup-83082:
+
+`lookup <function-da-internal-prelude-lookup-83082_>`_
+  \: `Eq <class-ghc-classes-eq-21216_>`_ a \=\> a \-\> \[(a, b)\] \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ b
+  
+  Look up the first element with a matching key\.
+
+.. _function-da-internal-prelude-enumerate-52599:
+
+`enumerate <function-da-internal-prelude-enumerate-52599_>`_
+  \: (`Enum <class-ghc-enum-enum-67791_>`_ a, `Bounded <class-ghc-enum-bounded-74406_>`_ a) \=\> \[a\]
+  
+  Generate a list containing all values of a given enumeration\.
+
+.. _function-da-internal-prelude-zip-71250:
+
+`zip <function-da-internal-prelude-zip-71250_>`_
+  \: \[a\] \-\> \[b\] \-\> \[(a, b)\]
+  
+  ``zip`` takes two lists and returns a list of corresponding pairs\.
+  If one list is shorter, the excess elements of the longer list are discarded\.
+
+.. _function-da-internal-prelude-zip3-14674:
+
+`zip3 <function-da-internal-prelude-zip3-14674_>`_
+  \: \[a\] \-\> \[b\] \-\> \[c\] \-\> \[(a, b, c)\]
+  
+  ``zip3`` takes three lists and returns a list of triples, analogous to ``zip``\.
+
+.. _function-da-internal-prelude-zipwith-28554:
+
+`zipWith <function-da-internal-prelude-zipwith-28554_>`_
+  \: (a \-\> b \-\> c) \-\> \[a\] \-\> \[b\] \-\> \[c\]
+  
+  ``zipWith`` takes a function and two lists\.
+  It generalises ``zip`` by combining elements using the function, instead of forming pairs\.
+  If one list is shorter, the excess elements of the longer list are discarded\.
+
+.. _function-da-internal-prelude-zipwith3-89682:
+
+`zipWith3 <function-da-internal-prelude-zipwith3-89682_>`_
+  \: (a \-\> b \-\> c \-\> d) \-\> \[a\] \-\> \[b\] \-\> \[c\] \-\> \[d\]
+  
+  ``zipWith3`` generalises ``zip3`` by combining elements using the function, instead of forming triples\.
+
+.. _function-da-internal-prelude-unzip-52595:
+
+`unzip <function-da-internal-prelude-unzip-52595_>`_
+  \: \[(a, b)\] \-\> (\[a\], \[b\])
+  
+  Turn a list of pairs into a pair of lists\.
+
+.. _function-da-internal-prelude-unzip3-92105:
+
+`unzip3 <function-da-internal-prelude-unzip3-92105_>`_
+  \: \[(a, b, c)\] \-\> (\[a\], \[b\], \[c\])
+  
+  Turn a list of triples into a triple of lists\.
+
+.. _function-da-internal-prelude-traceraw-59593:
+
+`traceRaw <function-da-internal-prelude-traceraw-59593_>`_
+  \: `Text <type-ghc-types-text-57703_>`_ \-\> a \-\> a
+  
+  ``traceRaw msg a`` prints ``msg`` and returns ``a``, for debugging purposes\.
+  
+  Note that on some ledgers, those messages are not displayed at the default log level\. For Sandbox, you can use ``--log-level=debug`` to include them\.
+
+.. _function-da-internal-prelude-trace-92586:
+
+`trace <function-da-internal-prelude-trace-92586_>`_
+  \: `Show <class-ghc-show-show-56447_>`_ b \=\> b \-\> a \-\> a
+  
+  ``trace b a`` prints ``b`` and returns ``a``, for debugging purposes\.
+  
+  Note that on some ledgers, those messages are not displayed at the default log level\. For Sandbox, you can use ``--log-level=debug`` to include them\.
+
+.. _function-da-internal-prelude-traceid-6035:
+
+`traceId <function-da-internal-prelude-traceid-6035_>`_
+  \: `Show <class-ghc-show-show-56447_>`_ b \=\> b \-\> b
+  
+  ``traceId a`` prints ``a`` and returns ``a``, for debugging purposes\.
+  
+  Note that on some ledgers, those messages are not displayed at the default log level\. For Sandbox, you can use ``--log-level=debug`` to include them\.
+
+.. _function-da-internal-prelude-debug-21980:
+
+`debug <function-da-internal-prelude-debug-21980_>`_
+  \: (`Show <class-ghc-show-show-56447_>`_ b, `Action <class-da-internal-prelude-action-24943_>`_ m) \=\> b \-\> m ()
+  
+  ``debug x`` prints ``x`` for debugging purposes\.
+  
+  Note that on some ledgers, those messages are not displayed at the default log level\. For Sandbox, you can use ``--log-level=debug`` to include them\.
+
+.. _function-da-internal-prelude-debugraw-57663:
+
+`debugRaw <function-da-internal-prelude-debugraw-57663_>`_
+  \: `Action <class-da-internal-prelude-action-24943_>`_ m \=\> `Text <type-ghc-types-text-57703_>`_ \-\> m ()
+  
+  ``debugRaw msg`` prints ``msg`` for debugging purposes\.
+  
+  Note that on some ledgers, those messages are not displayed at the default log level\. For Sandbox, you can use ``--log-level=debug`` to include them\.
+
+.. _function-da-internal-prelude-fst-99836:
+
+`fst <function-da-internal-prelude-fst-99836_>`_
+  \: (a, b) \-\> a
+  
+  Return the first element of a tuple\.
+
+.. _function-da-internal-prelude-snd-86578:
+
+`snd <function-da-internal-prelude-snd-86578_>`_
+  \: (a, b) \-\> b
+  
+  Return the second element of a tuple\.
+
+.. _function-da-internal-prelude-truncate-30316:
+
+`truncate <function-da-internal-prelude-truncate-30316_>`_
+  \: `Numeric <type-ghc-types-numeric-34702_>`_ n \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  ``truncate x`` rounds ``x`` toward zero\.
+
+.. _function-da-internal-prelude-inttonumeric-14355:
+
+`intToNumeric <function-da-internal-prelude-inttonumeric-14355_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> `Numeric <type-ghc-types-numeric-34702_>`_ n
+  
+  Convert an ``Int`` to a ``Numeric``\.
+
+.. _function-da-internal-prelude-inttodecimal-16655:
+
+`intToDecimal <function-da-internal-prelude-inttodecimal-16655_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> `Decimal <type-ghc-types-decimal-54602_>`_
+  
+  Convert an ``Int`` to a ``Decimal``\.
+
+.. _function-da-internal-prelude-roundbankers-69896:
+
+`roundBankers <function-da-internal-prelude-roundbankers-69896_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> `Numeric <type-ghc-types-numeric-34702_>`_ n \-\> `Numeric <type-ghc-types-numeric-34702_>`_ n
+  
+  Bankers' Rounding\: ``roundBankers dp x`` rounds ``x`` to ``dp`` decimal places, where a ``.5`` is rounded to the nearest even digit\.
+
+.. _function-da-internal-prelude-roundcommercial-39781:
+
+`roundCommercial <function-da-internal-prelude-roundcommercial-39781_>`_
+  \: `NumericScale <class-ghc-classes-numericscale-98085_>`_ n \=\> `Int <type-ghc-types-int-68728_>`_ \-\> `Numeric <type-ghc-types-numeric-34702_>`_ n \-\> `Numeric <type-ghc-types-numeric-34702_>`_ n
+  
+  Commercial Rounding\: ``roundCommercial dp x`` rounds ``x`` to ``dp`` decimal places, where a ``.5`` is rounded away from zero\.
+
+.. _function-da-internal-prelude-round-87441:
+
+`round <function-da-internal-prelude-round-87441_>`_
+  \: `Numeric <type-ghc-types-numeric-34702_>`_ n \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  Round a ``Decimal`` to the nearest integer, where a ``.5`` is rounded away from zero\.
+
+.. _function-da-internal-prelude-floor-58743:
+
+`floor <function-da-internal-prelude-floor-58743_>`_
+  \: `Numeric <type-ghc-types-numeric-34702_>`_ n \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  Round a ``Decimal`` down to the nearest integer\.
+
+.. _function-da-internal-prelude-ceiling-51662:
+
+`ceiling <function-da-internal-prelude-ceiling-51662_>`_
+  \: `Numeric <type-ghc-types-numeric-34702_>`_ n \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  Round a ``Decimal`` up to the nearest integer\.
+
+.. _function-da-internal-prelude-null-21625:
+
+`null <function-da-internal-prelude-null-21625_>`_
+  \: \[a\] \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Is the list empty? ``null xs`` is true if ``xs`` is the empty list\.
+
+.. _function-da-internal-prelude-filter-27394:
+
+`filter <function-da-internal-prelude-filter-27394_>`_
+  \: (a \-\> `Bool <type-ghc-types-bool-8654_>`_) \-\> \[a\] \-\> \[a\]
+  
+  Filters the list using the function\: keep only the elements where the predicate holds\.
+
+.. _function-da-internal-prelude-sum-57726:
+
+`sum <function-da-internal-prelude-sum-57726_>`_
+  \: `Additive <class-ghc-num-additive-5364_>`_ a \=\> \[a\] \-\> a
+  
+  Add together all the elements in the list\.
+
+.. _function-da-internal-prelude-product-24350:
+
+`product <function-da-internal-prelude-product-24350_>`_
+  \: `Multiplicative <class-ghc-num-multiplicative-86900_>`_ a \=\> \[a\] \-\> a
+  
+  Multiply all the elements in the list together\.
+
+.. _function-da-internal-prelude-undefined-56993:
+
+`undefined <function-da-internal-prelude-undefined-56993_>`_
+  \: a
+  
+  A convenience function that can be used to mark something not implemented\.
+  Always throws an error with \"Not implemented\.\"
+
+.. _function-da-internal-template-functions-stakeholder-6036:
+
+`stakeholder <function-da-internal-template-functions-stakeholder-6036_>`_
+  \: (`HasSignatory <class-da-internal-template-functions-hassignatory-91136_>`_ t, `HasObserver <class-da-internal-template-functions-hasobserver-11911_>`_ t) \=\> t \-\> \[`Party <type-da-internal-lf-party-50311_>`_\]
+  
+  The stakeholders of a contract\: its signatories and observers\.
+
+.. _function-da-internal-template-functions-maintainer-93431:
+
+`maintainer <function-da-internal-template-functions-maintainer-93431_>`_
+  \: `HasMaintainer <class-da-internal-template-functions-hasmaintainer-85945_>`_ t k \=\> k \-\> \[`Party <type-da-internal-lf-party-50311_>`_\]
+  
+  The list of maintainers of a contract key\.
+
+.. _function-da-internal-template-functions-exercisebykey-2276:
+
+`exerciseByKey <function-da-internal-template-functions-exercisebykey-2276_>`_
+  \: (`HasFetchByKey <class-da-internal-template-functions-hasfetchbykey-68031_>`_ t k, `HasExercise <class-da-internal-template-functions-hasexercise-57127_>`_ t c r) \=\> k \-\> c \-\> `Update <type-da-internal-lf-update-36457_>`_ r
+  
+  Exercise a choice on the contract associated with the given key\.
+  
+  You must pass the ``t`` using an explicit type application\. For
+  instance, if you want to exercise a choice ``Withdraw`` on a contract of
+  template ``Account`` given by its key ``k``, you must call
+  ``exerciseByKey @Account k Withdraw``\.
+
+.. _function-da-internal-template-functions-createandexercise-50131:
+
+`createAndExercise <function-da-internal-template-functions-createandexercise-50131_>`_
+  \: (`HasCreate <class-da-internal-template-functions-hascreate-33331_>`_ t, `HasExercise <class-da-internal-template-functions-hasexercise-57127_>`_ t c r) \=\> t \-\> c \-\> `Update <type-da-internal-lf-update-36457_>`_ r
+  
+  Create a contract and exercise the choice on the newly created contract\.
+
+.. _function-da-internal-template-functions-templatetyperep-8647:
+
+`templateTypeRep <function-da-internal-template-functions-templatetyperep-8647_>`_
+  \: `HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t \=\> `TemplateTypeRep <type-da-internal-any-templatetyperep-80793_>`_
+  
+  Generate a unique textual representation of the template id\.
+
+.. _function-da-internal-template-functions-toanytemplate-25955:
+
+`toAnyTemplate <function-da-internal-template-functions-toanytemplate-25955_>`_
+  \: `HasToAnyTemplate <class-da-internal-template-functions-hastoanytemplate-14601_>`_ t \=\> t \-\> `AnyTemplate <type-da-internal-any-anytemplate-41334_>`_
+  
+  Wrap the template in ``AnyTemplate``\.
+  
+  Only available for Daml\-LF 1\.7 or later\.
+
+.. _function-da-internal-template-functions-fromanytemplate-62920:
+
+`fromAnyTemplate <function-da-internal-template-functions-fromanytemplate-62920_>`_
+  \: `HasFromAnyTemplate <class-da-internal-template-functions-hasfromanytemplate-68598_>`_ t \=\> `AnyTemplate <type-da-internal-any-anytemplate-41334_>`_ \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ t
+  
+  Extract the underlying template from ``AnyTemplate`` if the type matches
+  or return ``None``\.
+  
+  Only available for Daml\-LF 1\.7 or later\.
+
+.. _function-da-internal-template-functions-toanychoice-88086:
+
+`toAnyChoice <function-da-internal-template-functions-toanychoice-88086_>`_
+  \: (`HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t, `HasToAnyChoice <class-da-internal-template-functions-hastoanychoice-15952_>`_ t c r) \=\> c \-\> `AnyChoice <type-da-internal-any-anychoice-69843_>`_
+  
+  Wrap a choice in ``AnyChoice``\.
+  
+  You must pass the template type ``t`` using an explicit type application\.
+  For example ``toAnyChoice @Account Withdraw``\.
+  
+  Only available for Daml\-LF 1\.7 or later\.
+
+.. _function-da-internal-template-functions-fromanychoice-36237:
+
+`fromAnyChoice <function-da-internal-template-functions-fromanychoice-36237_>`_
+  \: (`HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t, `HasFromAnyChoice <class-da-internal-template-functions-hasfromanychoice-31079_>`_ t c r) \=\> `AnyChoice <type-da-internal-any-anychoice-69843_>`_ \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ c
+  
+  Extract the underlying choice from ``AnyChoice`` if the template and
+  choice types match, or return ``None``\.
+  
+  You must pass the template type ``t`` using an explicit type application\.
+  For example ``fromAnyChoice @Account choice``\.
+  
+  Only available for Daml\-LF 1\.7 or later\.
+
+.. _function-da-internal-template-functions-toanycontractkey-58885:
+
+`toAnyContractKey <function-da-internal-template-functions-toanycontractkey-58885_>`_
+  \: (`HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t, `HasToAnyContractKey <class-da-internal-template-functions-hastoanycontractkey-8451_>`_ t k) \=\> k \-\> `AnyContractKey <type-da-internal-any-anycontractkey-17206_>`_
+  
+  Wrap a contract key in ``AnyContractKey``\.
+  
+  You must pass the template type ``t`` using an explicit type application\.
+  For example ``toAnyContractKey @Proposal k``\.
+  
+  Only available for Daml\-LF 1\.7 or later\.
+
+.. _function-da-internal-template-functions-fromanycontractkey-11724:
+
+`fromAnyContractKey <function-da-internal-template-functions-fromanycontractkey-11724_>`_
+  \: (`HasTemplateTypeRep <class-da-internal-template-functions-hastemplatetyperep-79145_>`_ t, `HasFromAnyContractKey <class-da-internal-template-functions-hasfromanycontractkey-10058_>`_ t k) \=\> `AnyContractKey <type-da-internal-any-anycontractkey-17206_>`_ \-\> `Optional <type-da-internal-prelude-optional-79838_>`_ k
+  
+  Extract the underlying key from ``AnyContractKey`` if the template and
+  choice types match, or return ``None``\.
+  
+  You must pass the template type ``t`` using an explicit type application\.
+  For example ``fromAnyContractKey @Proposal k``\.
+  
+  Only available for Daml\-LF 1\.7 or later\.
+
+.. _function-da-internal-template-functions-visiblebykey-47669:
+
+`visibleByKey <function-da-internal-template-functions-visiblebykey-47669_>`_
+  \: `HasLookupByKey <class-da-internal-template-functions-haslookupbykey-72740_>`_ t k \=\> k \-\> `Update <type-da-internal-lf-update-36457_>`_ `Bool <type-ghc-types-bool-8654_>`_
+  
+  True if contract exists, submitter is a stakeholder, and all maintainers
+  authorize\. False if contract does not exist and all maintainers authorize\.
+  Fails otherwise\.
+
+.. _function-ghc-base-otherwise-63556:
+
+`otherwise <function-ghc-base-otherwise-63556_>`_
+  \: `Bool <type-ghc-types-bool-8654_>`_
+  
+  Used as an alternative in conditions\.
+
+.. _function-ghc-base-map-40302:
+
+`map <function-ghc-base-map-40302_>`_
+  \: (a \-\> b) \-\> \[a\] \-\> \[b\]
+  
+  ``map f xs`` applies the function ``f`` to all elements of the list ``xs``
+  and returns the list of results (in the same order as ``xs``)\.
+
+.. _function-ghc-base-foldr-735:
+
+`foldr <function-ghc-base-foldr-735_>`_
+  \: (a \-\> b \-\> b) \-\> b \-\> \[a\] \-\> b
+  
+  This function is a right fold, which you can use to manipulate lists\.
+  ``foldr f i xs`` performs a right fold over the list ``xs`` using
+  the function ``f``, using the starting value ``i``\.
+  
+  Note that foldr works from right\-to\-left over the list elements\.
+
+.. _function-ghc-base-dot-20328:
+
+`(.) <function-ghc-base-dot-20328_>`_
+  \: (b \-\> c) \-\> (a \-\> b) \-\> a \-\> c
+  
+  Composes two functions, i\.e\., ``(f . g) x = f (g x)``\.
+
+.. _function-ghc-base-const-44171:
+
+`const <function-ghc-base-const-44171_>`_
+  \: a \-\> b \-\> a
+  
+  ``const x`` is a unary function which evaluates to ``x`` for all inputs\.
+  
+  .. code-block:: daml
+  
+    >>> const 42 "hello"
+    42
+  
+  
+  .. code-block:: daml
+  
+    >>> map (const 42) [0..3]
+    [42,42,42,42]
+
+.. _function-ghc-base-dollar-75294:
+
+`($) <function-ghc-base-dollar-75294_>`_
+  \: (a \-\> b) \-\> a \-\> b
+  
+  Take a function from ``a`` to ``b`` and a value of type ``a``, and apply the
+  function to the value of type ``a``, returning a value of type ``b``\.
+  This function has a very low precedence, which is why you might want to use
+  it instead of regular function application\.
+
+.. _function-ghc-classes-ampamp-56971:
+
+`(&&) <function-ghc-classes-ampamp-56971_>`_
+  \: `Bool <type-ghc-types-bool-8654_>`_ \-\> `Bool <type-ghc-types-bool-8654_>`_ \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Boolean \"and\"\.
+  This function has short\-circuiting semantics, i\.e\., when both arguments are
+  present and the first arguments evaluates to 'False', the second argument
+  is not evaluated at all\.
+
+.. _function-ghc-classes-pipepipe-47363:
+
+`(||) <function-ghc-classes-pipepipe-47363_>`_
+  \: `Bool <type-ghc-types-bool-8654_>`_ \-\> `Bool <type-ghc-types-bool-8654_>`_ \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Boolean \"or\"\.
+  This function has short\-circuiting semantics, i\.e\., when both arguments are
+  present and the first arguments evaluates to 'True', the second argument
+  is not evaluated at all\.
+
+.. _function-ghc-classes-not-94213:
+
+`not <function-ghc-classes-not-94213_>`_
+  \: `Bool <type-ghc-types-bool-8654_>`_ \-\> `Bool <type-ghc-types-bool-8654_>`_
+  
+  Boolean \"not\"
+
+.. _function-ghc-err-error-3639:
+
+`error <function-ghc-err-error-3639_>`_
+  \: `Text <type-ghc-types-text-57703_>`_ \-\> a
+  
+  ``error`` stops execution and displays the given error message\.
+  
+  If called within a transaction, it will abort the current transaction\.
+  Outside of a transaction (scenarios, Daml Script or Daml Triggers)
+  it will stop the whole scenario/script/trigger\.
+  
+  Throws a ``GeneralError`` exception\.
+
+.. _function-ghc-num-subtract-65945:
+
+`subtract <function-ghc-num-subtract-65945_>`_
+  \: `Additive <class-ghc-num-additive-5364_>`_ a \=\> a \-\> a \-\> a
+  
+  ``subtract x y`` is equivalent to ``y - x``\.
+  
+  This is useful for partial application, e\.g\., in ``subtract 1`` since ``(- 1)`` is
+  interpreted as the number ``-1`` and not a function that subtracts ``1`` from
+  its argument\.
+
+.. _function-ghc-num-x-13837:
+
+`(%) <function-ghc-num-x-13837_>`_
+  \: `Int <type-ghc-types-int-68728_>`_ \-\> `Int <type-ghc-types-int-68728_>`_ \-\> `Int <type-ghc-types-int-68728_>`_
+  
+  ``x % y`` calculates the remainder of ``x`` by ``y``
+
+.. _function-ghc-show-showparen-34963:
+
+`showParen <function-ghc-show-showparen-34963_>`_
+  \: `Bool <type-ghc-types-bool-8654_>`_ \-\> `ShowS <type-ghc-show-shows-65652_>`_ \-\> `ShowS <type-ghc-show-shows-65652_>`_
+  
+  Utility function that surrounds the inner show function with
+  parentheses when the 'Bool' parameter is 'True'\.
+
+.. _function-ghc-show-showstring-43029:
+
+`showString <function-ghc-show-showstring-43029_>`_
+  \: `Text <type-ghc-types-text-57703_>`_ \-\> `ShowS <type-ghc-show-shows-65652_>`_
+  
+  Utility function converting a 'String' to a show function that
+  simply prepends the string unchanged\.
+
+.. _function-ghc-show-showspace-27345:
+
+`showSpace <function-ghc-show-showspace-27345_>`_
+  \: `ShowS <type-ghc-show-shows-65652_>`_
+  
+  Prepends a single space to the front of the string\.
+
+.. _function-ghc-show-showcommaspace-99631:
+
+`showCommaSpace <function-ghc-show-showcommaspace-99631_>`_
+  \: `ShowS <type-ghc-show-shows-65652_>`_
+  
+  Prepends a comma and a single space to the front of the string\.
+
+.. _function-ghc-types-primitiveinterface-8728:
+
+`primitiveInterface <function-ghc-types-primitiveinterface-8728_>`_
+  \: b

@@ -1,0 +1,633 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Identity and Package Management &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Time" href="time.html" />
+  <link rel="prev" title="Exceptions" href="ledger-model/ledger-exceptions.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Identity and Package Management</a><ul>
+<li><a class="reference internal" href="#identity-management">Identity Management</a><ul>
+<li><a class="reference internal" href="#provisioning-identifiers">Provisioning Identifiers</a></li>
+<li><a class="reference internal" href="#identifiers-and-authentication">Identifiers and Authorization</a></li>
+<li><a class="reference internal" href="#identifiers-and-real-world">Identifiers and the Real World</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-management">Package Management</a><ul>
+<li><a class="reference internal" href="#package-formats-and-identifiers">Package Formats and Identifiers</a></li>
+<li><a class="reference internal" href="#package-management-api">Package Management API</a></li>
+<li><a class="reference internal" href="#package-vetting">Package Vetting</a></li>
+<li><a class="reference internal" href="#package-upgrades">Package Upgrades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="identity-package-management">
+<span id="identity-and-package-management"></span><h1>Identity and Package Management<a class="headerlink" href="#identity-package-management" title="Permalink to this headline">¶</a></h1>
+<p>Since Daml ledgers enable parties to automate the management of their rights and obligations through smart contract code, they also have to provide party and code management functions.
+Hence, this document addresses:</p>
+<ol class="arabic simple">
+<li>Management of parties’ digital identifiers in a Daml ledger.</li>
+<li>Distribution of smart contract code between the parties connected to the same Daml ledger.</li>
+</ol>
+<p>The access to this functionality is usually more restricted compared to the other Ledger API services, as they are part of the administrative API.
+This document is intended for the users and implementers of this API.</p>
+<p>The administrative part of the Ledger API provides both a <a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-partymanagementservice"><span class="std std-ref">party management service</span></a> and a <a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-packagemanagementservice"><span class="std std-ref">package service</span></a>.
+Any implementation of the party and package services is guaranteed to accept inputs and provide outputs of the format specified by these services.
+However, the services’ <em>behavior</em> – the relationship between the inputs and outputs that the various parties observe – is largely implementation dependent.
+The remainder of the document will present:</p>
+<ol class="arabic simple">
+<li>The minimal behavioral guarantees for identity and package services across all ledger implementations. The service users can rely on these guarantees, and the implementers must ensure that they hold.</li>
+<li>Guidelines for service users, explaining how the <a class="reference internal" href="../deploy/ledger-topologies.html#daml-ledger-topologies"><span class="std std-ref">ledger’s topology</span></a> influences the unspecified part of the behavior.</li>
+</ol>
+<div class="section" id="identity-management">
+<span id="id1"></span><h2>Identity Management<a class="headerlink" href="#identity-management" title="Permalink to this headline">¶</a></h2>
+<p>A Daml ledger may freely define its own format of party and <a class="reference internal" href="../deploy/ledger-topologies.html#participant-node-def"><span class="std std-ref">participant node</span></a> identifiers, with some minor constraints on the identifiers’ serialized form.
+For example, a ledger may use human-readable strings as identifiers, such as “Alice” or “Alice’s Bank”.
+A different ledger might use public keys as identifiers, or the keys’ fingerprints.
+The applications should thus not rely on the format of the identifier – even a software upgrade of a Daml ledger may introduce a new format.</p>
+<p>By definition, identifiers identify parties, and are thus unique for a ledger.
+They do not, however, have to be unique across different ledgers.
+That is, two identical identifiers in two different ledgers do not necessarily identify the same real-world party.
+Moreover, a real-world entity can have multiple identifiers (and thus parties) within the same ledger.</p>
+<p>Since the identifiers might be difficult to interpret and manage for humans, the ledger may also accompany each identifier with a user-friendly <strong>display name</strong>.
+Unlike the identifier, the display name is not guaranteed to be unique, and two different participant nodes might return different display names for the same party identifier.
+Furthermore, a display name is in general not guaranteed to have any link to real world identities.
+For example, a party with a display name “Attorney of Nigerian Prince” might well be controlled by a real-world entity without a bar exam.
+However, particular ledger deployments might make stronger guarantees about this link.
+Finally, the association of identifiers to display names may change over time.
+For example, a party might change its display name from “Bruce” to “Caitlyn” – as long as the identifier remains the same, so does the party.</p>
+<div class="section" id="provisioning-identifiers">
+<span id="provisioning-ledger-identifiers"></span><h3>Provisioning Identifiers<a class="headerlink" href="#provisioning-identifiers" title="Permalink to this headline">¶</a></h3>
+<p>The set of parties of any Daml ledger is dynamic: new parties may always be added to the system.
+The first step in adding a new party to the ledger is to provision a new identifier for the party.
+The Ledger API provides an <a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-allocatepartyrequest"><span class="std std-ref">AllocateParty</span></a> method for this purpose.
+The method, if successful, returns an new party identifier.
+The <code class="docutils literal notranslate"><span class="pre">AllocateParty</span></code> call can take the desired identifier and display name as optional parameters, but these are merely hints and the ledger implementation may completely ignore them.</p>
+<p>If the call returns a new identifier, the <a class="reference internal" href="../deploy/ledger-topologies.html#participant-node-def"><span class="std std-ref">participant node</span></a> serving this call is ready to host the party with this identifier.
+In global state topologies, the returned identifier is guaranteed to be <strong>unique</strong> in the ledger; namely, no other call of the <code class="docutils literal notranslate"><span class="pre">AllocateParty</span></code> method at this or any other ledger participant may return the same identifier.
+In partitioned state topologies, the identifier is also unique as long as the participant node is configured correctly (in particular, it does not share its private key with other participant nodes).
+If the ledger has a <a class="reference internal" href="../deploy/ledger-topologies.html#global-state-topologies"><span class="std std-ref">global state topology</span></a>, the new identifier will generally be allocated and vetted by the operator of the writer node(s).
+For example, in the <a class="reference internal" href="../deploy/ledger-topologies.html#replicated-committer-topology"><span class="std std-ref">replicated committer topology</span></a>, the committers can jointly decide on whether to approve the provisioning, and which identifier to return.
+If they refuse to provision the identifier, the method call fails.</p>
+<p>After an identifier is returned, the ledger is set up in such a way that the participant node serving the call is allowed to issue commands and receive transactions on behalf of the party.
+However, the newly provisioned identifier need not be visible to the other participant nodes.
+For example, consider the setup with two participants <code class="docutils literal notranslate"><span class="pre">P1</span></code> and <code class="docutils literal notranslate"><span class="pre">P2</span></code>, where the party <code class="docutils literal notranslate"><span class="pre">Alice_123</span></code> is hosted on <code class="docutils literal notranslate"><span class="pre">P1</span></code>.
+Assume that a new party <code class="docutils literal notranslate"><span class="pre">Bob_456</span></code> is next successfully allocated on <code class="docutils literal notranslate"><span class="pre">P2</span></code>.
+This does not yet guarantee that <code class="docutils literal notranslate"><span class="pre">Alice_123</span></code> can now submit a command creating a new contract with <code class="docutils literal notranslate"><span class="pre">Bob_456</span></code> as an observer.
+In general, <code class="docutils literal notranslate"><span class="pre">Alice_123</span></code> will be able to do this in a ledger with a <a class="reference internal" href="../deploy/ledger-topologies.html#global-state-topologies"><span class="std std-ref">global state topology</span></a>.
+In such ledgers, the nodes holding the physical shared ledger typically also maintain a central directory of all parties in the system.
+However, such a directory may not exist for a ledger with a <a class="reference internal" href="../deploy/ledger-topologies.html#partitioned-topologies"><span class="std std-ref">partitioned topology</span></a>.
+In fact, in such a ledger, the participants <code class="docutils literal notranslate"><span class="pre">P1</span></code> and <code class="docutils literal notranslate"><span class="pre">P2</span></code> might not have a way to communicate to each other, or might not even be aware of each other’s existence.</p>
+<p>For diagnostics, the ledger also provides a <a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpartiesrequest"><span class="std std-ref">ListKnownParties</span></a> method which lists parties known to the participant node.
+The parties can be local (i.e., hosted by the participant) or not.</p>
+</div>
+<div class="section" id="identifiers-and-authentication">
+<span id="identifiers-and-authorization"></span><h3>Identifiers and Authorization<a class="headerlink" href="#identifiers-and-authentication" title="Permalink to this headline">¶</a></h3>
+<p>To issue commands or receive transactions on behalf of a newly provisioned party, an application must provide a
+proof to the party’s hosting participant that they are authorized to represent the party.
+Before the newly provisioned party can be used, the application will have to obtain a token for this party.
+The issuance of tokens is specific to each ledger and independent of the Ledger API.
+The same is true for the policy which the participants use to decide whether to accept a token.</p>
+<p>To learn more about Ledger API security model, please read the <a class="reference internal" href="../app-dev/authorization.html"><span class="doc">Authorization documentation</span></a>.</p>
+</div>
+<div class="section" id="identifiers-and-real-world">
+<span id="identifiers-and-the-real-world"></span><h3>Identifiers and the Real World<a class="headerlink" href="#identifiers-and-real-world" title="Permalink to this headline">¶</a></h3>
+<p>The “substrate” on which Daml workflows are built are the real-world obligations of the parties in the workflow.
+To give value to these obligations, they must be connected to parties in the real world.
+However, the process of linking party identifiers to real-world entities is left to the ledger implementation.</p>
+<p>A <a class="reference internal" href="../deploy/ledger-topologies.html#global-state-topologies"><span class="std std-ref">global state topology</span></a> might simplify the process by trusting the operator of the writer node(s) with providing the link to the real world.
+For example, if the operator is a stock exchange, it might guarantee that a real-world exchange participant whose legal name is “Bank Inc.” is represented by a ledger party with the identifier “Bank Inc.”.
+Alternatively, it might use a random identifier, but guarantee that the display name is “Bank Inc.”.
+Ledgers with <a class="reference internal" href="../deploy/ledger-topologies.html#partitioned-topologies"><span class="std std-ref">partitioned topologies</span></a> in general might not have such a single store of identities.
+The solutions for linking the identifiers to real-world identities could rely on certificate chains, <a class="reference external" href="https://www.w3.org/TR/vc-data-model/">verifiable credentials</a>, or other mechanisms.
+The mechanisms can be implemented off-ledger, using Daml workflows (for instance, a “know your customer” workflow), or a combination of these.</p>
+</div>
+</div>
+<div class="section" id="package-management">
+<span id="id2"></span><h2>Package Management<a class="headerlink" href="#package-management" title="Permalink to this headline">¶</a></h2>
+<p>All Daml ledgers implement endpoints that allow for provisioning new Daml code to the ledger.
+The vetting process for this code, however, depends on the particular ledger implementation and its configuration.
+The remainder of this section describes the endpoints and general principles behind the vetting process.
+The details of the process are ledger-dependent.</p>
+<div class="section" id="package-formats-and-identifiers">
+<span id="id3"></span><h3>Package Formats and Identifiers<a class="headerlink" href="#package-formats-and-identifiers" title="Permalink to this headline">¶</a></h3>
+<p>Any code – i.e., Daml templates – to be uploaded must compiled down to the <a class="reference internal" href="glossary.html#daml-lf"><span class="std std-ref">Daml-LF</span></a> language.
+The unit of packaging for Daml-LF is the <a class="reference internal" href="glossary.html#dar-file-dalf-file"><span class="std std-ref">.dalf</span></a> file.
+Each <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> file is uniquely identified by its <strong>package identifier</strong>, which is the hash of its contents.
+Templates in a <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> file can reference templates from other <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> files, i.e., <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> files can depend on other <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> files.
+A <a class="reference internal" href="glossary.html#dar-file-dalf-file"><span class="std std-ref">.dar</span></a> file is a simple archive containing multiple <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> files, and has no identifier of its own.
+The archive provides a convenient way to package <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> files together with their dependencies.
+The Ledger API supports only <code class="docutils literal notranslate"><span class="pre">.dar</span></code> file uploads.
+Internally, the ledger implementation need not (and often will not) store the uploaded <code class="docutils literal notranslate"><span class="pre">.dar</span></code> files, but only the contained <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> files.</p>
+</div>
+<div class="section" id="package-management-api">
+<span id="id4"></span><h3>Package Management API<a class="headerlink" href="#package-management-api" title="Permalink to this headline">¶</a></h3>
+<p>The package management API supports two methods:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-uploaddarfilerequest"><span class="std std-ref">UploadDarFile</span></a> for uploading <code class="docutils literal notranslate"><span class="pre">.dar</span></code> files.
+The ledger implementation is, however, free to reject any and all packages and return an error.
+Furthermore, even if the method call succeeds, the ledger’s vetting process might restrict the usability of the template.
+For example, assume that Alice successfully uploads a <code class="docutils literal notranslate"><span class="pre">.dar</span></code> file to her participant containing a <code class="docutils literal notranslate"><span class="pre">NewTemplate</span></code> template.
+It may happen that she can now issue commands that create <code class="docutils literal notranslate"><span class="pre">NewTemplate</span></code> instances with Bob as a stakeholder, but that all commands that create <code class="docutils literal notranslate"><span class="pre">NewTemplate</span></code> instances with Charlie as a stakeholder fail.</li>
+<li><a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-listknownpackagesrequest"><span class="std std-ref">ListKnownPackages</span></a> that lists the <code class="docutils literal notranslate"><span class="pre">.dalf</span></code> package vetted for usage at the participant node.
+Like with the previous method, the usability of the listed templates depends on the ledger’s vetting process.</li>
+</ul>
+</div>
+<div class="section" id="package-vetting">
+<span id="package-management-vetting"></span><h3>Package Vetting<a class="headerlink" href="#package-vetting" title="Permalink to this headline">¶</a></h3>
+<p>Using a Daml package entails running its Daml code.
+The Daml interpreter ensures that the Daml code cannot interact with the environment of the system on which it is executing.
+However, the operators of the ledger infrastructure nodes may still wish to review and vet any Daml code before allowing it to execute.
+One reason for this is that the Daml interpreter currently lacks a notion of reproducible resource limits, and executing a Daml contract might result in high memory or CPU usage.</p>
+<p>Thus, Daml ledgers generally allow some form of vetting a package before running its code on a node.
+Not all nodes in a Daml ledger must vet all packages, as it is possible that some of them will not execute the code.
+For example, in <a class="reference internal" href="../deploy/ledger-topologies.html#global-state-topologies"><span class="std std-ref">global state topologies</span></a>, every <a class="reference internal" href="glossary.html#trust-domain"><span class="std std-ref">trust domain</span></a> that controls how commits are appended to the shared ledger must execute Daml code.
+Thus, the operators of these trust domains will in general be allowed to vet the code before they execute it.
+The exact vetting mechanism is ledger-dependent.
+For example, in the <a class="reference internal" href="../tools/sandbox.html#sandbox-manual"><span class="std std-ref">Daml Sandbox</span></a>, the vetting is implicit: uploading a package through the Ledger API already vets the package, since it’s assumed that only the system administrator has access to these API facilities.
+In a replicated ledger, the vetting might require consent from all or a quorum of replicas.
+The vetting process can be manual, where an administrator inspects each package, or it can be automated, for example, by accepting only packages with a digital signature from a trusted package issuer.</p>
+<p>In <a class="reference internal" href="../deploy/ledger-topologies.html#partitioned-topologies"><span class="std std-ref">partitioned topologies</span></a>, individual trust domains store only parts of the ledger.
+Thus, they only need to approve packages whose templates are used in the ledger part visible to them.
+For example, in Daml on <a class="reference external" href="https://www.corda.net">R3 Corda</a>, participants only need to approve code for the contracts in their parties’ projections.
+If non-validating Corda notaries are used, they do not need to vet code.
+If validating Corda notaries are used, they can also choose which code to vet.
+In <a class="reference external" href="https://canton.io">Canton</a>, participant nodes also only need to vet code for the contracts of the parties they host.
+As only participants execute contract code, only they need to vet it.
+The vetting results may also differ at different participants.
+For example, participants <code class="docutils literal notranslate"><span class="pre">P1</span></code> and <code class="docutils literal notranslate"><span class="pre">P2</span></code> might vet a package containing a <code class="docutils literal notranslate"><span class="pre">NewTemplate</span></code> template, whereas <code class="docutils literal notranslate"><span class="pre">P3</span></code> might reject it.
+In that case, if Alice is hosted at <code class="docutils literal notranslate"><span class="pre">P1</span></code>, she can create <code class="docutils literal notranslate"><span class="pre">NewTemplate</span></code> instances with stakeholder Bob who is hosted at <code class="docutils literal notranslate"><span class="pre">P2</span></code>, but not with stakeholder Charlie if he’s hosted at <code class="docutils literal notranslate"><span class="pre">P3</span></code>.</p>
+</div>
+<div class="section" id="package-upgrades">
+<span id="id5"></span><h3>Package Upgrades<a class="headerlink" href="#package-upgrades" title="Permalink to this headline">¶</a></h3>
+<p>The Ledger API does not have any special support for package upgrades.
+A new version of an existing package is treated the same as a completely new package, and undergoes the same vetting process.
+Upgrades to active contracts can be done by the Daml code of the new package version, by archiving the old contracts and creating new ones.</p>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ledger-model/ledger-exceptions.html" class="da-btn da-btn-label btn-prev" title="Exceptions" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="time.html" class="da-btn da-btn-label btn-next" title="Time" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

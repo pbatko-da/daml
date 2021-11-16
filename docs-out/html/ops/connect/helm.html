@@ -1,0 +1,1430 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Connect Helm Chart &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Setting Up Auth0" href="auth0.html" />
+  <link rel="prev" title="Operating Daml Connect" href="index.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Operating Daml Connect</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Connect Helm Chart</a><ul>
+<li><a class="reference internal" href="#credentials">Credentials</a></li>
+<li><a class="reference internal" href="#installing-the-helm-chart-repository">Installing the Helm Chart Repository</a></li>
+<li><a class="reference internal" href="#setting-up-the-imagepullsecret">Setting Up the <code class="docutils literal notranslate"><span class="pre">imagePullSecret</span></code></a></li>
+<li><a class="reference internal" href="#quickstart">Quickstart</a></li>
+<li><a class="reference internal" href="#production-setup">Production Setup</a></li>
+<li><a class="reference internal" href="#log-aggregation">Log Aggregation</a></li>
+<li><a class="reference internal" href="#daml-metrics-options">Daml Metrics Options</a></li>
+<li><a class="reference internal" href="#upgrading">Upgrading</a></li>
+<li><a class="reference internal" href="#backing-up">Backing Up</a></li>
+<li><a class="reference internal" href="#securing-daml-connect">Securing Daml Connect</a></li>
+<li><a class="reference internal" href="#helm-chart-options-reference">Helm Chart Options Reference</a><ul>
+<li><a class="reference internal" href="#authurl">authUrl</a></li>
+<li><a class="reference internal" href="#imagepullsecret">imagePullSecret</a></li>
+<li><a class="reference internal" href="#jsonapi-create">jsonApi.create</a></li>
+<li><a class="reference internal" href="#jsonapi-db-host">jsonApi.db.host</a></li>
+<li><a class="reference internal" href="#jsonapi-db-oracle-servicename">jsonApi.db.oracle.serviceName</a></li>
+<li><a class="reference internal" href="#jsonapi-db-port">jsonApi.db.port</a></li>
+<li><a class="reference internal" href="#jsonapi-db-postgres-database">jsonApi.db.postgres.database</a></li>
+<li><a class="reference internal" href="#jsonapi-db-secret">jsonApi.db.secret</a></li>
+<li><a class="reference internal" href="#jsonapi-db-setupsecret">jsonApi.db.setupSecret</a></li>
+<li><a class="reference internal" href="#jsonapi-healthcheck">jsonApi.healthCheck</a></li>
+<li><a class="reference internal" href="#jsonapi-loglevel">jsonApi.logLevel</a></li>
+<li><a class="reference internal" href="#jsonapi-podannotations">jsonApi.podAnnotations</a></li>
+<li><a class="reference internal" href="#jsonapi-replicacount">jsonApi.replicaCount</a></li>
+<li><a class="reference internal" href="#jsonapi-resources">jsonApi.resources</a></li>
+<li><a class="reference internal" href="#jsonapi-serviceaccount">jsonApi.serviceAccount</a></li>
+<li><a class="reference internal" href="#ledger-create">ledger.create</a></li>
+<li><a class="reference internal" href="#ledger-db-host">ledger.db.host</a></li>
+<li><a class="reference internal" href="#ledger-db-port">ledger.db.port</a></li>
+<li><a class="reference internal" href="#ledger-db-postgres-database">ledger.db.postgres.database</a></li>
+<li><a class="reference internal" href="#ledger-db-secret">ledger.db.secret</a></li>
+<li><a class="reference internal" href="#ledger-db-setupsecret">ledger.db.setupSecret</a></li>
+<li><a class="reference internal" href="#ledger-healthcheck">ledger.healthCheck</a></li>
+<li><a class="reference internal" href="#ledger-host">ledger.host</a></li>
+<li><a class="reference internal" href="#ledger-podannotations">ledger.podAnnotations</a></li>
+<li><a class="reference internal" href="#ledger-port">ledger.port</a></li>
+<li><a class="reference internal" href="#ledger-resources">ledger.resources</a></li>
+<li><a class="reference internal" href="#ledger-serviceaccount">ledger.serviceAccount</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-callback">oauthMiddleware.callback</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-clientid">oauthMiddleware.clientId</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-clientsecret">oauthMiddleware.clientSecret</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-create">oauthMiddleware.create</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-healthcheck">oauthMiddleware.healthCheck</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-oauthauth">oauthMiddleware.oauthAuth</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-oauthtoken">oauthMiddleware.oauthToken</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-podannotations">oauthMiddleware.podAnnotations</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-replicacount">oauthMiddleware.replicaCount</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-resources">oauthMiddleware.resources</a></li>
+<li><a class="reference internal" href="#oauthmiddleware-serviceaccount">oauthMiddleware.serviceAccount</a></li>
+<li><a class="reference internal" href="#production">production</a></li>
+<li><a class="reference internal" href="#triggerservice-authcallback">triggerService.authCallback</a></li>
+<li><a class="reference internal" href="#triggerservice-authexternal">triggerService.authExternal</a></li>
+<li><a class="reference internal" href="#triggerservice-create">triggerService.create</a></li>
+<li><a class="reference internal" href="#triggerservice-db-host">triggerService.db.host</a></li>
+<li><a class="reference internal" href="#triggerservice-db-oracle-servicename">triggerService.db.oracle.serviceName</a></li>
+<li><a class="reference internal" href="#triggerservice-db-port">triggerService.db.port</a></li>
+<li><a class="reference internal" href="#triggerservice-db-postgres-database">triggerService.db.postgres.database</a></li>
+<li><a class="reference internal" href="#triggerservice-db-secret">triggerService.db.secret</a></li>
+<li><a class="reference internal" href="#triggerservice-db-setupsecret">triggerService.db.setupSecret</a></li>
+<li><a class="reference internal" href="#triggerservice-healthcheck">triggerService.healthCheck</a></li>
+<li><a class="reference internal" href="#triggerservice-podannotations">triggerService.podAnnotations</a></li>
+<li><a class="reference internal" href="#triggerservice-resources">triggerService.resources</a></li>
+<li><a class="reference internal" href="#triggerservice-serviceaccount">triggerService.serviceAccount</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="connect-helm-chart">
+<span id="id1"></span><h1>Connect Helm Chart<a class="headerlink" href="#connect-helm-chart" title="Permalink to this headline">¶</a></h1>
+<p>As of 1.18.0, we provide an Early Access version of the Connect Helm Chart for
+Enterprise Edition customers. This page contains documentation for that Helm
+chart.</p>
+<div class="section" id="credentials">
+<h2>Credentials<a class="headerlink" href="#credentials" title="Permalink to this headline">¶</a></h2>
+<p>Like all Enterprise Edition components, the Helm Chart is hosted on
+Artifactory. To get both the Helm chart itself and the Docker images it relies
+on, you will need Artifactory credentials. In the rest of this document, we
+assume that <code class="docutils literal notranslate"><span class="pre">$ARTIFACTORY_USERNAME</span></code> refers to your Artifactory user name,
+whereas <code class="docutils literal notranslate"><span class="pre">$ARTIFACTORY_PASSWORD</span></code> refers to your Artifactory API key.</p>
+</div>
+<div class="section" id="installing-the-helm-chart-repository">
+<h2>Installing the Helm Chart Repository<a class="headerlink" href="#installing-the-helm-chart-repository" title="Permalink to this headline">¶</a></h2>
+<p>To let your local Helm installation know about the Daml Connect Helm chart, you
+need to add the repository with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>helm repo add daml \
+  https://digitalasset.jfrog.io/artifactory/connect-helm-chart \
+  --username $ARTIFACTORY_USERNAME \
+  --password $ARTIFACTORY_PASSWORD
+</pre></div>
+</div>
+<p>This will install the repository as <code class="docutils literal notranslate"><span class="pre">daml</span></code>; you can then list the available
+versions with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">search</span> <span class="n">repo</span> <span class="o">--</span><span class="n">devel</span> <span class="o">-</span><span class="n">l</span> <span class="n">daml</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--devel</span></code> flag lets Helm know that you want to list prerelease versions
+(in the Semver sense). To avoid any confusion as to the production-readiness of
+the Helm chart, while the feature is in Early Access, only prerelease versions
+of the Helm chart will be available.</p>
+<p>Later on, you can update your local listing to match the Artifactory state
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">repo</span> <span class="n">update</span>
+</pre></div>
+</div>
+<p>And you can deploy the latest prerelease version with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">install</span> <span class="n">dm</span> <span class="n">daml</span><span class="o">/</span><span class="n">daml</span><span class="o">-</span><span class="n">connect</span> <span class="o">--</span><span class="n">devel</span> <span class="o">--</span><span class="n">values</span> <span class="n">values</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> is a YAML file that includes at least the
+<code class="docutils literal notranslate"><span class="pre">imagePullSecret</span></code> key. See the rest of this page for other options in
+<code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>, and the Helm documentation for related Helm usage.</p>
+</div>
+<div class="section" id="setting-up-the-imagepullsecret">
+<h2>Setting Up the <code class="docutils literal notranslate"><span class="pre">imagePullSecret</span></code><a class="headerlink" href="#setting-up-the-imagepullsecret" title="Permalink to this headline">¶</a></h2>
+<p>The Helm chart relies on the production-ready Docker images for individual
+components that are part of the Enterprise Edition. Specifically, it expects a
+Kubernetes secret given as the <code class="docutils literal notranslate"><span class="pre">imagePullSecret</span></code> argument with the relevant
+Docker credentials in it.</p>
+<p>Here is an example script that would load said credentials in a secret named
+<code class="docutils literal notranslate"><span class="pre">daml-docker-credentials</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span> -euo pipefail
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="si">${</span><span class="nv">ARTIFACTORY_PASSWORD</span><span class="p">+x</span><span class="si">}</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> -z <span class="si">${</span><span class="nv">ARTIFACTORY_USERNAME</span><span class="p">+x</span><span class="si">}</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Please input information from:&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;https://digitalasset.jfrog.io/ui/admin/artifactory/user_profile&quot;</span>
+    <span class="nb">read</span> -p <span class="s2">&quot;User Profile (first.last): &quot;</span> USERNAME
+    <span class="nb">read</span> -p <span class="s2">&quot;API Key: &quot;</span> -s PASSWORD
+<span class="k">else</span>
+    <span class="nv">USERNAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$ARTIFACTORY_USERNAME</span><span class="s2">&quot;</span>
+    <span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$ARTIFACTORY_PASSWORD</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="nv">temp</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="k">)</span>
+<span class="nb">trap</span> <span class="s2">&quot;rm -f </span><span class="nv">$temp</span><span class="s2">&quot;</span> EXIT
+
+<span class="nv">cred</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> -n <span class="s2">&quot;</span><span class="nv">$USERNAME</span><span class="s2">:</span><span class="nv">$PASSWORD</span><span class="s2">&quot;</span> <span class="p">|</span> base64<span class="k">)</span>
+jq -n --arg cred <span class="s2">&quot;</span><span class="nv">$cred</span><span class="s2">&quot;</span> <span class="s1">&#39;</span>
+<span class="s1">  [&quot;-daml-on-sql&quot;,&quot;-http-json&quot;,&quot;-oauth2-middleware&quot;,&quot;-trigger-service&quot;,&quot;&quot;]</span>
+<span class="s1">  | map({(&quot;digitalasset&quot; + . + &quot;-docker.jfrog.io&quot;):{&quot;auth&quot;:$cred}})</span>
+<span class="s1">  | add</span>
+<span class="s1">  | {auths: .}</span>
+<span class="s1">  &#39;</span> &gt; <span class="nv">$temp</span>
+
+kubectl create secret generic daml-docker-credentials <span class="se">\</span>
+        --from-file<span class="o">=</span>.dockerconfigjson<span class="o">=</span><span class="nv">$temp</span> <span class="se">\</span>
+        --type<span class="o">=</span>kubernetes.io/dockerconfigjson
+
+rm -f <span class="nv">$temp</span>
+<span class="nb">trap</span> - EXIT
+</pre></div>
+</div>
+<p>Running this script with the environment variables <code class="docutils literal notranslate"><span class="pre">ARTIFACTORY_USERNAME</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ARTIFACTORY_PASSWORD</span></code> set will result in a non-interactive deployment of the
+secret, which may be useful for CI environments.</p>
+</div>
+<div class="section" id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>The Helm chart is designed to let you get started quickly, using a default
+configuration that is decidedly <strong>NOT MEANT FOR PRODUCTION USE</strong>.</p>
+<p>To get started against a development cluster, you can just run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">install</span> <span class="n">dm</span> <span class="n">daml</span><span class="o">/</span><span class="n">daml</span><span class="o">-</span><span class="n">connect</span> \
+     <span class="o">--</span><span class="n">devel</span> \
+     <span class="o">--</span><span class="nb">set</span> <span class="n">imagePullSecret</span><span class="o">=</span><span class="n">daml</span><span class="o">-</span><span class="n">docker</span><span class="o">-</span><span class="n">credentials</span>
+</pre></div>
+</div>
+<p>This assumes you have used the above script to setup your credentials, or
+otherwise created the secret <code class="docutils literal notranslate"><span class="pre">daml-docker-credentials</span></code>. It also assumes you
+run this command after having added the Daml Connect Helm chart repository as
+explained above.</p>
+<p>This is going to start the following:</p>
+<ul class="simple">
+<li>For each of the state-keeping components (Daml Driver for PostgreSQL, HTTP
+JSON API Service), an “internal” PostgreSQL database server. These are
+decidedly not production-ready. For a production setup, you’ll need to
+provide your own databases here.</li>
+<li>A fake, testing-only JWT minter to serve as the authentication server. This
+should be replaced with a real authentication server for production use. See
+the <a class="reference internal" href="auth0.html#auth0"><span class="std std-ref">Setting Up Auth0</span></a> section for an example of using an external authentication
+infrastructure.</li>
+<li>A single instance of each of the following services: Daml Driver for
+PostgreSQL, HTTP JSON API Service.</li>
+<li>An nginx server exposing the <code class="docutils literal notranslate"><span class="pre">/v1</span></code> endpoints of the HTTP JSON API Service
+on a <code class="docutils literal notranslate"><span class="pre">NodePort</span></code> service type, for easy access from outside the Kubernetes
+cluster.</li>
+</ul>
+<p>If you set up the Trigger Service and/or the OAuth2 Middleware (without setting
+the <code class="docutils literal notranslate"><span class="pre">production</span></code> flag), the reverse proxy will automatically proxy them too,
+and a separate PostgreSQL instance will be started for the Trigger Service. See
+the end of this page for details.</p>
+</div>
+<div class="section" id="production-setup">
+<h2>Production Setup<a class="headerlink" href="#production-setup" title="Permalink to this headline">¶</a></h2>
+<p>There are many options you may want to set for a production setup. See the
+reference at the end of this page for full details. At a minimum, though, you
+need to set the following:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">production=true</span></code>: By default, the Helm chart starts a number of components
+that are meant to give you a quick idea of what the Helm chart enables, but
+are most definitely not meant for production use. Specifically, this will
+disable the internal PostgreSQL instances, the mock auth server, and the
+reverse proxy.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ledger.db</span></code>: If you want the Helm char to start a Daml Driver For
+PostgreSQL instance for you, you need to set this. See reference section at
+the end of this page for details.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ledger.host</span></code> and <code class="docutils literal notranslate"><span class="pre">ledger.port</span></code>: If you <strong>do not</strong> want the Helm chart to
+setup a Daml Driver isntance for you, but instead want the components started
+by it to connect to an existing Ledger API server, fill in these options
+instead of the <code class="docutils literal notranslate"><span class="pre">ledger.db</span></code> object.</li>
+<li><code class="docutils literal notranslate"><span class="pre">jsonApi.db</span></code>: If you want the Helm chart to start the HTTP JSON API Service
+for you, you need to set this. See reference section at the end of this page
+for details.</li>
+<li><code class="docutils literal notranslate"><span class="pre">triggerService.db</span></code>: If you want the Helm chart to start the Trigger
+Service for you, you need to set this. See reference section at the end of
+this page for details.</li>
+<li><code class="docutils literal notranslate"><span class="pre">authUrl</span></code>: If you want the Helm chart to provide either a Daml Driver for
+PostgreSQL or a OAuth2 Middleware instance, you will need to set this to the
+JWKS URL of your token provider.</li>
+</ul>
+<p>If you start the Trigger Service, you will need to configure it, as well as the
+OAuth2 Middleware. See the required options for them in the reference section
+at the end of this page.</p>
+<p>Finally, we also recommend looking at the <code class="docutils literal notranslate"><span class="pre">resources</span></code> option for each
+component and adjusting them to fit your particular use-case.</p>
+</div>
+<div class="section" id="log-aggregation">
+<h2>Log Aggregation<a class="headerlink" href="#log-aggregation" title="Permalink to this headline">¶</a></h2>
+<p>All processes write their logs directly to stdout. This means that log
+aggregation can be addressed at the Kubernetes level and does not require any
+specific support from the Helm chart itself. One fairly easy way to achieve
+this is using <a class="reference external" href="https://www.elastic.co/beats/filebeat">Filebeat</a>, which
+regulary collects the logs of your containers and ingests them into
+<cite>Elasticsearch &lt;https://www.elastic.co/elasticsearch/&gt;</cite>,
+<a class="reference external" href="https://www.elastic.co/logstash/">Logstash</a>,
+<a class="reference external" href="https://kafka.apache.org/">Kafka</a>, etc.</p>
+<p>You can find external documentation on, how to setup <cite>ElasticSearch</cite> with
+<cite>Filebeat</cite> and <cite>Kibana</cite> for analyzing logs on your Kubernetes cluster
+<a class="reference external" href="https://www.deepnetwork.com/blog/2020/01/27/ELK-stack-filebeat-k8s-deployment.html">here</a>.</p>
+<p>As of 1.18.0, the <a class="reference internal" href="../../json-api/index.html#json-api"><span class="std std-ref">HTTP JSON API</span></a> component in the Helm chart produces
+JSON-encoded logs. Other components log as unstructured text.</p>
+</div>
+<div class="section" id="daml-metrics-options">
+<h2>Daml Metrics Options<a class="headerlink" href="#daml-metrics-options" title="Permalink to this headline">¶</a></h2>
+<p>The Daml Driver for PostgreSQL instance and the HTTP JSON API instances started
+by the Helm chart are configured to expose Prometheus metrics on a port named
+<code class="docutils literal notranslate"><span class="pre">metrics</span></code>, using the appropriate annotations. This means that, if you are
+running a cluster-wide Prometheus instance, the relevant metrics should be
+collected automatically.</p>
+<p>See each component’s documentation for details on the metrics exposed:</p>
+<ul class="simple">
+<li><a class="reference external" href="/daml-driver-for-postgresql/#types-of-metrics">Daml Driver for PostgreSQL</a></li>
+<li><a class="reference internal" href="../../json-api/production-setup.html#json-api-metrics"><span class="std std-ref">JSON API metrics</span></a></li>
+</ul>
+</div>
+<div class="section" id="upgrading">
+<h2>Upgrading<a class="headerlink" href="#upgrading" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section only makes sense with the <code class="docutils literal notranslate"><span class="pre">production</span></code> flag set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+</div>
+<p>Upgrading the Daml Connect version should be done by uninstalling the existing
+Helm chart, waiting for all of the pods to stop, and then installing a higher
+version. Destroying all of the components is a safe operation because all of
+the state is stored in the provided database coordinates. There is no
+additional state within the components themselves.</p>
+<p>The components are not designed for running concurrently with older versions,
+so it is imperative to wait for the existing Helm chart components to be
+completely shut down before installing the new one. Do not try to upgrade in
+place.</p>
+<p>Assuming you do not change the database coordinates, you should have data
+continuity through the upgrade.</p>
+</div>
+<div class="section" id="backing-up">
+<h2>Backing Up<a class="headerlink" href="#backing-up" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section only makes sense with the <code class="docutils literal notranslate"><span class="pre">production</span></code> flag set to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+</div>
+<p>For a production setup, you should be providing the Helm chart with external
+database coordinates. The simplest approach here is to periodically back up
+those databases as a whole, just like you would any other database.</p>
+<p>If you want to be more fine-grained, you <em>may</em> decide to <strong>not</strong> backup the
+database used by the HTTP JSON API Service instances. Note that it is
+imperative that you still backup the databases for the other components (Trigger
+Service and Daml Driver for PostgreSQL) if you are running them.</p>
+<p>If you are running the Helm chart solely for the HTTP JSON API Service
+(connected to an external Ledger API server), then you can eschew backing up
+entirely, as the database for the HTTP JSON API Service is an
+easy-to-reconstruct cache. This assume that, in this setup, the data store of
+the Ledger API server is, itself, properly backed up.</p>
+</div>
+<div class="section" id="securing-daml-connect">
+<h2>Securing Daml Connect<a class="headerlink" href="#securing-daml-connect" title="Permalink to this headline">¶</a></h2>
+<p>The Helm chart assumes that the Kubernetes environment itself is trusted, and
+as such does not encrypt connections between components. Full TLS encryption
+between every component is not supported by the Helm chart. Individual
+components do support it, so if that is a requirement for you you can still set
+it up, though not through the Helm chart. Refer to the
+<a class="reference external" href="https://github.com/digital-asset/ex-secure-daml-infra">Secure Daml Infrastructure</a>
+repository for guidance on how to set that up.</p>
+<p>When using the Helm chart, we recommend against exposing the Ledger API gRPC
+endpoint outside of the cluster, and exposing the HTTP JSON API Service,
+Trigger Service, and OAuth2 Middleware endpoints only through an HTTP proxy.
+That is why the services started by the Helm chart are of type <code class="docutils literal notranslate"><span class="pre">ClusterIP</span></code>.</p>
+<p>That proxy should either do TLS termination, or be itself behind a proxy that
+does, in which case all of the communications between the TLS termination
+endpoint must be happening on a fully trusted network.</p>
+<p>See the <a class="reference internal" href="auth0.html#auth0"><span class="std std-ref">Setting Up Auth0</span></a> section for an example of setting up nginx to proxy
+external connections to the JSON API, Trigger Service and OAuth2 Middleware.</p>
+</div>
+<div class="section" id="helm-chart-options-reference">
+<h2>Helm Chart Options Reference<a class="headerlink" href="#helm-chart-options-reference" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>copied from <a class="reference external" href="https://github.com/DACH-NY/connect-helm-chart/blob/c297baae3565d92f6ff2aad5e40b7138945772b5/Configuration.md">https://github.com/DACH-NY/connect-helm-chart/blob/c297baae3565d92f6ff2aad5e40b7138945772b5/Configuration.md</a>
+This will need to be updated, but hopefully we can move the Helm chart to
+this repo “soon” and that will stop being an problem. Also, converting md to rst sucks.</div></blockquote>
+<p>These options have been extracted from the Helm chart version <code class="docutils literal notranslate"><span class="pre">daml-connect-1.18.0-20211110.main.84.c297baae</span></code>.</p>
+<div class="section" id="authurl">
+<h3>authUrl<a class="headerlink" href="#authurl" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if either the ledger or the auth middleware is started</li>
+</ul>
+<p>The JWKS endpoint used to get the public key to validate tokens. Used by the
+ledger and the OAuth2 Middleware.</p>
+</div>
+<div class="section" id="imagepullsecret">
+<h3>imagePullSecret<a class="headerlink" href="#imagepullsecret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: true</li>
+</ul>
+<p>The Kubernetes secret which is used for gaining access to the repository where
+the Daml Docker images are located.</p>
+</div>
+<div class="section" id="jsonapi-create">
+<h3>jsonApi.create<a class="headerlink" href="#jsonapi-create" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: bool</li>
+<li><strong>Default</strong>: true</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Controls whether the HTTP JSON API Service is deployed.</p>
+</div>
+<div class="section" id="jsonapi-db-host">
+<h3>jsonApi.db.host<a class="headerlink" href="#jsonapi-db-host" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The hostname of the database server for the HTTP JSON API Service, if one is
+started by the Helm chart.</p>
+</div>
+<div class="section" id="jsonapi-db-oracle-servicename">
+<h3>jsonApi.db.oracle.serviceName<a class="headerlink" href="#jsonapi-db-oracle-servicename" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; using Oracle</li>
+</ul>
+<p>If the HTTP JSON API Service database is Oracle, this is used to set the
+Service Name.</p>
+</div>
+<div class="section" id="jsonapi-db-port">
+<h3>jsonApi.db.port<a class="headerlink" href="#jsonapi-db-port" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: integer</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The exposed port of the database server for the HTTP JSON API Service, if one
+is started by the Helm chart.</p>
+</div>
+<div class="section" id="jsonapi-db-postgres-database">
+<h3>jsonApi.db.postgres.database<a class="headerlink" href="#jsonapi-db-postgres-database" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; using an external PostgreSQL</li>
+</ul>
+<p>The database the HTTP JSON API Service should use when connecting to the
+database server.</p>
+</div>
+<div class="section" id="jsonapi-db-secret">
+<h3>jsonApi.db.secret<a class="headerlink" href="#jsonapi-db-secret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The Kubernetes secret which is used for gaining access to the database.
+The content should have the following structure:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">daml</span>
+<span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3cr3t</span>
+</pre></div>
+</div>
+<p>or as JSON:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;daml&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;s3cr3t&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jsonapi-db-setupsecret">
+<h3>jsonApi.db.setupSecret<a class="headerlink" href="#jsonapi-db-setupsecret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: none</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The HTTP JSON API Service supports a mode where the credentials used at startup
+(to create the database structure) are not the same as the credentials used
+while the application is running. This can be useful if you want to run with
+lower privileges, specifically without the privileges to alter table structure.</p>
+<p>If this option is given, a separate instance of the HTTP JSON API Service will
+be started with <code class="docutils literal notranslate"><span class="pre">start-mode=create-only</span></code> using these credentials as a
+one-time job, while the regular, long-lived instances will be started with
+<code class="docutils literal notranslate"><span class="pre">start-mode=start-only</span></code>.  If this option is <strong>not</strong> given, then no separate
+one-time job is started and regular instances are started with
+<code class="docutils literal notranslate"><span class="pre">start-mode=create-if-needed-and-start</span></code>.</p>
+<p>The format of this option is the same as <code class="docutils literal notranslate"><span class="pre">jsonApi.db.secret</span></code>.</p>
+</div>
+<div class="section" id="jsonapi-healthcheck">
+<h3>jsonApi.healthCheck<a class="headerlink" href="#jsonapi-healthcheck" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the probes for the long-lived HTTP JSON API Service instances. The
+current default is:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/readyz</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="nt">startupProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/livez</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="nt">livenessProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/livez</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jsonapi-loglevel">
+<h3>jsonApi.logLevel<a class="headerlink" href="#jsonapi-loglevel" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: info</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Sets the log level for the HTTP JSON API Service instances. Valid values are
+<code class="docutils literal notranslate"><span class="pre">error</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">debug</span></code> and <code class="docutils literal notranslate"><span class="pre">trace</span></code>.</p>
+</div>
+<div class="section" id="jsonapi-podannotations">
+<h3>jsonApi.podAnnotations<a class="headerlink" href="#jsonapi-podannotations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: {}</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The annotations which should be attached to the metadata of the HTTP JSON API
+Service pods.</p>
+</div>
+<div class="section" id="jsonapi-replicacount">
+<h3>jsonApi.replicaCount<a class="headerlink" href="#jsonapi-replicacount" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: number</li>
+<li><strong>Default</strong>: 1</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Controls how many long-lived instance of the HTTP JSON API Service are started.</p>
+</div>
+<div class="section" id="jsonapi-resources">
+<h3>jsonApi.resources<a class="headerlink" href="#jsonapi-resources" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the <code class="docutils literal notranslate"><span class="pre">resources</span></code> field on the HTTP JSON API Service pods. Default:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">limits</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;1&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;2Gi&quot;</span>
+<span class="nt">requests</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;0.5&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;1Gi&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jsonapi-serviceaccount">
+<h3>jsonApi.serviceAccount<a class="headerlink" href="#jsonapi-serviceaccount" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: null</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The service account which should be attached to the HTTP JSON API Service pods.</p>
+</div>
+<div class="section" id="ledger-create">
+<h3>ledger.create<a class="headerlink" href="#ledger-create" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: bool</li>
+<li><strong>Default</strong>: true</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>If true, the Helm chart will create a Daml Driver for PostgreSQL instance. If
+false, you will need to provide <code class="docutils literal notranslate"><span class="pre">ledger.host</span></code> and <code class="docutils literal notranslate"><span class="pre">ledger.port</span></code> (see
+below).</p>
+</div>
+<div class="section" id="ledger-db-host">
+<h3>ledger.db.host<a class="headerlink" href="#ledger-db-host" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The hostname of the database server for the Daml Driver for PostgreSQL, if one
+is started by the Helm chart.</p>
+</div>
+<div class="section" id="ledger-db-port">
+<h3>ledger.db.port<a class="headerlink" href="#ledger-db-port" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: integer</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The exposed port of the database server for the Daml Driver for PostgreSQL, if
+one is started by the Helm chart.</p>
+</div>
+<div class="section" id="ledger-db-postgres-database">
+<h3>ledger.db.postgres.database<a class="headerlink" href="#ledger-db-postgres-database" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The database the Daml Driver for PostgreSQL should use when connecting to the
+database server. Note that, unlike the Trigger Service and HTTP JSON API
+Service, the Daml Driver for PostgreSQL started by the Helm chart only supports
+PostgreSQL database servers.</p>
+</div>
+<div class="section" id="ledger-db-secret">
+<h3>ledger.db.secret<a class="headerlink" href="#ledger-db-secret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The Kubernetes secret which is used for gaining access to the database.
+The content should have the following structure:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">daml</span>
+<span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3cr3t</span>
+</pre></div>
+</div>
+<p>or as JSON:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;daml&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;s3cr3t&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ledger-db-setupsecret">
+<h3>ledger.db.setupSecret<a class="headerlink" href="#ledger-db-setupsecret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: none</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The Daml Driver for PostgreSQL supports two start modes: <code class="docutils literal notranslate"><span class="pre">--migrate-only</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--migrate-and-start</span></code>. The long-running instance always starts with
+<code class="docutils literal notranslate"><span class="pre">--migrate-and-start</span></code>, but if you supply this option, the Helm chart will
+start a separate, one-time job with <code class="docutils literal notranslate"><span class="pre">--migrate-only</span></code>.</p>
+<p>This can be used to supply separate credentials with table alteration
+privileges to the one-time job (this property), and restricted credentials with
+no table creation/alteration privileges to the long-running one
+(<code class="docutils literal notranslate"><span class="pre">ledger.db.secret</span></code>).</p>
+<p>The structure is the same as <code class="docutils literal notranslate"><span class="pre">ledger.db.secret</span></code>.</p>
+</div>
+<div class="section" id="ledger-healthcheck">
+<h3>ledger.healthCheck<a class="headerlink" href="#ledger-healthcheck" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the probes for the long-running Daml Driver for PostgreSQL instance.
+Defaults:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">readinessProbe</span><span class="p">:</span>
+  <span class="nt">exec</span><span class="p">:</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;./grpc-health-probe&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;-addr=:6865&quot;</span> <span class="p p-Indicator">]</span>
+  <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+<span class="nt">livenessProbe</span><span class="p">:</span>
+  <span class="nt">exec</span><span class="p">:</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;./grpc-health-probe&quot;</span><span class="p p-Indicator">,</span> <span class="s">&quot;-addr=:6865&quot;</span> <span class="p p-Indicator">]</span>
+  <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ledger-host">
+<h3>ledger.host<a class="headerlink" href="#ledger-host" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if ledger.create is false</li>
+</ul>
+<p>If the Helm chart should not create its own Daml Driver for PostgreSQL instance
+(i.e. you want to connect to other components to an existing gRPC Ledger API
+provider), this option should be set to the hostname of the gRPC Ledger API
+Server to connect to.</p>
+</div>
+<div class="section" id="ledger-podannotations">
+<h3>ledger.podAnnotations<a class="headerlink" href="#ledger-podannotations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: {}</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The annotations which should be attached to the metadata of the Daml Driver for
+PostgreSQL pod.</p>
+</div>
+<div class="section" id="ledger-port">
+<h3>ledger.port<a class="headerlink" href="#ledger-port" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: number</li>
+<li><strong>Default</strong>: 6865</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The port on which the external gRPC Ledger API Server is exposed.</p>
+</div>
+<div class="section" id="ledger-resources">
+<h3>ledger.resources<a class="headerlink" href="#ledger-resources" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the <code class="docutils literal notranslate"><span class="pre">resources</span></code> field of the Daml Driver for PostgreSQL pod.
+Defaults:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">limits</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;1&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;2Gi&quot;</span>
+<span class="nt">requests</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;0.5&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;1Gi&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ledger-serviceaccount">
+<h3>ledger.serviceAccount<a class="headerlink" href="#ledger-serviceaccount" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: null</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The service account which should be attached to the Daml Driver for PostgreSQL
+pod.</p>
+</div>
+<div class="section" id="oauthmiddleware-callback">
+<h3>oauthMiddleware.callback<a class="headerlink" href="#oauthmiddleware-callback" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if oauthMiddleware.create</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">--callback</span></code> argument given to the <a class="reference internal" href="../../tools/auth-middleware/oauth2.html#oauth2-middleware"><span class="std std-ref">OAuth 2.0 Auth Middleware</span></a> instance.</p>
+</div>
+<div class="section" id="oauthmiddleware-clientid">
+<h3>oauthMiddleware.clientId<a class="headerlink" href="#oauthmiddleware-clientid" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if oauthMiddleware.create</li>
+</ul>
+<p>The value of the <code class="docutils literal notranslate"><span class="pre">DAML_CLIENT_ID</span></code> environment variable needed by the
+<a class="reference internal" href="../../tools/auth-middleware/oauth2.html#oauth2-middleware"><span class="std std-ref">OAuth 2.0 Auth Middleware</span></a> instance.</p>
+</div>
+<div class="section" id="oauthmiddleware-clientsecret">
+<h3>oauthMiddleware.clientSecret<a class="headerlink" href="#oauthmiddleware-clientsecret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if oauthMiddleware.create</li>
+</ul>
+<p>The value of the <code class="docutils literal notranslate"><span class="pre">DAML_CLIENT_SECRET</span></code> environment variable needed by the
+<a class="reference internal" href="../../tools/auth-middleware/oauth2.html#oauth2-middleware"><span class="std std-ref">OAuth 2.0 Auth Middleware</span></a> instance.</p>
+</div>
+<div class="section" id="oauthmiddleware-create">
+<h3>oauthMiddleware.create<a class="headerlink" href="#oauthmiddleware-create" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: bool</li>
+<li><strong>Default</strong>: false</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Controls whether the OAuth2 Middleware should be deployed.</p>
+</div>
+<div class="section" id="oauthmiddleware-healthcheck">
+<h3>oauthMiddleware.healthCheck<a class="headerlink" href="#oauthmiddleware-healthcheck" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the probes for the OAuth2 Auth Middleware instance. Defaults:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">startupProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/livez</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="nt">livenessProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/livez</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="oauthmiddleware-oauthauth">
+<h3>oauthMiddleware.oauthAuth<a class="headerlink" href="#oauthmiddleware-oauthauth" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: true</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">oauth-auth</span></code> argument given to the <a class="reference internal" href="../../tools/auth-middleware/oauth2.html#oauth2-middleware"><span class="std std-ref">OAuth 2.0 Auth Middleware</span></a> instance.</p>
+</div>
+<div class="section" id="oauthmiddleware-oauthtoken">
+<h3>oauthMiddleware.oauthToken<a class="headerlink" href="#oauthmiddleware-oauthtoken" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: true</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">oauth-token</span></code> argument given to the <a class="reference internal" href="../../tools/auth-middleware/oauth2.html#oauth2-middleware"><span class="std std-ref">OAuth 2.0 Auth Middleware</span></a> instance.</p>
+</div>
+<div class="section" id="oauthmiddleware-podannotations">
+<h3>oauthMiddleware.podAnnotations<a class="headerlink" href="#oauthmiddleware-podannotations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: {}</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The annotations which should be attached to the metadata of the OAuth2 Auth
+Middleware pod.</p>
+</div>
+<div class="section" id="oauthmiddleware-replicacount">
+<h3>oauthMiddleware.replicaCount<a class="headerlink" href="#oauthmiddleware-replicacount" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: number</li>
+<li><strong>Default</strong>: 1</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Controls how many replicas of the OAuth2 Auth Middleware are started.</p>
+</div>
+<div class="section" id="oauthmiddleware-resources">
+<h3>oauthMiddleware.resources<a class="headerlink" href="#oauthmiddleware-resources" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the <code class="docutils literal notranslate"><span class="pre">resources</span></code> field on the OAuth2 Auth Middleware pods. Defaults:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">limits</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;1&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;2Gi&quot;</span>
+<span class="nt">requests</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;0.5&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;1Gi&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="oauthmiddleware-serviceaccount">
+<h3>oauthMiddleware.serviceAccount<a class="headerlink" href="#oauthmiddleware-serviceaccount" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: not used</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The service account which should be attached to the OAuth2 Auth Middleware pods.</p>
+</div>
+<div class="section" id="production">
+<h3>production<a class="headerlink" href="#production" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: false</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>If true, disables the non-production components, and marks some important
+options as required.</p>
+</div>
+<div class="section" id="triggerservice-authcallback">
+<h3>triggerService.authCallback<a class="headerlink" href="#triggerservice-authcallback" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: true</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">--auth-callback</span></code> argument passed to the <a class="reference internal" href="../../tools/trigger-service/index.html#trigger-service"><span class="std std-ref">Trigger Service</span></a> instance.
+Note that this should be externally-reachable.</p>
+</div>
+<div class="section" id="triggerservice-authexternal">
+<h3>triggerService.authExternal<a class="headerlink" href="#triggerservice-authexternal" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: true</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">--auth-external</span></code> argument passed to the <a class="reference internal" href="../../tools/trigger-service/index.html#trigger-service"><span class="std std-ref">Trigger Service</span></a> instance.
+Note that this should be externally-reachable.</p>
+</div>
+<div class="section" id="triggerservice-create">
+<h3>triggerService.create<a class="headerlink" href="#triggerservice-create" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: bool</li>
+<li><strong>Default</strong>: false</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Controls whether a Trigger Service instance should be created.</p>
+</div>
+<div class="section" id="triggerservice-db-host">
+<h3>triggerService.db.host<a class="headerlink" href="#triggerservice-db-host" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The hostname of the database server for the Trigger Service, if one is started
+by the Helm chart.</p>
+</div>
+<div class="section" id="triggerservice-db-oracle-servicename">
+<h3>triggerService.db.oracle.serviceName<a class="headerlink" href="#triggerservice-db-oracle-servicename" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; using Oracle</li>
+</ul>
+<p>If the Trigger Service database is Oracle, this is used to set the
+Service Name.</p>
+</div>
+<div class="section" id="triggerservice-db-port">
+<h3>triggerService.db.port<a class="headerlink" href="#triggerservice-db-port" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: integer</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The exposed port of the database server for the Trigger Service, if one is
+started by the Helm chart.</p>
+</div>
+<div class="section" id="triggerservice-db-postgres-database">
+<h3>triggerService.db.postgres.database<a class="headerlink" href="#triggerservice-db-postgres-database" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; using an external PostgreSQL</li>
+</ul>
+<p>The database the Trigger Service should use when connecting to the
+database server.</p>
+</div>
+<div class="section" id="triggerservice-db-secret">
+<h3>triggerService.db.secret<a class="headerlink" href="#triggerservice-db-secret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Required</strong>: if enabled &amp; production</li>
+</ul>
+<p>The Kubernetes secret which is used for gaining access to the database.
+The content should have the following structure:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">daml</span>
+<span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">s3cr3t</span>
+</pre></div>
+</div>
+<p>or as JSON:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;daml&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;s3cr3t&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="triggerservice-db-setupsecret">
+<h3>triggerService.db.setupSecret<a class="headerlink" href="#triggerservice-db-setupsecret" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: null</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The Trigger Service supports an optional argument <code class="docutils literal notranslate"><span class="pre">init-db</span></code> which, when
+supplied, causes the Trigger Service to initialize its database structure and
+rthen immediately exit. If this field is set, the Helm chart will start a
+separate instance of the Trigger Service in this mode, as a one-time job.</p>
+<p>This can be used to supply separate credentials with table alteration
+privileges to the one-time job (this property), and restricted credentials with
+no table creation/alteration privileges to the long-running one
+(<code class="docutils literal notranslate"><span class="pre">triggerService.db.secret</span></code>).</p>
+<p>The format of this option is the same as <code class="docutils literal notranslate"><span class="pre">triggerService.db.secret</span></code>.</p>
+</div>
+<div class="section" id="triggerservice-healthcheck">
+<h3>triggerService.healthCheck<a class="headerlink" href="#triggerservice-healthcheck" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the probes for the long-running Trigger Service instance. Defaults:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">startupProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/livez</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="nt">livenessProbe</span><span class="p">:</span>
+  <span class="nt">httpGet</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/livez</span>
+    <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
+  <span class="nt">initialDelaySeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">10</span>
+  <span class="nt">failureThreshold</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
+  <span class="nt">periodSeconds</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="triggerservice-podannotations">
+<h3>triggerService.podAnnotations<a class="headerlink" href="#triggerservice-podannotations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: {}</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The annotations which should be attached to the metadata of the Trigger Service
+pod.</p>
+</div>
+<div class="section" id="triggerservice-resources">
+<h3>triggerService.resources<a class="headerlink" href="#triggerservice-resources" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: object</li>
+<li><strong>Default</strong>: see below</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>Overrides the <code class="docutils literal notranslate"><span class="pre">resources</span></code> field of the Trigger Service pod. Defaults:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">limits</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;1&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;2Gi&quot;</span>
+<span class="nt">requests</span><span class="p">:</span>
+  <span class="nt">cpu</span><span class="p">:</span> <span class="s">&quot;0.5&quot;</span>
+  <span class="nt">memory</span><span class="p">:</span> <span class="s">&quot;1Gi&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="triggerservice-serviceaccount">
+<h3>triggerService.serviceAccount<a class="headerlink" href="#triggerservice-serviceaccount" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Type</strong>: string</li>
+<li><strong>Default</strong>: not used</li>
+<li><strong>Required</strong>: false</li>
+</ul>
+<p>The service account which should be attached to the Trigger Service pod.</p>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="index.html" class="da-btn da-btn-label btn-prev" title="Operating Daml Connect" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="auth0.html" class="da-btn da-btn-label btn-next" title="Setting Up Auth0" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

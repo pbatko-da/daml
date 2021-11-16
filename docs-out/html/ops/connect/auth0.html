@@ -1,0 +1,1176 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Setting Up Auth0 &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Daml Assistant (daml)" href="../../tools/assistant.html" />
+  <link rel="prev" title="Connect Helm Chart" href="helm.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Operating Daml Connect</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Setting Up Auth0</a><ul>
+<li><a class="reference internal" href="#authentication-v-authorization">Authentication v. Authorization</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#generating-party-allocation-credentials">Generating Party Allocation Credentials</a></li>
+<li><a class="reference internal" href="#jwks-endpoint">JWKS Endpoint</a></li>
+<li><a class="reference internal" href="#dynamic-party-allocation">Dynamic Party Allocation</a></li>
+<li><a class="reference internal" href="#token-refresh-for-trigger-service">Token Refresh for Trigger Service</a></li>
+<li><a class="reference internal" href="#running-your-app">Running Your App</a><ul>
+<li><a class="reference internal" href="#preparing-your-application">Preparing Your Application</a></li>
+<li><a class="reference internal" href="#using-the-connect-helm-chart">Using the Connect Helm Chart</a></li>
+<li><a class="reference internal" href="#manually-setting-up-the-connect-components">Manually Setting Up the Connect Components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="setting-up-auth0">
+<span id="auth0"></span><h1>Setting Up Auth0<a class="headerlink" href="#setting-up-auth0" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we will walk through a complete setup of an entire Daml
+Connect system using Auth0 as its authentication provider.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These instructions include detailed steps to be performed through the Auth0
+UI, which we do not control. They have been tested on 2021-11-02. It is
+possible Auth0 has updated their UI since then in ways that invalidate parts
+of the instructions here; if you notice any discrepancy, please report it on
+<a class="reference external" href="https://discuss.daml.com">the forum</a>.</p>
+</div>
+<div class="section" id="authentication-v-authorization">
+<h2>Authentication v. Authorization<a class="headerlink" href="#authentication-v-authorization" title="Permalink to this headline">¶</a></h2>
+<p>In a complete Daml system, the Daml components only concern themselves with
+<em>authorization</em>: requests are accompanied by a (signed) token that <em>claims</em> a
+number of rights (such as the right to <em>act as</em>  a given party). The Daml
+system will check the signature of the token, but will not perform any further
+verification of the claims themselves.</p>
+<p>On the other side of the fence, the <em>authentication system</em> needs to verify a
+client’s identity and, based on the result, provide them with an appropriate
+token. It also needs to record the mapping of client identity to Daml party (or
+parties), such that the same external identity keeps mapping to the same
+on-ledger party over time.</p>
+<p>Note that we need bidirectional communication between the Daml driver and the
+authentication system: the authentication system needs to contact the Daml
+driver to allocate new parties when a new user logs in, and the Daml driver
+needs to contact the authentication system to fetch the public key used to
+verify token signatures.</p>
+<p>In the context of this section, the authentication system is Auth0. For more
+information on the Daml side, see the <a class="reference internal" href="../../app-dev/authorization.html"><span class="doc">Authorization</span></a> page.</p>
+</div>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>In order to follow along this guide, you will need:</p>
+<ul class="simple">
+<li>An Auth0 tenant. See
+<a class="reference external" href="https://auth0.com/docs/get-started/create-tenants">Auth0 documentation</a> for
+how to create one if you don’t have one already. You should get a free,
+dev-only one when you create an Auth0 account.</li>
+<li>A DNS (or IP address) that Auth0 can reach, and on which you (will) run a
+JSON API instance. This will be used to create parties. Auth0 uses a
+<a class="reference external" href="https://auth0.com/docs/security/data-security/allowlist">known set of IP addresses</a>
+that depends on the location you chose for your tenant, so if your
+application is not meant to be public you can use network rules to only let
+requests from these IPs through.</li>
+<li>To know the <code class="docutils literal notranslate"><span class="pre">ledgerId</span></code> your ledger self-identifies as. Refer to your
+specific driver’s documentation for how to set the <code class="docutils literal notranslate"><span class="pre">ledgerId</span></code> value.</li>
+<li>To be running SDK 1.17.0 or later. Before 1.17.0, the JSON API required an
+extra token, the setup of which is not covered here. If you are somehow
+unable to upgrade but still want to use Auth0, please contact us for
+assistance.</li>
+<li>An application you want to deploy on your Daml system. This is not, strictly
+speaking, required, but the whole experience is going to be a lot less
+satisfying if you don’t end up with something actually running on your Daml
+Connect system. In this guide, we’ll use the <cite>create-daml-app</cite> template,
+which as of Daml SDK 1.17.0 supports Auth0 out-of-the-box on its UI side.</li>
+</ul>
+</div>
+<div class="section" id="generating-party-allocation-credentials">
+<h2>Generating Party Allocation Credentials<a class="headerlink" href="#generating-party-allocation-credentials" title="Permalink to this headline">¶</a></h2>
+<p>Since Auth0 will be in charge of requesting the allocation of parties, the
+first logical step is to make it generate a token that can be used to allocate
+parties. This may seem recursive at first, but the token used to allocate
+parties only needs to have the <code class="docutils literal notranslate"><span class="pre">admin</span></code> field set to <code class="docutils literal notranslate"><span class="pre">true</span></code>; it does not
+require any preexisting party and does not need any <code class="docutils literal notranslate"><span class="pre">actAs</span></code> or <code class="docutils literal notranslate"><span class="pre">readAs</span></code>
+privileges.</p>
+<p>In Auth0 concepts, we first need to register
+<a class="reference external" href="https://auth0.com/docs/get-started/set-up-apis">an API</a>. To do so, from the
+<a class="reference external" href="https://manage.auth0.com/">Auth0 Dashboard</a>, open up the Applications -&gt;
+APIs page from the menu on the left and click Create API in the top right.</p>
+<p>You can choose any name for the API; for the purposes of this document, we’ll
+assume this API is named <code class="docutils literal notranslate"><span class="pre">API_NAME</span></code>. The other parameters, however, are not
+free to set: the API identifier <strong>has to be</strong> <code class="docutils literal notranslate"><span class="pre">https://daml.com/ledger-api</span></code>,
+and the signing algorithm <strong>has to be</strong> RS256 (which should be selected by
+default). Creating the API should automatically create a Machine-to-Machine
+application “API_NAME (Test Application)”, which we will be using to generate
+our tokens. You can change its name to a more appropriate one; for the
+remainder of this document, we will assume it is called ADMIN_TOKEN_APP.</p>
+<p>Navigate to that application’s settings page (menu on the left: Applications &gt;
+Applications page, then click on the application’s name). This is where you can
+rename the application and find out about its Client ID and Client Secret,
+which we’ll need later on.</p>
+<p>Now that we have an API and an application, we can generate a token with the
+appropriate claims. In order to do that, we need to make an Auth0 Action.</p>
+<p>In the menu on the left, navigate to Actions &gt; Library, then click on Build
+Custom in the top right. You can choose an appropriate name for your action;
+we’ll call it ADMIN_TOKEN_ACTION. Set the Trigger field to
+“M2M/Client-Credentials”, and leave the version of Node to the recommended one.
+(These instructions have been tested with Node 16.)</p>
+<p>This will open a text editor where you can add JavaScript code that will
+trigger on M2M (machine to machine) connections. Replace the entire text box
+content with:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">exports</span><span class="p">.</span><span class="nx">onExecuteCredentialsExchange</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">client_id</span> <span class="o">===</span> <span class="s2">&quot;%%ADMIN_TOKEN_ID%%&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">api</span><span class="p">.</span><span class="nx">accessToken</span><span class="p">.</span><span class="nx">setCustomClaim</span><span class="p">(</span>
+      <span class="s2">&quot;https://daml.com/ledger-api&quot;</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;ledgerId&quot;</span><span class="o">:</span> <span class="s2">&quot;%%LEDGER_ID%%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participantId&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;applicationId&quot;</span><span class="o">:</span> <span class="s2">&quot;party-creation&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;admin&quot;</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="s2">&quot;actAs&quot;</span><span class="o">:</span> <span class="p">[]</span>
+      <span class="p">}</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>You need to replace <code class="docutils literal notranslate"><span class="pre">%%ADMIN_TOKEN_ID%%</span></code> with the Client ID of the
+ADMIN_TOKEN_APP application, and <code class="docutils literal notranslate"><span class="pre">%%LEDGER_ID%%</span></code> with your actual
+<code class="docutils literal notranslate"><span class="pre">ledgerId</span></code> value. You can freely choose the <code class="docutils literal notranslate"><span class="pre">applicationId</span></code> value, and
+should set an appropriate <code class="docutils literal notranslate"><span class="pre">participantId</span></code> if your Daml driver requires it.</p>
+<p>You then need to click on Deploy in the top right to save this Action. Despite
+the text on the button, this does not (yet) deploy it anywhere.</p>
+<p>In order to actually deploy it, we need to make that Action part of a Flow. In
+the menu on the left, navigate through Actions &gt; Flows, then choose Machine to
+Machine. Drag the “ADMIN_TOKEN_ACTION” (in the “Custom” tab) box on the right
+in-between the “Start” and “Complete” black circles in the middle. Click Apply.
+Now your Action is “deployed” and, should you modify it, clicking on the Deploy
+button <em>would</em> directly affect your live setup.</p>
+<p>At this point you should be able to verify, using the curl command from the
+“Quick Start” tab of the M2M application, that you get a token. You should also
+be able to check that the token has the expected claims. You can do that by
+piping the result of the curl command through:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat curl-result.json <span class="p">|</span> jq -r <span class="s1">&#39;.access_token&#39;</span> <span class="p">|</span> sed <span class="s1">&#39;s/.*\.\(.*\)\..*/\1/&#39;</span> <span class="p">|</span> base64 -d
+</pre></div>
+</div>
+</div>
+<div class="section" id="jwks-endpoint">
+<h2>JWKS Endpoint<a class="headerlink" href="#jwks-endpoint" title="Permalink to this headline">¶</a></h2>
+<p>In order to verify the tokens it receives, the Daml driver needs to know the
+public key that matches the secret key used to sign them. Daml drivers use a
+standard protocol for that called JWKS; in practice, this means giving the Daml
+driver an HTTP URL it can query to get the keys. In the case of Auth0, that URL
+is located at <code class="docutils literal notranslate"><span class="pre">/.well-known/jwks.json</span></code> on the tenant.</p>
+<p>The full address is</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>https://%%AUTH0_DOMAIN%%/.well-known/jwks.json
+</pre></div>
+</div>
+<p>You can find the value for <code class="docutils literal notranslate"><span class="pre">%%AUTH0_DOMAIN%%</span></code> in the Domain field of the
+settings page for the ADMIN_TOKEN_APP application (or any other application on
+the same tenant).</p>
+</div>
+<div class="section" id="dynamic-party-allocation">
+<h2>Dynamic Party Allocation<a class="headerlink" href="#dynamic-party-allocation" title="Permalink to this headline">¶</a></h2>
+<p>At this point, we can generate an admin token, and the Daml driver can check
+its signature and thus accept it. The next step is to actually allocate
+parties when people connect for the first time.</p>
+<p>First, we need to create a new application, of type “Single Page Web
+Applications”. We’ll be calling it LOGIN_APP. Open up the Settings tab and
+scroll down to “Allowed Callback URLs”. There, add your application’s origin
+(scheme, domain or IP, and port) to all three of Allowed Callback URLs, Allowed
+Logout URLs and Allowed Web Origins. Scroll all the way down and click “Save
+Changes”.</p>
+<p>Create a new Action (left menu &gt; Actions &gt; Library, top-right Build Custom
+button). As usual, you can choose the name; we’ll call it LOGIN_ACTION. Its
+type should be “Login / Post Login”.</p>
+<p>Replace the default code with the following JavaScript:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;axios&#39;</span><span class="p">);</span>
+<span class="c1">// only required if JSON API is behind self-signed cert</span>
+<span class="c1">// const https = require(&#39;https&#39;);</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">onExecutePostLogin</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">async</span> <span class="kd">function</span> <span class="nx">getParty</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">app_metadata</span><span class="p">.</span><span class="nx">party</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">event</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">app_metadata</span><span class="p">.</span><span class="nx">party</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">tokenResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+        <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;%%ADMIN_TOKEN_URL%%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="o">:</span> <span class="s2">&quot;post&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;client_id&quot;</span><span class="o">:</span> <span class="s2">&quot;%%ADMIN_TOKEN_ID%%&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;client_secret&quot;</span><span class="o">:</span> <span class="s2">&quot;%%ADMIN_TOKEN_SECRET%%&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;audience&quot;</span><span class="o">:</span> <span class="s2">&quot;https://daml.com/ledger-api&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;grant_type&quot;</span><span class="o">:</span> <span class="s2">&quot;client_credentials&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Accept&quot;</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+      <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">tokenResponse</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">access_token</span><span class="p">;</span>
+      <span class="kd">const</span> <span class="nx">partyResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">request</span><span class="p">({</span>
+        <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;%%ORIGIN%%/v1/parties/allocate&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;method&quot;</span><span class="o">:</span> <span class="s2">&quot;post&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;headers&quot;</span><span class="o">:</span> <span class="p">{</span>
+          <span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Accept&quot;</span><span class="o">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Authorization&quot;</span><span class="o">:</span> <span class="s2">&quot;Bearer &quot;</span> <span class="o">+</span> <span class="nx">token</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;data&quot;</span><span class="o">:</span> <span class="p">{}</span>
+        <span class="c1">// only required if JSON API is behind self-signed cert</span>
+        <span class="c1">//, httpsAgent: new https.Agent({ rejectUnauthorized: false })</span>
+      <span class="p">});</span>
+      <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="nx">partyResponse</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">result</span><span class="p">.</span><span class="nx">identifier</span><span class="p">;</span>
+      <span class="nx">api</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">setAppMetadata</span><span class="p">(</span><span class="s2">&quot;party&quot;</span><span class="p">,</span> <span class="nx">party</span><span class="p">);</span>
+
+      <span class="c1">// optional one-time setup like creating contracts etc. here</span>
+
+      <span class="k">return</span> <span class="nx">party</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+  <span class="kd">function</span> <span class="nx">setToken</span><span class="p">(</span><span class="nx">party</span><span class="p">,</span> <span class="nx">actAs</span> <span class="o">=</span> <span class="p">[</span><span class="nx">party</span><span class="p">],</span> <span class="nx">readAs</span> <span class="o">=</span> <span class="p">[</span><span class="nx">party</span><span class="p">],</span> <span class="nx">applicationId</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">api</span><span class="p">.</span><span class="nx">idToken</span><span class="p">.</span><span class="nx">setCustomClaim</span><span class="p">(</span><span class="s2">&quot;https://daml.com/ledger-api&quot;</span><span class="p">,</span> <span class="nx">party</span><span class="p">);</span>
+    <span class="nx">api</span><span class="p">.</span><span class="nx">accessToken</span><span class="p">.</span><span class="nx">setCustomClaim</span><span class="p">(</span>
+      <span class="s2">&quot;https://daml.com/ledger-api&quot;</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="s2">&quot;ledgerId&quot;</span><span class="o">:</span> <span class="s2">&quot;%%LEDGER_ID%%&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;participantId&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;applicationId&quot;</span><span class="o">:</span> <span class="nx">applicationId</span><span class="p">,</span>
+        <span class="s2">&quot;actAs&quot;</span><span class="o">:</span> <span class="nx">actAs</span><span class="p">,</span>
+        <span class="s2">&quot;readAs&quot;</span><span class="o">:</span> <span class="nx">readAs</span><span class="p">,</span>
+      <span class="p">});</span>
+  <span class="p">};</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">client_id</span> <span class="o">===</span> <span class="s2">&quot;%%LOGIN_ID%%&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getParty</span><span class="p">();</span>
+    <span class="nx">setToken</span><span class="p">(</span><span class="nx">party</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>where you need to replace <code class="docutils literal notranslate"><span class="pre">%%LOGIN_ID%%</span></code> with the Client ID of the LOGIN_APP
+application; <code class="docutils literal notranslate"><span class="pre">%%ADMIN_TOKEN_URL%%</span></code>, <code class="docutils literal notranslate"><span class="pre">%%ADMIN_TOKEN_ID%%</span></code> and
+<code class="docutils literal notranslate"><span class="pre">%%ADMIN_TOKEN_SECRET%%</span></code> with, respectively, the URL, <code class="docutils literal notranslate"><span class="pre">client_id</span></code> and
+<code class="docutils literal notranslate"><span class="pre">client_secret</span></code> values that you can find on the curl example from the Quick
+Start of the ADMIN_TOKEN_APP application; <code class="docutils literal notranslate"><span class="pre">%%ORIGIN%%</span></code> by the domain
+(or IP address) and port where Auth0 can reach your JSON API instance; and
+<code class="docutils literal notranslate"><span class="pre">%%LEDGER_ID%%</span></code> by the <code class="docutils literal notranslate"><span class="pre">ledgerId</span></code> you’re passing into your Daml driver.</p>
+<p>Before we can click on Deploy to save (but not deploy) this snippet, we need to
+do one more thing. This snippet is using a library called <code class="docutils literal notranslate"><span class="pre">axios</span></code> to make
+HTTP calls; we need to tell Auth0 about that, so it can provision the library
+at runtime.</p>
+<p>To do that, click on the little box icon to the left of code editor, then on
+the button Add Module that just got revealed, and type in <code class="docutils literal notranslate"><span class="pre">axios</span></code> for the
+name and <code class="docutils literal notranslate"><span class="pre">0.21.1</span></code> for the version. Then, click the Create button, and then
+the Deploy button.</p>
+<p>Now you need to go to Actions &gt; Flows, choose the Login flow, and drag the
+LOGIN_ACTION action in-between the two black circles Start and Complete.</p>
+<p>Click Apply. You now have a working Auth0 system that automatically allocates
+new parties upon first login, and remembers the mapping for future logins (that
+happens by setting the party in the “app metadata”, which Auth0 persists).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are hosting your JSON API instance behind a self-signed certificate
+(Auth0 absolutely requires TLS, but can be made to work with a self-signed
+cert), you’ll need to uncomment the <code class="docutils literal notranslate"><span class="pre">https</span></code> import and the <code class="docutils literal notranslate"><span class="pre">httpsAgent</span></code>
+line above. The <code class="docutils literal notranslate"><span class="pre">https</span></code> module does not require extra setup (unlike the
+<code class="docutils literal notranslate"><span class="pre">axios</span></code> one).</p>
+</div>
+</div>
+<div class="section" id="token-refresh-for-trigger-service">
+<h2>Token Refresh for Trigger Service<a class="headerlink" href="#token-refresh-for-trigger-service" title="Permalink to this headline">¶</a></h2>
+<p>If you want your users to be able to run triggers, you can run an instance of
+the Trigger Service and expose it through the same HTTP URL. Because the
+Trigger Service (via the Auth Middleware) will need “refreshable” tokens,
+though, we need a bit of extra setup for that to work.</p>
+<p>The first step on that front is to actually allow our tokens to be refreshed.
+Go to the settings tab of the API_NAME API (menu on the left &gt; Applications &gt;
+API &gt; API_NAME) and scroll down. Towards the bottom of the page there should be
+a “Allow Offline Access” toggle, which is off by default. Turn it on, and save.</p>
+<p>Next, we need to create a second “Machine-to-Machine Application”, which we’ll
+call OAUTH_APP, to register the OAuth2 Middleware which will refresh tokens for
+the Trigger service. When creating such an application, you’ll be asked for its
+authorized APIs; select API_NAME. Once the application is created, go to its
+settings tab and add <code class="docutils literal notranslate"><span class="pre">%%ORIGIN%%/auth/cb</span></code> as a callback URL.</p>
+<p>You also need to scroll all the way down to the Advanced Settings section, open
+the Grant Types tab, and enable “Authorization Code”. Don’t forget to save your
+changes.</p>
+<p>Finally, we need to extend our LOGIN_ACTION to respond to requests from the
+OAuth2 Middleware. Navigate back to the Action code (left menu &gt; Actions &gt;
+Library &gt; Custom &gt; click on LOGIN_ACTION) and add a second branch to the main
+<code class="docutils literal notranslate"><span class="pre">if</span></code> (new code starting on the line with <code class="docutils literal notranslate"><span class="pre">CHANGES</span> <span class="pre">START</span> <span class="pre">HERE</span></code>; everything
+before that should remain unchanged).</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;axios&#39;</span><span class="p">);</span>
+<span class="c1">// only required if JSON API is behind self-signed cert</span>
+<span class="c1">// const https = require(&#39;https&#39;);</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">onExecutePostLogin</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">api</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">async</span> <span class="kd">function</span> <span class="nx">getParty</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// unchanged</span>
+  <span class="p">};</span>
+  <span class="kd">function</span> <span class="nx">setToken</span><span class="p">(</span><span class="nx">party</span><span class="p">,</span> <span class="nx">actAs</span> <span class="o">=</span> <span class="p">[</span><span class="nx">party</span><span class="p">],</span> <span class="nx">readAs</span> <span class="o">=</span> <span class="p">[</span><span class="nx">party</span><span class="p">],</span> <span class="nx">applicationId</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// unchanged</span>
+  <span class="p">};</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">client_id</span> <span class="o">===</span> <span class="s2">&quot;%%LOGIN_ID%%&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getParty</span><span class="p">();</span>
+    <span class="nx">setToken</span><span class="p">(</span><span class="nx">party</span><span class="p">);</span>
+    <span class="c1">// CHANGES START HERE</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">client_id</span> <span class="o">===</span> <span class="s2">&quot;%%OAUTH_ID%%&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getParty</span><span class="p">();</span>
+    <span class="kd">const</span> <span class="nx">readAs</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">const</span> <span class="nx">actAs</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="kd">let</span> <span class="nx">appId</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+    <span class="nx">event</span><span class="p">.</span><span class="nx">transaction</span><span class="p">.</span><span class="nx">requested_scopes</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">s</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">s</span> <span class="o">===</span> <span class="s2">&quot;admin&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">api</span><span class="p">.</span><span class="nx">access</span><span class="p">.</span><span class="nx">deny</span><span class="p">(</span><span class="s2">&quot;Current user is not authorized for admin token.&quot;</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s2">&quot;readAs:&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">requested_read</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">7</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">requested_read</span> <span class="o">===</span> <span class="nx">party</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">readAs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">requested_read</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">api</span><span class="p">.</span><span class="nx">access</span><span class="p">.</span><span class="nx">deny</span><span class="p">(</span><span class="s2">&quot;Requested unauthorized readAs: &quot;</span> <span class="o">+</span> <span class="nx">requested_read</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s2">&quot;actAs:&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">requested_act</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">6</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">requested_act</span> <span class="o">===</span> <span class="nx">party</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">actAs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">requested_act</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">api</span><span class="p">.</span><span class="nx">access</span><span class="p">.</span><span class="nx">deny</span><span class="p">(</span><span class="s2">&quot;Requested unauthorized actAs: &quot;</span> <span class="o">+</span> <span class="nx">requested_act</span><span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s2">&quot;applicationId:&quot;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">appId</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mf">14</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="nx">setToken</span><span class="p">(</span><span class="nx">party</span><span class="p">,</span> <span class="nx">actAs</span><span class="p">,</span> <span class="nx">readAs</span><span class="p">,</span> <span class="nx">appId</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">%%OAUTH_ID%%</span></code> is the Client ID of the OAUTH_APP. The OAuth2 Middleware
+will send a request with a number of <em>requested scopes</em>; the above code shows
+how to walk through them as well as a simple approach to handling them. You can
+change this code to fit your application’s requirements.</p>
+<p>Don’t forget to click on Deploy to save your changes. This time, as the Action
+is already part of a Flow, clicking the Deploy button really deploys the Action
+and there is no further action needed.</p>
+</div>
+<div class="section" id="running-your-app">
+<h2>Running Your App<a class="headerlink" href="#running-your-app" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="preparing-your-application">
+<h3>Preparing Your Application<a class="headerlink" href="#preparing-your-application" title="Permalink to this headline">¶</a></h3>
+<p>You may have an application already. In that case, use that. For the purposes
+of illustration, here we’re going to work with a modified version of
+<code class="docutils literal notranslate"><span class="pre">create-daml-app</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>daml new --template<span class="o">=</span>gsg-trigger my-project
+</pre></div>
+</div>
+<p>If your app was based on the <code class="docutils literal notranslate"><span class="pre">create-daml-app</span></code> template using a Daml SDK
+version prior to 1.17.0, you may need to adapt your <code class="docutils literal notranslate"><span class="pre">ui/src/config.ts</span></code> and
+<code class="docutils literal notranslate"><span class="pre">ui/src/components/LoginScreen.tsx</span></code> files. See
+<a class="reference external" href="https://github.com/digital-asset/daml/commit/79080839c1ca299972038ba515b98e6176668783">this commit</a>
+for guidance.</p>
+<p>The next step is to build the Daml code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> my-project
+daml build
+daml codegen js .daml/dist/my-project-0.1.0.dar -o ui/daml.js
+</pre></div>
+</div>
+<p>Next, we’ll build our frontend code, but first we’re going to make a small
+change to let us demonstrate interactions with the Trigger Service.</p>
+<p>We’ll need the package ID of the main DAR for the next step, so first collect
+it by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>daml damlc inspect .daml/dist/my-project-0.1.0.dar <span class="p">|</span> head -1
+</pre></div>
+</div>
+<p>from the root of the project. In the following, we’ll refer to it as
+<code class="docutils literal notranslate"><span class="pre">%%PACKAGE_ID%%</span></code>.</p>
+<p>Open up <code class="docutils literal notranslate"><span class="pre">ui/src/components/MainView.tsx</span></code> and add the <code class="docutils literal notranslate"><span class="pre">Button</span></code> component to
+the existing imports from <code class="docutils literal notranslate"><span class="pre">semantic-ui-react</span></code>:</p>
+<div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="p">{</span> <span class="nx">Container</span><span class="p">,</span> <span class="nx">Grid</span><span class="p">,</span> <span class="nx">Header</span><span class="p">,</span> <span class="nx">Icon</span><span class="p">,</span> <span class="nx">Segment</span><span class="p">,</span> <span class="nx">Divider</span><span class="p">,</span> <span class="nx">Button</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;semantic-ui-react&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Scroll down a little bit, and add the following code after the <code class="docutils literal notranslate"><span class="pre">USERS_END</span></code>
+tag (around line 18):</p>
+<div class="highlight-typescript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">trig</span> <span class="o">=</span> <span class="p">(</span><span class="nx">url</span>: <span class="kt">string</span><span class="p">,</span> <span class="nx">req</span>: <span class="kt">object</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">resp</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">req</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mf">401</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">challenge</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Unauthorized </span><span class="si">${</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">challenge</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">loginUrl</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">URL</span><span class="p">(</span><span class="nx">challenge</span><span class="p">.</span><span class="nx">login</span><span class="p">);</span>
+    <span class="nx">loginUrl</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&quot;redirect_uri&quot;</span><span class="p">,</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">);</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">loginUrl</span><span class="p">.</span><span class="nx">href</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">body</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`(</span><span class="si">${</span><span class="nx">resp</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">) </span><span class="si">${</span><span class="nx">body</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">list</span> <span class="o">=</span> <span class="nx">trig</span><span class="p">(</span><span class="s2">&quot;/trigger/v1/triggers?party=&quot;</span> <span class="o">+</span> <span class="nx">username</span><span class="p">,</span> <span class="p">{});</span>
+<span class="kd">const</span> <span class="nx">start</span> <span class="o">=</span> <span class="nx">trig</span><span class="p">(</span><span class="s2">&quot;/trigger/v1/triggers&quot;</span><span class="p">,</span> <span class="p">{</span>
+  <span class="nx">method</span><span class="o">:</span> <span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+  <span class="nx">body</span>: <span class="kt">JSON.stringify</span><span class="p">({</span>
+    <span class="nx">triggerName</span><span class="o">:</span> <span class="s2">&quot;%%PACKAGE_ID%%:ChatBot:autoReply&quot;</span><span class="p">,</span>
+    <span class="nx">party</span>: <span class="kt">username</span><span class="p">,</span>
+    <span class="nx">applicationId</span><span class="o">:</span> <span class="s2">&quot;frontend&quot;</span>
+  <span class="p">}),</span>
+  <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
+<span class="p">}});</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">%%PACKAGE_ID%%</span></code> is the package ID of the main DAR file, as explained
+above.</p>
+<p>Finally, scroll down to the end of the <code class="docutils literal notranslate"><span class="pre">Grid.Column</span></code> tag, and add:</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="c1">// ...</span>
+  <span class="p">&lt;/</span><span class="nt">Segment</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">Segment</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Button</span> <span class="na">primary</span> <span class="na">fluid</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">list</span><span class="p">}&gt;</span><span class="nx">List</span> <span class="nx">triggers</span><span class="p">&lt;/</span><span class="nt">Button</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">Button</span> <span class="na">primary</span> <span class="na">fluid</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">start</span><span class="p">}&gt;</span><span class="nx">Start</span> <span class="nx">autoReply</span><span class="p">&lt;/</span><span class="nt">Button</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">Segment</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">Grid.Column</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>Now, build your frontend with (starting at the root):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ui
+npm install
+<span class="nv">REACT_APP_AUTH</span><span class="o">=</span>auth0 <span class="se">\</span>
+<span class="nv">REACT_APP_AUTH0_DOMAIN</span><span class="o">=</span>%%AUTH0_DOMAIN%% <span class="se">\</span>
+<span class="nv">REACT_APP_AUTH0_CLIENT_ID</span><span class="o">=</span>%%LOGIN_ID%% <span class="se">\</span>
+npm run-script build
+</pre></div>
+</div>
+<p>As before, <code class="docutils literal notranslate"><span class="pre">%%AUTH0_DOMAIN%%</span></code> and <code class="docutils literal notranslate"><span class="pre">%%LOGIN_ID%%</span></code> need to be replaced.</p>
+<p>Now, we need to expose the JSON API and our static files. We’ll use nginx
+for that, but you can use any HTTP server you (and your security team) are
+comfortable with, as long as it can serve static files and proxy some paths.</p>
+<p>First, create a file <code class="docutils literal notranslate"><span class="pre">nginx/nginx.conf.sh</span></code> with the following content next to
+your app folder, i.e. in our example <code class="docutils literal notranslate"><span class="pre">nginx</span></code> is a sibling to <code class="docutils literal notranslate"><span class="pre">my-project</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span> -euo pipefail
+openssl req -x509 <span class="se">\</span>
+            -newkey rsa:4096 <span class="se">\</span>
+            -keyout /etc/ssl/private/nginx-selfsigned.key <span class="se">\</span>
+            -out /etc/ssl/certs/nginx-selfsigned.crt <span class="se">\</span>
+            -days <span class="m">365</span> <span class="se">\</span>
+            -nodes <span class="se">\</span>
+            -subj <span class="s2">&quot;/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=</span><span class="si">${</span><span class="nv">FRONTEND_IP</span><span class="si">}</span><span class="s2">&quot;</span>
+openssl dhparam -out /etc/ssl/certs/dhparam.pem <span class="m">2048</span>
+cat <span class="s">&lt;&lt;NGINX_CONFIG &gt; /etc/nginx/nginx.conf</span>
+<span class="s">worker_processes auto;</span>
+<span class="s">pid /run/nginx.pid;</span>
+<span class="s">events {</span>
+<span class="s">  worker_connections 768;</span>
+<span class="s">}</span>
+<span class="s">http {</span>
+<span class="s">  sendfile on;</span>
+<span class="s">  tcp_nopush on;</span>
+<span class="s">  tcp_nodelay on;</span>
+<span class="s">  keepalive_timeout 65;</span>
+<span class="s">  types_hash_max_size 2048;</span>
+<span class="s">  include /etc/nginx/mime.types;</span>
+<span class="s">  default_type application/octet-stream;</span>
+<span class="s">  access_log /var/log/nginx/access.log;</span>
+<span class="s">  error_log /var/log/nginx/error.log;</span>
+<span class="s">  gzip on;</span>
+
+<span class="s">  ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;</span>
+<span class="s">  ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;</span>
+<span class="s">  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span>
+<span class="s">  ssl_prefer_server_ciphers on;</span>
+<span class="s">  ssl_ciphers &quot;EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH&quot;;</span>
+<span class="s">  ssl_ecdh_curve secp384r1;</span>
+<span class="s">  ssl_session_cache shared:SSL:10m;</span>
+<span class="s">  ssl_session_tickets off;</span>
+<span class="s">  ssl_stapling on;</span>
+<span class="s">  ssl_stapling_verify on;</span>
+<span class="s">  resolver 8.8.8.8 8.8.4.4 valid=300s;</span>
+<span class="s">  resolver_timeout 5s;</span>
+<span class="s">  add_header X-Frame-Options DENY;</span>
+<span class="s">  add_header X-Content-Type-Options nosniff;</span>
+
+<span class="s">  ssl_dhparam /etc/ssl/certs/dhparam.pem;</span>
+
+<span class="s">  server {</span>
+<span class="s">    listen 80;</span>
+<span class="s">    return 302 https://${FRONTEND_IP}\$request_uri;</span>
+<span class="s">  }</span>
+
+<span class="s">  server {</span>
+<span class="s">    listen 443 ssl http2;</span>
+<span class="s">    location /v1/stream {</span>
+<span class="s">      proxy_pass http://${JSON_IP};</span>
+<span class="s">      proxy_http_version 1.1;</span>
+<span class="s">      proxy_set_header Upgrade \$http_upgrade;</span>
+<span class="s">      proxy_set_header Connection &quot;Upgrade&quot;;</span>
+<span class="s">      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;</span>
+<span class="s">    }</span>
+<span class="s">    location /v1 {</span>
+<span class="s">      proxy_pass http://${JSON_IP};</span>
+<span class="s">      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;</span>
+<span class="s">    }</span>
+<span class="s">    location /auth/ {</span>
+<span class="s">      proxy_pass http://${AUTH_IP}/;</span>
+<span class="s">      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;</span>
+<span class="s">    }</span>
+<span class="s">    location /trigger/ {</span>
+<span class="s">      proxy_pass http://${TRIGGER_IP}/;</span>
+<span class="s">      proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;</span>
+<span class="s">    }</span>
+<span class="s">    root /app/ui;</span>
+<span class="s">    index index.html;</span>
+<span class="s">    location / {</span>
+<span class="s">      # for development, uncomment proxy_pass and comment the try_files line</span>
+<span class="s">      #proxy_pass http://localhost:3000/;</span>
+<span class="s">      try_files \$uri \$uri/ =404;</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+<span class="s">NGINX_CONFIG</span>
+</pre></div>
+</div>
+<p>Next, create a file <code class="docutils literal notranslate"><span class="pre">nginx/Dockerfile</span></code> with this content:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>FROM nginx:1.21.0
+
+COPY build /app/ui
+COPY nginx.conf.sh /app/nginx.conf.sh
+RUN chmod +x /app/nginx.conf.sh
+CMD /app/nginx.conf.sh <span class="o">&amp;&amp;</span> <span class="nb">exec</span> nginx -g <span class="s1">&#39;daemon off;&#39;</span>
+</pre></div>
+</div>
+<p>Finally, we can build the Docker container with the following, starting
+in the folder that contains both <code class="docutils literal notranslate"><span class="pre">nginx</span></code> and <code class="docutils literal notranslate"><span class="pre">my-project</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp -r my-project/ui/build nginx/build
+<span class="nb">cd</span> nginx
+docker build -t frontend .
+</pre></div>
+</div>
+<p>And that’s it for building the application. We now have a DAR file that is
+ready to be deployed to a ledger, as well as a Docker container ready to serve
+our frontend. All we need now is to get a Daml Connect system up and running.
+We document two paths forward here: one that relies on the Helm chart included
+in Daml Connect Enterprise Edition, and a manual setup using only the Community
+Edition SDK.</p>
+</div>
+<div class="section" id="using-the-connect-helm-chart">
+<h3>Using the Connect Helm Chart<a class="headerlink" href="#using-the-connect-helm-chart" title="Permalink to this headline">¶</a></h3>
+<p>For simplicity, we assume that you have access to a server with a public IP
+address that both you and Auth0 can reach. Furthermore, we assume that you have
+access to Enterprise Edition credentials to download the Docker images.  We
+also assume you can create a local cluster with <code class="docutils literal notranslate"><span class="pre">minikube</span></code> on the remote
+machine. Finally, we assume that you have downloaded the Helm chart in a folder
+called <code class="docutils literal notranslate"><span class="pre">daml-connect</span></code>.</p>
+<p>First, start a new cluster:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minikube</span> <span class="n">start</span>
+</pre></div>
+</div>
+<p>Next, load up your credentials as explained in the <a class="reference internal" href="helm.html#connect-helm-chart"><span class="std std-ref">Connect Helm Chart</span></a>
+section. We assume they are loaded under the secret named
+<code class="docutils literal notranslate"><span class="pre">daml-docker-credentials</span></code>.</p>
+<p>Create a file called <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> with the following content:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">imagePullSecret</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">daml-docker-credentials</span>
+<span class="nt">authUrl</span><span class="p">:</span> <span class="s">&quot;https://%%AUTH0_DOMAIN%%/.well-known/jwks.json&quot;</span>
+<span class="nt">oauthMiddleware</span><span class="p">:</span>
+  <span class="nt">create</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">oauthAuth</span><span class="p">:</span> <span class="s">&quot;https://%%AUTH0_DOMAIN%%/authorize&quot;</span>
+  <span class="nt">oauthToken</span><span class="p">:</span> <span class="s">&quot;https://%%AUTH0_DOMAIN%%/oauth/token&quot;</span>
+  <span class="nt">callback</span><span class="p">:</span> <span class="s">&quot;https://%%DOMAIN%%/auth/cb&quot;</span>
+  <span class="nt">clientId</span><span class="p">:</span> <span class="s">&quot;%%OAUTH_ID%%&quot;</span>
+  <span class="nt">clientSecret</span><span class="p">:</span> <span class="s">&quot;%%OAUTH_SECRET%%&quot;</span>
+<span class="nt">triggerService</span><span class="p">:</span>
+  <span class="nt">create</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">authExternal</span><span class="p">:</span> <span class="s">&quot;https://%%DOMAIN%%/auth&quot;</span>
+  <span class="nt">authCallback</span><span class="p">:</span> <span class="s">&quot;https://%%DOMAIN%%/trigger/cb&quot;</span>
+</pre></div>
+</div>
+<p>where, as before:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">%%AUTH0_DOMAIN%%</span></code> is the domain of your Auth0 tenant, displayed as the
+“Domain” property of any app within the tenant.</li>
+<li><code class="docutils literal notranslate"><span class="pre">%%DOMAIN%%</span></code> is the domain on which your frontend will be exposed, and in
+particular here the domain to which Auth0 needs to redirect after the OAuth
+handshake.</li>
+<li><code class="docutils literal notranslate"><span class="pre">%%OAUTH_ID%%</span></code> is, as before, the OAUTH_APP application’s Client ID.</li>
+<li><code class="docutils literal notranslate"><span class="pre">%%OAUTH_SECRET</span></code> is the same application’s Client Secret.</li>
+</ul>
+<p>Assuming that you have your Artifactory credentials in the environment
+variables <code class="docutils literal notranslate"><span class="pre">ARTIFACTORY_USERNAME</span></code> (user name) and <code class="docutils literal notranslate"><span class="pre">ARTIFACTORY_PASSWORD</span></code>
+(API key), you can add the Helm repository with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>helm repo add daml \
+  https://digitalasset.jfrog.io/artifactory/connect-helm-chart \
+  --username $ARTIFACTORY_USERNAME \
+  --password $ARTIFACTORY_PASSWORD
+</pre></div>
+</div>
+<p>And now, you can deploy your cluster:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">install</span> <span class="n">dm</span> <span class="n">daml</span><span class="o">/</span><span class="n">daml</span><span class="o">-</span><span class="n">connect</span> <span class="o">--</span><span class="n">devel</span> <span class="o">--</span><span class="n">values</span> <span class="n">values</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+<p>which will start the demo, non-production mode of the Helm chart. You can now
+start your application with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PROXY=&quot;$(minikube ip):$(kubectl get svc dm-daml-connect-reverse-proxy --output=json | jq &#39;.spec.ports[0].nodePort&#39;)&quot;
+docker run -e JSON_IP=$PROXY \
+           -e AUTH_IP=$PROXY/auth \
+           -e TRIGGER_IP=$PROXY/trigger \
+           -e FRONTEND_IP=$DOMAIN \
+           --network=host \
+           frontend
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">$DOMAIN</span></code> is assumed to be an environment variable set to the public
+domain on which your server is exposed. And voilà! Your application is up and
+running. You should be able to log in with Auth0, exchange messages, and set up
+an auto-reply trigger, all by connecting your browser to <code class="docutils literal notranslate"><span class="pre">https://$DOMAIN/</span></code>.</p>
+</div>
+<div class="section" id="manually-setting-up-the-connect-components">
+<h3>Manually Setting Up the Connect Components<a class="headerlink" href="#manually-setting-up-the-connect-components" title="Permalink to this headline">¶</a></h3>
+<p>For simplicity, we assume that all of the Daml components will run on a single
+machine (they can find each other on <code class="docutils literal notranslate"><span class="pre">localhost</span></code>) and that this machine has
+either a public IP or a public DNS that Auth0 can reach (hereafter assumed to
+be set as the <code class="docutils literal notranslate"><span class="pre">DOMAIN</span></code> env var). Furthermore, we assume that IP/DNS is what
+you’ve configured as the callback URL in the Auth0 configuration above.</p>
+<p>Finally, we assume that you can SSH into that machine and run <code class="docutils literal notranslate"><span class="pre">daml</span></code> and
+<code class="docutils literal notranslate"><span class="pre">docker</span></code> commands on it.</p>
+<p>The rest of this section happens on that remote server.</p>
+<p>First, we need to start the Daml driver. For this example we’ll use the
+sandbox, but with <code class="docutils literal notranslate"><span class="pre">--implicit-party-allocation</span> <span class="pre">false</span></code> it should behave like a
+production ledger (minus persistence).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>daml sandbox --ledgerid %%LEDGER_ID%% <span class="se">\</span>
+             --auth-jwt-rs256-jwks https://%%AUTH0_DOMAIN%%/.well-known/jwks.json <span class="se">\</span>
+             --implicit-party-allocation <span class="nb">false</span> <span class="se">\</span>
+             .daml/dist/my-project-0.1.0.dar
+</pre></div>
+</div>
+<p>As before, you need to replace <code class="docutils literal notranslate"><span class="pre">%%LEDGER_ID%%</span></code> with a value of your choosing
+(the same one you used when configuring Auth0), and <code class="docutils literal notranslate"><span class="pre">%%AUTH0_DOMAIN%%</span></code> with
+your Auth0 domain, which you can find as the Domain field at the top of the
+Settings tab for any app in the tenant.</p>
+<p>Next, you need to start a JSON API instance.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> my-project
+daml json-api --ledger-port <span class="m">6865</span> <span class="se">\</span>
+              --ledger-host localhost <span class="se">\</span>
+              --http-port <span class="m">4000</span>
+</pre></div>
+</div>
+<p>If you are using a Daml SDK version prior to 1.17.0, you’ll need to find a way
+to supply the JSON API with a valid, refreshing token file. We recommend
+upgrading to 1.17.0 or later.</p>
+<p>Then, we want to start the Trigger Service and OAuth2 middleware, which we will
+put respectively under <code class="docutils literal notranslate"><span class="pre">/trigger</span></code> and <code class="docutils literal notranslate"><span class="pre">/auth</span></code>. First, the middleware:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">DAML_CLIENT_ID</span><span class="o">=</span>%%OAUTH_APP_ID%% <span class="se">\</span>
+<span class="nv">DAML_CLIENT_SECRET</span><span class="o">=</span>%%OAUTH_APP_SECRET%% <span class="se">\</span>
+daml oauth2-middleware <span class="se">\</span>
+  --address localhost <span class="se">\</span>
+  --http-port <span class="m">5000</span> <span class="se">\</span>
+  --oauth-auth <span class="s2">&quot;https://%%AUTH0_DOMAIN%%/authorize&quot;</span> <span class="se">\</span>
+  --oauth-token <span class="s2">&quot;https://%%AUTH0_DOMAIN%%/oauth/token&quot;</span> <span class="se">\</span>
+  --auth-jwt-rs256-jwks <span class="s2">&quot;https://%%AUTH0_DOMAIN%%/.well-known/jwks.json&quot;</span> <span class="se">\</span>
+  --callback %%ORIGIN%%/auth/cb
+</pre></div>
+</div>
+<p>where, as before, you need to replace:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">%%OAUTH_APP_ID%%</span></code> with the Client ID value you can find at the top of the
+settings tab for the OAUTH_APP we just created.</li>
+<li><code class="docutils literal notranslate"><span class="pre">%%OAUTH_APP_SECRET%%</span></code> with the Client Secret value you can find at the top
+of the settings tab for the OAUTH_APP we just created.</li>
+<li><code class="docutils literal notranslate"><span class="pre">%%AUTH0_DOMAIN%%</span></code> with your tenant domain.</li>
+<li><code class="docutils literal notranslate"><span class="pre">%%ORIGIN%%</span></code> with the full domain-name-or-ip &amp; port, including scheme,
+under which you expose your server.</li>
+</ul>
+<p>Now, the trigger service:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>daml trigger-service <span class="se">\</span>
+  --address localhost <span class="se">\</span>
+  --http-port <span class="m">6000</span> <span class="se">\</span>
+  --ledger-host localhost <span class="se">\</span>
+  --ledger-port <span class="m">6865</span> <span class="se">\</span>
+  --auth-internal http://localhost:5000 <span class="se">\</span>
+  --auth-external %%ORIGIN%%/auth <span class="se">\</span>
+  --auth-callback %%ORIGIN%%/trigger/cb <span class="se">\</span>
+  --dar .daml/dist/my-project-0.1.0.dar
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">%%ORIGIN%%</span></code> is, as per the Auth0 configuration, <code class="docutils literal notranslate"><span class="pre">https://$DOMAIN</span></code>.</p>
+<p>And that’s all the Daml components. You can now start your frontend application
+with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>docker run -e JSON_IP=localhost:4000 \
+           -e AUTH_IP=localhost:5000 \
+           -e TRIGGER_IP=localhost:6000 \
+           -e FRONTEND_IP=$DOMAIN \
+           --network=host frontend
+</pre></div>
+</div>
+<p>This runs a “production build” of your frontend code. If instead you want to
+develop frontend code against the rest of this setup, you can uncomment the
+last <code class="docutils literal notranslate"><span class="pre">proxy_pass</span></code> directive in <code class="docutils literal notranslate"><span class="pre">nginx.conf.sh</span></code>, comment the <code class="docutils literal notranslate"><span class="pre">try_files</span></code>
+line after it, and start a reloading development server with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ui
+npm install
+<span class="nv">REACT_APP_AUTH</span><span class="o">=</span>auth0 <span class="se">\</span>
+<span class="nv">REACT_APP_AUTH0_DOMAIN</span><span class="o">=</span>%%AUTH0_DOMAIN%% <span class="se">\</span>
+<span class="nv">REACT_APP_AUTH0_CLIENT_ID</span><span class="o">=</span>%%LOGIN_ID%% <span class="se">\</span>
+npm start
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="helm.html" class="da-btn da-btn-label btn-prev" title="Connect Helm Chart" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../../tools/assistant.html" class="da-btn da-btn-label btn-next" title="Daml Assistant (daml)" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

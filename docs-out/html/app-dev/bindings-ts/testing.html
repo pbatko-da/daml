@@ -1,0 +1,1004 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Testing Your Web App &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="HTTP JSON API Service" href="../../json-api/index.html" />
+  <link rel="prev" title="@daml/types" href="daml-types.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app-arch.html">Application architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">JavaScript Client Libraries</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Testing Your Web App</a><ul>
+<li><a class="reference internal" href="#setting-up-our-tests">Setting up our tests</a></li>
+<li><a class="reference internal" href="#example-logging-in-and-out">Example: Logging in and out</a></li>
+<li><a class="reference internal" href="#accessing-ui-elements">Accessing UI elements</a></li>
+<li><a class="reference internal" href="#writing-css-selectors">Writing CSS Selectors</a></li>
+<li><a class="reference internal" href="#the-full-test-suite">The Full Test Suite</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="testing-your-web-app">
+<h1>Testing Your Web App<a class="headerlink" href="#testing-your-web-app" title="Permalink to this headline">¶</a></h1>
+<p>When developing a UI for your Daml application, you will want to test that user flows work from end to end.
+This means that actions performed in the web UI trigger updates to the ledger and give the desired results on the page.
+In this section we show how you can do such testing automatically in TypeScript (equally JavaScript).
+This will allow you to iterate on your app faster and with more confidence!</p>
+<p>There are two tools that we chose to write end to end tests for our app.
+Of course there are more to choose from, but this is one combination that works.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://jestjs.io/">Jest</a> is a general-purpose testing framework for JavaScript that’s well integrated with both TypeScript and React. Jest helps you structure your tests and express expectations of the app’s behaviour.</li>
+<li><a class="reference external" href="https://pptr.dev/">Puppeteer</a> is a library for controlling a Chrome browser from JavaScript/TypeScript. Puppeteer allows you to simulate interactions with the app in place of a real user.</li>
+</ul>
+</div></blockquote>
+<p>To install Puppeteer and some other testing utilities we are going to use,
+run the following command in the <code class="docutils literal notranslate"><span class="pre">ui</span></code> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">add</span> <span class="o">--</span><span class="n">only</span><span class="o">=</span><span class="n">dev</span> <span class="n">puppeteer</span> <span class="n">wait</span><span class="o">-</span><span class="n">on</span> <span class="nd">@types</span><span class="o">/</span><span class="n">jest</span> <span class="nd">@types</span><span class="o">/</span><span class="n">node</span> <span class="nd">@types</span><span class="o">/</span><span class="n">puppeteer</span> <span class="nd">@types</span><span class="o">/</span><span class="n">wait</span><span class="o">-</span><span class="n">on</span>
+</pre></div>
+</div>
+<p>Because these things are easier to describe with concrete examples, this
+section will show how to set up end-to-end tests for the application you would
+end with at the end of the <a class="reference internal" href="../../getting-started/first-feature.html"><span class="doc">Your First Feature</span></a> section.</p>
+<div class="section" id="setting-up-our-tests">
+<h2>Setting up our tests<a class="headerlink" href="#setting-up-our-tests" title="Permalink to this headline">¶</a></h2>
+<p>Let’s see how to use these tools to write some tests for our social network app.
+You can see the full suite in section <a class="reference internal" href="#full-test-suite"><span class="std std-ref">The Full Test Suite</span></a> at the bottom of
+this page.
+To run this test suite, create a new file <code class="docutils literal notranslate"><span class="pre">ui/src/index.test.ts</span></code>, copy the
+code in this section into that file and run the following command in the <code class="docutils literal notranslate"><span class="pre">ui</span></code>
+folder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>The actual tests are the clauses beginning with <code class="docutils literal notranslate"><span class="pre">test</span></code>.
+You can scroll down to the important ones with the following descriptions (the first argument to each <code class="docutils literal notranslate"><span class="pre">test</span></code>):</p>
+<blockquote>
+<div><ul class="simple">
+<li>‘log in as a new user, log out and log back in’</li>
+<li>‘log in as three different users and start following each other’</li>
+<li>‘error when following self’</li>
+<li>‘error when adding a user that you are already following’</li>
+</ul>
+</div></blockquote>
+<p>Before this, we need to set up the environment in which the tests run.
+At the top of the file we have some global state that we use throughout.
+Specifically, we have child processes for the <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">start</span></code> commands, which run for the duration of our tests.
+We also have a single Puppeteer browser that we share among tests, opening new browser pages for each one.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">beforeAll()</span></code> section is a function run once before any of the tests run.
+We use it to spawn the <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">start</span></code> processes and launch the browser.
+On the other hand the <code class="docutils literal notranslate"><span class="pre">afterAll()</span></code> section is used to shut down these processes and close the browser.
+This step is important to prevent child processes persisting in the background after our program has finished.</p>
+</div>
+<div class="section" id="example-logging-in-and-out">
+<h2>Example: Logging in and out<a class="headerlink" href="#example-logging-in-and-out" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s get to a test!
+The idea is to control the browser in the same way we would expect a user to in each scenario we want to test.
+This means we use Puppeteer to type text into input forms, click buttons and search for particular elements on the page.
+In order to find those elements, we do need to make some adjustments in our React components, which we’ll show later.
+Let’s start at a higher level with a <code class="docutils literal notranslate"><span class="pre">test</span></code>.</p>
+<div class="highlight-ts notranslate"><div class="highlight"><pre><span></span><span class="nx">test</span><span class="p">(</span><span class="s1">&#39;log in as a new user, log out and log back in&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">partyName</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+
+  <span class="c1">// Log in as a new user.</span>
+  <span class="kd">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="c1">// Check that the ledger contains the new User contract.</span>
+  <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">authConfig</span><span class="p">.</span><span class="nx">makeToken</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">ledger</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">Ledger</span><span class="p">({</span><span class="nx">token</span><span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">users</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">users</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">users</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="c1">// Log out and in again as the same user.</span>
+  <span class="k">await</span> <span class="nx">logout</span><span class="p">(</span><span class="nx">page</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="c1">// Check we have the same one user.</span>
+  <span class="kd">const</span> <span class="nx">usersFinal</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">usersFinal</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">usersFinal</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="p">},</span> <span class="mf">40</span><span class="nx">_000</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>We’ll walk though this step by step.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">test</span></code> syntax is provided by Jest to indicate a new test running the function given as an argument (along with a description and time limit).</li>
+<li><code class="docutils literal notranslate"><span class="pre">getParty()</span></code> gives us a new party name. Right now it is just a string unique to this set of tests, but in the future we will use the Party Management Service to allocate parties.</li>
+<li><code class="docutils literal notranslate"><span class="pre">newUiPage()</span></code> is a helper function that uses the Puppeteer browser to open a new page (we use one page per party in these tests), navigate to the app URL and return a <code class="docutils literal notranslate"><span class="pre">Page</span></code> object.</li>
+<li>Next we <code class="docutils literal notranslate"><span class="pre">login()</span></code> using the new page and party name. This should take the user to the main screen. We’ll show how the <code class="docutils literal notranslate"><span class="pre">login()</span></code> function does this shortly.</li>
+<li>We use the <code class="docutils literal notranslate"><span class="pre">&#64;daml/ledger</span></code> library to check the ledger state. In this case, we want to ensure there is a single <code class="docutils literal notranslate"><span class="pre">User</span></code> contract created for the new party. Hence we create a new connection to the <code class="docutils literal notranslate"><span class="pre">Ledger</span></code>, <code class="docutils literal notranslate"><span class="pre">query()</span></code> it and state what we <code class="docutils literal notranslate"><span class="pre">expect</span></code> of the result. When we run the tests, Jest will check these expectations and report any failures for us to fix.</li>
+<li>The test also simulates the new user logging out and then logging back in. We again check the state of the ledger and see that it’s the same as before.</li>
+<li>Finally we must <code class="docutils literal notranslate"><span class="pre">close()</span></code> the browser page, which was opened in <code class="docutils literal notranslate"><span class="pre">newUiPage()</span></code>, to avoid runaway Puppeteer processes after the tests finish.</li>
+</ul>
+</div></blockquote>
+<p>You will likely use <code class="docutils literal notranslate"><span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">getParty()</span></code>, <code class="docutils literal notranslate"><span class="pre">newUiPage()</span></code> and <code class="docutils literal notranslate"><span class="pre">Browser.close()</span></code> for all your tests.
+In this case we use the <code class="docutils literal notranslate"><span class="pre">&#64;daml/ledger</span></code> library to inspect the state of the ledger, but usually we just check the contents of the web page match our expectations.</p>
+</div>
+<div class="section" id="accessing-ui-elements">
+<h2>Accessing UI elements<a class="headerlink" href="#accessing-ui-elements" title="Permalink to this headline">¶</a></h2>
+<p>We showed how to write a simple test at a high level, but haven’t shown how to make individual actions in the app using Puppeteer.
+This was hidden in the <code class="docutils literal notranslate"><span class="pre">login()</span></code> and <code class="docutils literal notranslate"><span class="pre">logout()</span></code> functions.
+Let’s see how <code class="docutils literal notranslate"><span class="pre">login()</span></code> is implemented.</p>
+<div class="highlight-ts notranslate"><div class="highlight"><pre><span></span><span class="c1">// Log in using a party name and wait for the main screen to load.</span>
+<span class="kd">const</span> <span class="nx">login</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">page</span>: <span class="kt">Page</span><span class="p">,</span> <span class="nx">partyName</span>: <span class="kt">string</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">usernameInput</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-username-field&#39;</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">usernameInput</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">usernameInput</span><span class="p">.</span><span class="kr">type</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;.test-select-login-button&#39;</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-main-menu&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We first wait to receive a handle to the username input element.
+This is important to ensure the page and relevant elements are loaded by the time we try to act on them.
+We then use the element handle to click into the input and type the party name.
+Next we click the login button (this time assuming the button has loaded along with the rest of the page).
+Finally, we wait until we find we’ve reached the menu on the main page.</p>
+<p>The strings used to find UI elements, e.g. <code class="docutils literal notranslate"><span class="pre">'.test-select-username-field'</span></code> and <code class="docutils literal notranslate"><span class="pre">'.test-select-login-button'</span></code>, are <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">CSS Selectors</a>.
+You may have seen them before in CSS styling of web pages.
+In this case we use <em>class selectors</em>, which look for CSS classes we’ve given to elements in our React components.</p>
+<p>This means we must manually add classes to the components we want to test.
+For example, here is a snippet of the <code class="docutils literal notranslate"><span class="pre">LoginScreen</span></code> React component with classes added to the <code class="docutils literal notranslate"><span class="pre">Form</span></code> elements.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span>      <span class="p">&lt;</span><span class="nt">Form.Input</span> <span class="na">fluid</span>
+                  <span class="na">icon</span><span class="o">=</span><span class="s">&#39;user&#39;</span>
+                  <span class="na">iconPosition</span><span class="o">=</span><span class="s">&#39;left&#39;</span>
+                  <span class="na">placeholder</span><span class="o">=</span><span class="s">&#39;Username&#39;</span>
+                  <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">username</span><span class="p">}</span>
+                  <span class="na">className</span><span class="o">=</span><span class="s">&#39;test-select-username-field&#39;</span>
+                  <span class="na">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">e</span> <span class="o">=&gt;</span> <span class="nx">setUsername</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">.</span><span class="nx">value</span><span class="p">)}</span> <span class="p">/&gt;</span>
+      <span class="p">&lt;</span><span class="nt">Button</span> <span class="na">primary</span>
+              <span class="na">fluid</span>
+              <span class="na">className</span><span class="o">=</span><span class="s">&#39;test-select-login-button&#39;</span>
+              <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">handleLogin</span><span class="p">}&gt;</span>
+        <span class="nx">Log</span> <span class="k">in</span>
+      <span class="p">&lt;/</span><span class="nt">Button</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>You can see the <code class="docutils literal notranslate"><span class="pre">className</span></code> attributes in the <code class="docutils literal notranslate"><span class="pre">Input</span></code> and <code class="docutils literal notranslate"><span class="pre">Button</span></code>, which we select in the <code class="docutils literal notranslate"><span class="pre">login()</span></code> function.
+Note that you can use other features of an element in your selector, such as its type and attributes.
+We’ve only used class selectors in these tests.</p>
+</div>
+<div class="section" id="writing-css-selectors">
+<h2>Writing CSS Selectors<a class="headerlink" href="#writing-css-selectors" title="Permalink to this headline">¶</a></h2>
+<p>When writing CSS selectors for your tests, you will likely need to check the structure of the rendered HTML in your app by running it manually and inspecting elements using your browser’s developer tools.
+For example, the image below is from inspecting the username field using the developer tools in Google Chrome.</p>
+<blockquote>
+<div><div class="figure">
+<img alt="../../_images/inspect-element.png" src="../../_images/inspect-element.png" />
+</div>
+</div></blockquote>
+<p>There is a subtlety to explain here due to the <a class="reference external" href="https://semantic-ui.com/">Semantic UI</a> framework we use for our app.
+Semantic UI provides a convenient set of UI elements which get translated to HTML.
+In the example of the username field above, the original Semantic UI <code class="docutils literal notranslate"><span class="pre">Input</span></code> is translated to nested <code class="docutils literal notranslate"><span class="pre">div</span></code> nodes with the <code class="docutils literal notranslate"><span class="pre">input</span></code> inside.
+You can see this highlighted on the right side of the screenshot.
+While harmless in this case, in general you may need to inspect the HTML translation of UI elements and write your CSS selectors accordingly.</p>
+</div>
+<div class="section" id="the-full-test-suite">
+<span id="full-test-suite"></span><h2>The Full Test Suite<a class="headerlink" href="#the-full-test-suite" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ts notranslate"><div class="highlight"><pre><span></span><span class="c1">// Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.</span>
+<span class="c1">// SPDX-License-Identifier: Apache-2.0</span>
+
+<span class="c1">// Keep in sync with compatibility/bazel_tools/create-daml-app/index.test.ts</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">ChildProcess</span><span class="p">,</span> <span class="nx">spawn</span><span class="p">,</span> <span class="nx">SpawnOptions</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;child_process&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">promises</span> <span class="kr">as</span> <span class="nx">fs</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;fs&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">puppeteer</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Browser</span><span class="p">,</span> <span class="nx">Page</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;puppeteer&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">waitOn</span> <span class="kr">from</span> <span class="s1">&#39;wait-on&#39;</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">Ledger</span> <span class="kr">from</span> <span class="s1">&#39;@daml/ledger&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">User</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;@daml.js/create-daml-app&#39;</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">authConfig</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;./config&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">JSON_API_PORT_FILE_NAME</span> <span class="o">=</span> <span class="s1">&#39;json-api.port&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">UI_PORT</span> <span class="o">=</span> <span class="mf">3000</span><span class="p">;</span>
+
+<span class="c1">// `daml start` process</span>
+<span class="kd">let</span> <span class="nx">startProc</span>: <span class="kt">ChildProcess</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+
+<span class="c1">// `npm start` process</span>
+<span class="kd">let</span> <span class="nx">uiProc</span>: <span class="kt">ChildProcess</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+
+<span class="c1">// Chrome browser that we run in headless mode</span>
+<span class="kd">let</span> <span class="nx">browser</span>: <span class="kt">Browser</span> <span class="o">|</span> <span class="kc">undefined</span> <span class="o">=</span> <span class="kc">undefined</span><span class="p">;</span>
+
+<span class="c1">// Function to generate unique party names for us.</span>
+<span class="c1">// This should be replaced by the party management service once that is exposed</span>
+<span class="c1">// in the HTTP JSON API.</span>
+<span class="kd">let</span> <span class="nx">nextPartyId</span> <span class="o">=</span> <span class="mf">1</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">getParty</span><span class="p">()</span><span class="o">:</span> <span class="kt">string</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="sb">`P</span><span class="si">${</span><span class="nx">nextPartyId</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+  <span class="nx">nextPartyId</span><span class="o">++</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">party</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;Party names are unique&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">parties</span> <span class="o">=</span> <span class="ow">new</span> <span class="nb">Set</span><span class="p">(</span><span class="nb">Array</span><span class="p">(</span><span class="mf">10</span><span class="p">).</span><span class="nx">fill</span><span class="p">({}).</span><span class="nx">map</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="nx">getParty</span><span class="p">()));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">parties</span><span class="p">.</span><span class="nx">size</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mf">10</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">removeFile</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">path</span>: <span class="kt">string</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="k">await</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
+    <span class="k">await</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">unlink</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">_e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Do nothing if the file does not exist.</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Start the Daml and UI processes before the tests begin.</span>
+<span class="c1">// To reduce test times, we reuse the same processes between all the tests.</span>
+<span class="c1">// This means we need to use a different set of parties and a new browser page for each test.</span>
+<span class="nx">beforeAll</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// If the JSON API server was previously shut down abruptly then the port file</span>
+  <span class="c1">// may not have been removed.</span>
+  <span class="c1">// Since we use this file to know when the server is up, we remove it first</span>
+  <span class="c1">// (if it exists) to be sure.</span>
+  <span class="kd">const</span> <span class="nx">jsonApiPortFilePath</span> <span class="o">=</span> <span class="sb">`../</span><span class="si">${</span><span class="nx">JSON_API_PORT_FILE_NAME</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span> <span class="c1">// relative to ui folder</span>
+  <span class="k">await</span> <span class="nx">removeFile</span><span class="p">(</span><span class="nx">jsonApiPortFilePath</span><span class="p">);</span>
+
+  <span class="c1">// Run `daml start` from the project root (where the `daml.yaml` is located).</span>
+  <span class="c1">// The path should include &#39;.daml/bin&#39; in the environment where this is run,</span>
+  <span class="c1">// which contains the `daml` assistant executable.</span>
+  <span class="kd">const</span> <span class="nx">startOpts</span>: <span class="kt">SpawnOptions</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="nx">stdio</span><span class="o">:</span> <span class="s1">&#39;inherit&#39;</span> <span class="p">};</span>
+
+  <span class="c1">// Arguments for `daml start` (besides those in the `daml.yaml`).</span>
+  <span class="c1">// The JSON API `--port-file` gives us a file we can check to know that both</span>
+  <span class="c1">// the sandbox and JSON API server are up and running.</span>
+  <span class="c1">// We use the default ports for the sandbox and JSON API as done in the</span>
+  <span class="c1">// Getting Started Guide.</span>
+  <span class="kd">const</span> <span class="nx">startArgs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;start&#39;</span><span class="p">,</span>
+    <span class="sb">`--json-api-option=--port-file=</span><span class="si">${</span><span class="nx">JSON_API_PORT_FILE_NAME</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+  <span class="p">];</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;Starting daml start&quot;</span><span class="p">);</span>
+
+  <span class="nx">startProc</span> <span class="o">=</span> <span class="nx">spawn</span><span class="p">(</span><span class="s1">&#39;daml&#39;</span><span class="p">,</span> <span class="nx">startArgs</span><span class="p">,</span> <span class="nx">startOpts</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">waitOn</span><span class="p">({</span><span class="nx">resources</span><span class="o">:</span> <span class="p">[</span><span class="sb">`file:</span><span class="si">${</span><span class="nx">jsonApiPortFilePath</span><span class="si">}</span><span class="sb">`</span><span class="p">]});</span>
+
+  <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;daml start API are running&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Run `npm start` in another shell.</span>
+  <span class="c1">// Disable automatically opening a browser using the env var described here:</span>
+  <span class="c1">// https://github.com/facebook/create-react-app/issues/873#issuecomment-266318338</span>
+  <span class="kd">const</span> <span class="nx">env</span> <span class="o">=</span> <span class="p">{...</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">,</span> <span class="nx">BROWSER</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">};</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;Starting npm start&quot;</span><span class="p">);</span>
+  <span class="nx">uiProc</span> <span class="o">=</span> <span class="nx">spawn</span><span class="p">(</span><span class="s1">&#39;npm-cli.js&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;run-script&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">],</span> <span class="p">{</span> <span class="nx">env</span><span class="p">,</span> <span class="nx">stdio</span><span class="o">:</span> <span class="s1">&#39;inherit&#39;</span><span class="p">,</span> <span class="nx">detached</span>: <span class="kt">true</span><span class="p">});</span>
+  <span class="c1">// Note(kill-npm-start): The `detached` flag starts the process in a new process group.</span>
+  <span class="c1">// This allows us to kill the process with all its descendents after the tests finish,</span>
+  <span class="c1">// following https://azimi.me/2014/12/31/kill-child_process-node-js.html.</span>
+
+  <span class="c1">// Ensure the UI server is ready by checking that the port is available.</span>
+  <span class="k">await</span> <span class="nx">waitOn</span><span class="p">({</span><span class="nx">resources</span><span class="o">:</span> <span class="p">[</span><span class="sb">`tcp:localhost:</span><span class="si">${</span><span class="nx">UI_PORT</span><span class="si">}</span><span class="sb">`</span><span class="p">]});</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;npm start is running&quot;</span><span class="p">);</span>
+
+  <span class="c1">// Launch a single browser for all tests.</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;Starting puppeteer&quot;</span><span class="p">);</span>
+  <span class="nx">browser</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">puppeteer</span><span class="p">.</span><span class="nx">launch</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;Puppeteer is running&quot;</span><span class="p">);</span>
+<span class="p">},</span> <span class="mf">60</span><span class="nx">_000</span><span class="p">);</span>
+
+<span class="nx">afterAll</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// Kill the `daml start` process, allowing the sandbox and JSON API server to</span>
+  <span class="c1">// shut down gracefully.</span>
+  <span class="c1">// The latter process should also remove the JSON API port file.</span>
+  <span class="c1">// TODO: Test this on Windows.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">startProc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">startProc</span><span class="p">.</span><span class="nx">kill</span><span class="p">(</span><span class="s1">&#39;SIGTERM&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Kill the `npm start` process including all its descendents.</span>
+  <span class="c1">// The `-` indicates to kill all processes in the process group.</span>
+  <span class="c1">// See Note(kill-npm-start).</span>
+  <span class="c1">// TODO: Test this on Windows.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">uiProc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">kill</span><span class="p">(</span><span class="o">-</span><span class="nx">uiProc</span><span class="p">.</span><span class="nx">pid</span><span class="p">)</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">browser</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">browser</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;create and look up user using ledger library&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">authConfig</span><span class="p">.</span><span class="nx">makeToken</span><span class="p">(</span><span class="nx">party</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">ledger</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">Ledger</span><span class="p">({</span><span class="nx">token</span><span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">users0</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">users0</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([]);</span>
+  <span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">{</span><span class="nx">username</span>: <span class="kt">party</span><span class="p">,</span> <span class="nx">following</span><span class="o">:</span> <span class="p">[]};</span>
+  <span class="kd">const</span> <span class="nx">userContract1</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="nx">user</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">userContract2</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">fetchByKey</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="nx">party</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">userContract1</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">userContract2</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">users</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">users</span><span class="p">[</span><span class="mf">0</span><span class="p">]).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">userContract1</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="c1">// The tests following use the headless browser to interact with the app.</span>
+<span class="c1">// We select the relevant DOM elements using CSS class names that we embedded</span>
+<span class="c1">// specifically for testing.</span>
+<span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors.</span>
+
+<span class="kd">const</span> <span class="nx">newUiPage</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span><span class="o">:</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">Page</span><span class="o">&gt;</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">browser</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Puppeteer browser has not been launched&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="kd">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">browser</span><span class="p">.</span><span class="nx">newPage</span><span class="p">();</span>
+  <span class="nx">page</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;console&#39;</span><span class="p">,</span> <span class="nx">message</span> <span class="p">=&gt;</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">message</span><span class="p">.</span><span class="kr">type</span><span class="p">().</span><span class="nx">substr</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="mf">3</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span><span class="si">}</span><span class="sb"> </span><span class="si">${</span><span class="nx">message</span><span class="p">.</span><span class="nx">text</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span><span class="p">))</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="kr">goto</span><span class="p">(</span><span class="sb">`http://localhost:</span><span class="si">${</span><span class="nx">UI_PORT</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span> <span class="c1">// ignore the Response</span>
+  <span class="k">return</span> <span class="nx">page</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Note that Follow is a consuming choice on a contract</span>
+<span class="c1">// with a contract key so it is crucial to wait between follows.</span>
+<span class="c1">// Otherwise, you get errors due to contention.</span>
+<span class="c1">// Those can manifest in puppeteer throwing `Target closed`</span>
+<span class="c1">// but that is not the underlying error (the JSON API will</span>
+<span class="c1">// output the contention errors as well so look through the log).</span>
+<span class="kd">const</span> <span class="nx">waitForFollowers</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">page</span>: <span class="kt">Page</span><span class="p">,</span> <span class="nx">n</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForFunction</span><span class="p">(</span>
+      <span class="p">(</span><span class="nx">n</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.test-select-following&quot;</span><span class="p">).</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">n</span><span class="p">,</span>
+      <span class="p">{},</span>
+      <span class="nx">n</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// LOGIN_FUNCTION_BEGIN</span>
+<span class="c1">// Log in using a party name and wait for the main screen to load.</span>
+<span class="kd">const</span> <span class="nx">login</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">page</span>: <span class="kt">Page</span><span class="p">,</span> <span class="nx">partyName</span>: <span class="kt">string</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">usernameInput</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-username-field&#39;</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">usernameInput</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">usernameInput</span><span class="p">.</span><span class="kr">type</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;.test-select-login-button&#39;</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-main-menu&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// LOGIN_FUNCTION_END</span>
+
+<span class="c1">// Log out and wait to get back to the login screen.</span>
+<span class="kd">const</span> <span class="nx">logout</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">page</span>: <span class="kt">Page</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;.test-select-log-out&#39;</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-login-screen&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Follow a user using the text input in the follow panel.</span>
+<span class="kd">const</span> <span class="nx">follow</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">page</span>: <span class="kt">Page</span><span class="p">,</span> <span class="nx">userToFollow</span>: <span class="kt">string</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;.test-select-follow-input&#39;</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="kr">type</span><span class="p">(</span><span class="s1">&#39;.test-select-follow-input&#39;</span><span class="p">,</span> <span class="nx">userToFollow</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">click</span><span class="p">(</span><span class="s1">&#39;.test-select-follow-button&#39;</span><span class="p">);</span>
+
+  <span class="c1">// Wait for the request to complete, either successfully or after the error</span>
+  <span class="c1">// dialog has been handled.</span>
+  <span class="c1">// We check this by the absence of the `loading` class.</span>
+  <span class="c1">// (Both the `test-...` and `loading` classes appear in `div`s surrounding</span>
+  <span class="c1">// the `input`, due to the translation of Semantic UI&#39;s `Input` element.)</span>
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-follow-input &gt; :not(.loading)&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">timeout</span>: <span class="kt">40_000</span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// LOGIN_TEST_BEGIN</span>
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;log in as a new user, log out and log back in&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">partyName</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+
+  <span class="c1">// Log in as a new user.</span>
+  <span class="kd">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="c1">// Check that the ledger contains the new User contract.</span>
+  <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">authConfig</span><span class="p">.</span><span class="nx">makeToken</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">ledger</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">Ledger</span><span class="p">({</span><span class="nx">token</span><span class="p">});</span>
+  <span class="kd">const</span> <span class="nx">users</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">users</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">users</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="c1">// Log out and in again as the same user.</span>
+  <span class="k">await</span> <span class="nx">logout</span><span class="p">(</span><span class="nx">page</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="c1">// Check we have the same one user.</span>
+  <span class="kd">const</span> <span class="nx">usersFinal</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">usersFinal</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">usersFinal</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">payload</span><span class="p">.</span><span class="nx">username</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">partyName</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="p">},</span> <span class="mf">40</span><span class="nx">_000</span><span class="p">);</span>
+<span class="c1">// LOGIN_TEST_END</span>
+
+<span class="c1">// This tests following users in a few different ways:</span>
+<span class="c1">// - using the text box in the Follow panel</span>
+<span class="c1">// - using the icon in the Network panel</span>
+<span class="c1">// - while the user that is followed is logged in</span>
+<span class="c1">// - while the user that is followed is logged out</span>
+<span class="c1">// These are all successful cases.</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;log in as three different users and start following each other&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">party1</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">party2</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">party3</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+
+  <span class="c1">// Log in as Party 1.</span>
+  <span class="kd">const</span> <span class="nx">page1</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page1</span><span class="p">,</span> <span class="nx">party1</span><span class="p">);</span>
+
+  <span class="c1">// Party 1 should initially follow no one.</span>
+  <span class="kd">const</span> <span class="nx">noFollowing1</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page1</span><span class="p">.</span><span class="nx">$$</span><span class="p">(</span><span class="s1">&#39;.test-select-following&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">noFollowing1</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([]);</span>
+
+  <span class="c1">// Follow Party 2 using the text input.</span>
+  <span class="c1">// This should work even though Party 2 has not logged in yet.</span>
+  <span class="c1">// Check Party 1 follows exactly Party 2.</span>
+  <span class="k">await</span> <span class="nx">follow</span><span class="p">(</span><span class="nx">page1</span><span class="p">,</span> <span class="nx">party2</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">waitForFollowers</span><span class="p">(</span><span class="nx">page1</span><span class="p">,</span> <span class="mf">1</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">followingList1</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page1</span><span class="p">.</span><span class="nx">$$eval</span><span class="p">(</span><span class="s1">&#39;.test-select-following&#39;</span><span class="p">,</span> <span class="nx">following</span> <span class="p">=&gt;</span> <span class="nx">following</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList1</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span><span class="nx">party2</span><span class="p">]);</span>
+
+   <span class="c1">// Add Party 3 as well and check both are in the list.</span>
+   <span class="k">await</span> <span class="nx">follow</span><span class="p">(</span><span class="nx">page1</span><span class="p">,</span> <span class="nx">party3</span><span class="p">);</span>
+   <span class="k">await</span> <span class="nx">waitForFollowers</span><span class="p">(</span><span class="nx">page1</span><span class="p">,</span> <span class="mf">2</span><span class="p">);</span>
+   <span class="kd">const</span> <span class="nx">followingList11</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page1</span><span class="p">.</span><span class="nx">$$eval</span><span class="p">(</span><span class="s1">&#39;.test-select-following&#39;</span><span class="p">,</span> <span class="nx">following</span> <span class="p">=&gt;</span> <span class="nx">following</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">));</span>
+   <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList11</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+   <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList11</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="nx">party2</span><span class="p">);</span>
+   <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList11</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="nx">party3</span><span class="p">);</span>
+
+  <span class="c1">// Log in as Party 2.</span>
+  <span class="kd">const</span> <span class="nx">page2</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page2</span><span class="p">,</span> <span class="nx">party2</span><span class="p">);</span>
+
+  <span class="c1">// Party 2 should initially follow no one.</span>
+  <span class="kd">const</span> <span class="nx">noFollowing2</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">$$</span><span class="p">(</span><span class="s1">&#39;.test-select-following&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">noFollowing2</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([]);</span>
+
+  <span class="c1">// However, Party 2 should see Party 1 in the network.</span>
+  <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-user-in-network&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">network2</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">$$eval</span><span class="p">(</span><span class="s1">&#39;.test-select-user-in-network&#39;</span><span class="p">,</span> <span class="nx">users</span> <span class="p">=&gt;</span> <span class="nx">users</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">network2</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span><span class="nx">party1</span><span class="p">]);</span>
+
+  <span class="c1">// Follow Party 1 using the &#39;add user&#39; icon on the right.</span>
+  <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-add-user-icon&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">userIcons</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">$$</span><span class="p">(</span><span class="s1">&#39;.test-select-add-user-icon&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">userIcons</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">userIcons</span><span class="p">[</span><span class="mf">0</span><span class="p">].</span><span class="nx">click</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">waitForFollowers</span><span class="p">(</span><span class="nx">page2</span><span class="p">,</span> <span class="mf">1</span><span class="p">);</span>
+
+  <span class="c1">// Also follow Party 3 using the text input.</span>
+  <span class="c1">// Note that we can also use the icon to follow Party 3 as they appear in the</span>
+  <span class="c1">// Party 1&#39;s Network panel, but that&#39;s harder to test at the</span>
+  <span class="c1">// moment because there is no loading indicator to tell when it&#39;s done.</span>
+  <span class="k">await</span> <span class="nx">follow</span><span class="p">(</span><span class="nx">page2</span><span class="p">,</span> <span class="nx">party3</span><span class="p">);</span>
+
+  <span class="c1">// Check the following list is updated correctly.</span>
+  <span class="k">await</span> <span class="nx">waitForFollowers</span><span class="p">(</span><span class="nx">page2</span><span class="p">,</span> <span class="mf">2</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">followingList2</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">$$eval</span><span class="p">(</span><span class="s1">&#39;.test-select-following&#39;</span><span class="p">,</span> <span class="nx">following</span> <span class="p">=&gt;</span> <span class="nx">following</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList2</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList2</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="nx">party1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">followingList2</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="nx">party3</span><span class="p">);</span>
+
+  <span class="c1">// Party 1 should now also see Party 2 in the network (but not Party 3 as they</span>
+  <span class="c1">// didn&#39;t yet started following Party 1).</span>
+  <span class="k">await</span> <span class="nx">page1</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-user-in-network&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">network1</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page1</span><span class="p">.</span><span class="nx">$$eval</span><span class="p">(</span><span class="s1">&#39;.test-select-user-in-network&#39;</span><span class="p">,</span> <span class="nx">following</span> <span class="p">=&gt;</span> <span class="nx">following</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">network1</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([</span><span class="nx">party2</span><span class="p">]);</span>
+
+  <span class="c1">// Log in as Party 3.</span>
+  <span class="kd">const</span> <span class="nx">page3</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page3</span><span class="p">,</span> <span class="nx">party3</span><span class="p">);</span>
+
+  <span class="c1">// Party 3 should follow no one.</span>
+  <span class="kd">const</span> <span class="nx">noFollowing3</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page3</span><span class="p">.</span><span class="nx">$$</span><span class="p">(</span><span class="s1">&#39;.test-select-following&#39;</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">noFollowing3</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">([]);</span>
+
+  <span class="c1">// However, Party 3 should see both Party 1 and Party 2 in the network.</span>
+  <span class="k">await</span> <span class="nx">page3</span><span class="p">.</span><span class="nx">waitForSelector</span><span class="p">(</span><span class="s1">&#39;.test-select-user-in-network&#39;</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">network3</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">page3</span><span class="p">.</span><span class="nx">$$eval</span><span class="p">(</span><span class="s1">&#39;.test-select-user-in-network&#39;</span><span class="p">,</span> <span class="nx">following</span> <span class="p">=&gt;</span> <span class="nx">following</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">e</span> <span class="p">=&gt;</span> <span class="nx">e</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">network3</span><span class="p">).</span><span class="nx">toHaveLength</span><span class="p">(</span><span class="mf">2</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">network3</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="nx">party1</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">network3</span><span class="p">).</span><span class="nx">toContain</span><span class="p">(</span><span class="nx">party2</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">page1</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">page2</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+  <span class="k">await</span> <span class="nx">page3</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="p">},</span> <span class="mf">60</span><span class="nx">_000</span><span class="p">);</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;error when following self&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">party</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+
+  <span class="kd">const</span> <span class="nx">dismissError</span> <span class="o">=</span> <span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">(</span><span class="nx">dialog</span> <span class="p">=&gt;</span> <span class="nx">dialog</span><span class="p">.</span><span class="nx">dismiss</span><span class="p">());</span>
+  <span class="nx">page</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;dialog&#39;</span><span class="p">,</span> <span class="nx">dismissError</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">party</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nx">follow</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">party</span><span class="p">);</span>
+
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">dismissError</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">&#39;error when adding a user that you are already following&#39;</span><span class="p">,</span> <span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">party1</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">party2</span> <span class="o">=</span> <span class="nx">getParty</span><span class="p">();</span>
+  <span class="kd">const</span> <span class="nx">page</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">newUiPage</span><span class="p">();</span>
+
+  <span class="kd">const</span> <span class="nx">dismissError</span> <span class="o">=</span> <span class="nx">jest</span><span class="p">.</span><span class="nx">fn</span><span class="p">(</span><span class="nx">dialog</span> <span class="p">=&gt;</span> <span class="nx">dialog</span><span class="p">.</span><span class="nx">dismiss</span><span class="p">());</span>
+  <span class="nx">page</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;dialog&#39;</span><span class="p">,</span> <span class="nx">dismissError</span><span class="p">);</span>
+
+  <span class="k">await</span> <span class="nx">login</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">party1</span><span class="p">);</span>
+  <span class="c1">// First attempt should succeed</span>
+  <span class="k">await</span> <span class="nx">follow</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">party2</span><span class="p">);</span>
+  <span class="c1">// Second attempt should result in an error</span>
+  <span class="k">await</span> <span class="nx">follow</span><span class="p">(</span><span class="nx">page</span><span class="p">,</span> <span class="nx">party2</span><span class="p">);</span>
+
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">dismissError</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+
+  <span class="k">await</span> <span class="nx">page</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="daml-types.html" class="da-btn da-btn-label btn-prev" title="@daml/types" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../../json-api/index.html" class="da-btn da-btn-label btn-next" title="HTTP JSON API Service" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

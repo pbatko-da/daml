@@ -1,0 +1,780 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reference: data types &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Reference: built-in functions" href="working-with.html" />
+  <link rel="prev" title="Reference: updates" href="updates.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Language reference docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Self-Service Error Codes (Experimental)</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html#self-service-error-codes-migration-guide">Self-Service Error Codes Migration Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Reference: data types</a><ul>
+<li><a class="reference internal" href="#built-in-types">Built-in types</a><ul>
+<li><a class="reference internal" href="#table-of-built-in-primitive-types">Table of built-in primitive types</a></li>
+<li><a class="reference internal" href="#escaping-characters">Escaping characters</a></li>
+<li><a class="reference internal" href="#time">Time</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lists">Lists</a><ul>
+<li><a class="reference internal" href="#summing-a-list">Summing a list</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#records-and-record-types">Records and record types</a><ul>
+<li><a class="reference internal" href="#data-constructors">Data constructors</a></li>
+<li><a class="reference internal" href="#accessing-record-fields">Accessing record fields</a></li>
+<li><a class="reference internal" href="#updating-record-fields">Updating record fields</a></li>
+<li><a class="reference internal" href="#parameterized-data-types">Parameterized data types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#type-synonyms">Type synonyms</a><ul>
+<li><a class="reference internal" href="#function-types">Function types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#algebraic-data-types">Algebraic data types</a><ul>
+<li><a class="reference internal" href="#product-types">Product types</a></li>
+<li><a class="reference internal" href="#sum-types">Sum types</a></li>
+<li><a class="reference internal" href="#pattern-matching">Pattern matching</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="reference-data-types">
+<h1>Reference: data types<a class="headerlink" href="#reference-data-types" title="Permalink to this headline">¶</a></h1>
+<p>This page gives reference information on Daml’s data types.</p>
+<div class="section" id="built-in-types">
+<span id="daml-ref-built-in-types"></span><h2>Built-in types<a class="headerlink" href="#built-in-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="table-of-built-in-primitive-types">
+<h3>Table of built-in primitive types<a class="headerlink" href="#table-of-built-in-primitive-types" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="15%" />
+<col width="23%" />
+<col width="15%" />
+<col width="46%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">For</th>
+<th class="head">Example</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Int</span></code></td>
+<td>integers</td>
+<td><code class="docutils literal notranslate"><span class="pre">1</span></code>,  <code class="docutils literal notranslate"><span class="pre">1000000</span></code>, <code class="docutils literal notranslate"><span class="pre">1_000_000</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">Int</span></code> values are signed 64-bit integers which represent numbers between <code class="docutils literal notranslate"><span class="pre">-9,223,372,036,854,775,808</span></code> and <code class="docutils literal notranslate"><span class="pre">9,223,372,036,854,775,807</span></code> inclusive. Arithmetic operations raise an error on overflows and division by <code class="docutils literal notranslate"><span class="pre">0</span></code>. To make long numbers more readable you can optionally add underscores.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Decimal</span></code></td>
+<td>short for <code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">10</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">1.0</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">Decimal</span></code> values are rational numbers with precision 38 and scale 10.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">n</span></code></td>
+<td>fixed point decimal numbers</td>
+<td><code class="docutils literal notranslate"><span class="pre">1.0</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">n</span></code> values are rational numbers with <code class="docutils literal notranslate"><span class="pre">38</span></code> decimal digits. The scale parameter <code class="docutils literal notranslate"><span class="pre">n</span></code> controls the number of digits after the decimal point, so for example, <code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">10</span></code> values have 10 digits after the decimal point, and <code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">20</span></code> values have 20 digits after the decimal point. The value of <code class="docutils literal notranslate"><span class="pre">n</span></code> must be between <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">37</span></code> inclusive.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">BigNumeric</span></code></td>
+<td>large fixed point decimal numbers</td>
+<td><code class="docutils literal notranslate"><span class="pre">1.0</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">BigNumeric</span></code> values are rational numbers with up to <code class="docutils literal notranslate"><span class="pre">2^16</span></code> decimal digits. They can have up to <code class="docutils literal notranslate"><span class="pre">2^15</span></code> digits before the decimal point, and up to <code class="docutils literal notranslate"><span class="pre">2^15</span></code> digits after the decimal point.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Text</span></code></td>
+<td>strings</td>
+<td><code class="docutils literal notranslate"><span class="pre">&quot;hello&quot;</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">Text</span></code> values are strings of characters enclosed by double quotes.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Bool</span></code></td>
+<td>boolean values</td>
+<td><code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code></td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Party</span></code></td>
+<td>unicode string representing a party</td>
+<td><code class="docutils literal notranslate"><span class="pre">alice</span> <span class="pre">&lt;-</span> <span class="pre">getParty</span> <span class="pre">&quot;Alice&quot;</span></code></td>
+<td>Every <em>party</em> in a Daml system has a unique identifier of type <code class="docutils literal notranslate"><span class="pre">Party</span></code>. To create a value of type <code class="docutils literal notranslate"><span class="pre">Party</span></code>, use binding on the result of calling <code class="docutils literal notranslate"><span class="pre">getParty</span></code>. The party text can only contain alphanumeric characters, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span></code> and spaces.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">Date</span></code></td>
+<td>models dates</td>
+<td><code class="docutils literal notranslate"><span class="pre">date</span> <span class="pre">2007</span> <span class="pre">Apr</span> <span class="pre">5</span></code></td>
+<td>To create a value of type <code class="docutils literal notranslate"><span class="pre">Date</span></code>, use the function <code class="docutils literal notranslate"><span class="pre">date</span></code> (to get this function, import <code class="docutils literal notranslate"><span class="pre">DA.Date</span></code>).</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">Time</span></code></td>
+<td>models absolute time (UTC)</td>
+<td><code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">(date</span> <span class="pre">2007</span> <span class="pre">Apr</span> <span class="pre">5)</span> <span class="pre">14</span> <span class="pre">30</span> <span class="pre">05</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">Time</span></code> values have microsecond precision. To create a value of type <code class="docutils literal notranslate"><span class="pre">Time</span></code>, use a <code class="docutils literal notranslate"><span class="pre">Date</span></code> and the function <code class="docutils literal notranslate"><span class="pre">time</span></code> (to get this function, import <code class="docutils literal notranslate"><span class="pre">DA.Time</span></code>).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">RelTime</span></code></td>
+<td>models differences between time values</td>
+<td><code class="docutils literal notranslate"><span class="pre">seconds</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">seconds</span> <span class="pre">(-2)</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">seconds</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">seconds</span> <span class="pre">(-2)</span></code> represent the values for 1 and -2 seconds. There are no literals for <code class="docutils literal notranslate"><span class="pre">RelTime</span></code>. Instead they are created using one of <code class="docutils literal notranslate"><span class="pre">days</span></code>, <code class="docutils literal notranslate"><span class="pre">hours</span></code>, <code class="docutils literal notranslate"><span class="pre">minutes</span></code> and <code class="docutils literal notranslate"><span class="pre">seconds</span></code> (to get these functions, import <code class="docutils literal notranslate"><span class="pre">DA.Time</span></code>).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="escaping-characters">
+<h3>Escaping characters<a class="headerlink" href="#escaping-characters" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Text</span></code> literals support backslash escapes to include their delimiter (<code class="docutils literal notranslate"><span class="pre">\&quot;</span></code>) and a backslash itself (<code class="docutils literal notranslate"><span class="pre">\\</span></code>).</p>
+</div>
+<div class="section" id="time">
+<h3>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
+<p>Definition of time on the ledger is a property of the execution environment. Daml assumes there is a shared understanding of what time is among the stakeholders of contracts.</p>
+</div>
+</div>
+<div class="section" id="lists">
+<h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">[a]</span></code> is the built-in data type for a list of elements of type <code class="docutils literal notranslate"><span class="pre">a</span></code>. The empty list is denoted by <code class="docutils literal notranslate"><span class="pre">[]</span></code> and <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">3,</span> <span class="pre">2]</span></code> is an example of a list of type <code class="docutils literal notranslate"><span class="pre">[Int]</span></code>.</p>
+<p>You can also construct lists using <code class="docutils literal notranslate"><span class="pre">[]</span></code> (the empty
+list) and <code class="docutils literal notranslate"><span class="pre">::</span></code> (which is an operator that appends an element to the front of a list). For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">twoEquivalentListConstructions</span> <span class="ow">=</span>
+  <span class="n">scenario</span> <span class="kr">do</span>
+    <span class="n">assert</span> <span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">::</span> <span class="mi">2</span> <span class="ow">::</span> <span class="mi">3</span> <span class="ow">::</span> <span class="kt">[]</span> <span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="summing-a-list">
+<h3>Summing a list<a class="headerlink" href="#summing-a-list" title="Permalink to this headline">¶</a></h3>
+<p>To sum a list, use a <em>fold</em> (because there are no loops in Daml). See <a class="reference internal" href="working-with.html#daml-ref-folding"><span class="std std-ref">Folding</span></a> for details.</p>
+</div>
+</div>
+<div class="section" id="records-and-record-types">
+<span id="daml-ref-record-types"></span><h2>Records and record types<a class="headerlink" href="#records-and-record-types" title="Permalink to this headline">¶</a></h2>
+<p>You declare a new record type using the <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">MyRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span>
+  <span class="kr">with</span>
+    <span class="n">label1</span> <span class="kt">:</span> <span class="n">type1</span>
+    <span class="n">label2</span> <span class="kt">:</span> <span class="n">type2</span>
+    <span class="o">...</span>
+    <span class="n">labelN</span> <span class="kt">:</span> <span class="n">typeN</span>
+  <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">label1</span></code>, <code class="docutils literal notranslate"><span class="pre">label2</span></code>, …, <code class="docutils literal notranslate"><span class="pre">labelN</span></code> are <em>labels</em>, which must be unique in the record type</li>
+<li><code class="docutils literal notranslate"><span class="pre">type1</span></code>, <code class="docutils literal notranslate"><span class="pre">type2</span></code>, …, <code class="docutils literal notranslate"><span class="pre">typeN</span></code> are the types of the fields</li>
+</ul>
+<p>There’s an alternative way to write record types:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">MyRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="p">{</span> <span class="n">label1</span> <span class="kt">:</span> <span class="n">type1</span><span class="p">;</span> <span class="n">label2</span> <span class="kt">:</span> <span class="n">type2</span><span class="p">;</span> <span class="o">...</span><span class="p">;</span> <span class="n">labelN</span> <span class="kt">:</span> <span class="n">typeN</span> <span class="p">}</span>
+  <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The format using <code class="docutils literal notranslate"><span class="pre">with</span></code> and the format using <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">}</span></code> are exactly the same syntactically. The main difference is that when you use <code class="docutils literal notranslate"><span class="pre">with</span></code>, you can use newlines and proper indentation to avoid the delimiting semicolons.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">deriving</span> <span class="pre">(Eq,</span> <span class="pre">Show)</span></code> ensures the data type can be compared (using <code class="docutils literal notranslate"><span class="pre">==</span></code>) and displayed (using <code class="docutils literal notranslate"><span class="pre">show</span></code>). The line starting <code class="docutils literal notranslate"><span class="pre">deriving</span></code> is required for data types used in fields of a <code class="docutils literal notranslate"><span class="pre">template</span></code>.</p>
+<p>In general, add the <code class="docutils literal notranslate"><span class="pre">deriving</span></code> unless the data type contains function types (e.g. <code class="docutils literal notranslate"><span class="pre">Int</span> <span class="pre">-&gt;</span> <span class="pre">Int</span></code>), which cannot be compared or shown.</p>
+<p>For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="c1">-- This is a record type with two fields, called first and second,</span>
+<span class="c1">-- both of type `Int`</span>
+<span class="kr">data</span> <span class="kt">MyRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span> <span class="n">first</span> <span class="kt">:</span> <span class="kt">Int</span><span class="p">;</span> <span class="n">second</span> <span class="kt">:</span> <span class="kt">Int</span>
+  <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="c1">-- An example value of this type is:</span>
+<span class="nf">newRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span> <span class="n">first</span> <span class="ow">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">second</span> <span class="ow">=</span> <span class="mi">2</span>
+
+<span class="c1">-- You can also write:</span>
+<span class="nf">newRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="mi">1</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="section" id="data-constructors">
+<span id="daml-ref-data-constructors"></span><h3>Data constructors<a class="headerlink" href="#data-constructors" title="Permalink to this headline">¶</a></h3>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">data</span></code> keyword to define a new data type, for example <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Floor</span> <span class="pre">a</span> <span class="pre">=</span> <span class="pre">Floor</span> <span class="pre">a</span></code> for some type <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
+<p>The first <code class="docutils literal notranslate"><span class="pre">Floor</span></code> in the expression is the <em>type constructor</em>. The second <code class="docutils literal notranslate"><span class="pre">Floor</span></code> is a <em>data constructor</em> that can be used to specify values of the <code class="docutils literal notranslate"><span class="pre">Floor</span> <span class="pre">Int</span></code>
+type: for example, <code class="docutils literal notranslate"><span class="pre">Floor</span> <span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">Floor</span> <span class="pre">1</span></code>.</p>
+<p>In Daml, data constructors may take <em>at most one argument</em>.</p>
+<p>An example of a data constructor with zero arguments is <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">=</span> <span class="pre">Empty</span> <span class="pre">{}</span></code>. The only value of the <code class="docutils literal notranslate"><span class="pre">Empty</span></code> type is <code class="docutils literal notranslate"><span class="pre">Empty</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Confusing</span> <span class="pre">=</span> <span class="pre">Int</span></code>, the <code class="docutils literal notranslate"><span class="pre">Int</span></code> is a data constructor with no arguments. It has nothing to do with the built-in <code class="docutils literal notranslate"><span class="pre">Int</span></code> type.</p>
+</div>
+</div>
+<div class="section" id="accessing-record-fields">
+<h3>Accessing record fields<a class="headerlink" href="#accessing-record-fields" title="Permalink to this headline">¶</a></h3>
+<p>To access the fields of a record type, use dot notation. For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Access the value of the field `first`</span>
+<span class="nf">val</span><span class="o">.</span><span class="n">first</span>
+
+<span class="c1">-- Access the value of the field `second`</span>
+<span class="nf">val</span><span class="o">.</span><span class="n">second</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-record-fields">
+<h3>Updating record fields<a class="headerlink" href="#updating-record-fields" title="Permalink to this headline">¶</a></h3>
+<p>You can also use the <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword to create a new record on the basis of an existing replacing select fields.</p>
+<p>For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">myRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span> <span class="n">first</span> <span class="ow">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">second</span> <span class="ow">=</span> <span class="mi">2</span>
+
+<span class="nf">myRecord2</span> <span class="ow">=</span> <span class="n">myRecord</span> <span class="kr">with</span> <span class="n">second</span> <span class="ow">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>produces the new record value <code class="docutils literal notranslate"><span class="pre">MyRecord</span> <span class="pre">with</span> <span class="pre">first</span> <span class="pre">=</span> <span class="pre">1;</span> <span class="pre">second</span> <span class="pre">=</span> <span class="pre">5</span></code>.</p>
+<p>If you have a variable with the same name as the label, Daml lets you use this without assigning it to make things look nicer:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="c1">-- if you have a variable called `second` equal to 5</span>
+<span class="nf">second</span> <span class="ow">=</span> <span class="mi">5</span>
+
+<span class="c1">-- you could construct the same value as before with</span>
+<span class="nf">myRecord2</span> <span class="ow">=</span> <span class="n">myRecord</span> <span class="kr">with</span> <span class="n">second</span> <span class="ow">=</span> <span class="n">second</span>
+
+<span class="c1">-- or with</span>
+<span class="nf">myRecord3</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span> <span class="n">first</span> <span class="ow">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">second</span> <span class="ow">=</span> <span class="n">second</span>
+
+<span class="c1">-- but Daml has a nicer way of putting this:</span>
+<span class="nf">myRecord4</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span> <span class="n">first</span> <span class="ow">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">second</span>
+
+<span class="c1">-- or even</span>
+<span class="nf">myRecord5</span> <span class="ow">=</span> <span class="n">r</span> <span class="kr">with</span> <span class="n">second</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword binds more strongly than function application. So for a function, say <code class="docutils literal notranslate"><span class="pre">return</span></code>, either write <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">IntegerCoordinate</span> <span class="pre">with</span> <span class="pre">first</span> <span class="pre">=</span> <span class="pre">1;</span> <span class="pre">second</span> <span class="pre">=</span> <span class="pre">5</span></code> or <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">(IntegerCoordinate</span> <span class="pre">{first</span> <span class="pre">=</span> <span class="pre">1;</span> <span class="pre">second</span> <span class="pre">=</span> <span class="pre">5})</span></code>, where the latter expression is enclosed in parentheses.</p>
+</div>
+</div>
+<div class="section" id="parameterized-data-types">
+<span id="daml-ref-parameterized-types"></span><h3>Parameterized data types<a class="headerlink" href="#parameterized-data-types" title="Permalink to this headline">¶</a></h3>
+<p>Daml supports parameterized data types.</p>
+<p>For example, to express a more general type for 2D coordinates:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Here, a and b are type parameters.</span>
+<span class="c1">-- The Coordinate after the data keyword is a type constructor.</span>
+<span class="kr">data</span> <span class="kt">Coordinate</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=</span> <span class="kt">Coordinate</span> <span class="kr">with</span> <span class="n">first</span> <span class="kt">:</span> <span class="n">a</span><span class="p">;</span> <span class="n">second</span> <span class="kt">:</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>An example of a type that can be constructed with <code class="docutils literal notranslate"><span class="pre">Coordinate</span></code> is <code class="docutils literal notranslate"><span class="pre">Coordinate</span> <span class="pre">Int</span> <span class="pre">Int</span></code>.</p>
+</div>
+</div>
+<div class="section" id="type-synonyms">
+<span id="daml-ref-type-synonyms"></span><h2>Type synonyms<a class="headerlink" href="#type-synonyms" title="Permalink to this headline">¶</a></h2>
+<p>To declare a synonym for a type, use the <code class="docutils literal notranslate"><span class="pre">type</span></code> keyword.</p>
+<p>For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kt">IntegerTuple</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This makes <code class="docutils literal notranslate"><span class="pre">IntegerTuple</span></code> and <code class="docutils literal notranslate"><span class="pre">(Int,</span> <span class="pre">Int)</span></code>  synonyms: they have the same type and can be used interchangeably.</p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">type</span></code> keyword for any type, including <a class="reference internal" href="#daml-ref-built-in-types"><span class="std std-ref">Built-in types</span></a>.</p>
+<div class="section" id="function-types">
+<h3>Function types<a class="headerlink" href="#function-types" title="Permalink to this headline">¶</a></h3>
+<p>A function’s type includes its parameter and result types. A function <code class="docutils literal notranslate"><span class="pre">foo</span></code> with two parameters has type <code class="docutils literal notranslate"><span class="pre">ParamType1</span> <span class="pre">-&gt;</span> <span class="pre">ParamType2</span> <span class="pre">-&gt;</span> <span class="pre">ReturnType</span></code>.</p>
+<p>Note that this can be treated as any other type. You could for instance give it a synonym using <code class="docutils literal notranslate"><span class="pre">type</span> <span class="pre">FooType</span> <span class="pre">=</span> <span class="pre">ParamType1</span> <span class="pre">-&gt;</span> <span class="pre">ParamType2</span> <span class="pre">-&gt;</span> <span class="pre">ReturnType</span></code>.</p>
+</div>
+</div>
+<div class="section" id="algebraic-data-types">
+<h2>Algebraic data types<a class="headerlink" href="#algebraic-data-types" title="Permalink to this headline">¶</a></h2>
+<p>An algebraic data type is a composite type: a type formed by a combination of other types. The enumeration data type is an example. This section introduces more powerful algebraic data types.</p>
+<div class="section" id="product-types">
+<h3>Product types<a class="headerlink" href="#product-types" title="Permalink to this headline">¶</a></h3>
+<p>The following data constructor is not valid in Daml: <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">AlternativeCoordinate</span> <span class="pre">a</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">AlternativeCoordinate</span> <span class="pre">a</span> <span class="pre">b</span></code>. This is because data constructors can only have one argument.</p>
+<p>To get around this, wrap the values in a <a class="reference internal" href="#daml-ref-record-types"><span class="std std-ref">record</span></a>:
+<code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Coordinate</span> <span class="pre">a</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">Coordinate</span> <span class="pre">{first:</span> <span class="pre">a;</span> <span class="pre">second:</span> <span class="pre">b}</span></code>.</p>
+<p>These kinds of types are called <em>product</em> types.</p>
+<p>A way of thinking about this is that the <code class="docutils literal notranslate"><span class="pre">Coordinate</span> <span class="pre">Int</span> <span class="pre">Int</span></code> type has a first and second dimension (that is, a 2D product space). By adding an extra type to the record, you get a third dimension, and so on.</p>
+</div>
+<div class="section" id="sum-types">
+<span id="daml-ref-sum-types"></span><h3>Sum types<a class="headerlink" href="#sum-types" title="Permalink to this headline">¶</a></h3>
+<p>Sum types capture the notion of being of one kind or another.</p>
+<p>An example is the built-in data type <code class="docutils literal notranslate"><span class="pre">Bool</span></code>. This is defined by <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Bool</span> <span class="pre">=</span> <span class="pre">True</span> <span class="pre">|</span> <span class="pre">False</span> <span class="pre">deriving</span> <span class="pre">(Eq,Show)</span></code>, where <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code> are data constructors with zero arguments . This means that a <code class="docutils literal notranslate"><span class="pre">Bool</span></code> value is either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> and cannot be instantiated with any other value.</p>
+<p>Please note that all types which you intend to use as template or choice arguments need to derive at least from <cite>(Eq, Show)</cite>.</p>
+<p>A very useful sum type is <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Optional</span> <span class="pre">a</span> <span class="pre">=</span> <span class="pre">None</span> <span class="pre">|</span> <span class="pre">Some</span> <span class="pre">a</span> <span class="pre">deriving</span> <span class="pre">(Eq,Show)</span></code>. It is part of
+the <a class="reference internal" href="../stdlib/index.html"><span class="doc">Daml standard library</span></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Optional</span></code> captures the concept of a box, which can be empty or contain a value of type <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Optional</span></code> is a sum type constructor taking a type <code class="docutils literal notranslate"><span class="pre">a</span></code> as parameter. It produces the sum type defined by the data constructors <code class="docutils literal notranslate"><span class="pre">None</span></code> and <code class="docutils literal notranslate"><span class="pre">Some</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Some</span></code> data constructor takes one argument, and it expects a value of type <code class="docutils literal notranslate"><span class="pre">a</span></code> as a parameter.</p>
+</div>
+<div class="section" id="pattern-matching">
+<h3>Pattern matching<a class="headerlink" href="#pattern-matching" title="Permalink to this headline">¶</a></h3>
+<p>You can match a value to a specific pattern using the <code class="docutils literal notranslate"><span class="pre">case</span></code> keyword.</p>
+<p>The pattern is expressed with data constructors. For example, the <code class="docutils literal notranslate"><span class="pre">Optional</span> <span class="pre">Int</span></code> sum type:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">optionalIntegerToText</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">Optional</span> <span class="kt">Int</span><span class="p">)</span> <span class="kt">:</span> <span class="kt">Text</span> <span class="ow">=</span>
+  <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+    <span class="kt">None</span> <span class="ow">-&gt;</span> <span class="s">&quot;Box is empty&quot;</span>
+    <span class="kt">Some</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="s">&quot;The content of the box is &quot;</span> <span class="o">&lt;&gt;</span> <span class="n">show</span> <span class="n">val</span>
+
+<span class="nf">optionalIntegerToTextTest</span> <span class="ow">=</span>
+  <span class="n">scenario</span> <span class="kr">do</span>
+    <span class="kr">let</span>
+      <span class="n">x</span> <span class="ow">=</span> <span class="kt">Some</span> <span class="mi">3</span>
+    <span class="n">assert</span> <span class="p">(</span><span class="n">optionalIntegerToText</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&quot;The content of the box is 3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the <code class="docutils literal notranslate"><span class="pre">optionalIntegerToText</span></code> function, the <code class="docutils literal notranslate"><span class="pre">case</span></code> construct first tries to
+match the <code class="docutils literal notranslate"><span class="pre">x</span></code> argument against the <code class="docutils literal notranslate"><span class="pre">None</span></code> data constructor, and in case of a match, the <code class="docutils literal notranslate"><span class="pre">&quot;Box</span> <span class="pre">is</span> <span class="pre">empty&quot;</span></code> text is returned. In case of no match, a match is attempted for <code class="docutils literal notranslate"><span class="pre">x</span></code> against the next pattern in the list, i.e., with the <code class="docutils literal notranslate"><span class="pre">Some</span></code> data constructor. In case of a match, the content of the value attached to the <code class="docutils literal notranslate"><span class="pre">Some</span></code> label is bound to the <code class="docutils literal notranslate"><span class="pre">val</span></code> variable, which is then used in the corresponding output text string.</p>
+<p>Note that all patterns in the case construct need to be <em>complete</em>, i.e., for each <code class="docutils literal notranslate"><span class="pre">x</span></code> there must be at least one pattern that matches. The patterns are tested from top to bottom, and the expression for the first pattern that matches will be executed. Note that <code class="docutils literal notranslate"><span class="pre">_</span></code> can be used as a catch-all pattern.</p>
+<p>You could also case distinguish a <code class="docutils literal notranslate"><span class="pre">Bool</span></code> variable using the <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code> data constructors and achieve the same behavior as an if-then-else expression.</p>
+<p>As an example, the following is an expression for a <code class="docutils literal notranslate"><span class="pre">Text</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="kr">let</span>
+    <span class="n">l</span> <span class="ow">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+  <span class="kr">in</span> <span class="kr">case</span> <span class="n">l</span> <span class="kr">of</span>
+    <span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="s">&quot;List is empty&quot;</span>
+    <span class="kr">_</span> <span class="ow">::</span> <span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="s">&quot;List has one element&quot;</span>
+    <span class="kr">_</span> <span class="ow">::</span> <span class="kr">_</span> <span class="ow">::</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="s">&quot;List has at least two elements&quot;</span>
+</pre></div>
+</div>
+<p>Notice the use of nested pattern matching above.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An underscore was used in place of a variable name. The reason for this is that <a class="reference internal" href="../daml-studio.html"><span class="doc">Daml Studio</span></a> produces a warning for all variables that are not being used. This is useful in detecting unused variables. You can suppress the warning by naming the variable with an initial underscore.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="updates.html" class="da-btn da-btn-label btn-prev" title="Reference: updates" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="working-with.html" class="da-btn da-btn-label btn-next" title="Reference: built-in functions" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>
