@@ -1,0 +1,337 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-daml-script-68860:
+
+Module Daml.Script
+==================
+
+Data Types
+----------
+
+.. _type-daml-script-commands-61298:
+
+**data** `Commands <type-daml-script-commands-61298_>`_ a
+
+  This is used to build up the commands send as part of ``submit``\.
+  If you enable the ``ApplicativeDo`` extension by adding
+  ``{-# LANGUAGE ApplicativeDo #-}`` at the top of your file, you can
+  use ``do``\-notation but the individual commands must not depend
+  on each other and the last statement in a ``do`` block
+  must be of the form ``return expr`` or ``pure expr``\.
+  
+  **instance** Functor `Commands <type-daml-script-commands-61298_>`_
+  
+  **instance** HasSubmit `Script <type-daml-script-script-87487_>`_ `Commands <type-daml-script-commands-61298_>`_
+  
+  **instance** Applicative `Commands <type-daml-script-commands-61298_>`_
+  
+  **instance** HasField \"commands\" (SubmitCmd a) (`Commands <type-daml-script-commands-61298_>`_ a)
+  
+  **instance** HasField \"commands\" (SubmitMustFailCmd a) (`Commands <type-daml-script-commands-61298_>`_ a)
+  
+  **instance** HasField \"commands\" (SubmitTreePayload a) (`Commands <type-daml-script-commands-61298_>`_ ())
+
+.. _type-daml-script-participantname-52675:
+
+**data** `ParticipantName <type-daml-script-participantname-52675_>`_
+
+  .. _constr-daml-script-participantname-11916:
+  
+  `ParticipantName <constr-daml-script-participantname-11916_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - participantName
+         - Text
+         - 
+  
+  **instance** HasField \"participantName\" `ParticipantName <type-daml-script-participantname-52675_>`_ Text
+
+.. _type-daml-script-partydetails-81818:
+
+**data** `PartyDetails <type-daml-script-partydetails-81818_>`_
+
+  The party details returned by the party management service\.
+  
+  .. _constr-daml-script-partydetails-4583:
+  
+  `PartyDetails <constr-daml-script-partydetails-4583_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - party
+         - Party
+         - Party id
+       * - displayName
+         - Optional Text
+         - Optional display name
+       * - isLocal
+         - Bool
+         - True if party is hosted by the backing participant\.
+  
+  **instance** Eq `PartyDetails <type-daml-script-partydetails-81818_>`_
+  
+  **instance** Ord `PartyDetails <type-daml-script-partydetails-81818_>`_
+  
+  **instance** Show `PartyDetails <type-daml-script-partydetails-81818_>`_
+  
+  **instance** HasField \"continue\" (ListKnownPartiesPayload a) (\[`PartyDetails <type-daml-script-partydetails-81818_>`_\] \-\> a)
+  
+  **instance** HasField \"displayName\" `PartyDetails <type-daml-script-partydetails-81818_>`_ (Optional Text)
+  
+  **instance** HasField \"isLocal\" `PartyDetails <type-daml-script-partydetails-81818_>`_ Bool
+  
+  **instance** HasField \"party\" `PartyDetails <type-daml-script-partydetails-81818_>`_ Party
+
+.. _type-daml-script-partyidhint-57589:
+
+**data** `PartyIdHint <type-daml-script-partyidhint-57589_>`_
+
+  A hint to the backing participant what party id to allocate\.
+  Must be a valid PartyIdString (as described in @value\.proto@)\.
+  
+  .. _constr-daml-script-partyidhint-38522:
+  
+  `PartyIdHint <constr-daml-script-partyidhint-38522_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - partyIdHint
+         - Text
+         - 
+  
+  **instance** HasField \"partyIdHint\" `PartyIdHint <type-daml-script-partyidhint-57589_>`_ Text
+
+.. _type-daml-script-script-87487:
+
+**data** `Script <type-daml-script-script-87487_>`_ a
+
+  This is the type of A Daml script\. ``Script`` is an instance of ``Action``,
+  so you can use ``do`` notation\.
+  
+  **instance** Functor `Script <type-daml-script-script-87487_>`_
+  
+  **instance** CanAssert `Script <type-daml-script-script-87487_>`_
+  
+  **instance** ActionCatch `Script <type-daml-script-script-87487_>`_
+  
+  **instance** ActionThrow `Script <type-daml-script-script-87487_>`_
+  
+  **instance** CanAbort `Script <type-daml-script-script-87487_>`_
+  
+  **instance** HasSubmit `Script <type-daml-script-script-87487_>`_ `Commands <type-daml-script-commands-61298_>`_
+  
+  **instance** HasTime `Script <type-daml-script-script-87487_>`_
+  
+  **instance** Action `Script <type-daml-script-script-87487_>`_
+  
+  **instance** ActionFail `Script <type-daml-script-script-87487_>`_
+  
+  **instance** Applicative `Script <type-daml-script-script-87487_>`_
+  
+  **instance** HasField \"dummy\" (`Script <type-daml-script-script-87487_>`_ a) ()
+  
+  **instance** HasField \"runScript\" (`Script <type-daml-script-script-87487_>`_ a) (() \-\> Free ScriptF (a, ()))
+
+Functions
+---------
+
+.. _function-daml-script-query-17751:
+
+`query <function-daml-script-query-17751_>`_
+  \: (Template t, IsParties p) \=\> p \-\> `Script <type-daml-script-script-87487_>`_ \[(ContractId t, t)\]
+  
+  Query the set of active contracts of the template
+  that are visible to the given party\.
+
+.. _function-daml-script-queryfilter-11683:
+
+`queryFilter <function-daml-script-queryfilter-11683_>`_
+  \: (Template c, IsParties p) \=\> p \-\> (c \-\> Bool) \-\> `Script <type-daml-script-script-87487_>`_ \[(ContractId c, c)\]
+  
+  Query the set of active contracts of the template
+  that are visible to the given party and match the given predicate\.
+
+.. _function-daml-script-querycontractid-18216:
+
+`queryContractId <function-daml-script-querycontractid-18216_>`_
+  \: (Template t, IsParties p, HasCallStack) \=\> p \-\> ContractId t \-\> `Script <type-daml-script-script-87487_>`_ (Optional t)
+  
+  Query for the contract with the given contract id\.
+  
+  Returns ``None`` if there is no active contract the party is a stakeholder on\.
+  This is semantically equivalent to calling ``query``
+  and filtering on the client side\.
+
+.. _function-daml-script-querycontractkey-60755:
+
+`queryContractKey <function-daml-script-querycontractkey-60755_>`_
+  \: (HasCallStack, TemplateKey t k, IsParties p) \=\> p \-\> k \-\> `Script <type-daml-script-script-87487_>`_ (Optional (ContractId t, t))
+
+.. _function-daml-script-settime-36710:
+
+`setTime <function-daml-script-settime-36710_>`_
+  \: HasCallStack \=\> Time \-\> `Script <type-daml-script-script-87487_>`_ ()
+  
+  Set the time via the time service\.
+  
+  This is only supported in static time mode when running over the gRPC API
+  and in Daml Studio\.
+  
+  Note that the ledger time service does not support going backwards in time\.
+  However, you can go back in time in Daml Studio\.
+
+.. _function-daml-script-passtime-39268:
+
+`passTime <function-daml-script-passtime-39268_>`_
+  \: RelTime \-\> `Script <type-daml-script-script-87487_>`_ ()
+  
+  Advance ledger time by the given interval\.
+  
+  Only supported in static time mode when running over the gRPC API
+  and in Daml Studio\. Note that this is not an atomic operation over the
+  gRPC API so no other clients should try to change time while this is
+  running\.
+  
+  Note that the ledger time service does not support going backwards in time\.
+  However, you can go back in time in Daml Studio\.
+
+.. _function-daml-script-allocateparty-41280:
+
+`allocateParty <function-daml-script-allocateparty-41280_>`_
+  \: HasCallStack \=\> Text \-\> `Script <type-daml-script-script-87487_>`_ Party
+  
+  Allocate a party with the given display name
+  using the party management service\.
+
+.. _function-daml-script-allocatepartywithhint-99891:
+
+`allocatePartyWithHint <function-daml-script-allocatepartywithhint-99891_>`_
+  \: HasCallStack \=\> Text \-\> `PartyIdHint <type-daml-script-partyidhint-57589_>`_ \-\> `Script <type-daml-script-script-87487_>`_ Party
+  
+  Allocate a party with the given display name and id hint
+  using the party management service\.
+
+.. _function-daml-script-allocatepartyon-38005:
+
+`allocatePartyOn <function-daml-script-allocatepartyon-38005_>`_
+  \: Text \-\> `ParticipantName <type-daml-script-participantname-52675_>`_ \-\> `Script <type-daml-script-script-87487_>`_ Party
+  
+  Allocate a party with the given display name
+  on the specified participant using the party management service\.
+
+.. _function-daml-script-allocatepartywithhinton-50078:
+
+`allocatePartyWithHintOn <function-daml-script-allocatepartywithhinton-50078_>`_
+  \: Text \-\> `PartyIdHint <type-daml-script-partyidhint-57589_>`_ \-\> `ParticipantName <type-daml-script-participantname-52675_>`_ \-\> `Script <type-daml-script-script-87487_>`_ Party
+  
+  Allocate a party with the given display name and id hint
+  on the specified participant using the party management service\.
+
+.. _function-daml-script-listknownparties-72827:
+
+`listKnownParties <function-daml-script-listknownparties-72827_>`_
+  \: HasCallStack \=\> `Script <type-daml-script-script-87487_>`_ \[`PartyDetails <type-daml-script-partydetails-81818_>`_\]
+  
+  List the parties known to the default participant\.
+
+.. _function-daml-script-listknownpartieson-39634:
+
+`listKnownPartiesOn <function-daml-script-listknownpartieson-39634_>`_
+  \: HasCallStack \=\> `ParticipantName <type-daml-script-participantname-52675_>`_ \-\> `Script <type-daml-script-script-87487_>`_ \[`PartyDetails <type-daml-script-partydetails-81818_>`_\]
+  
+  List the parties known to the given participant\.
+
+.. _function-daml-script-sleep-56382:
+
+`sleep <function-daml-script-sleep-56382_>`_
+  \: HasCallStack \=\> RelTime \-\> `Script <type-daml-script-script-87487_>`_ ()
+  
+  Sleep for the given duration\.
+  
+  This is primarily useful in tests
+  where you repeatedly call ``query`` until a certain state is reached\.
+  
+  Note that this will sleep for the same duration in both wallcock and static time mode\.
+
+.. _function-daml-script-submitmulti-27846:
+
+`submitMulti <function-daml-script-submitmulti-27846_>`_
+  \: HasCallStack \=\> \[Party\] \-\> \[Party\] \-\> `Commands <type-daml-script-commands-61298_>`_ a \-\> `Script <type-daml-script-script-87487_>`_ a
+  
+  ``submitMulti actAs readAs cmds`` submits ``cmds`` as a single transaction
+  authorized by ``actAs``\. Fetched contracts must be visible to at least
+  one party in the union of actAs and readAs\.
+
+.. _function-daml-script-submitmultimustfail-1361:
+
+`submitMultiMustFail <function-daml-script-submitmultimustfail-1361_>`_
+  \: HasCallStack \=\> \[Party\] \-\> \[Party\] \-\> `Commands <type-daml-script-commands-61298_>`_ a \-\> `Script <type-daml-script-script-87487_>`_ ()
+  
+  ``submitMultiMustFail actAs readAs cmds`` behaves like ``submitMulti actAs readAs cmds``
+  but fails when ``submitMulti`` succeeds and the other way around\.
+
+.. _function-daml-script-createcmd-80075:
+
+`createCmd <function-daml-script-createcmd-80075_>`_
+  \: Template t \=\> t \-\> `Commands <type-daml-script-commands-61298_>`_ (ContractId t)
+  
+  Create a contract of the given template\.
+
+.. _function-daml-script-exercisecmd-23495:
+
+`exerciseCmd <function-daml-script-exercisecmd-23495_>`_
+  \: Choice t c r \=\> ContractId t \-\> c \-\> `Commands <type-daml-script-commands-61298_>`_ r
+  
+  Exercise a choice on the given contract\.
+
+.. _function-daml-script-exercisebykeycmd-47714:
+
+`exerciseByKeyCmd <function-daml-script-exercisebykeycmd-47714_>`_
+  \: (TemplateKey t k, Choice t c r) \=\> k \-\> c \-\> `Commands <type-daml-script-commands-61298_>`_ r
+  
+  Exercise a choice on the contract with the given key\.
+
+.. _function-daml-script-createandexercisecmd-64987:
+
+`createAndExerciseCmd <function-daml-script-createandexercisecmd-64987_>`_
+  \: (Template t, Choice t c r) \=\> t \-\> c \-\> `Commands <type-daml-script-commands-61298_>`_ r
+  
+  Create a contract and exercise a choice on it in the same transaction\.
+
+.. _function-daml-script-archivecmd-28768:
+
+`archiveCmd <function-daml-script-archivecmd-28768_>`_
+  \: Choice t Archive () \=\> ContractId t \-\> `Commands <type-daml-script-commands-61298_>`_ ()
+  
+  Archive the given contract\.
+  
+  ``archiveCmd cid`` is equivalent to ``exerciseCmd cid Archive``\.
+
+.. _function-daml-script-script-30147:
+
+`script <function-daml-script-script-30147_>`_
+  \: `Script <type-daml-script-script-87487_>`_ a \-\> `Script <type-daml-script-script-87487_>`_ a
+  
+  Convenience helper to declare you are writing a Script\.
+  
+  This is only useful for readability and to improve type inference\.
+  Any expression of type ``Script a`` is a valid script regardless of whether
+  it is implemented using ``script`` or not\.
+

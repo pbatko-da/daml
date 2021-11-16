@@ -1,0 +1,67 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-daml-trigger-assert-61075:
+
+Module Daml.Trigger.Assert
+==========================
+
+Data Types
+----------
+
+.. _type-daml-trigger-assert-acsbuilder-39405:
+
+**data** `ACSBuilder <type-daml-trigger-assert-acsbuilder-39405_>`_
+
+  Used to construct an 'ACS' for 'testRule'\.
+  
+  **instance** Monoid `ACSBuilder <type-daml-trigger-assert-acsbuilder-39405_>`_
+  
+  **instance** Semigroup `ACSBuilder <type-daml-trigger-assert-acsbuilder-39405_>`_
+
+Functions
+---------
+
+.. _function-daml-trigger-assert-toacs-59284:
+
+`toACS <function-daml-trigger-assert-toacs-59284_>`_
+  \: Template t \=\> ContractId t \-\> `ACSBuilder <type-daml-trigger-assert-acsbuilder-39405_>`_
+  
+  Include the given contract in the 'ACS'\. Note that the ``ContractId``
+  must point to an active contract\.
+
+.. _function-daml-trigger-assert-testrule-35605:
+
+`testRule <function-daml-trigger-assert-testrule-35605_>`_
+  \: :ref:`Trigger <type-daml-trigger-trigger-65529>` s \-\> Party \-\> \[Party\] \-\> `ACSBuilder <type-daml-trigger-assert-acsbuilder-39405_>`_ \-\> Map :ref:`CommandId <type-daml-trigger-lowlevel-commandid-21930>` \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\] \-\> s \-\> Script (s, \[:ref:`Commands <type-daml-trigger-lowlevel-commands-39273>`\])
+  
+  Execute a trigger's rule once in a scenario\.
+
+.. _function-daml-trigger-assert-flattencommands-75084:
+
+`flattenCommands <function-daml-trigger-assert-flattencommands-75084_>`_
+  \: \[:ref:`Commands <type-daml-trigger-lowlevel-commands-39273>`\] \-\> \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\]
+  
+  Drop 'CommandId's and extract all 'Command's\.
+
+.. _function-daml-trigger-assert-assertcreatecmd-70342:
+
+`assertCreateCmd <function-daml-trigger-assert-assertcreatecmd-70342_>`_
+  \: (Template t, CanAbort m) \=\> \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\] \-\> (t \-\> Either Text ()) \-\> m ()
+  
+  Check that at least one command is a create command whose payload fulfills the given assertions\.
+
+.. _function-daml-trigger-assert-assertexercisecmd-57770:
+
+`assertExerciseCmd <function-daml-trigger-assert-assertexercisecmd-57770_>`_
+  \: (Template t, Choice t c r, CanAbort m) \=\> \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\] \-\> ((ContractId t, c) \-\> Either Text ()) \-\> m ()
+  
+  Check that at least one command is an exercise command whose contract id and choice argument fulfill the given assertions\.
+
+.. _function-daml-trigger-assert-assertexercisebykeycmd-8849:
+
+`assertExerciseByKeyCmd <function-daml-trigger-assert-assertexercisebykeycmd-8849_>`_
+  \: (TemplateKey t k, Choice t c r, CanAbort m) \=\> \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\] \-\> ((k, c) \-\> Either Text ()) \-\> m ()
+  
+  Check that at least one command is an exercise by key command whose key and choice argument fulfill the given assertions\.
+

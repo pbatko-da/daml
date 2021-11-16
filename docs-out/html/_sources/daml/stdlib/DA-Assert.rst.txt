@@ -1,0 +1,56 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-assert-27528:
+
+Module DA.Assert
+================
+
+Functions
+---------
+
+.. _function-da-assert-asserteq-67100:
+
+`assertEq <function-da-assert-asserteq-67100_>`_
+  \: (:ref:`CanAssert <class-da-internal-assert-canassert-55474>` m, :ref:`Show <class-ghc-show-show-56447>` a, :ref:`Eq <class-ghc-classes-eq-21216>` a) \=\> a \-\> a \-\> m ()
+  
+  Check two values for equality\. If they're not equal,
+  fail with a message\.
+
+.. _function-da-assert-eqeqeq-85470:
+
+`(===) <function-da-assert-eqeqeq-85470_>`_
+  \: (:ref:`CanAssert <class-da-internal-assert-canassert-55474>` m, :ref:`Show <class-ghc-show-show-56447>` a, :ref:`Eq <class-ghc-classes-eq-21216>` a) \=\> a \-\> a \-\> m ()
+  
+  Infix version of ``assertEq``\.
+
+.. _function-da-assert-assertnoteq-79058:
+
+`assertNotEq <function-da-assert-assertnoteq-79058_>`_
+  \: (:ref:`CanAssert <class-da-internal-assert-canassert-55474>` m, :ref:`Show <class-ghc-show-show-56447>` a, :ref:`Eq <class-ghc-classes-eq-21216>` a) \=\> a \-\> a \-\> m ()
+  
+  Check two values for inequality\. If they're equal,
+  fail with a message\.
+
+.. _function-da-assert-eqslasheq-70100:
+
+`(=/=) <function-da-assert-eqslasheq-70100_>`_
+  \: (:ref:`CanAssert <class-da-internal-assert-canassert-55474>` m, :ref:`Show <class-ghc-show-show-56447>` a, :ref:`Eq <class-ghc-classes-eq-21216>` a) \=\> a \-\> a \-\> m ()
+  
+  Infix version of ``assertNotEq``\.
+
+.. _function-da-assert-assertaftermsg-39941:
+
+`assertAfterMsg <function-da-assert-assertaftermsg-39941_>`_
+  \: (:ref:`CanAssert <class-da-internal-assert-canassert-55474>` m, :ref:`HasTime <class-da-internal-lf-hastime-88667>` m) \=\> :ref:`Text <type-ghc-types-text-57703>` \-\> :ref:`Time <type-da-internal-lf-time-19011>` \-\> m ()
+  
+  Check whether the given time is in the future\. If it's not,
+  abort with a message\.
+
+.. _function-da-assert-assertbeforemsg-72303:
+
+`assertBeforeMsg <function-da-assert-assertbeforemsg-72303_>`_
+  \: (:ref:`CanAssert <class-da-internal-assert-canassert-55474>` m, :ref:`HasTime <class-da-internal-lf-hastime-88667>` m) \=\> :ref:`Text <type-ghc-types-text-57703>` \-\> :ref:`Time <type-da-internal-lf-time-19011>` \-\> m ()
+  
+  Check whether the given time is in the past\. If it's not,
+  abort with a message\.

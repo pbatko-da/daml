@@ -1,0 +1,258 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-daml-trigger-22364:
+
+Module Daml.Trigger
+===================
+
+Typeclasses
+-----------
+
+.. _class-daml-trigger-actiontriggerany-41879:
+
+**class** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ m **where**
+
+  Features possible in ``initialize``, ``updateState``, and ``rule``\.
+  
+  .. _function-daml-trigger-querycontractid-28664:
+  
+  `queryContractId <function-daml-trigger-querycontractid-28664_>`_
+    \: Template a \=\> ContractId a \-\> m (Optional a)
+    
+    Find the contract with the given ``id`` in the ACS, if present\.
+  
+  .. _function-daml-trigger-getreadas-40175:
+  
+  `getReadAs <function-daml-trigger-getreadas-40175_>`_
+    \: m \[Party\]
+  
+  **instance** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_
+  
+  **instance** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+
+.. _class-daml-trigger-actiontriggerupdate-20725:
+
+**class** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ m \=\> `ActionTriggerUpdate <class-daml-trigger-actiontriggerupdate-20725_>`_ m **where**
+
+  Features possible in ``updateState`` and ``rule``\.
+  
+  .. _function-daml-trigger-getcommandsinflight-32524:
+  
+  `getCommandsInFlight <function-daml-trigger-getcommandsinflight-32524_>`_
+    \: m (Map :ref:`CommandId <type-daml-trigger-lowlevel-commandid-21930>` \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\])
+    
+    Retrieve command submissions made by this trigger that have not yet
+    completed\. If the trigger has restarted, it will not contain commands from
+    before the restart; therefore, this should be treated as an optimization
+    rather than an absolute authority on ledger state\.
+  
+  **instance** `ActionTriggerUpdate <class-daml-trigger-actiontriggerupdate-20725_>`_ (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** `ActionTriggerUpdate <class-daml-trigger-actiontriggerupdate-20725_>`_ (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+
+Data Types
+----------
+
+.. _type-daml-trigger-trigger-65529:
+
+**data** `Trigger <type-daml-trigger-trigger-65529_>`_ s
+
+  This is the type of your trigger\. ``s`` is the user\-defined state type which
+  you can often leave at ``()``\.
+  
+  .. _constr-daml-trigger-trigger-31368:
+  
+  `Trigger <constr-daml-trigger-trigger-31368_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - initialize
+         - `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_ s
+         - Initialize the user\-defined state based on the ACS\.
+       * - updateState
+         - :ref:`Message <type-daml-trigger-lowlevel-message-62705>` \-\> `TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s ()
+         - Update the user\-defined state based on a transaction or completion message\. It can manipulate the state with ``get``, ``put``, and ``modify``, or query the ACS with ``query``\.
+       * - rule
+         - Party \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ()
+         - The rule defines the main logic of your trigger\. It can send commands to the ledger using ``emitCommands`` to change the ACS\. The rule depends on the following arguments\:  * The party your trigger is running as\. * The user\-defined state\.  and can retrieve other data with functions in ``TriggerA``\:  * The current state of the ACS\. * The current time (UTC in wallclock mode, Unix epoch in static mode) * The commands in flight\.
+       * - registeredTemplates
+         - :ref:`RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077>`
+         - The templates the trigger will receive events for\.
+       * - heartbeat
+         - Optional RelTime
+         - Send a heartbeat message at the given interval\.
+  
+  **instance** HasField \"heartbeat\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (Optional RelTime)
+  
+  **instance** HasField \"initialize\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (`TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_ s)
+  
+  **instance** HasField \"registeredTemplates\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) :ref:`RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077>`
+  
+  **instance** HasField \"rule\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (Party \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ())
+  
+  **instance** HasField \"updateState\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (:ref:`Message <type-daml-trigger-lowlevel-message-62705>` \-\> `TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s ())
+
+.. _type-daml-trigger-internal-triggera-54499:
+
+**data** `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s a
+
+  TriggerA is the type used in the ``rule`` of a Daml trigger\.
+  Its main feature is that you can call ``emitCommands`` to
+  send commands to the ledger\.
+  
+  **instance** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** `ActionTriggerUpdate <class-daml-trigger-actiontriggerupdate-20725_>`_ (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** Functor (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** ActionState s (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** HasTime (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** Action (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** Applicative (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s)
+  
+  **instance** HasField \"rule\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (Party \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ())
+  
+  **instance** HasField \"runTriggerA\" (`TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s a) (ACS \-\> :ref:`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138>` (TriggerAState s) a)
+
+.. _type-daml-trigger-internal-triggerinitializea-14827:
+
+**data** `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_ a
+
+  TriggerInitializeA is the type used in the ``initialize`` of a Daml
+  trigger\. It can query, but not emit commands or update the state\.
+  
+  **instance** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_
+  
+  **instance** Functor `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_
+  
+  **instance** Action `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_
+  
+  **instance** Applicative `TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_
+  
+  **instance** HasField \"initialize\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (`TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_ s)
+  
+  **instance** HasField \"runTriggerInitializeA\" (`TriggerInitializeA <type-daml-trigger-internal-triggerinitializea-14827_>`_ a) ((ACS, \[Party\]) \-\> a)
+
+.. _type-daml-trigger-internal-triggerupdatea-58176:
+
+**data** `TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s a
+
+  TriggerUpdateA is the type used in the ``updateState`` of a Daml
+  trigger\. It has similar actions in common with ``TriggerA``, but
+  cannot use ``emitCommands`` or ``getTime``\.
+  
+  **instance** `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+  
+  **instance** `ActionTriggerUpdate <class-daml-trigger-actiontriggerupdate-20725_>`_ (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+  
+  **instance** Functor (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+  
+  **instance** ActionState s (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+  
+  **instance** Action (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+  
+  **instance** Applicative (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s)
+  
+  **instance** HasField \"runTriggerUpdateA\" (`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s a) ((Map :ref:`CommandId <type-daml-trigger-lowlevel-commandid-21930>` \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\], ACS, \[Party\]) \-\> State s a)
+  
+  **instance** HasField \"updateState\" (`Trigger <type-daml-trigger-trigger-65529_>`_ s) (:ref:`Message <type-daml-trigger-lowlevel-message-62705>` \-\> `TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176_>`_ s ())
+
+Functions
+---------
+
+.. _function-daml-trigger-query-2759:
+
+`query <function-daml-trigger-query-2759_>`_
+  \: (Template a, `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ m) \=\> m \[(ContractId a, a)\]
+  
+  Extract the contracts of a given template from the ACS\.
+
+.. _function-daml-trigger-querycontractkey-57123:
+
+`queryContractKey <function-daml-trigger-querycontractkey-57123_>`_
+  \: (Template a, HasKey a k, Eq k, `ActionTriggerAny <class-daml-trigger-actiontriggerany-41879_>`_ m, Functor m) \=\> k \-\> m (Optional (ContractId a, a))
+  
+  Find the contract with the given ``key`` in the ACS, if present\.
+
+.. _function-daml-trigger-emitcommands-10563:
+
+`emitCommands <function-daml-trigger-emitcommands-10563_>`_
+  \: \[:ref:`Command <type-daml-trigger-lowlevel-command-75607>`\] \-\> \[:ref:`AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345>`\] \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s :ref:`CommandId <type-daml-trigger-lowlevel-commandid-21930>`
+  
+  Send a transaction consisting of the given commands to the ledger\.
+  The second argument can be used to mark a list of contract ids as pending\.
+  These contracts will automatically be filtered from getContracts until we
+  either get the corresponding transaction event for this command or
+  a failing completion\.
+
+.. _function-daml-trigger-dedupcreate-33065:
+
+`dedupCreate <function-daml-trigger-dedupcreate-33065_>`_
+  \: (Eq t, Template t) \=\> t \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ()
+  
+  Create the template if it’s not already in the list of commands
+  in flight (it will still be created if it is in the ACS)\.
+  
+  Note that this will send the create as a single\-command transaction\.
+  If you need to send multiple commands in one transaction, use
+  ``emitCommands`` with ``createCmd`` and handle filtering yourself\.
+
+.. _function-daml-trigger-dedupcreateandexercise-47115:
+
+`dedupCreateAndExercise <function-daml-trigger-dedupcreateandexercise-47115_>`_
+  \: (Eq t, Eq c, Template t, Choice t c r) \=\> t \-\> c \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ()
+  
+  Create the template and exercise a choice on it if it’s not already in the list of commands
+  in flight (it will still be created if it is in the ACS)\.
+  
+  Note that this will send the create and exercise as a
+  single\-command transaction\. If you need to send multiple commands
+  in one transaction, use ``emitCommands`` with ``createAndExerciseCmd``
+  and handle filtering yourself\.
+
+.. _function-daml-trigger-dedupexercise-37617:
+
+`dedupExercise <function-daml-trigger-dedupexercise-37617_>`_
+  \: (Eq c, Choice t c r) \=\> ContractId t \-\> c \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ()
+  
+  Exercise the choice on the given contract if it is not already
+  in flight\.
+  
+  Note that this will send the exercise as a single\-command transaction\.
+  If you need to send multiple commands in one transaction, use
+  ``emitCommands`` with ``exerciseCmd`` and handle filtering yourself\.
+  
+  If you are calling a consuming choice, you might be better off by using
+  ``emitCommands`` and adding the contract id to the pending set\.
+
+.. _function-daml-trigger-dedupexercisebykey-98732:
+
+`dedupExerciseByKey <function-daml-trigger-dedupexercisebykey-98732_>`_
+  \: (Eq c, Eq k, Choice t c r, TemplateKey t k) \=\> k \-\> c \-\> `TriggerA <type-daml-trigger-internal-triggera-54499_>`_ s ()
+  
+  Exercise the choice on the given contract if it is not already
+  in flight\.
+  
+  Note that this will send the exercise as a single\-command transaction\.
+  If you need to send multiple commands in one transaction, use
+  ``emitCommands`` with ``exerciseCmd`` and handle filtering yourself\.
+
+.. _function-daml-trigger-runtrigger-43535:
+
+`runTrigger <function-daml-trigger-runtrigger-43535_>`_
+  \: `Trigger <type-daml-trigger-trigger-65529_>`_ s \-\> :ref:`Trigger <type-daml-trigger-lowlevel-trigger-87460>` (TriggerState s)
+  
+  Transform the high\-level trigger type into the one from ``Daml.Trigger.LowLevel``\.
+

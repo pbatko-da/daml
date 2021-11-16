@@ -1,0 +1,20 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-optional-total-61210:
+
+Module DA.Optional.Total
+========================
+
+Functions
+---------
+
+.. _function-da-optional-total-fromsome-1798:
+
+`fromSome <function-da-optional-total-fromsome-1798_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a \-\> m a
+
+.. _function-da-optional-total-fromsomenote-26318:
+
+`fromSomeNote <function-da-optional-total-fromsomenote-26318_>`_
+  \: :ref:`ActionFail <class-da-internal-prelude-actionfail-8575>` m \=\> :ref:`Text <type-ghc-types-text-57703>` \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a \-\> m a

@@ -1,0 +1,824 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>7 Composing choices &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="8 Exception Handling" href="8_Exceptions.html" />
+  <link rel="prev" title="6 Parties and authority" href="6_Parties.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="0_Intro.html">An introduction to Daml</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">7 Composing choices</a><ul>
+<li><a class="reference internal" href="#daml-projects">Daml projects</a></li>
+<li><a class="reference internal" href="#project-structure">Project structure</a></li>
+<li><a class="reference internal" href="#project-overview">Project overview</a></li>
+<li><a class="reference internal" href="#composed-choices-and-scripts">Composed choices and scripts</a></li>
+<li><a class="reference internal" href="#daml-s-execution-model">Daml’s execution model</a></li>
+<li><a class="reference internal" href="#observers">Observers</a></li>
+<li><a class="reference internal" href="#privacy">Privacy</a><ul>
+<li><a class="reference internal" href="#divulgence">Divulgence</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-up">Next up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="composing-choices">
+<h1>7 Composing choices<a class="headerlink" href="#composing-choices" title="Permalink to this headline">¶</a></h1>
+<p>It’s time to put everything you’ve learnt so far together into a complete and secure Daml model for asset issuance, management, transfer, and trading. This application will have capabilities similar to the one in <a class="reference internal" href="../../app-dev/bindings-java/quickstart.html"><span class="doc">IOU Quickstart Tutorial</span></a>. In the process you will learn about a few more concepts:</p>
+<ul class="simple">
+<li>Daml projects, packages and modules</li>
+<li>Composition of transactions</li>
+<li>Observers and stakeholders</li>
+<li>Daml’s execution model</li>
+<li>Privacy</li>
+</ul>
+<p>The model in this section is not a single Daml file, but a Daml project consisting of several files that depend on each other.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Remember that you can load all the code for this section into a folder called <code class="docutils literal notranslate"><span class="pre">7_Composing</span></code> by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">new</span> <span class="pre">7Composing</span> <span class="pre">--template</span> <span class="pre">daml-intro-7</span></code></p>
+</div>
+<div class="section" id="daml-projects">
+<h2>Daml projects<a class="headerlink" href="#daml-projects" title="Permalink to this headline">¶</a></h2>
+<p>Daml is organized in projects, packages and modules. A Daml project is specified using a single <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> file, and compiles into a package in Daml’s intermediate language, or bytecode equivalent, Daml-LF. Each Daml file within a project becomes a Daml module, which is a bit like a namespace. Each Daml project has a source root specified in the <code class="docutils literal notranslate"><span class="pre">source</span></code> parameter in the project’s <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> file. The package will include all modules specified in <code class="docutils literal notranslate"><span class="pre">*.daml</span></code> files beneath that source directory.</p>
+<p>You can start a new project with a skeleton structure using <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">new</span> <span class="pre">project_name</span></code> in the terminal. A minimal project would contain just a <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> file and an empty directory of source files.</p>
+<blockquote>
+<div>Take a look at the <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> for the chapter 7 project:</div></blockquote>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sdk-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">__VERSION__</span>
+<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">__PROJECT_NAME__</span>
+<span class="nt">source</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">daml</span>
+<span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0.0</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-prim</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-stdlib</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-script</span>
+<span class="nt">sandbox-options</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">--wall-clock-time</span>
+</pre></div>
+</div>
+<p>You can generally set <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> freely to describe your project. <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> does what the name suggests: It includes dependencies. You should always include <code class="docutils literal notranslate"><span class="pre">daml-prim</span></code> and <code class="docutils literal notranslate"><span class="pre">daml-stdlib</span></code>. The former contains internals of compiler and Daml Runtime, the latter gives access to the Daml Standard Library. <code class="docutils literal notranslate"><span class="pre">daml-script</span></code> contains the types and standard library for Daml Script.</p>
+<p>You compile a Daml project by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code> from the project root directory. This creates a <code class="docutils literal notranslate"><span class="pre">dar</span></code> file in <code class="docutils literal notranslate"><span class="pre">.daml/dist/dist/project_name-project_version.dar</span></code>. A <code class="docutils literal notranslate"><span class="pre">dar</span></code> file is Daml’s equivalent of a <code class="docutils literal notranslate"><span class="pre">JAR</span></code> file in Java: it’s the artifact that gets deployed to a ledger to load the package and its dependencies. <code class="docutils literal notranslate"><span class="pre">dar</span></code> files are fully self-contained in that they contain all dependencies of the main package. More on all of this in <a class="reference internal" href="9_Dependencies.html"><span class="doc">9 Working with Dependencies</span></a>.</p>
+</div>
+<div class="section" id="project-structure">
+<h2>Project structure<a class="headerlink" href="#project-structure" title="Permalink to this headline">¶</a></h2>
+<p>This project contains an asset holding model for transferable, fungible assets and a separate trade workflow. The templates are structured in three modules: <code class="docutils literal notranslate"><span class="pre">Intro.Asset</span></code>, <code class="docutils literal notranslate"><span class="pre">Intro.Asset.Role</span></code>, and <code class="docutils literal notranslate"><span class="pre">Intro.Asset.Trade</span></code>.</p>
+<p>In addition, there are tests in modules <code class="docutils literal notranslate"><span class="pre">Test.Intro.Asset</span></code>, <code class="docutils literal notranslate"><span class="pre">Test.Intro.Asset.Role</span></code>, and <code class="docutils literal notranslate"><span class="pre">Test.Intro.Asset.Trade</span></code>.</p>
+<p>All but the last <code class="docutils literal notranslate"><span class="pre">.</span></code>-separated segment in module names correspond to paths relative to the project source directory, and the last one to a file name. The folder structure therefore looks like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── daml
+│   ├── Intro
+│   │   ├── Asset
+│   │   │   ├── Role.daml
+│   │   │   └── Trade.daml
+│   │   └── Asset.daml
+│   └── Test
+│       └── Intro
+│           ├── Asset
+│           │   ├── Role.daml
+│           │   └── Trade.daml
+│           └── Asset.daml
+└── daml.yaml
+</pre></div>
+</div>
+<p>Each file contains a module header. For example, <code class="docutils literal notranslate"><span class="pre">daml/Intro/Asset/Role.daml</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">Intro.Asset.Role</span> <span class="kr">where</span>
+</pre></div>
+</div>
+<p>You can import one module into another using the <code class="docutils literal notranslate"><span class="pre">import</span></code> keyword. The <code class="docutils literal notranslate"><span class="pre">LibraryModules</span></code> module imports all six modules:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Intro.Asset</span>
+</pre></div>
+</div>
+<p>Imports always have to appear just below the module declaration.
+You can optionally add a list of names after the import to
+import only the selected names:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">DA.List</span> <span class="p">(</span><span class="nf">sortOn</span><span class="p">,</span> <span class="nf">groupOn</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If your module contains any Daml Scripts, you need to import the
+corresponding functionality:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Daml.Script</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="project-overview">
+<h2>Project overview<a class="headerlink" href="#project-overview" title="Permalink to this headline">¶</a></h2>
+<p>The project both changes and adds to the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> model presented in <a class="reference internal" href="6_Parties.html"><span class="doc">6 Parties and authority</span></a>:</p>
+<ul>
+<li><p class="first">Assets are fungible in the sense that they have <code class="docutils literal notranslate"><span class="pre">Merge</span></code> and <code class="docutils literal notranslate"><span class="pre">Split</span></code> choices that allow the <code class="docutils literal notranslate"><span class="pre">owner</span></code> to manage their holdings.</p>
+</li>
+<li><p class="first">Transfer proposals now need the authorities of both <code class="docutils literal notranslate"><span class="pre">issuer</span></code> and <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> to accept. This makes <code class="docutils literal notranslate"><span class="pre">Asset</span></code> safer than <code class="docutils literal notranslate"><span class="pre">Iou</span></code> from the issuer’s point of view.</p>
+<p>With the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> model, an <code class="docutils literal notranslate"><span class="pre">issuer</span></code> could end up owing cash to anyone as transfers were authorized by just <code class="docutils literal notranslate"><span class="pre">owner</span></code> and <code class="docutils literal notranslate"><span class="pre">newOwner</span></code>. In this project, only parties having an <code class="docutils literal notranslate"><span class="pre">AssetHolder</span></code> contract can end up owning assets. This allows the <code class="docutils literal notranslate"><span class="pre">issuer</span></code> to determine which parties may own their assets.</p>
+</li>
+<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">Trade</span></code> template adds a swap of two assets to the model.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="composed-choices-and-scripts">
+<h2>Composed choices and scripts<a class="headerlink" href="#composed-choices-and-scripts" title="Permalink to this headline">¶</a></h2>
+<p>This project showcases how you can put the <code class="docutils literal notranslate"><span class="pre">Update</span></code> and <code class="docutils literal notranslate"><span class="pre">Script</span></code> actions you learnt about in <a class="reference internal" href="6_Parties.html"><span class="doc">6 Parties and authority</span></a> to good use. For example, the <code class="docutils literal notranslate"><span class="pre">Merge</span></code> and <code class="docutils literal notranslate"><span class="pre">Split</span></code> choices each perform several actions in their consequences.</p>
+<ul class="simple">
+<li>Two create actions in case of <code class="docutils literal notranslate"><span class="pre">Split</span></code></li>
+<li>One create and one archive action in case of <code class="docutils literal notranslate"><span class="pre">Merge</span></code></li>
+</ul>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>      <span class="kt">Split</span>
+        <span class="kt">:</span> <span class="kt">SplitResult</span>
+        <span class="kr">with</span>
+          <span class="n">splitQuantity</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+        <span class="kr">do</span>
+          <span class="n">splitAsset</span> <span class="ow">&lt;-</span> <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span>
+            <span class="n">quantity</span> <span class="ow">=</span> <span class="n">splitQuantity</span>
+          <span class="n">remainder</span> <span class="ow">&lt;-</span> <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span>
+            <span class="n">quantity</span> <span class="ow">=</span> <span class="n">quantity</span> <span class="o">-</span> <span class="n">splitQuantity</span>
+          <span class="kr">return</span> <span class="kt">SplitResult</span> <span class="kr">with</span>
+            <span class="n">splitAsset</span>
+            <span class="n">remainder</span>
+
+      <span class="kt">Merge</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Asset</span>
+        <span class="kr">with</span>
+          <span class="n">otherCid</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Asset</span>
+        <span class="kr">do</span>
+          <span class="n">other</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">otherCid</span>
+          <span class="n">assertMsg</span>
+            <span class="s">&quot;Merge failed: issuer does not match&quot;</span>
+            <span class="p">(</span><span class="n">issuer</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">issuer</span><span class="p">)</span>
+          <span class="n">assertMsg</span>
+            <span class="s">&quot;Merge failed: owner does not match&quot;</span>
+            <span class="p">(</span><span class="n">owner</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">owner</span><span class="p">)</span>
+          <span class="n">assertMsg</span>
+            <span class="s">&quot;Merge failed: symbol does not match&quot;</span>
+            <span class="p">(</span><span class="n">symbol</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span>
+          <span class="n">archive</span> <span class="n">otherCid</span>
+          <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span>
+            <span class="n">quantity</span> <span class="ow">=</span> <span class="n">quantity</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">quantity</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">return</span></code> function used in <code class="docutils literal notranslate"><span class="pre">Split</span></code> is available in any <code class="docutils literal notranslate"><span class="pre">Action</span></code> context. The result of <code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">x</span></code> is a no-op containing the value <code class="docutils literal notranslate"><span class="pre">x</span></code>. It has an alias <code class="docutils literal notranslate"><span class="pre">pure</span></code>, indicating that it’s a pure value, as opposed to a value with side-effects. The <code class="docutils literal notranslate"><span class="pre">return</span></code> name makes sense when it’s used as the last statement in a <code class="docutils literal notranslate"><span class="pre">do</span></code> block as its argument is indeed the “return”-value of the <code class="docutils literal notranslate"><span class="pre">do</span></code> block in that case.</p>
+<p>Taking transaction composition a step further, the <code class="docutils literal notranslate"><span class="pre">Trade_Settle</span></code> choice on <code class="docutils literal notranslate"><span class="pre">Trade</span></code> composes two <code class="docutils literal notranslate"><span class="pre">exercise</span></code> actions:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>      <span class="kt">Trade_Settle</span>
+        <span class="kt">:</span> <span class="p">(</span><span class="kt">ContractId</span> <span class="kt">Asset</span><span class="p">,</span> <span class="kt">ContractId</span> <span class="kt">Asset</span><span class="p">)</span>
+        <span class="kr">with</span>
+          <span class="n">quoteAssetCid</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Asset</span>
+          <span class="n">baseApprovalCid</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">TransferApproval</span>
+        <span class="kr">do</span>
+          <span class="n">fetchedBaseAsset</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">baseAssetCid</span>
+          <span class="n">assertMsg</span>
+            <span class="s">&quot;Base asset mismatch&quot;</span>
+            <span class="p">(</span><span class="n">baseAsset</span> <span class="o">==</span> <span class="n">fetchedBaseAsset</span> <span class="kr">with</span>
+              <span class="n">observers</span> <span class="ow">=</span> <span class="n">baseAsset</span><span class="o">.</span><span class="n">observers</span><span class="p">)</span>
+
+          <span class="n">fetchedQuoteAsset</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">quoteAssetCid</span>
+          <span class="n">assertMsg</span>
+            <span class="s">&quot;Quote asset mismatch&quot;</span>
+            <span class="p">(</span><span class="n">quoteAsset</span> <span class="o">==</span> <span class="n">fetchedQuoteAsset</span> <span class="kr">with</span>
+              <span class="n">observers</span> <span class="ow">=</span> <span class="n">quoteAsset</span><span class="o">.</span><span class="n">observers</span><span class="p">)</span>
+
+          <span class="n">transferredBaseCid</span> <span class="ow">&lt;-</span> <span class="n">exercise</span>
+            <span class="n">baseApprovalCid</span> <span class="kt">TransferApproval_Transfer</span> <span class="kr">with</span>
+              <span class="n">assetCid</span> <span class="ow">=</span> <span class="n">baseAssetCid</span>
+
+          <span class="n">transferredQuoteCid</span> <span class="ow">&lt;-</span> <span class="n">exercise</span>
+            <span class="n">quoteApprovalCid</span> <span class="kt">TransferApproval_Transfer</span> <span class="kr">with</span>
+              <span class="n">assetCid</span> <span class="ow">=</span> <span class="n">quoteAssetCid</span>
+
+          <span class="kr">return</span> <span class="p">(</span><span class="n">transferredBaseCid</span><span class="p">,</span> <span class="n">transferredQuoteCid</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The resulting transaction, with its two nested levels of consequences, can be seen in the <code class="docutils literal notranslate"><span class="pre">test_trade</span></code> script in <code class="docutils literal notranslate"><span class="pre">Test.Intro.Asset.Trade</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TX #15 1970-01-01T00:00:00Z (Test.Intro.Asset.Trade:77:23)
+#15:0
+│   known to (since): &#39;Alice&#39; (#15), &#39;Bob&#39; (#15)
+└─&gt; &#39;Bob&#39; exercises Trade_Settle on #13:1 (Intro.Asset.Trade:Trade)
+          with
+            quoteAssetCid = #10:1; baseApprovalCid = #14:2
+    children:
+    #15:1
+    │   known to (since): &#39;Alice&#39; (#15), &#39;Bob&#39; (#15)
+    └─&gt; fetch #11:1 (Intro.Asset:Asset)
+
+    #15:2
+    │   known to (since): &#39;Alice&#39; (#15), &#39;Bob&#39; (#15)
+    └─&gt; fetch #10:1 (Intro.Asset:Asset)
+
+    #15:3
+    │   known to (since): &#39;USD_Bank&#39; (#15), &#39;Bob&#39; (#15), &#39;Alice&#39; (#15)
+    └─&gt; &#39;Alice&#39;,
+        &#39;Bob&#39; exercises TransferApproval_Transfer on #14:2 (Intro.Asset:TransferApproval)
+              with
+                assetCid = #11:1
+        children:
+        #15:4
+        │   known to (since): &#39;USD_Bank&#39; (#15), &#39;Bob&#39; (#15), &#39;Alice&#39; (#15)
+        └─&gt; fetch #11:1 (Intro.Asset:Asset)
+
+        #15:5
+        │   known to (since): &#39;Alice&#39; (#15), &#39;USD_Bank&#39; (#15), &#39;Bob&#39; (#15)
+        └─&gt; &#39;Alice&#39;, &#39;USD_Bank&#39; exercises Archive on #11:1 (Intro.Asset:Asset)
+
+        #15:6
+        │   referenced by #17:0
+        │   known to (since): &#39;Bob&#39; (#15), &#39;USD_Bank&#39; (#15), &#39;Alice&#39; (#15)
+        └─&gt; create Intro.Asset:Asset
+            with
+              issuer = &#39;USD_Bank&#39;; owner = &#39;Bob&#39;; symbol = &quot;USD&quot;; quantity = 100.0; observers = []
+
+    #15:7
+    │   known to (since): &#39;EUR_Bank&#39; (#15), &#39;Alice&#39; (#15), &#39;Bob&#39; (#15)
+    └─&gt; &#39;Bob&#39;,
+        &#39;Alice&#39; exercises TransferApproval_Transfer on #12:1 (Intro.Asset:TransferApproval)
+                with
+                  assetCid = #10:1
+        children:
+        #15:8
+        │   known to (since): &#39;EUR_Bank&#39; (#15), &#39;Alice&#39; (#15), &#39;Bob&#39; (#15)
+        └─&gt; fetch #10:1 (Intro.Asset:Asset)
+
+        #15:9
+        │   known to (since): &#39;Bob&#39; (#15), &#39;EUR_Bank&#39; (#15), &#39;Alice&#39; (#15)
+        └─&gt; &#39;Bob&#39;, &#39;EUR_Bank&#39; exercises Archive on #10:1 (Intro.Asset:Asset)
+
+        #15:10
+        │   referenced by #16:0
+        │   known to (since): &#39;Alice&#39; (#15), &#39;EUR_Bank&#39; (#15), &#39;Bob&#39; (#15)
+        └─&gt; create Intro.Asset:Asset
+            with
+              issuer = &#39;EUR_Bank&#39;; owner = &#39;Alice&#39;; symbol = &quot;EUR&quot;; quantity = 90.0; observers = []
+</pre></div>
+</div>
+<p>Similar to choices, you can see how the scripts in this project are built up from each other:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">test_issuance</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">setupResult</span><span class="o">@</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">bank</span><span class="p">,</span> <span class="n">aha</span><span class="p">,</span> <span class="n">ahb</span><span class="p">)</span> <span class="ow">&lt;-</span> <span class="n">setupRoles</span>
+
+  <span class="n">assetCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">bank</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">aha</span> <span class="kt">Issue_Asset</span>
+      <span class="kr">with</span>
+        <span class="n">symbol</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+        <span class="n">quantity</span> <span class="ow">=</span> <span class="mf">100.0</span>
+
+  <span class="kt">Some</span> <span class="n">asset</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">bank</span> <span class="n">assetCid</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">asset</span> <span class="o">==</span> <span class="kt">Asset</span> <span class="kr">with</span>
+      <span class="n">issuer</span> <span class="ow">=</span> <span class="n">bank</span>
+      <span class="n">owner</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">symbol</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+      <span class="n">quantity</span> <span class="ow">=</span> <span class="mf">100.0</span>
+      <span class="n">observers</span> <span class="ow">=</span> <span class="kt">[]</span>
+        <span class="p">)</span>
+
+  <span class="kr">return</span> <span class="p">(</span><span class="n">setupResult</span><span class="p">,</span> <span class="n">assetCid</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above, the <code class="docutils literal notranslate"><span class="pre">test_issuance</span></code> script in <code class="docutils literal notranslate"><span class="pre">Test.Intro.Asset.Role</span></code> uses the output of the <code class="docutils literal notranslate"><span class="pre">setupRoles</span></code> script in the same module.</p>
+<p>The same line shows a new kind of pattern matching. Rather than writing <code class="docutils literal notranslate"><span class="pre">setupResult</span> <span class="pre">&lt;-</span> <span class="pre">setupRoles</span></code> and then accessing the components of <code class="docutils literal notranslate"><span class="pre">setupResult</span></code> using <code class="docutils literal notranslate"><span class="pre">_1</span></code>, <code class="docutils literal notranslate"><span class="pre">_2</span></code>, etc., you can give them names. It’s equivalent to writing</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">setupResult</span> <span class="ow">&lt;-</span> <span class="n">setupRoles</span>
+<span class="kr">case</span> <span class="n">setupResult</span> <span class="kr">of</span>
+  <span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">bank</span><span class="p">,</span> <span class="n">aha</span><span class="p">,</span> <span class="n">ahb</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Just writing <code class="docutils literal notranslate"><span class="pre">(alice,</span> <span class="pre">bob,</span> <span class="pre">bank,</span> <span class="pre">aha,</span> <span class="pre">ahb)</span> <span class="pre">&lt;-</span> <span class="pre">setupRoles</span></code> would also be legal, but <code class="docutils literal notranslate"><span class="pre">setupResult</span></code> is used in the return value of <code class="docutils literal notranslate"><span class="pre">test_issuance</span></code> so it makes sense to give it a name, too. The notation with <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> allows you to give both the whole value as well as its constituents names in one go.</p>
+</div>
+<div class="section" id="daml-s-execution-model">
+<span id="execution-model"></span><h2>Daml’s execution model<a class="headerlink" href="#daml-s-execution-model" title="Permalink to this headline">¶</a></h2>
+<p>Daml’s execution model is fairly easy to understand, but has some important consequences. You can imagine the life of a transaction as follows:</p>
+<dl class="docutils">
+<dt>Command Submission</dt>
+<dd>A user submits a list of Commands via the Ledger API of a Participant Node, acting as a <cite>Party</cite> hosted on that Node. That party is called the requester.</dd>
+<dt>Interpretation</dt>
+<dd>Each Command corresponds to one or more Actions. During this step, the <code class="docutils literal notranslate"><span class="pre">Update</span></code> corresponding to each Action is evaluated in the context of the ledger to calculate all consequences, including transitive ones (consequences of consequences, etc.). The result of this is a complete Transaction. Together with its requestor, this is also known as a Commit.</dd>
+<dt>Blinding</dt>
+<dd>On ledgers with strong privacy, projections (see <a class="reference internal" href="#privacy"><span class="std std-ref">Privacy</span></a>) for all involved parties are created. This is also called <em>projecting</em>.</dd>
+<dt>Transaction Submission</dt>
+<dd>The Transaction/Commit is submitted to the network.</dd>
+<dt>Validation</dt>
+<dd>The Transaction/Commit is validated by the network. Who exactly validates can differ from implementation to implementation. Validation also involves scheduling and collision detection, ensuring that the transaction has a well-defined place in the (partial) ordering of Commits, and no double spends occur.</dd>
+<dt>Commitment</dt>
+<dd>The Commit is actually committed according to the commit or consensus protocol of the Ledger.</dd>
+<dt>Confirmation</dt>
+<dd>The network sends confirmations of the commitment back to all involved Participant Nodes.</dd>
+<dt>Completion</dt>
+<dd>The user gets back a confirmation through the Ledger API of the submitting Participant Node.</dd>
+</dl>
+<p>The first important consequence of the above is that all transactions are committed atomically. Either a transaction is committed as a whole and for all participants, or it fails.</p>
+<p>That’s important in the context of the <code class="docutils literal notranslate"><span class="pre">Trade_Settle</span></code> choice shown above. The choice transfers a <code class="docutils literal notranslate"><span class="pre">baseAsset</span></code> one way and a <code class="docutils literal notranslate"><span class="pre">quoteAsset</span></code> the other way. Thanks to transaction atomicity, there is no chance that either party is left out of pocket.</p>
+<p>The second consequence is that the requester of a transaction knows all consequences of their submitted transaction – there are no surprises in Daml. However, it also means that the requester must have all the information to interpret the transaction.
+We also refer to this as Principle 2 a bit later on this page.</p>
+<p>That’s also important in the context of <code class="docutils literal notranslate"><span class="pre">Trade</span></code>. In order to allow Bob to interpret a transaction that transfers Alice’s cash to Bob, Bob needs to know both about Alice’s <code class="docutils literal notranslate"><span class="pre">Asset</span></code> contract, as well as about some way for <code class="docutils literal notranslate"><span class="pre">Alice</span></code> to accept a transfer – remember, accepting a transfer needs the authority of <code class="docutils literal notranslate"><span class="pre">issuer</span></code> in this example.</p>
+</div>
+<div class="section" id="observers">
+<h2>Observers<a class="headerlink" href="#observers" title="Permalink to this headline">¶</a></h2>
+<p><em>Observers</em> are Daml’s mechanism to disclose contracts to other parties. They are declared just like signatories, but using the <code class="docutils literal notranslate"><span class="pre">observer</span></code> keyword, as shown in the <code class="docutils literal notranslate"><span class="pre">Asset</span></code> template:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Asset</span>
+  <span class="kr">with</span>
+    <span class="n">issuer</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">symbol</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">quantity</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="n">observers</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Party</span><span class="p">]</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span>
+    <span class="kr">ensure</span> <span class="n">quantity</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+
+    <span class="kr">observer</span> <span class="n">observers</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Asset</span></code> template also gives the <code class="docutils literal notranslate"><span class="pre">owner</span></code> a choice to set the observers, and you can see how Alice uses it to show her <code class="docutils literal notranslate"><span class="pre">Asset</span></code> to Bob just before proposing the trade. You can try out what happens if she didn’t do that by removing that transaction.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="n">usdCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">usdCid</span> <span class="kt">SetObservers</span> <span class="kr">with</span>
+      <span class="n">newObservers</span> <span class="ow">=</span> <span class="p">[</span><span class="n">bob</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Observers have guarantees in Daml. In particular, they are guaranteed to see actions that create and archive the contract on which they are an observer.</p>
+<p>Since observers are calculated from the arguments of the contract, they always know about each other. That’s why, rather than adding Bob as an observer on Alice’s <code class="docutils literal notranslate"><span class="pre">AssetHolder</span></code> contract, and using that to authorize the transfer in <code class="docutils literal notranslate"><span class="pre">Trade_Settle</span></code>, Alice creates a one-time authorization in the form of a <code class="docutils literal notranslate"><span class="pre">TransferAuthorization</span></code>. If Alice had lots of counterparties, she would otherwise end up leaking them to each other.</p>
+<p>Controllers declared via the <code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">cs</span> <span class="pre">can</span></code> syntax are automatically made observers. Controllers declared in the <code class="docutils literal notranslate"><span class="pre">choice</span></code> syntax are not, as they can only be calculated at the point in time when the choice arguments are known.</p>
+</div>
+<div class="section" id="privacy">
+<span id="id1"></span><h2>Privacy<a class="headerlink" href="#privacy" title="Permalink to this headline">¶</a></h2>
+<p>Daml’s privacy model is based on two principles:</p>
+<p>Principle 1. Parties see those actions that they have a stake in.
+Principle 2. Every party that sees an action sees its (transitive) consequences.</p>
+<p>Principle 2 is necessary to ensure that every party can independently verify the validity of every transaction they see.</p>
+<p>A party has a stake in an action if</p>
+<ul class="simple">
+<li>they are a required authorizer of it</li>
+<li>they are a signatory of the contract on which the action is performed</li>
+<li>they are an observer on the contract, and the action creates or archives it</li>
+</ul>
+<p>What does that mean for the <code class="docutils literal notranslate"><span class="pre">exercise</span> <span class="pre">tradeCid</span> <span class="pre">Trade_Settle</span></code> action from <code class="docutils literal notranslate"><span class="pre">test_trade</span></code>?</p>
+<p>Alice is the signatory of <code class="docutils literal notranslate"><span class="pre">tradeCid</span></code> and Bob a required authorizer of the <code class="docutils literal notranslate"><span class="pre">Trade_Settled</span></code> action, so both of them see it. According to rule 2. above, that means they get to see everything in the transaction.</p>
+<p>The consequences contain, next to some <code class="docutils literal notranslate"><span class="pre">fetch</span></code> actions, two <code class="docutils literal notranslate"><span class="pre">exercise</span></code> actions of the choice <code class="docutils literal notranslate"><span class="pre">TransferApproval_Transfer</span></code>.</p>
+<p>Each of the two involved <code class="docutils literal notranslate"><span class="pre">TransferApproval</span></code> contracts is signed by a different <code class="docutils literal notranslate"><span class="pre">issuer</span></code>, which see the action on “their” contract. So the EUR_Bank sees the <code class="docutils literal notranslate"><span class="pre">TransferApproval_Transfer</span></code> action for the EUR <code class="docutils literal notranslate"><span class="pre">Asset</span></code> and the USD_Bank sees the <code class="docutils literal notranslate"><span class="pre">TransferApproval_Transfer</span></code> action for the USD <code class="docutils literal notranslate"><span class="pre">Asset</span></code>.</p>
+<p>Some Daml ledgers, like the script runner and the Sandbox, work on the principle of “data minimization”, meaning nothing more than the above information is distributed. That is, the “projection” of the overall transaction that gets distributed to EUR_Bank in step 4 of <a class="reference internal" href="#execution-model"><span class="std std-ref">Daml’s execution model</span></a> would consist only of the <code class="docutils literal notranslate"><span class="pre">TransferApproval_Transfer</span></code> and its consequences.</p>
+<p>Other implementations, in particular those on public blockchains, may have weaker privacy constraints.</p>
+<div class="section" id="divulgence">
+<h3>Divulgence<a class="headerlink" href="#divulgence" title="Permalink to this headline">¶</a></h3>
+<p>Note that Principle 2 of the privacy model means that sometimes parties see contracts that they are not signatories or observers on. If you look at the final ledger state of the <code class="docutils literal notranslate"><span class="pre">test_trade</span></code> script, for example, you may notice that both Alice and Bob now see both assets, as indicated by the Xs in their respective columns:</p>
+<div class="figure">
+<img alt="../../_images/divulgence.png" src="../../_images/divulgence.png" />
+</div>
+<p>This is because the <code class="docutils literal notranslate"><span class="pre">create</span></code> action of these contracts are in the transitive consequences of the <code class="docutils literal notranslate"><span class="pre">Trade_Settle</span></code> action both of them have a stake in. This kind of disclosure is often called “divulgence” and needs to be considered when designing Daml models for privacy sensitive applications.</p>
+</div>
+</div>
+<div class="section" id="next-up">
+<h2>Next up<a class="headerlink" href="#next-up" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="8_Exceptions.html"><span class="doc">8 Exception Handling</span></a>, we will learn about how errors in your model can be handled in Daml.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="6_Parties.html" class="da-btn da-btn-label btn-prev" title="6 Parties and authority" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="8_Exceptions.html" class="da-btn da-btn-label btn-next" title="8 Exception Handling" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

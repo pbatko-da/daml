@@ -1,0 +1,701 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reference: Daml packages &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Contract keys" href="contract-keys.html" />
+  <link rel="prev" title="Reference: Daml file structure" href="file-structure.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Language reference docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="file-structure.html">File structure</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Reference: Daml packages</a><ul>
+<li><a class="reference internal" href="#building-daml-archives">Building Daml archives</a></li>
+<li><a class="reference internal" href="#inspecting-dars">Inspecting DARs</a></li>
+<li><a class="reference internal" href="#importing-daml-packages">Importing Daml packages</a><ul>
+<li><a class="reference internal" href="#importing-a-daml-package-via-dependencies">Importing a Daml package via dependencies</a></li>
+<li><a class="reference internal" href="#importing-a-daml-archive-via-data-dependencies">Importing a Daml archive via data-dependencies</a></li>
+<li><a class="reference internal" href="#referencing-daml-packages-already-on-the-ledger">Referencing Daml packages already on the ledger</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#handling-module-name-collisions">Handling module name collisions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="reference-daml-packages">
+<h1>Reference: Daml packages<a class="headerlink" href="#reference-daml-packages" title="Permalink to this headline">¶</a></h1>
+<p>This page gives reference information on Daml package dependencies.</p>
+<div class="section" id="building-daml-archives">
+<h2>Building Daml archives<a class="headerlink" href="#building-daml-archives" title="Permalink to this headline">¶</a></h2>
+<p>When a Daml project is compiled, the compiler produces a <cite>Daml archive</cite>. These are platform-independent packages of compiled Daml code that can be uploaded to a Daml ledger or imported in other Daml projects.</p>
+<p>Daml archives have a <code class="docutils literal notranslate"><span class="pre">.dar</span></code> file ending. By default, when you run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code>, it will generate the <code class="docutils literal notranslate"><span class="pre">.dar</span></code> file in the <code class="docutils literal notranslate"><span class="pre">.daml/dist</span></code> folder in the project root folder. For example, running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code> in project <code class="docutils literal notranslate"><span class="pre">foo</span></code> with project version <code class="docutils literal notranslate"><span class="pre">0.0.1</span></code> will result in a Daml archive <code class="docutils literal notranslate"><span class="pre">.daml/dist/foo-0.0.1.dar</span></code>.</p>
+<p>You can specify a different path for the Daml archive by using the <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>daml build -o foo.dar
+</pre></div>
+</div>
+<p>For details on how to upload a Daml archive to the ledger, see the <a class="reference internal" href="../../deploy/index.html#deploy-ref-overview"><span class="std std-ref">deploy documentation</span></a>. The rest of this page will focus on how to import a Daml package in other Daml projects.</p>
+</div>
+<div class="section" id="inspecting-dars">
+<span id="id1"></span><h2>Inspecting DARs<a class="headerlink" href="#inspecting-dars" title="Permalink to this headline">¶</a></h2>
+<p>To inspect a DAR and get information about the packages inside it, you
+can use the <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">damlc</span> <span class="pre">inspect-dar</span></code> command. This is often useful
+to find the package id of the project you just built.</p>
+<p>You can run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">damlc</span> <span class="pre">inspect-dar</span> <span class="pre">/path/to/your.dar</span></code> to get a
+human-readable listing of the files inside it and a list of packages
+and their package ids. Here is a (shortened) example output:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ daml damlc inspect-dar .daml/dist/create-daml-app-0.1.0.dar
+DAR archive contains the following files:
+
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d.dalf
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-prim-75b070729b1fbd37a618493652121b0d6f5983b787e35179e52d048db70e9f15.dalf
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-stdlib-0.0.0-a535cbc3657b8df953a50aaef5a4cd224574549c83ca4377e8219aadea14f21a.dalf
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-stdlib-DA-Internal-Template-d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.dalf
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/data/create-daml-app-0.1.0.conf
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/User.daml
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/User.hi
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/User.hie
+META-INF/MANIFEST.MF
+
+DAR archive contains the following packages:
+
+create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d <span class="s2">&quot;29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d&quot;</span>
+daml-stdlib-DA-Internal-Template-d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662 <span class="s2">&quot;d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662&quot;</span>
+daml-prim-75b070729b1fbd37a618493652121b0d6f5983b787e35179e52d048db70e9f15 <span class="s2">&quot;75b070729b1fbd37a618493652121b0d6f5983b787e35179e52d048db70e9f15&quot;</span>
+daml-stdlib-0.0.0-a535cbc3657b8df953a50aaef5a4cd224574549c83ca4377e8219aadea14f21a <span class="s2">&quot;a535cbc3657b8df953a50aaef5a4cd224574549c83ca4377e8219aadea14f21a&quot;</span>
+</pre></div>
+</div>
+<p>In addition to the human-readable output, you can also get the output
+as JSON. This is easier to consume programmatically and it is more
+robust to changes across SDK versions:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ daml damlc inspect-dar --json .daml/dist/create-daml-app-0.1.0.dar
+<span class="o">{</span>
+    <span class="s2">&quot;packages&quot;</span>: <span class="o">{</span>
+        <span class="s2">&quot;29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;path&quot;</span>: <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d.dalf&quot;</span>,
+            <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;create-daml-app&quot;</span>,
+            <span class="s2">&quot;version&quot;</span>: <span class="s2">&quot;0.1.0&quot;</span>
+        <span class="o">}</span>,
+        <span class="s2">&quot;d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;path&quot;</span>: <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-stdlib-DA-Internal-Template-d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.dalf&quot;</span>,
+            <span class="s2">&quot;name&quot;</span>: null,
+            <span class="s2">&quot;version&quot;</span>: null
+        <span class="o">}</span>,
+        <span class="s2">&quot;75b070729b1fbd37a618493652121b0d6f5983b787e35179e52d048db70e9f15&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;path&quot;</span>: <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-prim-75b070729b1fbd37a618493652121b0d6f5983b787e35179e52d048db70e9f15.dalf&quot;</span>,
+            <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;daml-prim&quot;</span>,
+            <span class="s2">&quot;version&quot;</span>: <span class="s2">&quot;0.0.0&quot;</span>
+        <span class="o">}</span>,
+        <span class="s2">&quot;a535cbc3657b8df953a50aaef5a4cd224574549c83ca4377e8219aadea14f21a&quot;</span>: <span class="o">{</span>
+            <span class="s2">&quot;path&quot;</span>: <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-stdlib-0.0.0-a535cbc3657b8df953a50aaef5a4cd224574549c83ca4377e8219aadea14f21a.dalf&quot;</span>,
+            <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;daml-stdlib&quot;</span>,
+            <span class="s2">&quot;version&quot;</span>: <span class="s2">&quot;0.0.0&quot;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>,
+    <span class="s2">&quot;main_package_id&quot;</span>: <span class="s2">&quot;29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d&quot;</span>,
+    <span class="s2">&quot;files&quot;</span>: <span class="o">[</span>
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d.dalf&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-prim-75b070729b1fbd37a618493652121b0d6f5983b787e35179e52d048db70e9f15.dalf&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-stdlib-0.0.0-a535cbc3657b8df953a50aaef5a4cd224574549c83ca4377e8219aadea14f21a.dalf&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/daml-stdlib-DA-Internal-Template-d14e08374fc7197d6a0de468c968ae8ba3aadbf9315476fd39071831f5923662.dalf&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/data/create-daml-app-0.1.0.conf&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/User.daml&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/User.hi&quot;</span>,
+        <span class="s2">&quot;create-daml-app-0.1.0-29b501bcf541a40e9f75750246874e0a35de72e00616372da435e4b69966db5d/User.hie&quot;</span>,
+        <span class="s2">&quot;META-INF/MANIFEST.MF&quot;</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> will be <code class="docutils literal notranslate"><span class="pre">null</span></code> for packages in Daml-LF &lt; 1.8.</p>
+</div>
+<div class="section" id="importing-daml-packages">
+<h2>Importing Daml packages<a class="headerlink" href="#importing-daml-packages" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to import a Daml package in a project: via <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>, and via <code class="docutils literal notranslate"><span class="pre">data-dependencies</span></code>. They each have certain advantages and disadvantages. To summarize:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">dependencies</span></code> allow you to import a Daml archive as a library. The definitions in the dependency will all be made available to the importing project. However, the dependency must be compiled with the same SDK version, so this method is only suitable for breaking up large projects into smaller projects that depend on each other, or to reuse existing libraries.</li>
+<li><code class="docutils literal notranslate"><span class="pre">data-dependencies</span></code> allow you to import a Daml archive (.dar) or a Daml-LF package (.dalf), including packages that have already been deployed to a ledger. These packages can be compiled with any previous SDK version. On the other hand, not all definitions can be carried over perfectly, since the Daml interface needs to be reconstructed from the binary.</li>
+</ul>
+<p>The following sections will cover these two approaches in more depth.</p>
+<div class="section" id="importing-a-daml-package-via-dependencies">
+<h3>Importing a Daml package via dependencies<a class="headerlink" href="#importing-a-daml-package-via-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>A Daml project can declare a Daml archive as a dependency in the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> field of <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code>. This lets you import modules and reuse definitions from another Daml project. The main limitation of this method is that the dependency must be built for the same SDK version as the importing project.</p>
+<p>Let’s go through an example. Suppose you have an existing Daml project <code class="docutils literal notranslate"><span class="pre">foo</span></code>, located at <code class="docutils literal notranslate"><span class="pre">/home/user/foo</span></code>, and you want to use it as a dependency in a project <code class="docutils literal notranslate"><span class="pre">bar</span></code>, located at <code class="docutils literal notranslate"><span class="pre">/home/user/bar</span></code>.</p>
+<p>To do so, you first need to generate the Daml archive of <code class="docutils literal notranslate"><span class="pre">foo</span></code>. Go into <code class="docutils literal notranslate"><span class="pre">/home/user/foo</span></code> and run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span> <span class="pre">-o</span> <span class="pre">foo.dar</span></code>. This will create the Daml archive, <code class="docutils literal notranslate"><span class="pre">/home/user/foo/foo.dar</span></code>.</p>
+<p>Next, we will update the project config for <code class="docutils literal notranslate"><span class="pre">bar</span></code> to use the generated Daml archive as a dependency. Go into <code class="docutils literal notranslate"><span class="pre">/home/user/bar</span></code> and change the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> field in <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> to point to the created <cite>Daml archive</cite>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dependencies</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-prim</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-stdlib</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">../foo/foo.dar</span>
+</pre></div>
+</div>
+<p>The import path can also be absolute, for example, by changing the last line to:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/home/user/foo/foo.dar</span>
+</pre></div>
+</div>
+<p>When you run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code> in the <code class="docutils literal notranslate"><span class="pre">bar</span></code> project, the compiler will make the definitions in <code class="docutils literal notranslate"><span class="pre">foo.dar</span></code> available for importing. For example, if <code class="docutils literal notranslate"><span class="pre">foo</span></code> exports the module <code class="docutils literal notranslate"><span class="pre">Foo</span></code>, you can import it in the usual way:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Foo</span>
+</pre></div>
+</div>
+<p>By default, all modules of <code class="docutils literal notranslate"><span class="pre">foo</span></code> are made available when importing <code class="docutils literal notranslate"><span class="pre">foo</span></code> as a dependency. To limit which modules of <code class="docutils literal notranslate"><span class="pre">foo</span></code> get exported, you may add an <code class="docutils literal notranslate"><span class="pre">exposed-modules</span></code> field in the <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> file for <code class="docutils literal notranslate"><span class="pre">foo</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">exposed-modules</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Foo</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="importing-a-daml-archive-via-data-dependencies">
+<h3>Importing a Daml archive via data-dependencies<a class="headerlink" href="#importing-a-daml-archive-via-data-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>You can import a Daml archive (.dar) or Daml-LF package (.dalf) using <code class="docutils literal notranslate"><span class="pre">data-dependencies</span></code>. Unlike <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>, this can be used when the SDK versions do not match.</p>
+<p>For example, you can import <code class="docutils literal notranslate"><span class="pre">foo.dar</span></code> as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dependencies</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-prim</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-stdlib</span>
+<span class="nt">data-dependencies</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">../foo/foo.dar</span>
+</pre></div>
+</div>
+<p>When importing packages this way, the Daml compiler will try to reconstruct the original Daml interface from the compiled binaries. However, to allow <code class="docutils literal notranslate"><span class="pre">data-dependencies</span></code> to work across SDK versions, the compiler has to abstract over some details which are not compatible across SDK versions. This means that there are some Daml features that cannot be recovered when using <code class="docutils literal notranslate"><span class="pre">data-dependencies</span></code>. In particular:</p>
+<ol class="arabic simple">
+<li>Export lists cannot be recovered, so imports via <code class="docutils literal notranslate"><span class="pre">data-dependencies</span></code> can access definitions that were originally hidden. This means it is up to the importing module to respect the data abstraction of the original module. Note that this is the same for all code that runs on the ledger, since the ledger does not provide special support for data abstraction.</li>
+<li>If you have a <code class="docutils literal notranslate"><span class="pre">dependency</span></code> that limits the modules that can be accessed via <code class="docutils literal notranslate"><span class="pre">exposed-modules</span></code>, you can get an error if you also have a <code class="docutils literal notranslate"><span class="pre">data-dependency</span></code> that references something from the hidden modules (even if it is only reexported). Since <code class="docutils literal notranslate"><span class="pre">exposed-modules</span></code> are not available on the ledger in general, we recommend to not make use of them and instead rely on naming conventions (e.g., suffix module names with <code class="docutils literal notranslate"><span class="pre">.Internal</span></code>) to make it clear which modules are part of the public API.</li>
+<li>Prior to Daml-LF version 1.8, typeclasses could not be reconstructed. This means if you have a package that is compiled with an older version of Daml-LF, typeclasses and typeclass instances will not be carried over via data-dependencies, and you won’t be able to call functions that rely on typeclass instances. This includes the template functions, such as <code class="docutils literal notranslate"><span class="pre">create</span></code>, <code class="docutils literal notranslate"><span class="pre">signatory</span></code>, and <code class="docutils literal notranslate"><span class="pre">exercise</span></code>, as these rely on typeclass instances.</li>
+<li>Starting from Daml-LF version 1.8, when possible, typeclass instances will be reconstructed by re-using the typeclass definitions from dependencies, such as the typeclasses exported in <code class="docutils literal notranslate"><span class="pre">daml-stdlib</span></code>. However, if the typeclass signature has changed, you will get an instance for a reconstructed typeclass instead, which will not interoperate with code from dependencies. Furthermore, if the typeclass definition uses the <code class="docutils literal notranslate"><span class="pre">FunctionalDependencies</span></code> language extension, this may cause additional problems, since the functional dependencies cannot be recovered. So this is something to keep in mind when redefining typeclasses and when using <code class="docutils literal notranslate"><span class="pre">FunctionalDependencies</span></code>.</li>
+<li>Certain advanced type system features cannot be reconstructed. In particular, <code class="docutils literal notranslate"><span class="pre">DA.Generics</span></code> and <code class="docutils literal notranslate"><span class="pre">DeriveGeneric</span></code> cannot be reconstructed. This may result in certain definitions being unavailable when importing a module that uses these advanced features.</li>
+</ol>
+<p>Because of their flexibility, data-dependencies are a tool that is recommended for performing Daml model upgrades. See the <a class="reference internal" href="../../upgrade/upgrade.html#upgrade-overview"><span class="std std-ref">upgrade documentation</span></a> for more details.</p>
+</div>
+<div class="section" id="referencing-daml-packages-already-on-the-ledger">
+<h3>Referencing Daml packages already on the ledger<a class="headerlink" href="#referencing-daml-packages-already-on-the-ledger" title="Permalink to this headline">¶</a></h3>
+<p>Daml packages that have been uploaded to a ledger can be imported as data dependencies, given you
+have the necessary permissions to download these packages. To import such a package, add the package
+name and version separated by a colon to the data-dependencies stanza as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ledger</span><span class="p">:</span>
+  <span class="nt">host</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">localhost</span>
+  <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">6865</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-prim</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">daml-stdlib</span>
+<span class="nt">data-dependencies</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">foo:1.0.0</span>
+</pre></div>
+</div>
+<p>If your ledger runs at the default host and port (<code class="docutils literal notranslate"><span class="pre">localhost:6865</span></code>), the ledger stanza can be
+omitted. This will fetch and install the package <code class="docutils literal notranslate"><span class="pre">foo-1.0.0</span></code>. A <code class="docutils literal notranslate"><span class="pre">daml.lock</span></code> file is created at
+the root of your project directory, pinning the resolved packages to their exact package ID:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dependencies</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">pkgId</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">51255efad65a1751bcee749d962a135a65d12b87eb81ac961142196d8bbca535</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">foo</span>
+  <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0.0</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">daml.lock</span></code> file needs to be checked into version control of your project. This assures that
+package name/version tuples specified in your data dependencies are always resolved to the same
+package ID. To recreate or update your <code class="docutils literal notranslate"><span class="pre">daml.lock</span></code> file, delete it and run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code> again.</p>
+</div>
+</div>
+<div class="section" id="handling-module-name-collisions">
+<span id="module-collisions"></span><h2>Handling module name collisions<a class="headerlink" href="#handling-module-name-collisions" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes you will have multiple packages with the same module name. In that case, a simple import will fail, since the compiler doesn’t know which version of the module to load. Fortunately, there are a few tools you can use to approach this problem.</p>
+<p>The first is to use package qualified imports. Supposing you have packages with different names, <code class="docutils literal notranslate"><span class="pre">foo</span></code> and <code class="docutils literal notranslate"><span class="pre">bar</span></code>, which both expose a module <code class="docutils literal notranslate"><span class="pre">X</span></code>, you can select which one you want with a package qualified import.</p>
+<p>To get <code class="docutils literal notranslate"><span class="pre">X</span></code> from <code class="docutils literal notranslate"><span class="pre">foo</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="s">&quot;foo&quot;</span> <span class="nn">X</span>
+</pre></div>
+</div>
+<p>To get <code class="docutils literal notranslate"><span class="pre">X</span></code> from <code class="docutils literal notranslate"><span class="pre">bar</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="s">&quot;bar&quot;</span> <span class="nn">X</span>
+</pre></div>
+</div>
+<p>To get both, you need to rename the module as you perform the import:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="s">&quot;foo&quot;</span> <span class="nn">X</span> <span class="k">as</span> <span class="n">FooX</span>
+<span class="kr">import</span> <span class="s">&quot;bar&quot;</span> <span class="nn">X</span> <span class="k">as</span> <span class="n">BarX</span>
+</pre></div>
+</div>
+<p>Sometimes, package qualified imports will not help, because you are importing two packages with the same name. For example, if you’re loading different versions of the same package. To handle this case, you need the <code class="docutils literal notranslate"><span class="pre">--package</span></code> build option.</p>
+<p>Suppose you are importing packages <code class="docutils literal notranslate"><span class="pre">foo-1.0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">foo-2.0.0</span></code>. Notice they have the same name <code class="docutils literal notranslate"><span class="pre">foo</span></code> but different versions. To get modules that are exposed in both packages, you will need to provide module aliases. You can do this by passing the <code class="docutils literal notranslate"><span class="pre">--package</span></code> build option. Open <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> and add the following <code class="docutils literal notranslate"><span class="pre">build-options</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">build-options</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="s">&#39;--package&#39;</span>
+<span class="p p-Indicator">-</span> <span class="s">&#39;foo-1.0.0</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">(X</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">Foo1.X)&#39;</span>
+<span class="p p-Indicator">-</span> <span class="s">&#39;--package&#39;</span>
+<span class="p p-Indicator">-</span> <span class="s">&#39;foo-2.0.0</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">(X</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">Foo2.X)&#39;</span>
+</pre></div>
+</div>
+<p>This will alias the <code class="docutils literal notranslate"><span class="pre">X</span></code> in <code class="docutils literal notranslate"><span class="pre">foo-1.0.0</span></code> as <code class="docutils literal notranslate"><span class="pre">Foo1.X</span></code>, and alias the <code class="docutils literal notranslate"><span class="pre">X</span></code> in <code class="docutils literal notranslate"><span class="pre">foo-2.0.0</span></code> as <code class="docutils literal notranslate"><span class="pre">Foo2.X</span></code>. Now you will be able to import both <code class="docutils literal notranslate"><span class="pre">X</span></code> by using the new names:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Foo1.X</span>
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Foo2.X</span>
+</pre></div>
+</div>
+<p>It is also possible to add a prefix to all modules in a package using
+the <code class="docutils literal notranslate"><span class="pre">module-prefixes</span></code> field in your <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code>. This is
+particularly useful for upgrades where you can map all modules of
+version <code class="docutils literal notranslate"><span class="pre">v</span></code> of your package under <code class="docutils literal notranslate"><span class="pre">V$v</span></code>. For the example above you
+can use the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">module-prefixes</span><span class="p">:</span>
+  <span class="nt">foo-1.0.0</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Foo1</span>
+  <span class="nt">foo-2.0.0</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Foo2</span>
+</pre></div>
+</div>
+<p>That will allow you to import module <code class="docutils literal notranslate"><span class="pre">X</span></code> from package <code class="docutils literal notranslate"><span class="pre">foo-1.0.0</span></code>
+as <code class="docutils literal notranslate"><span class="pre">Foo1.X</span></code> and <code class="docutils literal notranslate"><span class="pre">X</span></code> from package <code class="docutils literal notranslate"><span class="pre">foo-2.0.0</span></code> as <code class="docutils literal notranslate"><span class="pre">Foo2</span></code>.</p>
+<p>You can also use more complex module prefixes, e.g., <code class="docutils literal notranslate"><span class="pre">foo-1.0.0:</span>
+<span class="pre">Foo1.Bar</span></code> which will make module <code class="docutils literal notranslate"><span class="pre">X</span></code> available under
+<code class="docutils literal notranslate"><span class="pre">Foo1.Bar.X</span></code>.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="file-structure.html" class="da-btn da-btn-label btn-prev" title="Reference: Daml file structure" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="contract-keys.html" class="da-btn da-btn-label btn-next" title="Contract keys" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

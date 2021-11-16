@@ -1,0 +1,203 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-next-map-42717:
+
+Module DA.Next.Map
+==================
+
+``DA.Next.Map`` is deprecated\. Please use ``DA.Map`` instead\.
+
+Typeclasses
+-----------
+
+.. _class-da-next-map-mapkey-12781:
+
+**class** :ref:`Eq <class-ghc-classes-eq-21216>` k \=\> `MapKey <class-da-next-map-mapkey-12781_>`_ k **where**
+
+  A class for types that can be used as keys for the ``Map`` type\.
+  All keys ``k`` must satisfy ``keyFromText (keyToText k) == k``\.
+  
+  .. _function-da-next-map-keytotext-559:
+  
+  `keyToText <function-da-next-map-keytotext-559_>`_
+    \: k \-\> :ref:`Text <type-ghc-types-text-57703>`
+    
+    Turn a key into its textual representation\. This function must be
+    injective\.
+  
+  .. _function-da-next-map-keyfromtext-16022:
+  
+  `keyFromText <function-da-next-map-keyfromtext-16022_>`_
+    \: :ref:`Text <type-ghc-types-text-57703>` \-\> k
+    
+    Recover a key from its textual representation\. ``keyFromText x`` is
+    allowed to fail whenever there is *no* key ``k`` with ``keyToText k == x``\.
+    Whenever such a ``k`` does exist, then it must satisfy
+    ``keyFromText x == k``\.
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ :ref:`Party <type-da-internal-lf-party-50311>`
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ :ref:`Int <type-ghc-types-int-68728>`
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ :ref:`Text <type-ghc-types-text-57703>`
+
+Data Types
+----------
+
+.. _type-da-next-map-map-36848:
+
+**data** `Map <type-da-next-map-map-36848_>`_ k v
+
+  A ``Map k v`` is an associative array data type composed of a
+  collection of key/value pairs of key type ``k`` and value type ``v``
+  such that each possible key appears at most once in the collection\.
+  
+  **instance** :ref:`Foldable <class-da-foldable-foldable-61699>` (`Map <type-da-next-map-map-36848_>`_ k)
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> :ref:`Monoid <class-da-internal-prelude-monoid-13063>` (`Map <type-da-next-map-map-36848_>`_ k v)
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> :ref:`Semigroup <class-da-internal-prelude-semigroup-80733>` (`Map <type-da-next-map-map-36848_>`_ k v)
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> :ref:`Traversable <class-da-traversable-traversable-25469>` (`Map <type-da-next-map-map-36848_>`_ k)
+  
+  **instance** `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> :ref:`Functor <class-ghc-base-functor-73448>` (`Map <type-da-next-map-map-36848_>`_ k)
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` v \=\> :ref:`Eq <class-ghc-classes-eq-21216>` (`Map <type-da-next-map-map-36848_>`_ k v)
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` v \=\> :ref:`Ord <class-ghc-classes-ord-70960>` (`Map <type-da-next-map-map-36848_>`_ k v)
+  
+  **instance** (`MapKey <class-da-next-map-mapkey-12781_>`_ k, :ref:`Show <class-ghc-show-show-56447>` k, :ref:`Show <class-ghc-show-show-56447>` v) \=\> :ref:`Show <class-ghc-show-show-56447>` (`Map <type-da-next-map-map-36848_>`_ k v)
+
+Functions
+---------
+
+.. _function-da-next-map-fromlist-45465:
+
+`fromList <function-da-next-map-fromlist-45465_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> \[(k, v)\] \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  Create a map from a list of key/value pairs\.
+
+.. _function-da-next-map-fromlistwith-32621:
+
+`fromListWith <function-da-next-map-fromlistwith-32621_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> (v \-\> v \-\> v) \-\> \[(k, v)\] \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  Create a map from a list of key/value pairs with a combining
+  function\. Examples\:
+  
+  .. code-block:: daml
+  
+      fromListWith (<>) [(5,"a"), (5,"b"), (3,"b"), (3,"a"), (5,"c")] == fromList [(3, "ba"), (5, "abc")]
+      fromListWith (<>) [] == (empty : Map Int Text)
+
+.. _function-da-next-map-tolist-10400:
+
+`toList <function-da-next-map-tolist-10400_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> `Map <type-da-next-map-map-36848_>`_ k v \-\> \[(k, v)\]
+  
+  Convert the map to a list of key/value pairs where the keys are
+  in ascending order of their textual representation\.
+
+.. _function-da-next-map-fromtextmap-38547:
+
+`fromTextMap <function-da-next-map-fromtextmap-38547_>`_
+  \: :ref:`TextMap <type-da-internal-lf-textmap-34396>` v \-\> `Map <type-da-next-map-map-36848_>`_ :ref:`Text <type-ghc-types-text-57703>` v
+  
+  Create a ``Map`` from a ``TextMap``\.
+
+.. _function-da-next-map-totextmap-62076:
+
+`toTextMap <function-da-next-map-totextmap-62076_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> `Map <type-da-next-map-map-36848_>`_ k v \-\> :ref:`TextMap <type-da-internal-lf-textmap-34396>` v
+  
+  Convert a ``Map`` into a ``TextMap``\.
+
+.. _function-da-next-map-empty-92363:
+
+`empty <function-da-next-map-empty-92363_>`_
+  \: `Map <type-da-next-map-map-36848_>`_ k v
+  
+  The empty map\.
+
+.. _function-da-next-map-size-14822:
+
+`size <function-da-next-map-size-14822_>`_
+  \: `Map <type-da-next-map-map-36848_>`_ k v \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  Number of elements in the map\.
+
+.. _function-da-next-map-null-29874:
+
+`null <function-da-next-map-null-29874_>`_
+  \: `Map <type-da-next-map-map-36848_>`_ k v \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Is the map empty?
+
+.. _function-da-next-map-lookup-40621:
+
+`lookup <function-da-next-map-lookup-40621_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> k \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` v
+  
+  Lookup the value at a key in the map\.
+
+.. _function-da-next-map-member-68529:
+
+`member <function-da-next-map-member-68529_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> k \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Is the key a member of the map?
+
+.. _function-da-next-map-filter-62365:
+
+`filter <function-da-next-map-filter-62365_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> (v \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  Filter the ``Map`` using a predicate\: keep only the entries where the
+  value satisfies the predicate\.
+
+.. _function-da-next-map-filterwithkey-32699:
+
+`filterWithKey <function-da-next-map-filterwithkey-32699_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> (k \-\> v \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  Filter the ``Map`` using a predicate\: keep only the entries which
+  satisfy the predicate\.
+
+.. _function-da-next-map-delete-17150:
+
+`delete <function-da-next-map-delete-17150_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> k \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  Delete a key and its value from the map\. When the key is not a
+  member of the map, the original map is returned\.
+
+.. _function-da-next-map-insert-6496:
+
+`insert <function-da-next-map-insert-6496_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> k \-\> v \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  Insert a new key/value pair in the map\. If the key is already
+  present in the map, the associated value is replaced with the
+  supplied value\.
+
+.. _function-da-next-map-union-6297:
+
+`union <function-da-next-map-union-6297_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> `Map <type-da-next-map-map-36848_>`_ k v \-\> `Map <type-da-next-map-map-36848_>`_ k v \-\> `Map <type-da-next-map-map-36848_>`_ k v
+  
+  The union of two maps, preferring the first map when equal
+  keys are encountered\.
+
+.. _function-da-next-map-merge-2656:
+
+`merge <function-da-next-map-merge-2656_>`_
+  \: `MapKey <class-da-next-map-mapkey-12781_>`_ k \=\> (k \-\> a \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` c) \-\> (k \-\> b \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` c) \-\> (k \-\> a \-\> b \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` c) \-\> `Map <type-da-next-map-map-36848_>`_ k a \-\> `Map <type-da-next-map-map-36848_>`_ k b \-\> `Map <type-da-next-map-map-36848_>`_ k c
+  
+  Merge two maps\. ``merge f g h x y`` applies ``f`` to all key/value pairs
+  whose key only appears in ``x``, ``g`` to all pairs whose key only appears
+  in ``y`` and ``h`` to all pairs whose key appears in both ``x`` and ``y``\.
+  In the end, all pairs yielding ``Some`` are collected as the result\.

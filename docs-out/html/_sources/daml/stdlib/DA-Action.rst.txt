@@ -1,0 +1,118 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-action-12604:
+
+Module DA.Action
+================
+
+Action
+
+Functions
+---------
+
+.. _function-da-action-when-53144:
+
+`when <function-da-action-when-53144_>`_
+  \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f \=\> :ref:`Bool <type-ghc-types-bool-8654>` \-\> f () \-\> f ()
+  
+  Conditional execution of ``Action`` expressions\. For example,
+  
+  .. code-block:: daml
+  
+      when final (archive contractId)
+  
+  
+  will archive the contract ``contractId`` if the Boolean value ``final`` is
+  ``True``, and otherwise do nothing\.
+  
+  This function has short\-circuiting semantics, i\.e\., when both arguments are
+  present and the first arguments evaluates to ``False``, the second argument
+  is not evaluated at all\.
+
+.. _function-da-action-unless-13484:
+
+`unless <function-da-action-unless-13484_>`_
+  \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f \=\> :ref:`Bool <type-ghc-types-bool-8654>` \-\> f () \-\> f ()
+  
+  The reverse of ``when``\.
+  
+  This function has short\-circuiting semantics, i\.e\., when both arguments are
+  present and the first arguments evaluates to ``True``, the second argument
+  is not evaluated at all\.
+
+.. _function-da-action-foldra-648:
+
+`foldrA <function-da-action-foldra-648_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> b \-\> m b) \-\> b \-\> \[a\] \-\> m b
+  
+  The ``foldrA`` is analogous to ``foldr``, except that its result is
+  encapsulated in an action\. Note that ``foldrA`` works from right\-to\-left
+  over the list arguments\.
+
+.. _function-da-action-foldr1a-22158:
+
+`foldr1A <function-da-action-foldr1a-22158_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> a \-\> m a) \-\> \[a\] \-\> m a
+  
+  ``foldr1A`` is like ``foldrA`` but raises an error when presented
+  with an empty list argument\.
+
+.. _function-da-action-foldla-66606:
+
+`foldlA <function-da-action-foldla-66606_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (b \-\> a \-\> m b) \-\> b \-\> \[a\] \-\> m b
+  
+  ``foldlA`` is analogous to ``foldl``, except that its result is
+  encapsulated in an action\. Note that ``foldlA`` works from
+  left\-to\-right over the list arguments\.
+
+.. _function-da-action-foldl1a-11824:
+
+`foldl1A <function-da-action-foldl1a-11824_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> a \-\> m a) \-\> \[a\] \-\> m a
+  
+  The ``foldl1A`` is like ``foldlA`` but raises an errors when
+  presented with an empty list argument\.
+
+.. _function-da-action-filtera-96654:
+
+`filterA <function-da-action-filtera-96654_>`_
+  \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` m \=\> (a \-\> m :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> m \[a\]
+  
+  Filters the list using the applicative function\: keeps only the elements where the predicate holds\.
+  Example\: given a collection of Iou contract IDs one can find only the GBPs\.
+  
+  .. code-block:: daml
+  
+    filterA (fmap (\iou -> iou.currency == "GBP") . fetch) iouCids
+
+.. _function-da-action-replicatea-1820:
+
+`replicateA <function-da-action-replicatea-1820_>`_
+  \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` m \=\> :ref:`Int <type-ghc-types-int-68728>` \-\> m a \-\> m \[a\]
+  
+  ``replicateA n act`` performs the action ``n`` times, gathering the
+  results\.
+
+.. _function-da-action-replicatea-84680:
+
+`replicateA_ <function-da-action-replicatea-84680_>`_
+  \: :ref:`Applicative <class-da-internal-prelude-applicative-43914>` m \=\> :ref:`Int <type-ghc-types-int-68728>` \-\> m a \-\> m ()
+  
+  Like ``replicateA``, but discards the result\.
+
+.. _function-da-action-gteqgt-87802:
+
+`(>=>) <function-da-action-gteqgt-87802_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> m b) \-\> (b \-\> m c) \-\> a \-\> m c
+  
+  Left\-to\-right composition of Kleisli arrows\.
+
+.. _function-da-action-lteqlt-83094:
+
+`(<=<) <function-da-action-lteqlt-83094_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (b \-\> m c) \-\> (a \-\> m b) \-\> a \-\> m c
+  
+  Right\-to\-left composition of Kleisli arrows\. @('\>\=\>')@, with the arguments
+  flipped\.

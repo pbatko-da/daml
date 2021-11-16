@@ -1,0 +1,894 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Extractor &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Ledger Export" href="export/index.html" />
+  <link rel="prev" title="Causality and Local Ledgers" href="../concepts/local-ledger.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Extractor</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#setting-up">Setting up</a></li>
+<li><a class="reference internal" href="#trying-it-out">Trying it out</a></li>
+<li><a class="reference internal" href="#running-the-extractor">Running the Extractor</a></li>
+<li><a class="reference internal" href="#connecting-the-extractor-to-a-ledger">Connecting the Extractor to a ledger</a></li>
+<li><a class="reference internal" href="#connecting-to-your-database">Connecting to your database</a></li>
+<li><a class="reference internal" href="#authorize-extractor">Authorize Extractor</a></li>
+<li><a class="reference internal" href="#full-list-of-options">Full list of options</a></li>
+<li><a class="reference internal" href="#output-format">Output format</a></li>
+<li><a class="reference internal" href="#transactions">Transactions</a></li>
+<li><a class="reference internal" href="#contracts">Contracts</a></li>
+<li><a class="reference internal" href="#exercises">Exercises</a></li>
+<li><a class="reference internal" href="#json-format">JSON format</a></li>
+<li><a class="reference internal" href="#examples-of-output">Examples of output</a></li>
+<li><a class="reference internal" href="#dealing-with-schema-evolution">Dealing with schema evolution</a></li>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+<li><a class="reference internal" href="#continuity">Continuity</a></li>
+<li><a class="reference internal" href="#fault-tolerance">Fault tolerance</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#cant-connect-to-the-ledger-node">Can’t connect to the Ledger Node</a></li>
+<li><a class="reference internal" href="#cant-connect-to-the-database">Can’t connect to the database</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="extractor">
+<h1>Extractor<a class="headerlink" href="#extractor" title="Permalink to this headline">¶</a></h1>
+<p>The Extractor is currently an <a class="reference internal" href="../support/status-definitions.html"><span class="doc">Early Access Feature in Labs status</span></a>.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>You can use the Extractor to extract contract data for a single party from a Ledger node into a PostgreSQL database.</p>
+<p>It is useful for:</p>
+<ul class="simple">
+<li><strong>Application developers</strong> to access data on the ledger, observe the evolution of data, and debug their applications</li>
+<li><strong>Business analysts</strong> to analyze ledger data and create reports</li>
+<li><strong>Support teams</strong> to debug any problems that happen in production</li>
+</ul>
+<p>Using the Extractor, you can:</p>
+<ul class="simple">
+<li>Take a full snapshot of the ledger (from the start of the ledger to the current latest transaction)</li>
+<li>Take a partial snapshot of the ledger (between specific <a class="reference external" href="../../app-dev/grpc/proto-docs.html#ledgeroffset">offsets</a>)</li>
+<li>Extract historical data and then stream indefinitely (either from the start of the ledger or from a specific offset)</li>
+</ul>
+</div>
+<div class="section" id="setting-up">
+<h2>Setting up<a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h2>
+<p>Prerequisites:</p>
+<ul class="simple">
+<li>A PostgreSQL database that is reachable from the machine the Extractor runs on. Use PostgreSQL version 9.4 or later to have JSONB type support that is used in the Extractor.</li>
+<li>We recommend using an empty database to avoid schema and table collisions. To see which tables to expect, see  <a class="reference external" href="#output-format">Output format</a>.</li>
+<li>A running Sandbox or Ledger Node as the source of data.</li>
+<li>You’ve <a class="reference internal" href="../getting-started/installation.html"><span class="doc">installed the SDK</span></a>.</li>
+</ul>
+<p>Once you have the prerequisites, you can start the Extractor like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ daml extractor --help
+</pre></div>
+</div>
+</div>
+<div class="section" id="trying-it-out">
+<h2>Trying it out<a class="headerlink" href="#trying-it-out" title="Permalink to this headline">¶</a></h2>
+<p>This example extracts:</p>
+<ul>
+<li><p class="first">all contract data from the beginning of the ledger to the current latest transaction</p>
+</li>
+<li><p class="first">for the party <code class="docutils literal notranslate"><span class="pre">Scrooge_McDuck</span></code></p>
+</li>
+<li><p class="first">from a Ledger node or Sandbox running on host <code class="docutils literal notranslate"><span class="pre">192.168.1.12</span></code> on port <code class="docutils literal notranslate"><span class="pre">6865</span></code></p>
+</li>
+<li><p class="first">to PostgreSQL instance running on localhost</p>
+</li>
+<li><p class="first">identified by the user <code class="docutils literal notranslate"><span class="pre">postgres</span></code> without a password set</p>
+</li>
+<li><p class="first">into a database called <code class="docutils literal notranslate"><span class="pre">daml_export</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ daml extractor postgresql --user postgres --connecturl jdbc:postgresql:daml_export --party Scrooge_McDuck -h 192.168.1.12 -p 6865 --to head
+</pre></div>
+</div>
+</li>
+</ul>
+<p>This terminates after reaching the transaction which was the latest at the time the Extractor started streaming.</p>
+<p>To run the Extractor indefinitely, and thus keeping the database up to date as new transactions arrive on the ledger, omit the <code class="docutils literal notranslate"><span class="pre">--to</span> <span class="pre">head</span></code> parameter to fall back to the default streaming-indefinitely approach, or state explicitly by using the <code class="docutils literal notranslate"><span class="pre">--to</span> <span class="pre">follow</span></code> parameter.</p>
+</div>
+<div class="section" id="running-the-extractor">
+<h2>Running the Extractor<a class="headerlink" href="#running-the-extractor" title="Permalink to this headline">¶</a></h2>
+<p>The basic command to run the Extractor is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ daml extractor [options]
+</pre></div>
+</div>
+<p>For what options to use, see the next sections.</p>
+</div>
+<div class="section" id="connecting-the-extractor-to-a-ledger">
+<h2>Connecting the Extractor to a ledger<a class="headerlink" href="#connecting-the-extractor-to-a-ledger" title="Permalink to this headline">¶</a></h2>
+<p>To connect to the Sandbox, provide separate address and port parameters. For example, <code class="docutils literal notranslate"><span class="pre">--host</span> <span class="pre">10.1.1.10</span> <span class="pre">--port</span> <span class="pre">6865</span></code>, or in short form <code class="docutils literal notranslate"><span class="pre">-h</span> <span class="pre">10.1.1.168</span> <span class="pre">-p</span> <span class="pre">6865</span></code>.</p>
+<p>The default host is <code class="docutils literal notranslate"><span class="pre">localhost</span></code> and the default port is <code class="docutils literal notranslate"><span class="pre">6865</span></code>, so you don’t need to pass those.</p>
+<p>To connect to a Ledger node, you might have to provide SSL certificates. The options for doing this are shown in the output of the <code class="docutils literal notranslate"><span class="pre">--help</span></code> command.</p>
+</div>
+<div class="section" id="connecting-to-your-database">
+<h2>Connecting to your database<a class="headerlink" href="#connecting-to-your-database" title="Permalink to this headline">¶</a></h2>
+<p>As usual for a Java application, the database connection is handled by the well-known JDBC API, so you need to provide:</p>
+<ul class="simple">
+<li>a JDBC connection URL</li>
+<li>a username</li>
+<li>an optional password</li>
+</ul>
+<p>For more on the connection URL, visit <a class="reference external" href="https://jdbc.postgresql.org/documentation/80/connect.html">https://jdbc.postgresql.org/documentation/80/connect.html</a>.</p>
+<p>This example connects to a PostgreSQL instance running on <code class="docutils literal notranslate"><span class="pre">localhost</span></code> on the default port, with a user <code class="docutils literal notranslate"><span class="pre">postgres</span></code> which does not have a password set, and a database called <code class="docutils literal notranslate"><span class="pre">daml_export</span></code>. This is a typical setup on a developer machine with a default PostgreSQL install</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ daml extractor postgres --connecturl jdbc:postgresql:daml_export --user postgres --party [party]
+</pre></div>
+</div>
+<p>This example connects to a database on host <code class="docutils literal notranslate"><span class="pre">192.168.1.12</span></code>, listening on port <code class="docutils literal notranslate"><span class="pre">5432</span></code>. The database is called <code class="docutils literal notranslate"><span class="pre">daml_export</span></code>, and the user and password used for authentication are <code class="docutils literal notranslate"><span class="pre">daml_exporter</span></code> and <code class="docutils literal notranslate"><span class="pre">ExamplePassword</span></code></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ daml extractor postgres --connecturl jdbc:postgresql://192.168.1.12:5432/daml_export --user daml_exporter --password ExamplePassword --party [party]
+</pre></div>
+</div>
+</div>
+<div class="section" id="authorize-extractor">
+<h2>Authorize Extractor<a class="headerlink" href="#authorize-extractor" title="Permalink to this headline">¶</a></h2>
+<p>If you are running Extractor against a Ledger API server that verifies authorization, you must provide the access token when you start it.</p>
+<p>The access token retrieval depends on the specific Daml setup you are working with: please refer to the ledger operator to learn how.</p>
+<p>Once you have retrieved your access token, you can provide it to Extractor by storing it in a file and provide the path to it using the <code class="docutils literal notranslate"><span class="pre">--access-token-file</span></code> command line option.</p>
+<p>Both in the case in which the token cannot be read from the provided path or if the Ledger API reports an authorization error (for example due to token expiration), Extractor will keep trying to read and use it and report the error via logging. This retry mechanism allows expired token to be overwritten with valid ones and keep Extractor going from where it left off.</p>
+</div>
+<div class="section" id="full-list-of-options">
+<h2>Full list of options<a class="headerlink" href="#full-list-of-options" title="Permalink to this headline">¶</a></h2>
+<p>To see the full list of options, run the <code class="docutils literal notranslate"><span class="pre">--help</span></code> command, which gives the following output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Usage: extractor [prettyprint|postgresql] [options]
+
+Command: prettyprint [options]
+Pretty print contract template and transaction data to stdout.
+  --width &lt;value&gt;          How wide to allow a pretty-printed value to become before wrapping.
+                           Optional, default is 120.
+  --height &lt;value&gt;         How tall to allow each pretty-printed output to become before
+                           it is truncated with a `...`.
+                           Optional, default is 1000.
+
+Command: postgresql [options]
+Extract data into a PostgreSQL database.
+  --connecturl &lt;value&gt;     Connection url for the `org.postgresql.Driver` driver. For examples,
+                           visit https://jdbc.postgresql.org/documentation/80/connect.html
+  --user &lt;value&gt;           The database user on whose behalf the connection is being made.
+  --password &lt;value&gt;       The user&#39;s password. Optional.
+
+Common options:
+  -h, --ledger-host &lt;h&gt;    The address of the Ledger host. Default is 127.0.0.1
+  -p, --ledger-port &lt;p&gt;    The port of the Ledger host. Default is 6865.
+  --ledger-api-inbound-message-size-max &lt;bytes&gt;
+                           Maximum message size from the ledger API. Default is 52428800 (50MiB).
+  --party &lt;value&gt;          The party or parties whose contract data should be extracted.
+                         Specify multiple parties separated by a comma, e.g. Foo,Bar
+  -t, --templates &lt;module1&gt;:&lt;entity1&gt;,&lt;module2&gt;:&lt;entity2&gt;...
+                           The list of templates to subscribe for. Optional, defaults to all ledger templates.
+  --from &lt;value&gt;           The transaction offset (exclusive) for the snapshot start position.
+                           Must not be greater than the current latest transaction offset.
+                           Optional, defaults to the beginning of the ledger.
+                           Currently, only the integer-based Sandbox offsets are supported.
+  --to &lt;value&gt;             The transaction offset (inclusive) for the snapshot end position.
+                           Use “head” to use the latest transaction offset at the time
+                           the extraction first started, or “follow” to stream indefinitely.
+                           Must not be greater than the current latest offset.
+                           Optional, defaults to “follow”.
+  --help                   Prints this usage text.
+
+TLS configuration:
+  --pem &lt;value&gt;            TLS: The pem file to be used as the private key.
+  --crt &lt;value&gt;            TLS: The crt file to be used as the cert chain.
+                           Required if any other TLS parameters are set.
+  --cacrt &lt;value&gt;          TLS: The crt file to be used as the trusted root CA.
+
+Authorization:
+  --access-token-file &lt;value&gt;
+                           provide the path from which the access token will be read, required if the Ledger API server verifies authorization, no default
+</pre></div>
+</div>
+<p>Some options are tied to a specific subcommand, like <code class="docutils literal notranslate"><span class="pre">--connecturl</span></code> only makes sense for the <code class="docutils literal notranslate"><span class="pre">postgresql</span></code>, while others are general, like <code class="docutils literal notranslate"><span class="pre">--party</span></code>.</p>
+</div>
+<div class="section" id="output-format">
+<h2>Output format<a class="headerlink" href="#output-format" title="Permalink to this headline">¶</a></h2>
+<p>To understand the format that Extractor outputs into a PostgreSQL database, you need to understand how the ledger stores data.</p>
+<p>The Daml Ledger is composed of transactions, which contain events. Events can represent:</p>
+<ul class="simple">
+<li>creation of contracts (“create event”), or</li>
+<li>exercise of a choice on a contract (“exercise event”).</li>
+</ul>
+<p>A contract on the ledger is either active (created, but not yet archived), or archived. The relationships between transactions and contracts are captured in the database: all contracts have pointers (foreign keys) to the transaction in which they were created, and archived contracts have pointers to the transaction in which they were archived.</p>
+</div>
+<div class="section" id="transactions">
+<h2>Transactions<a class="headerlink" href="#transactions" title="Permalink to this headline">¶</a></h2>
+<p>Transactions are stored in the <code class="docutils literal notranslate"><span class="pre">transaction</span> <span class="pre">table</span></code> in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema, with the following structure</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CREATE TABLE transaction
+  (transaction_id TEXT PRIMARY KEY NOT NULL
+  ,seq BIGSERIAL UNIQUE NOT NULL
+  ,workflow_id TEXT
+  ,effective_at TIMESTAMP NOT NULL
+  ,extracted_at TIMESTAMP DEFAULT NOW()
+  ,ledger_offset TEXT NOT NULL
+  );
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>transaction_id</strong>: The transaction ID, as appears on the ledger. This is the primary key of the table.</li>
+<li><strong>transaction_id</strong>, <strong>effective_at, workflow_id, ledger_offset</strong>: These columns are the properties of the transaction on the ledger. For more information, see the <a class="reference external" href="../../app-dev/grpc/proto-docs.html#transactiontree">specification</a>.</li>
+<li><strong>seq</strong>: Transaction IDs should be treated as arbitrary text values: you can’t rely on them for ordering transactions in the database. However, transactions appear on the Ledger API transaction stream in the same order as they were accepted on the ledger. You can use this to work around the arbitrary nature of the transaction IDs, which is the purpose of the <code class="docutils literal notranslate"><span class="pre">seq</span></code> field: it gives you a total ordering of the transactions, as they happened from the perspective of the ledger. Be aware that <code class="docutils literal notranslate"><span class="pre">seq</span></code> is not the exact index of the given transaction on the ledger. Due to the privacy model of Daml Ledgers, the transaction stream won’t deliver a transaction which doesn’t concern the party which is subscribed. The transaction with <code class="docutils literal notranslate"><span class="pre">seq</span></code> of 100 might be the 1000th transaction on the ledger; in the other 900, the transactions contained only events which mustn’t be seen by you.</li>
+<li><strong>extracted_at</strong>: The <code class="docutils literal notranslate"><span class="pre">extracted_at</span></code> field means the date the transaction row and its events were inserted into the database. When extracting historical data, this field will point to a possibly much later time than <code class="docutils literal notranslate"><span class="pre">effective_at</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="contracts">
+<h2>Contracts<a class="headerlink" href="#contracts" title="Permalink to this headline">¶</a></h2>
+<p>Create events and contracts that are created in those events are stored in the <code class="docutils literal notranslate"><span class="pre">contract</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema, with the following structure</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CREATE TABLE contract
+  (event_id TEXT PRIMARY KEY NOT NULL
+  ,archived_by_event_id TEXT DEFAULT NULL
+  ,contract_id TEXT NOT NULL
+  ,transaction_id TEXT NOT NULL
+  ,archived_by_transaction_id TEXT DEFAULT NULL
+  ,is_root_event BOOLEAN NOT NULL
+  ,package_id TEXT NOT NULL
+  ,template TEXT NOT NULL
+  ,create_arguments JSONB NOT NULL
+  ,witness_parties JSONB NOT NULL
+  );
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>event_id, contract_id, create_arguments, witness_parties</strong>: These fields are the properties of the corresponding <code class="docutils literal notranslate"><span class="pre">CreatedEvent</span></code> class in a transaction. For more information, see the <a class="reference external" href="../../app-dev/grpc/proto-docs.html#createdevent">specification</a>.</li>
+<li><strong>package_id, template</strong>: The fields <code class="docutils literal notranslate"><span class="pre">package_id</span></code> and <code class="docutils literal notranslate"><span class="pre">template</span></code> are the exploded version of the <code class="docutils literal notranslate"><span class="pre">template_id</span></code> property of the ledger event.</li>
+<li><strong>transaction_id</strong>: The <code class="docutils literal notranslate"><span class="pre">transaction_id</span></code> field refers to the transaction in which the contract was created.</li>
+<li><strong>archived_by_event_id, archived_by_transaction_id</strong>: These fields will contain the event id and the transaction id in which the contract was archived once the archival happens.</li>
+<li><strong>is_root_event</strong>: Indicates whether the event in which the contract was created was a root event of the corresponding transaction.</li>
+</ul>
+<p>Every contract is placed into the same table, with the contract parameters put into a single column in a JSON-encoded format. This is similar to what you would expect from a document store, like MongoDB. For more information on the JSON format, see the <a class="reference external" href="#json-format">later section</a>.</p>
+</div>
+<div class="section" id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">¶</a></h2>
+<p>Exercise events are stored in the <code class="docutils literal notranslate"><span class="pre">exercise</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema, with the following structure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">TABLE</span>
+  <span class="n">exercise</span>
+  <span class="p">(</span><span class="n">event_id</span> <span class="n">TEXT</span> <span class="n">PRIMARY</span> <span class="n">KEY</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">transaction_id</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">is_root_event</span> <span class="n">BOOLEAN</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">contract_id</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">package_id</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">template</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">contract_creating_event_id</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">choice</span> <span class="n">TEXT</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">choice_argument</span> <span class="n">JSONB</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">acting_parties</span> <span class="n">JSONB</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">consuming</span> <span class="n">BOOLEAN</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">witness_parties</span> <span class="n">JSONB</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">,</span><span class="n">child_event_ids</span> <span class="n">JSONB</span> <span class="n">NOT</span> <span class="n">NULL</span>
+  <span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>package_id, template</strong>: The fields <code class="docutils literal notranslate"><span class="pre">package_id</span></code> and <code class="docutils literal notranslate"><span class="pre">template</span></code> are the exploded version of the <code class="docutils literal notranslate"><span class="pre">template_id</span></code> property of the ledger event.</li>
+<li><strong>is_root_event</strong>: Indicates whether the event in which the contract was created was a root event of the corresponding transaction.</li>
+<li><strong>transaction_id</strong>: The <code class="docutils literal notranslate"><span class="pre">transaction_id</span></code> field refers to the transaction in which the contract was created.</li>
+<li>The other columns are properties of the <code class="docutils literal notranslate"><span class="pre">ExercisedEvent</span></code> class in a transaction. For more information, see the <a class="reference external" href="../../app-dev/grpc/proto-docs.html#exercisedevent">specification</a>.</li>
+</ul>
+</div>
+<div class="section" id="json-format">
+<h2>JSON format<a class="headerlink" href="#json-format" title="Permalink to this headline">¶</a></h2>
+<p>Extractor stores create and choice arguments
+using the <a class="reference internal" href="../json-api/lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>. The parameters of the
+JSON schema are instantiated as follows in Extractor:</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encodeDecimalAsString</span><span class="p">:</span> <span class="n">true</span>
+<span class="n">encodeInt64AsString</span><span class="p">:</span> <span class="n">false</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples-of-output">
+<h2>Examples of output<a class="headerlink" href="#examples-of-output" title="Permalink to this headline">¶</a></h2>
+<p>The following examples show you what output you should expect. The Sandbox has already run the scenarios of a Daml model that created two transactions: one creating a <code class="docutils literal notranslate"><span class="pre">Main:RightOfUseOffer</span></code> and one accepting it, thus archiving the original contract and creating a new <code class="docutils literal notranslate"><span class="pre">Main:RightOfUseAgreement</span></code> contract. We also added a new offer manually.</p>
+<p>This is how the <code class="docutils literal notranslate"><span class="pre">transaction</span></code> table looks after extracting data from the ledger:</p>
+<div class="figure align-center">
+<img alt="../_images/transactions.png" src="../_images/transactions.png" />
+</div>
+<p>You can see that the transactions which were part of the scenarios have the format <code class="docutils literal notranslate"><span class="pre">scenario-transaction-{n}</span></code>, while the transaction created manually is a simple number. This is why the <code class="docutils literal notranslate"><span class="pre">seq</span></code> field is needed for ordering. In this output, the <code class="docutils literal notranslate"><span class="pre">ledger_offset</span></code> field has the same values as the <code class="docutils literal notranslate"><span class="pre">seq</span></code> field, but you should expect similarly arbitrary values there as for transaction IDs, so better rely on the <code class="docutils literal notranslate"><span class="pre">seq</span></code> field for ordering.</p>
+<p>This is how the <code class="docutils literal notranslate"><span class="pre">contract</span></code> table looks:</p>
+<div class="figure align-center">
+<img alt="../_images/contracts1.png" src="../_images/contracts1.png" />
+</div>
+<p>You can see that the <code class="docutils literal notranslate"><span class="pre">archived_by_transaction_id</span></code> and <code class="docutils literal notranslate"><span class="pre">archived_by_event_id</span></code> fields of contract <code class="docutils literal notranslate"><span class="pre">#0:0</span></code> is not empty, thus this contract is archived. These fields of contracts <code class="docutils literal notranslate"><span class="pre">#1:1</span></code> and <code class="docutils literal notranslate"><span class="pre">#2:0</span></code> are <code class="docutils literal notranslate"><span class="pre">NULL</span></code> s, which mean they are active contracts, not yet archived.</p>
+<p>This is how the <code class="docutils literal notranslate"><span class="pre">exercise</span></code> table looks:</p>
+<div class="figure align-center">
+<img alt="../_images/exercises.png" src="../_images/exercises.png" />
+</div>
+<p>You can see that there was one exercise <code class="docutils literal notranslate"><span class="pre">Accept</span></code> on contract <code class="docutils literal notranslate"><span class="pre">#0:0</span></code>, which was the consuming choice mentioned above.</p>
+</div>
+<div class="section" id="dealing-with-schema-evolution">
+<h2>Dealing with schema evolution<a class="headerlink" href="#dealing-with-schema-evolution" title="Permalink to this headline">¶</a></h2>
+<p>When updating packages, you can end up with multiple versions of the same package in the system.</p>
+<p>Let’s say you have a template called <code class="docutils literal notranslate"><span class="pre">My.Company.Finance.Account</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">My</span><span class="o">.</span><span class="n">Company</span><span class="o">.</span><span class="n">Finance</span><span class="o">.</span><span class="n">Account</span> <span class="n">where</span>
+
+<span class="n">template</span> <span class="n">Account</span>
+  <span class="k">with</span>
+    <span class="n">provider</span><span class="p">:</span> <span class="n">Party</span>
+    <span class="n">accountId</span><span class="p">:</span> <span class="n">Text</span>
+    <span class="n">owner</span><span class="p">:</span> <span class="n">Party</span>
+    <span class="n">observers</span><span class="p">:</span> <span class="p">[</span><span class="n">Party</span><span class="p">]</span>
+  <span class="n">where</span>
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This is built into a package with a resulting hash <code class="docutils literal notranslate"><span class="pre">6021727fe0822d688ddd545997476d530023b222d02f1919567bd82b205a5ce3</span></code>.</p>
+<p>Later you add a new field, <code class="docutils literal notranslate"><span class="pre">displayName</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">My</span><span class="o">.</span><span class="n">Company</span><span class="o">.</span><span class="n">Finance</span><span class="o">.</span><span class="n">Account</span> <span class="n">where</span>
+
+<span class="n">template</span> <span class="n">Account</span>
+  <span class="k">with</span>
+    <span class="n">provider</span><span class="p">:</span> <span class="n">Party</span>
+    <span class="n">accountId</span><span class="p">:</span> <span class="n">Text</span>
+    <span class="n">owner</span><span class="p">:</span> <span class="n">Party</span>
+    <span class="n">observers</span><span class="p">:</span> <span class="p">[</span><span class="n">Party</span><span class="p">]</span>
+    <span class="n">displayName</span><span class="p">:</span> <span class="n">Text</span>
+  <span class="n">where</span>
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The hash of the new package with the update is <code class="docutils literal notranslate"><span class="pre">1239d1c5df140425f01a5112325d2e4edf2b7ace223f8c1d2ebebe76a8ececfe</span></code>.</p>
+<p>There are contracts of first version of the template which were created before the new field is added, and there are contracts of the new version which were created since. Let’s say you have one instance of each:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;owner&quot;</span><span class="p">:</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;provider&quot;</span><span class="p">:</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;accountId&quot;</span><span class="p">:</span><span class="s2">&quot;6021-5678&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;observers&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;Alice&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>and:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;owner&quot;</span><span class="p">:</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;provider&quot;</span><span class="p">:</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;accountId&quot;</span><span class="p">:</span><span class="s2">&quot;1239-4321&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;observers&quot;</span><span class="p">:[</span>
+      <span class="s2">&quot;Alice&quot;</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;displayName&quot;</span><span class="p">:</span><span class="s2">&quot;Personal&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>They will look like this when extracted:</p>
+<div class="figure align-center">
+<img alt="../_images/extracted.png" src="../_images/extracted.png" />
+</div>
+<p>To have a consistent view of the two versions with a default value <code class="docutils literal notranslate"><span class="pre">NULL</span></code> for the missing field of instances of older versions, you can create a view which contains all <code class="docutils literal notranslate"><span class="pre">Account</span></code> rows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">VIEW</span> <span class="n">account_view</span> <span class="n">AS</span>
+<span class="n">SELECT</span>
+   <span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;owner&#39;</span> <span class="n">AS</span> <span class="n">owner</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;provider&#39;</span> <span class="n">AS</span> <span class="n">provider</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;accountId&#39;</span> <span class="n">AS</span> <span class="n">accountId</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;displayName&#39;</span> <span class="n">AS</span> <span class="n">displayName</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;</span><span class="s1">&#39;observers&#39;</span> <span class="n">AS</span> <span class="n">observers</span>
+<span class="n">FROM</span>
+  <span class="n">contract</span>
+<span class="n">WHERE</span>
+  <span class="n">package_id</span> <span class="o">=</span> <span class="s1">&#39;1239d1c5df140425f01a5112325d2e4edf2b7ace223f8c1d2ebebe76a8ececfe&#39;</span>
+  <span class="n">AND</span>
+  <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;My.Company.Finance.Account&#39;</span>
+<span class="n">UNION</span>
+<span class="n">SELECT</span>
+   <span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;owner&#39;</span> <span class="n">AS</span> <span class="n">owner</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;provider&#39;</span> <span class="n">AS</span> <span class="n">provider</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;&gt;</span><span class="s1">&#39;accountId&#39;</span> <span class="n">AS</span> <span class="n">accountId</span>
+  <span class="p">,</span><span class="n">NULL</span> <span class="k">as</span> <span class="n">displayName</span>
+  <span class="p">,</span><span class="n">create_arguments</span><span class="o">-&gt;</span><span class="s1">&#39;observers&#39;</span> <span class="n">AS</span> <span class="n">observers</span>
+<span class="n">FROM</span>
+  <span class="n">contract</span>
+<span class="n">WHERE</span>
+  <span class="n">package_id</span> <span class="o">=</span> <span class="s1">&#39;6021727fe0822d688ddd545997476d530023b222d02f1919567bd82b205a5ce3&#39;</span>
+  <span class="n">AND</span>
+  <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;My.Company.Finance.Account&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Then, <code class="docutils literal notranslate"><span class="pre">account_view</span> <span class="pre">will</span></code> contain both contracts:</p>
+<div class="figure align-center">
+<img alt="../_images/account.png" src="../_images/account.png" />
+</div>
+</div>
+<div class="section" id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<p>By default, the Extractor logs to stderr, with INFO verbose level. To change the level, use the <code class="docutils literal notranslate"><span class="pre">-DLOGLEVEL=[level]</span></code> option, e.g. <code class="docutils literal notranslate"><span class="pre">-DLOGLEVEL=TRACE</span></code>.</p>
+<p>You can supply your own logback configuration file via the standard method: <a class="reference external" href="https://logback.qos.ch/manual/configuration.html">https://logback.qos.ch/manual/configuration.html</a></p>
+</div>
+<div class="section" id="continuity">
+<h2>Continuity<a class="headerlink" href="#continuity" title="Permalink to this headline">¶</a></h2>
+<p>When you terminate the Extractor and restart it, it will continue from where it left off. This happens because, when running, it saves its state into the <code class="docutils literal notranslate"><span class="pre">state</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema of the database. When started, it reads the contents of this table. If there’s a saved state from a previous run, it restarts from where it left off. There’s no need to explicitly specify anything, this is done automatically.</p>
+<p>DO NOT modify content of the <code class="docutils literal notranslate"><span class="pre">state</span></code> table. Doing so can result in the Extractor not being able to continue running against the database. If that happens, you must delete all data from the database and start again.</p>
+<p>If you try to restart the Extractor against the same database but with different configuration, you will get an error message indicating which parameter is incompatible with the already exported data. This happens when the settings are incompatible: for example, if previously contract data for the party <code class="docutils literal notranslate"><span class="pre">Alice</span></code> was extracted, and now you want to extract for the party <code class="docutils literal notranslate"><span class="pre">Bob</span></code>.</p>
+<p>The only parameters that you can change between two sessions running against the same database are the connection parameters to both the ledger and the database. Both could have moved to different addresses, and the fact that it’s still the same Ledger will be validated by using the Ledger ID (which is saved when the Extractor started its work the first time).</p>
+</div>
+<div class="section" id="fault-tolerance">
+<h2>Fault tolerance<a class="headerlink" href="#fault-tolerance" title="Permalink to this headline">¶</a></h2>
+<p>Once the Extractor connects to the Ledger Node and the database and creates the table structure from the fetched Daml packages, it wraps the transaction stream in a restart logic with an exponential backoff. This results in the Extractor not terminating even when the transaction stream is aborted for some reason (the ledger node is down, there’s a network partition, etc.).</p>
+<p>Once the connection is back, it continues the stream from where it left off. If it can’t reach the node on the host/port pair the Extractor was started with, you need to manually stop it and restart with the updated address.</p>
+<p>Transactions on the ledger are inserted into PostgreSQL as atomic SQL transactions. This means either the whole transaction is inserted or nothing, so you can’t end up with inconsistent data in the database.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cant-connect-to-the-ledger-node">
+<h3>Can’t connect to the Ledger Node<a class="headerlink" href="#cant-connect-to-the-ledger-node" title="Permalink to this headline">¶</a></h3>
+<p>If the Extractor can’t connect to the Ledger node on startup, you’ll see a message like this in the logs, and the Extractor will terminate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>16:47:51.208 ERROR c.d.e.Main$@[akka.actor.default-dispatcher-7] - FAILURE:
+io.grpc.StatusRuntimeException: UNAVAILABLE: io exception.
+Exiting...
+</pre></div>
+</div>
+<p>To fix this, make sure the Ledger node is available from where you’re running the Extractor.</p>
+</div>
+<div class="section" id="cant-connect-to-the-database">
+<h3>Can’t connect to the database<a class="headerlink" href="#cant-connect-to-the-database" title="Permalink to this headline">¶</a></h3>
+<p>If the database isn’t available before the transaction stream is started, the Extractor will terminate, and you’ll see the error from the JDBC driver in the logs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>17:19:12.071 ERROR c.d.e.Main$@[kka.actor.default-dispatcher-5] - FAILURE:
+org.postgresql.util.PSQLException: FATAL: database &quot;192.153.1.23:daml_export&quot; does not exist.
+Exiting…
+</pre></div>
+</div>
+<p>To fix this, make sure make sure the database exists and is available from where you’re running the Extractor, the username and password your using are correct, and you have the credentials to connect to the database from the network address where the you’re running the Extractor.</p>
+<p>If the database connection is broken while the transaction stream was already running, you’ll see a similar message in the logs, but in this case it will be repeated: as explained in the <a class="reference external" href="#fault-tolerance">Fault tolerance</a> section, the transaction stream will be restarted with an exponential backoff, giving the database, network or any other trouble resource to get back into shape. Once everything’s back in order, the stream will continue without any need for manual intervention.</p>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../concepts/local-ledger.html" class="da-btn da-btn-label btn-prev" title="Causality and Local Ledgers" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="export/index.html" class="da-btn da-btn-label btn-next" title="Ledger Export" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

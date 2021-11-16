@@ -1,0 +1,77 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-math-28470:
+
+Module DA.Math
+==============
+
+Math \- Utility Math functions for ``Decimal``
+The this library is designed to give good precision, typically giving 9 correct decimal places\.
+The numerical algorithms run with many iterations to achieve that precision and are interpreted
+by the Daml runtime so they are not performant\. Their use is not advised in performance critical
+contexts\.
+
+Functions
+---------
+
+.. _function-da-math-starstar-29604:
+
+`(**) <function-da-math-starstar-29604_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  Take a power of a number Example\: ``2.0 ** 3.0 == 8.0``\.
+
+.. _function-da-math-sqrt-15820:
+
+`sqrt <function-da-math-sqrt-15820_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  Calculate the square root of a Decimal\.
+  
+  .. code-block:: daml
+  
+    >>> sqrt 1.44
+    1.2
+
+.. _function-da-math-exp-78442:
+
+`exp <function-da-math-exp-78442_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  The exponential function\. Example\: ``exp 0.0 == 1.0``
+
+.. _function-da-math-log-62057:
+
+`log <function-da-math-log-62057_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  The natural logarithm\. Example\: ``log 10.0 == 2.30258509299``
+
+.. _function-da-math-logbase-94870:
+
+`logBase <function-da-math-logbase-94870_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  The logarithm of a number to a given base\. Example\: ``log 10.0 100.0 == 2.0``
+
+.. _function-da-math-sin-8129:
+
+`sin <function-da-math-sin-8129_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  ``sin`` is the sine function
+
+.. _function-da-math-cos-61274:
+
+`cos <function-da-math-cos-61274_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  ``cos`` is the cosine function
+
+.. _function-da-math-tan-11434:
+
+`tan <function-da-math-tan-11434_>`_
+  \: :ref:`Decimal <type-ghc-types-decimal-54602>` \-\> :ref:`Decimal <type-ghc-types-decimal-54602>`
+  
+  ``tan`` is the tangent function

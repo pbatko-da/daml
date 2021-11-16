@@ -1,0 +1,742 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-daml-trigger-lowlevel-73139:
+
+Module Daml.Trigger.LowLevel
+============================
+
+Typeclasses
+-----------
+
+.. _class-daml-trigger-lowlevel-actiontrigger-70611:
+
+**class** HasTime m \=\> `ActionTrigger <class-daml-trigger-lowlevel-actiontrigger-70611_>`_ m **where**
+
+  Low\-level trigger actions\.
+  
+  .. _function-daml-trigger-lowlevel-lifttf-67896:
+  
+  `liftTF <function-daml-trigger-lowlevel-lifttf-67896_>`_
+    \: TriggerF a \-\> m a
+  
+  **instance** `ActionTrigger <class-daml-trigger-lowlevel-actiontrigger-70611_>`_ (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** `ActionTrigger <class-daml-trigger-lowlevel-actiontrigger-70611_>`_ `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_
+
+Data Types
+----------
+
+.. _type-daml-trigger-lowlevel-activecontracts-83227:
+
+**data** `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_
+
+  .. _constr-daml-trigger-lowlevel-activecontracts-27808:
+  
+  `ActiveContracts <constr-daml-trigger-lowlevel-activecontracts-27808_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - activeContracts
+         - \[`Created <type-daml-trigger-lowlevel-created-26940_>`_\]
+         - 
+  
+  **instance** HasField \"activeContracts\" `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_ \[`Created <type-daml-trigger-lowlevel-created-26940_>`_\]
+  
+  **instance** HasField \"initialState\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (Party \-\> \[Party\] \-\> `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_ \-\> `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_ s)
+
+.. _type-daml-trigger-lowlevel-anycontractid-76345:
+
+**data** `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+
+  This type represents the contract id of an unknown template\.
+  You can use ``fromAnyContractId`` to check which template it corresponds to\.
+  
+  **instance** Eq `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** Ord `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** Show `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"activeContracts\" ACS (Map TemplateTypeRep (Map `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_ AnyTemplate))
+  
+  **instance** HasField \"contractId\" `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_ (ContractId ())
+  
+  **instance** HasField \"contractId\" `Archived <type-daml-trigger-lowlevel-archived-46025_>`_ `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"contractId\" `Command <type-daml-trigger-lowlevel-command-75607_>`_ `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"contractId\" `Created <type-daml-trigger-lowlevel-created-26940_>`_ `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"pendingContracts\" ACS (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_\])
+  
+  **instance** HasField \"pendingContracts\" (TriggerAState s) (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_\])
+  
+  **instance** HasField \"templateId\" `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_ TemplateTypeRep
+
+.. _type-daml-trigger-lowlevel-archived-46025:
+
+**data** `Archived <type-daml-trigger-lowlevel-archived-46025_>`_
+
+  The data in an ``Archived`` event\.
+  
+  .. _constr-daml-trigger-lowlevel-archived-88484:
+  
+  `Archived <constr-daml-trigger-lowlevel-archived-88484_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - eventId
+         - `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+         - 
+       * - contractId
+         - `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+         - 
+  
+  **instance** Eq `Archived <type-daml-trigger-lowlevel-archived-46025_>`_
+  
+  **instance** Show `Archived <type-daml-trigger-lowlevel-archived-46025_>`_
+  
+  **instance** HasField \"contractId\" `Archived <type-daml-trigger-lowlevel-archived-46025_>`_ `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"eventId\" `Archived <type-daml-trigger-lowlevel-archived-46025_>`_ `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+
+.. _type-daml-trigger-lowlevel-command-75607:
+
+**data** `Command <type-daml-trigger-lowlevel-command-75607_>`_
+
+  A ledger API command\. To construct a command use ``createCmd`` and ``exerciseCmd``\.
+  
+  .. _constr-daml-trigger-lowlevel-createcommand-83998:
+  
+  `CreateCommand <constr-daml-trigger-lowlevel-createcommand-83998_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - templateArg
+         - AnyTemplate
+         - 
+  
+  .. _constr-daml-trigger-lowlevel-exercisecommand-23402:
+  
+  `ExerciseCommand <constr-daml-trigger-lowlevel-exercisecommand-23402_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - contractId
+         - `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+         - 
+       * - choiceArg
+         - AnyChoice
+         - 
+  
+  .. _constr-daml-trigger-lowlevel-createandexercisecommand-7578:
+  
+  `CreateAndExerciseCommand <constr-daml-trigger-lowlevel-createandexercisecommand-7578_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - templateArg
+         - AnyTemplate
+         - 
+       * - choiceArg
+         - AnyChoice
+         - 
+  
+  .. _constr-daml-trigger-lowlevel-exercisebykeycommand-95235:
+  
+  `ExerciseByKeyCommand <constr-daml-trigger-lowlevel-exercisebykeycommand-95235_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - tplTypeRep
+         - TemplateTypeRep
+         - 
+       * - contractKey
+         - AnyContractKey
+         - 
+       * - choiceArg
+         - AnyChoice
+         - 
+  
+  **instance** HasField \"choiceArg\" `Command <type-daml-trigger-lowlevel-command-75607_>`_ AnyChoice
+  
+  **instance** HasField \"commands\" `Commands <type-daml-trigger-lowlevel-commands-39273_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\]
+  
+  **instance** HasField \"commandsInFlight\" (TriggerAState s) (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\])
+  
+  **instance** HasField \"commandsInFlight\" (TriggerState s) (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\])
+  
+  **instance** HasField \"contractId\" `Command <type-daml-trigger-lowlevel-command-75607_>`_ `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"contractKey\" `Command <type-daml-trigger-lowlevel-command-75607_>`_ AnyContractKey
+  
+  **instance** HasField \"runTriggerUpdateA\" (:ref:`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176>` s a) ((Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\], ACS, \[Party\]) \-\> State s a)
+  
+  **instance** HasField \"templateArg\" `Command <type-daml-trigger-lowlevel-command-75607_>`_ AnyTemplate
+  
+  **instance** HasField \"tplTypeRep\" `Command <type-daml-trigger-lowlevel-command-75607_>`_ TemplateTypeRep
+
+.. _type-daml-trigger-lowlevel-commandid-21930:
+
+**data** `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+
+  .. _constr-daml-trigger-lowlevel-commandid-65141:
+  
+  `CommandId <constr-daml-trigger-lowlevel-commandid-65141_>`_ Text
+  
+  
+  **instance** Eq `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** Ord `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** Show `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** HasField \"commandId\" `Commands <type-daml-trigger-lowlevel-commands-39273_>`_ `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** HasField \"commandId\" `Completion <type-daml-trigger-lowlevel-completion-18207_>`_ `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** HasField \"commandId\" `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_ (Optional `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_)
+  
+  **instance** HasField \"commandsInFlight\" (TriggerAState s) (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\])
+  
+  **instance** HasField \"commandsInFlight\" (TriggerState s) (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\])
+  
+  **instance** HasField \"pendingContracts\" ACS (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_\])
+  
+  **instance** HasField \"pendingContracts\" (TriggerAState s) (Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_\])
+  
+  **instance** HasField \"runTriggerUpdateA\" (:ref:`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176>` s a) ((Map `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\], ACS, \[Party\]) \-\> State s a)
+
+.. _type-daml-trigger-lowlevel-commands-39273:
+
+**data** `Commands <type-daml-trigger-lowlevel-commands-39273_>`_
+
+  A set of commands that are submitted as a single transaction\.
+  
+  .. _constr-daml-trigger-lowlevel-commands-32248:
+  
+  `Commands <constr-daml-trigger-lowlevel-commands-32248_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - commandId
+         - `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+         - 
+       * - commands
+         - \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\]
+         - 
+  
+  **instance** HasField \"commandId\" `Commands <type-daml-trigger-lowlevel-commands-39273_>`_ `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** HasField \"commands\" `Commands <type-daml-trigger-lowlevel-commands-39273_>`_ \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\]
+
+.. _type-daml-trigger-lowlevel-completion-18207:
+
+**data** `Completion <type-daml-trigger-lowlevel-completion-18207_>`_
+
+  A completion message\.
+  Note that you will only get completions for commands emitted from the trigger\.
+  Contrary to the ledger API completion stream, this also includes
+  synchronous failures\.
+  
+  .. _constr-daml-trigger-lowlevel-completion-64582:
+  
+  `Completion <constr-daml-trigger-lowlevel-completion-64582_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - commandId
+         - `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+         - 
+       * - status
+         - `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_
+         - 
+  
+  **instance** Show `Completion <type-daml-trigger-lowlevel-completion-18207_>`_
+  
+  **instance** HasField \"commandId\" `Completion <type-daml-trigger-lowlevel-completion-18207_>`_ `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+  
+  **instance** HasField \"status\" `Completion <type-daml-trigger-lowlevel-completion-18207_>`_ `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_
+
+.. _type-daml-trigger-lowlevel-completionstatus-25579:
+
+**data** `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_
+
+  .. _constr-daml-trigger-lowlevel-failed-92447:
+  
+  `Failed <constr-daml-trigger-lowlevel-failed-92447_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - status
+         - Int
+         - 
+       * - message
+         - Text
+         - 
+  
+  .. _constr-daml-trigger-lowlevel-succeeded-93442:
+  
+  `Succeeded <constr-daml-trigger-lowlevel-succeeded-93442_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - transactionId
+         - `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+         - 
+  
+  **instance** Show `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_
+  
+  **instance** HasField \"message\" `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_ Text
+  
+  **instance** HasField \"status\" `Completion <type-daml-trigger-lowlevel-completion-18207_>`_ `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_
+  
+  **instance** HasField \"status\" `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_ Int
+  
+  **instance** HasField \"transactionId\" `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_ `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+
+.. _type-daml-trigger-lowlevel-created-26940:
+
+**data** `Created <type-daml-trigger-lowlevel-created-26940_>`_
+
+  The data in a ``Created`` event\.
+  
+  .. _constr-daml-trigger-lowlevel-created-43443:
+  
+  `Created <constr-daml-trigger-lowlevel-created-43443_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - eventId
+         - `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+         - 
+       * - contractId
+         - `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+         - 
+       * - argument
+         - AnyTemplate
+         - 
+  
+  **instance** HasField \"activeContracts\" `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_ \[`Created <type-daml-trigger-lowlevel-created-26940_>`_\]
+  
+  **instance** HasField \"argument\" `Created <type-daml-trigger-lowlevel-created-26940_>`_ AnyTemplate
+  
+  **instance** HasField \"contractId\" `Created <type-daml-trigger-lowlevel-created-26940_>`_ `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  **instance** HasField \"eventId\" `Created <type-daml-trigger-lowlevel-created-26940_>`_ `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+
+.. _type-daml-trigger-lowlevel-event-89286:
+
+**data** `Event <type-daml-trigger-lowlevel-event-89286_>`_
+
+  An event in a transaction\.
+  This definition should be kept consistent with the object ``EventVariant`` defined in
+  triggers/runner/src/main/scala/com/digitalasset/daml/lf/engine/trigger/Converter\.scala
+  
+  .. _constr-daml-trigger-lowlevel-createdevent-23418:
+  
+  `CreatedEvent <constr-daml-trigger-lowlevel-createdevent-23418_>`_ `Created <type-daml-trigger-lowlevel-created-26940_>`_
+  
+  
+  .. _constr-daml-trigger-lowlevel-archivedevent-9507:
+  
+  `ArchivedEvent <constr-daml-trigger-lowlevel-archivedevent-9507_>`_ `Archived <type-daml-trigger-lowlevel-archived-46025_>`_
+  
+  
+  **instance** HasField \"events\" `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_ \[`Event <type-daml-trigger-lowlevel-event-89286_>`_\]
+
+.. _type-daml-trigger-lowlevel-eventid-39351:
+
+**data** `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+
+  .. _constr-daml-trigger-lowlevel-eventid-732:
+  
+  `EventId <constr-daml-trigger-lowlevel-eventid-732_>`_ Text
+  
+  
+  **instance** Eq `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+  
+  **instance** Show `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+  
+  **instance** HasField \"eventId\" `Archived <type-daml-trigger-lowlevel-archived-46025_>`_ `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+  
+  **instance** HasField \"eventId\" `Created <type-daml-trigger-lowlevel-created-26940_>`_ `EventId <type-daml-trigger-lowlevel-eventid-39351_>`_
+
+.. _type-daml-trigger-lowlevel-message-62705:
+
+**data** `Message <type-daml-trigger-lowlevel-message-62705_>`_
+
+  Either a transaction or a completion\.
+  This definition should be kept consistent with the object ``MessageVariant`` defined in
+  triggers/runner/src/main/scala/com/digitalasset/daml/lf/engine/trigger/Converter\.scala
+  
+  .. _constr-daml-trigger-lowlevel-mtransaction-26997:
+  
+  `MTransaction <constr-daml-trigger-lowlevel-mtransaction-26997_>`_ `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_
+  
+  
+  .. _constr-daml-trigger-lowlevel-mcompletion-2796:
+  
+  `MCompletion <constr-daml-trigger-lowlevel-mcompletion-2796_>`_ `Completion <type-daml-trigger-lowlevel-completion-18207_>`_
+  
+  
+  .. _constr-daml-trigger-lowlevel-mheartbeat-99055:
+  
+  `MHeartbeat <constr-daml-trigger-lowlevel-mheartbeat-99055_>`_
+  
+  
+  **instance** HasField \"update\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (`Message <type-daml-trigger-lowlevel-message-62705_>`_ \-\> `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s ())
+  
+  **instance** HasField \"updateState\" (:ref:`Trigger <type-daml-trigger-trigger-65529>` s) (`Message <type-daml-trigger-lowlevel-message-62705_>`_ \-\> :ref:`TriggerUpdateA <type-daml-trigger-internal-triggerupdatea-58176>` s ())
+
+.. _type-daml-trigger-lowlevel-registeredtemplates-77077:
+
+**data** `RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077_>`_
+
+  .. _constr-daml-trigger-lowlevel-allindar-21475:
+  
+  `AllInDar <constr-daml-trigger-lowlevel-allindar-21475_>`_
+  
+    Listen to events for all templates in the given DAR\.
+  
+  .. _constr-daml-trigger-lowlevel-registeredtemplates-24570:
+  
+  `RegisteredTemplates <constr-daml-trigger-lowlevel-registeredtemplates-24570_>`_ \[RegisteredTemplate\]
+  
+  
+  **instance** HasField \"registeredTemplates\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) `RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077_>`_
+  
+  **instance** HasField \"registeredTemplates\" (:ref:`Trigger <type-daml-trigger-trigger-65529>` s) `RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077_>`_
+
+.. _type-daml-trigger-lowlevel-transaction-39568:
+
+**data** `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_
+
+  .. _constr-daml-trigger-lowlevel-transaction-47231:
+  
+  `Transaction <constr-daml-trigger-lowlevel-transaction-47231_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - transactionId
+         - `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+         - 
+       * - commandId
+         - Optional `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+         - 
+       * - events
+         - \[`Event <type-daml-trigger-lowlevel-event-89286_>`_\]
+         - 
+  
+  **instance** HasField \"commandId\" `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_ (Optional `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_)
+  
+  **instance** HasField \"events\" `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_ \[`Event <type-daml-trigger-lowlevel-event-89286_>`_\]
+  
+  **instance** HasField \"transactionId\" `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_ `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+
+.. _type-daml-trigger-lowlevel-transactionid-1377:
+
+**data** `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+
+  .. _constr-daml-trigger-lowlevel-transactionid-34202:
+  
+  `TransactionId <constr-daml-trigger-lowlevel-transactionid-34202_>`_ Text
+  
+  
+  **instance** Eq `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+  
+  **instance** Show `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+  
+  **instance** HasField \"transactionId\" `CompletionStatus <type-daml-trigger-lowlevel-completionstatus-25579_>`_ `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+  
+  **instance** HasField \"transactionId\" `Transaction <type-daml-trigger-lowlevel-transaction-39568_>`_ `TransactionId <type-daml-trigger-lowlevel-transactionid-1377_>`_
+
+.. _type-daml-trigger-lowlevel-trigger-87460:
+
+**data** `Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s
+
+  Trigger is (approximately) a left\-fold over ``Message`` with
+  an accumulator of type ``s``\.
+  
+  .. _constr-daml-trigger-lowlevel-trigger-9711:
+  
+  `Trigger <constr-daml-trigger-lowlevel-trigger-9711_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - initialState
+         - Party \-\> \[Party\] \-\> `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_ \-\> `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_ s
+         - 
+       * - update
+         - `Message <type-daml-trigger-lowlevel-message-62705_>`_ \-\> `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s ()
+         - 
+       * - registeredTemplates
+         - `RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077_>`_
+         - 
+       * - heartbeat
+         - Optional RelTime
+         - 
+  
+  **instance** HasField \"heartbeat\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (Optional RelTime)
+  
+  **instance** HasField \"initialState\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (Party \-\> \[Party\] \-\> `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_ \-\> `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_ s)
+  
+  **instance** HasField \"registeredTemplates\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) `RegisteredTemplates <type-daml-trigger-lowlevel-registeredtemplates-77077_>`_
+  
+  **instance** HasField \"update\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (`Message <type-daml-trigger-lowlevel-message-62705_>`_ \-\> `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s ())
+
+.. _type-daml-trigger-lowlevel-triggerrule-58138:
+
+**data** `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s a
+
+  .. _constr-daml-trigger-lowlevel-triggerrule-38765:
+  
+  `TriggerRule <constr-daml-trigger-lowlevel-triggerrule-38765_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - runTriggerRule
+         - StateT s (Free TriggerF) a
+         - 
+  
+  **instance** `ActionTrigger <class-daml-trigger-lowlevel-actiontrigger-70611_>`_ (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** Functor (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** ActionState s (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** HasTime (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** Action (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** Applicative (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s)
+  
+  **instance** HasField \"runTriggerA\" (:ref:`TriggerA <type-daml-trigger-internal-triggera-54499>` s a) (ACS \-\> `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ (TriggerAState s) a)
+  
+  **instance** HasField \"runTriggerRule\" (`TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s a) (StateT s (Free TriggerF) a)
+  
+  **instance** HasField \"update\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (`Message <type-daml-trigger-lowlevel-message-62705_>`_ \-\> `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s ())
+
+.. _type-daml-trigger-lowlevel-triggersetup-77584:
+
+**data** `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_ a
+
+  .. _constr-daml-trigger-lowlevel-triggersetup-10057:
+  
+  `TriggerSetup <constr-daml-trigger-lowlevel-triggersetup-10057_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - runTriggerSetup
+         - Free TriggerF a
+         - 
+  
+  **instance** `ActionTrigger <class-daml-trigger-lowlevel-actiontrigger-70611_>`_ `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_
+  
+  **instance** Functor `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_
+  
+  **instance** HasTime `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_
+  
+  **instance** Action `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_
+  
+  **instance** Applicative `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_
+  
+  **instance** HasField \"initialState\" (`Trigger <type-daml-trigger-lowlevel-trigger-87460_>`_ s) (Party \-\> \[Party\] \-\> `ActiveContracts <type-daml-trigger-lowlevel-activecontracts-83227_>`_ \-\> `TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_ s)
+  
+  **instance** HasField \"runTriggerSetup\" (`TriggerSetup <type-daml-trigger-lowlevel-triggersetup-77584_>`_ a) (Free TriggerF a)
+
+Functions
+---------
+
+.. _function-daml-trigger-lowlevel-toanycontractid-71694:
+
+`toAnyContractId <function-daml-trigger-lowlevel-toanycontractid-71694_>`_
+  \: TemplateOrInterface t \=\> ContractId t \-\> `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_
+  
+  Wrap a ``ContractId t`` in ``AnyContractId``\.
+
+.. _function-daml-trigger-lowlevel-fromanycontractid-77865:
+
+`fromAnyContractId <function-daml-trigger-lowlevel-fromanycontractid-77865_>`_
+  \: TemplateOrInterface t \=\> `AnyContractId <type-daml-trigger-lowlevel-anycontractid-76345_>`_ \-\> Optional (ContractId t)
+  
+  Check if a ``AnyContractId`` corresponds to the given template or return
+  ``None`` otherwise\.
+
+.. _function-daml-trigger-lowlevel-fromcreated-77364:
+
+`fromCreated <function-daml-trigger-lowlevel-fromcreated-77364_>`_
+  \: Template t \=\> `Created <type-daml-trigger-lowlevel-created-26940_>`_ \-\> Optional (`EventId <type-daml-trigger-lowlevel-eventid-39351_>`_, ContractId t, t)
+  
+  Check if a ``Created`` event corresponds to the given template\.
+
+.. _function-daml-trigger-lowlevel-fromarchived-67161:
+
+`fromArchived <function-daml-trigger-lowlevel-fromarchived-67161_>`_
+  \: Template t \=\> `Archived <type-daml-trigger-lowlevel-archived-46025_>`_ \-\> Optional (`EventId <type-daml-trigger-lowlevel-eventid-39351_>`_, ContractId t)
+  
+  Check if an ``Archived`` event corresponds to the given template\.
+
+.. _function-daml-trigger-lowlevel-registeredtemplate-9859:
+
+`registeredTemplate <function-daml-trigger-lowlevel-registeredtemplate-9859_>`_
+  \: Template t \=\> RegisteredTemplate
+
+.. _function-daml-trigger-lowlevel-createcmd-8866:
+
+`createCmd <function-daml-trigger-lowlevel-createcmd-8866_>`_
+  \: Template t \=\> t \-\> `Command <type-daml-trigger-lowlevel-command-75607_>`_
+  
+  Create a contract of the given template\.
+
+.. _function-daml-trigger-lowlevel-exercisecmd-40226:
+
+`exerciseCmd <function-daml-trigger-lowlevel-exercisecmd-40226_>`_
+  \: Choice t c r \=\> ContractId t \-\> c \-\> `Command <type-daml-trigger-lowlevel-command-75607_>`_
+  
+  Exercise the given choice\.
+
+.. _function-daml-trigger-lowlevel-createandexercisecmd-50916:
+
+`createAndExerciseCmd <function-daml-trigger-lowlevel-createandexercisecmd-50916_>`_
+  \: (Template t, Choice t c r) \=\> t \-\> c \-\> `Command <type-daml-trigger-lowlevel-command-75607_>`_
+  
+  Create a contract of the given template and immediately exercise
+  the given choice on it\.
+
+.. _function-daml-trigger-lowlevel-exercisebykeycmd-88269:
+
+`exerciseByKeyCmd <function-daml-trigger-lowlevel-exercisebykeycmd-88269_>`_
+  \: (Choice t c r, TemplateKey t k) \=\> k \-\> c \-\> `Command <type-daml-trigger-lowlevel-command-75607_>`_
+
+.. _function-daml-trigger-lowlevel-fromcreate-96857:
+
+`fromCreate <function-daml-trigger-lowlevel-fromcreate-96857_>`_
+  \: Template t \=\> `Command <type-daml-trigger-lowlevel-command-75607_>`_ \-\> Optional t
+  
+  Check if the command corresponds to a create command
+  for the given template\.
+
+.. _function-daml-trigger-lowlevel-fromcreateandexercise-87591:
+
+`fromCreateAndExercise <function-daml-trigger-lowlevel-fromcreateandexercise-87591_>`_
+  \: (Template t, Choice t c r) \=\> `Command <type-daml-trigger-lowlevel-command-75607_>`_ \-\> Optional (t, c)
+  
+  Check if the command corresponds to a create and exercise command
+  for the given template\.
+
+.. _function-daml-trigger-lowlevel-fromexercise-2065:
+
+`fromExercise <function-daml-trigger-lowlevel-fromexercise-2065_>`_
+  \: Choice t c r \=\> `Command <type-daml-trigger-lowlevel-command-75607_>`_ \-\> Optional (ContractId t, c)
+  
+  Check if the command corresponds to an exercise command
+  for the given template\.
+
+.. _function-daml-trigger-lowlevel-fromexercisebykey-45432:
+
+`fromExerciseByKey <function-daml-trigger-lowlevel-fromexercisebykey-45432_>`_
+  \: (Choice t c r, TemplateKey t k) \=\> `Command <type-daml-trigger-lowlevel-command-75607_>`_ \-\> Optional (k, c)
+  
+  Check if the command corresponds to an exercise by key command
+  for the given template\.
+
+.. _function-daml-trigger-lowlevel-execstatet-29539:
+
+`execStateT <function-daml-trigger-lowlevel-execstatet-29539_>`_
+  \: Functor m \=\> StateT s m a \-\> s \-\> m s
+
+.. _function-daml-trigger-lowlevel-zoom-59702:
+
+`zoom <function-daml-trigger-lowlevel-zoom-59702_>`_
+  \: Functor m \=\> (t \-\> s) \-\> (t \-\> s \-\> t) \-\> StateT s m a \-\> StateT t m a
+
+.. _function-daml-trigger-lowlevel-simulaterule-72483:
+
+`simulateRule <function-daml-trigger-lowlevel-simulaterule-72483_>`_
+  \: `TriggerRule <type-daml-trigger-lowlevel-triggerrule-58138_>`_ s a \-\> Time \-\> s \-\> (s, \[`Commands <type-daml-trigger-lowlevel-commands-39273_>`_\], a)
+  
+  Run a rule without running it\. May lose information from the rule;
+  meant for testing purposes only\.
+
+.. _function-daml-trigger-lowlevel-submitcommands-69155:
+
+`submitCommands <function-daml-trigger-lowlevel-submitcommands-69155_>`_
+  \: `ActionTrigger <class-daml-trigger-lowlevel-actiontrigger-70611_>`_ m \=\> \[`Command <type-daml-trigger-lowlevel-command-75607_>`_\] \-\> m `CommandId <type-daml-trigger-lowlevel-commandid-21930_>`_
+
