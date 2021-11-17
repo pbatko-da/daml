@@ -1,0 +1,523 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-list-42512:
+
+Module DA.List
+==============
+
+List
+
+Functions
+---------
+
+.. _function-da-list-sort-15216:
+
+`sort <function-da-list-sort-15216_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> \[a\] \-\> \[a\]
+  
+  The ``sort`` function implements a stable sorting algorithm\. It is
+  a special case of ``sortBy``, which allows the programmer to supply
+  their own comparison function\.
+  
+  Elements are arranged from lowest to highest, keeping duplicates in
+  the order they appeared in the input (a stable sort)\.
+
+.. _function-da-list-sortby-66789:
+
+`sortBy <function-da-list-sortby-66789_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> \[a\]
+  
+  The ``sortBy`` function is the non\-overloaded version of ``sort``\.
+
+.. _function-da-list-minimumby-47784:
+
+`minimumBy <function-da-list-minimumby-47784_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> a
+  
+  ``minimumBy f xs`` returns the first element ``x`` of ``xs`` for which ``f x y``
+  is either ``LT`` or ``EQ`` for all other ``y`` in ``xs``\. ``xs`` must be non\-empty\.
+
+.. _function-da-list-maximumby-85634:
+
+`maximumBy <function-da-list-maximumby-85634_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> a
+  
+  ``maximumBy f xs`` returns the first element ``x`` of ``xs`` for which ``f x y``
+  is either ``GT`` or ``EQ`` for all other ``y`` in ``xs``\. ``xs`` must be non\-empty\.
+
+.. _function-da-list-sorton-1185:
+
+`sortOn <function-da-list-sorton-1185_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> \[a\]
+  
+  Sort a list by comparing the results of a key function applied to
+  each element\. ``sortOn f`` is equivalent to ``sortBy (comparing f)``,
+  but has the performance advantage of only evaluating ``f`` once for
+  each element in the input list\. This is sometimes called the
+  decorate\-sort\-undecorate paradigm\.
+  
+  Elements are arranged from from lowest to highest, keeping
+  duplicates in the order they appeared in the input\.
+
+.. _function-da-list-minimumon-9164:
+
+`minimumOn <function-da-list-minimumon-9164_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> a
+  
+  ``minimumOn f xs`` returns the first element ``x`` of ``xs`` for which ``f x``
+  is smaller than or equal to any other ``f y`` for ``y`` in ``xs``\. ``xs`` must be
+  non\-empty\.
+
+.. _function-da-list-maximumon-97490:
+
+`maximumOn <function-da-list-maximumon-97490_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> a
+  
+  ``maximumOn f xs`` returns the first element ``x`` of ``xs`` for which ``f x``
+  is greater than or equal to any other ``f y`` for ``y`` in ``xs``\. ``xs`` must be
+  non\-empty\.
+
+.. _function-da-list-mergeby-82082:
+
+`mergeBy <function-da-list-mergeby-82082_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> \[a\] \-\> \[a\]
+  
+  Merge two sorted lists using into a single, sorted whole, allowing
+  the programmer to specify the comparison function\.
+
+.. _function-da-list-combinepairs-83778:
+
+`combinePairs <function-da-list-combinepairs-83778_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> \[a\]
+  
+  Combine elements pairwise by means of a programmer supplied
+  function from two list inputs into a single list\.
+
+.. _function-da-list-foldbalanced1-43585:
+
+`foldBalanced1 <function-da-list-foldbalanced1-43585_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> a
+  
+  Fold a non\-empty list in a balanced way\. Balanced means that each
+  element has approximately the same depth in the operator
+  tree\. Approximately the same depth means that the difference
+  between maximum and minimum depth is at most 1\. The accumulation
+  operation must be associative and commutative in order to get the
+  same result as ``foldl1`` or ``foldr1``\.
+
+.. _function-da-list-group-21162:
+
+`group <function-da-list-group-21162_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[\[a\]\]
+  
+  The 'group' function groups equal elements into sublists such
+  that the concatenation of the result is equal to the argument\.
+
+.. _function-da-list-groupby-29795:
+
+`groupBy <function-da-list-groupby-29795_>`_
+  \: (a \-\> a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> \[\[a\]\]
+  
+  The 'groupBy' function is the non\-overloaded version of 'group'\.
+
+.. _function-da-list-groupon-63155:
+
+`groupOn <function-da-list-groupon-63155_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` k \=\> (a \-\> k) \-\> \[a\] \-\> \[\[a\]\]
+  
+  Similar to 'group', except that the equality is done on an
+  extracted value\.
+
+.. _function-da-list-dedup-4239:
+
+`dedup <function-da-list-dedup-4239_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> \[a\] \-\> \[a\]
+  
+  ``dedup l`` removes duplicate elements from a list\. In particular,
+  it keeps only the first occurrence of each element\. It is a
+  special case of ``dedupBy``, which allows the programmer to supply
+  their own equality test\.
+  ``dedup`` is called ``nub`` in Haskell\.
+
+.. _function-da-list-dedupby-42094:
+
+`dedupBy <function-da-list-dedupby-42094_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> \[a\]
+  
+  A version of ``dedup`` with a custom predicate\.
+
+.. _function-da-list-dedupon-37082:
+
+`dedupOn <function-da-list-dedupon-37082_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> \[a\]
+  
+  A version of ``dedup`` where deduplication is done
+  after applyng function\. Example use\: ``dedupOn (.employeeNo) employees``
+
+.. _function-da-list-dedupsort-30111:
+
+`dedupSort <function-da-list-dedupsort-30111_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> \[a\] \-\> \[a\]
+  
+  The ``dedupSort`` function sorts and removes duplicate elements from a
+  list\. In particular, it keeps only the first occurrence of each
+  element\.
+
+.. _function-da-list-dedupsortby-79942:
+
+`dedupSortBy <function-da-list-dedupsortby-79942_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> \[a\]
+  
+  A version of ``dedupSort`` with a custom predicate\.
+
+.. _function-da-list-unique-61019:
+
+`unique <function-da-list-unique-61019_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> \[a\] \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Returns True if and only if there are no duplicate elements in the given list\.
+
+.. _function-da-list-uniqueby-438:
+
+`uniqueBy <function-da-list-uniqueby-438_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  A version of ``unique`` with a custom predicate\.
+
+.. _function-da-list-uniqueon-16470:
+
+`uniqueOn <function-da-list-uniqueon-16470_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Returns True if and only if there are no duplicate elements in the given list
+  after applyng function\. Example use\: ``assert $ uniqueOn (.employeeNo) employees``
+
+.. _function-da-list-replace-70213:
+
+`replace <function-da-list-replace-70213_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> \[a\] \-\> \[a\]
+  
+  Given a list and a replacement list, replaces each occurance of
+  the search list with the replacement list in the operation list\.
+
+.. _function-da-list-dropprefix-40793:
+
+`dropPrefix <function-da-list-dropprefix-40793_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> \[a\]
+  
+  Drops the given prefix from a list\. It returns the original
+  sequence if the sequence doesn't start with the given prefix\.
+
+.. _function-da-list-dropsuffix-48818:
+
+`dropSuffix <function-da-list-dropsuffix-48818_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> \[a\]
+  
+  Drops the given suffix from a list\. It returns the original
+  sequence if the sequence doesn't end with the given suffix\.
+
+.. _function-da-list-stripprefix-21163:
+
+`stripPrefix <function-da-list-stripprefix-21163_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` \[a\]
+  
+  The ``stripPrefix`` function drops the given prefix from a list\.
+  It returns ``None`` if the list did not start with the prefix
+  given, or ``Some`` the list after the prefix, if it does\.
+
+.. _function-da-list-stripsuffix-53248:
+
+`stripSuffix <function-da-list-stripsuffix-53248_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` \[a\]
+  
+  Return the prefix of the second list if its suffix matches the
+  entire first list\.
+
+.. _function-da-list-stripinfix-23050:
+
+`stripInfix <function-da-list-stripinfix-23050_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` (\[a\], \[a\])
+  
+  Return the string before and after the search string or ``None``
+  if the search string is not found\.
+  
+  .. code-block:: daml
+  
+    >>> stripInfix [0,0] [1,0,0,2,0,0,3]
+    Some ([1], [2,0,0,3])
+  
+    >>> stripInfix [0,0] [1,2,0,4,5]
+    None
+
+.. _function-da-list-isprefixof-70005:
+
+`isPrefixOf <function-da-list-isprefixof-70005_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  The ``isPrefixOf`` function takes two lists and returns ``True`` if
+  and only if the first is a prefix of the second\.
+
+.. _function-da-list-issuffixof-53202:
+
+`isSuffixOf <function-da-list-issuffixof-53202_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  The ``isSuffixOf`` function takes two lists and returns ``True`` if
+  and only if the first list is a suffix of the second\.
+
+.. _function-da-list-isinfixof-15350:
+
+`isInfixOf <function-da-list-isinfixof-15350_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  The ``isInfixOf`` function takes two lists and returns ``True`` if
+  and only if the first list is contained anywhere within the second\.
+
+.. _function-da-list-mapaccuml-91254:
+
+`mapAccumL <function-da-list-mapaccuml-91254_>`_
+  \: (acc \-\> x \-\> (acc, y)) \-\> acc \-\> \[x\] \-\> (acc, \[y\])
+  
+  The ``mapAccumL`` function combines the behaviours of ``map`` and
+  ``foldl``; it applies a function to each element of a list, passing
+  an accumulating parameter from left to right, and returning a final
+  value of this accumulator together with the new list\.
+
+.. _function-da-list-inits-17642:
+
+`inits <function-da-list-inits-17642_>`_
+  \: \[a\] \-\> \[\[a\]\]
+  
+  The ``inits`` function returns all initial segments of the argument,
+  shortest first\.
+
+.. _function-da-list-intersperse-36635:
+
+`intersperse <function-da-list-intersperse-36635_>`_
+  \: a \-\> \[a\] \-\> \[a\]
+  
+  The ``intersperse`` function takes an element and a list and
+  \"intersperses\" that element between the elements of the list\.
+
+.. _function-da-list-intercalate-55923:
+
+`intercalate <function-da-list-intercalate-55923_>`_
+  \: \[a\] \-\> \[\[a\]\] \-\> \[a\]
+  
+  ``intercalate`` inserts the list ``xs`` in between the lists in ``xss``
+  and concatenates the result\.
+
+.. _function-da-list-tails-80362:
+
+`tails <function-da-list-tails-80362_>`_
+  \: \[a\] \-\> \[\[a\]\]
+  
+  The ``tails`` function returns all final segments of the argument,
+  longest first\.
+
+.. _function-da-list-dropwhileend-54437:
+
+`dropWhileEnd <function-da-list-dropwhileend-54437_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> \[a\]
+  
+  A version of ``dropWhile`` operating from the end\.
+
+.. _function-da-list-takewhileend-75463:
+
+`takeWhileEnd <function-da-list-takewhileend-75463_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> \[a\]
+  
+  A version of ``takeWhile`` operating from the end\.
+
+.. _function-da-list-transpose-87530:
+
+`transpose <function-da-list-transpose-87530_>`_
+  \: \[\[a\]\] \-\> \[\[a\]\]
+  
+  The ``transpose`` function transposes the rows and columns of its
+  argument\.
+
+.. _function-da-list-breakend-18900:
+
+`breakEnd <function-da-list-breakend-18900_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  Break, but from the end\.
+
+.. _function-da-list-breakon-67615:
+
+`breakOn <function-da-list-breakon-67615_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  Find the first instance of ``needle`` in ``haystack``\.
+  The first element of the returned tuple is the prefix of ``haystack``
+  before ``needle`` is matched\. The second is the remainder of
+  ``haystack``, starting with the match\. If you want the remainder
+  *without* the match, use ``stripInfix``\.
+
+.. _function-da-list-breakonend-90335:
+
+`breakOnEnd <function-da-list-breakonend-90335_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> (\[a\], \[a\])
+  
+  Similar to ``breakOn``, but searches from the end of the
+  string\.
+  
+  The first element of the returned tuple is the prefix of ``haystack``
+  up to and including the last match of ``needle``\. The second is the
+  remainder of ``haystack``, following the match\.
+
+.. _function-da-list-linesby-32651:
+
+`linesBy <function-da-list-linesby-32651_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> \[\[a\]\]
+  
+  A variant of ``lines`` with a custom test\. In particular, if there
+  is a trailing separator it will be discarded\.
+
+.. _function-da-list-wordsby-2725:
+
+`wordsBy <function-da-list-wordsby-2725_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> \[\[a\]\]
+  
+  A variant of ``words`` with a custom test\. In particular, adjacent
+  separators are discarded, as are leading or trailing separators\.
+
+.. _function-da-list-head-48538:
+
+`head <function-da-list-head-48538_>`_
+  \: \[a\] \-\> a
+  
+  Extract the first element of a list, which must be non\-empty\.
+
+.. _function-da-list-tail-53946:
+
+`tail <function-da-list-tail-53946_>`_
+  \: \[a\] \-\> \[a\]
+  
+  Extract the elements after the head of a list, which must be
+  non\-empty\.
+
+.. _function-da-list-last-6948:
+
+`last <function-da-list-last-6948_>`_
+  \: \[a\] \-\> a
+  
+  Extract the last element of a list, which must be finite and
+  non\-empty\.
+
+.. _function-da-list-init-90042:
+
+`init <function-da-list-init-90042_>`_
+  \: \[a\] \-\> \[a\]
+  
+  Return all the elements of a list except the last one\. The list
+  must be non\-empty\.
+
+.. _function-da-list-foldl1-81666:
+
+`foldl1 <function-da-list-foldl1-81666_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> a
+  
+  Left associative fold of a list that must be non\-empty\.
+
+.. _function-da-list-foldr1-90852:
+
+`foldr1 <function-da-list-foldr1-90852_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> a
+  
+  Right associative fold of a list that must be non\-empty\.
+
+.. _function-da-list-repeatedly-73165:
+
+`repeatedly <function-da-list-repeatedly-73165_>`_
+  \: (\[a\] \-\> (b, \[a\])) \-\> \[a\] \-\> \[b\]
+  
+  Apply some operation repeatedly, producing an element of output
+  and the remainder of the list\.
+
+.. _function-da-list-delete-23055:
+
+`delete <function-da-list-delete-23055_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> a \-\> \[a\] \-\> \[a\]
+  
+  ``delete x`` removes the first occurrence of ``x`` from its list argument\.
+  For example,
+  
+  .. code-block:: daml
+  
+    > delete "a" ["b","a","n","a","n","a"]
+    ["b","n","a","n","a"]
+  
+  
+  It is a special case of 'deleteBy', which allows the programmer to
+  supply their own equality test\.
+
+.. _function-da-list-deleteby-71634:
+
+`deleteBy <function-da-list-deleteby-71634_>`_
+  \: (a \-\> a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> a \-\> \[a\] \-\> \[a\]
+  
+  The 'deleteBy' function behaves like 'delete', but takes a
+  user\-supplied equality predicate\.
+  
+  .. code-block:: daml
+  
+    > deleteBy (<=) 4 [1..10]
+    [1,2,3,5,6,7,8,9,10]
+
+.. _function-da-list-x-45638:
+
+`(\\\\\\\\) <function-da-list-x-45638_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> \[a\] \-\> \[a\] \-\> \[a\]
+  
+  The ``\\`` function is list difference (non\-associative)\.
+  In the result of ``xs \\ ys``, the first occurrence of each element of
+  ``ys`` in turn (if any) has been removed from ``xs``\. Thus
+  
+  .. code-block:: daml
+  
+    (xs ++ ys) \\ xs == ys
+  
+  
+  Note this function is *O(n\*m)* given lists of size *n* and *m*\.
+
+.. _function-da-list-singleton-85744:
+
+`singleton <function-da-list-singleton-85744_>`_
+  \: a \-\> \[a\]
+  
+  Produce a singleton list\.
+  
+  .. code-block:: daml
+  
+    >>> singleton True
+    [True]
+
+.. _function-da-list-bangbang-57268:
+
+`(!!) <function-da-list-bangbang-57268_>`_
+  \: \[a\] \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> a
+  
+  List index (subscript) operator, starting from 0\.
+  For example, ``xs !! 2`` returns the third element in ``xs``\.
+  Raises an error if the index is not suitable for the given list\.
+  The function has complexity *O(n)* where *n* is the index given,
+  unlike in languages such as Java where array indexing is *O(1)*\.
+
+.. _function-da-list-elemindex-66976:
+
+`elemIndex <function-da-list-elemindex-66976_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> a \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` :ref:`Int <type-ghc-types-int-68728>`
+  
+  Find index of element in given list\.
+  Will return ``None`` if not found\.
+
+.. _function-da-list-findindex-5552:
+
+`findIndex <function-da-list-findindex-5552_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` :ref:`Int <type-ghc-types-int-68728>`
+  
+  Find index, given predicate, of first matching element\.
+  Will return ``None`` if not found\.

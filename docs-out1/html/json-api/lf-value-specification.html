@@ -1,0 +1,902 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Daml-LF JSON Encoding &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Query language" href="search-query-language.html" />
+  <link rel="prev" title="HTTP JSON API Service" href="index.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">HTTP JSON API Service</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Daml-LF JSON Encoding</a><ul>
+<li><a class="reference internal" href="#contractid">ContractId</a></li>
+<li><a class="reference internal" href="#decimal">Decimal</a><ul>
+<li><a class="reference internal" href="#input">Input</a></li>
+<li><a class="reference internal" href="#output">Output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#int64">Int64</a><ul>
+<li><a class="reference internal" href="#id1">Input</a></li>
+<li><a class="reference internal" href="#id2">Output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#timestamp">Timestamp</a><ul>
+<li><a class="reference internal" href="#id3">Input</a></li>
+<li><a class="reference internal" href="#id4">Output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#party">Party</a></li>
+<li><a class="reference internal" href="#unit">Unit</a></li>
+<li><a class="reference internal" href="#date">Date</a></li>
+<li><a class="reference internal" href="#text">Text</a></li>
+<li><a class="reference internal" href="#bool">Bool</a></li>
+<li><a class="reference internal" href="#record">Record</a><ul>
+<li><a class="reference internal" href="#id5">Input</a></li>
+<li><a class="reference internal" href="#id6">Output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#list">List</a></li>
+<li><a class="reference internal" href="#textmap">TextMap</a></li>
+<li><a class="reference internal" href="#genmap">GenMap</a></li>
+<li><a class="reference internal" href="#optional">Optional</a><ul>
+<li><a class="reference internal" href="#id7">Input</a></li>
+<li><a class="reference internal" href="#id8">Output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#variant">Variant</a></li>
+<li><a class="reference internal" href="#enum">Enum</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="daml-lf-json-encoding">
+<h1>Daml-LF JSON Encoding<a class="headerlink" href="#daml-lf-json-encoding" title="Permalink to this headline">¶</a></h1>
+<p>We describe how to decode and encode Daml-LF values as JSON. For each
+Daml-LF type we explain what JSON inputs we accept (decoding), and what
+JSON output we produce (encoding).</p>
+<p>The output format is parameterized by two flags:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">encodeDecimalAsString</span><span class="p">:</span> <span class="n">boolean</span>
+<span class="n">encodeInt64AsString</span><span class="p">:</span> <span class="n">boolean</span>
+</pre></div>
+</div>
+<p>The suggested defaults for both of these flags is false. If the intended
+recipient is written in JavaScript, however, note that the JavaScript data
+model will decode these as numbers, discarding data in some cases;
+encode-as-String avoids this, as mentioned with respect to <code class="docutils literal notranslate"><span class="pre">JSON.parse</span></code>
+below. For that reason, the HTTP JSON API Service uses <code class="docutils literal notranslate"><span class="pre">true</span></code> for both flags.</p>
+<p>Note that throughout the document the decoding is type-directed. In
+other words, the same JSON value can correspond to many Daml-LF values,
+and the expected Daml-LF type is needed to decide which one.</p>
+<div class="section" id="contractid">
+<h2>ContractId<a class="headerlink" href="#contractid" title="Permalink to this headline">¶</a></h2>
+<p>Contract ids are expressed as their string representation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;123&quot;</span>
+<span class="s2">&quot;XYZ&quot;</span>
+<span class="s2">&quot;foo:bar#baz&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="decimal">
+<h2>Decimal<a class="headerlink" href="#decimal" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="input">
+<h3>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h3>
+<p>Decimals can be expressed as JSON numbers or as JSON strings. JSON
+strings are accepted using the same format that JSON accepts, and
+treated them as the equivalent JSON number:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?
+</pre></div>
+</div>
+<p>Note that JSON numbers would be enough to represent all
+Decimals. However, we also accept strings because in many languages
+(most notably JavaScript) use IEEE Doubles to express JSON numbers, and
+IEEE Doubles cannot express Daml-LF Decimals correctly. Therefore, we
+also accept strings so that JavaScript users can use them to specify
+Decimals that do not fit in IEEE Doubles.</p>
+<p>Numbers must be within the bounds of Decimal, [–(10³⁸–1)÷10¹⁰,
+(10³⁸–1)÷10¹⁰]. Numbers outside those bounds will be rejected. Numbers
+inside the bounds will always be accepted, using banker’s rounding to
+fit them within the precision supported by Decimal.</p>
+<p>A few valid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">42</span> <span class="o">--&gt;</span> <span class="mi">42</span>
+<span class="mf">42.0</span> <span class="o">--&gt;</span> <span class="mi">42</span>
+<span class="s2">&quot;42&quot;</span> <span class="o">--&gt;</span> <span class="mi">42</span>
+<span class="mf">9999999999999999999999999999.9999999999</span> <span class="o">--&gt;</span>
+    <span class="mf">9999999999999999999999999999.9999999999</span>
+<span class="o">-</span><span class="mi">42</span> <span class="o">--&gt;</span> <span class="o">-</span><span class="mi">42</span>
+<span class="s2">&quot;-42&quot;</span> <span class="o">--&gt;</span> <span class="o">-</span><span class="mi">42</span>
+<span class="mi">0</span> <span class="o">--&gt;</span> <span class="mi">0</span>
+<span class="o">-</span><span class="mi">0</span> <span class="o">--&gt;</span> <span class="mi">0</span>
+<span class="mf">0.30000000000000004</span> <span class="o">--&gt;</span> <span class="mf">0.3</span>
+<span class="mf">2e3</span> <span class="o">--&gt;</span> <span class="mi">2000</span>
+</pre></div>
+</div>
+<p>A few invalid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;  42  &quot;</span>
+<span class="s2">&quot;blah&quot;</span>
+<span class="mi">99999999999999999999999999990</span>
+<span class="o">+</span><span class="mi">42</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="output">
+<h3>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h3>
+<p>If encodeDecimalAsString is set, decimals are encoded as strings, using
+the format <code class="docutils literal notranslate"><span class="pre">-?[0-9]{1,28}(\.[0-9]{1,10})?</span></code>. If encodeDecimalAsString
+is not set, they are encoded as JSON numbers, also using the format
+<code class="docutils literal notranslate"><span class="pre">-?[0-9]{1,28}(\.[0-9]{1,10})?</span></code>.</p>
+<p>Note that the flag encodeDecimalAsString is useful because it lets
+JavaScript consumers consume Decimals safely with the standard
+JSON.parse.</p>
+</div>
+</div>
+<div class="section" id="int64">
+<h2>Int64<a class="headerlink" href="#int64" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Input<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Int64, much like Decimal, can be represented as JSON numbers and as
+strings, with the string representation being <code class="docutils literal notranslate"><span class="pre">[+-]?[0-9]+</span></code>. The
+numbers must fall within [-9223372036854775808,
+9223372036854775807]. Moreover, if represented as JSON numbers, they
+must have no fractional part.</p>
+<p>A few valid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">42</span>
+<span class="s2">&quot;+42&quot;</span>
+<span class="o">-</span><span class="mi">42</span>
+<span class="mi">0</span>
+<span class="o">-</span><span class="mi">0</span>
+<span class="mi">9223372036854775807</span>
+<span class="s2">&quot;9223372036854775807&quot;</span>
+<span class="o">-</span><span class="mi">9223372036854775808</span>
+<span class="s2">&quot;-9223372036854775808&quot;</span>
+</pre></div>
+</div>
+<p>A few invalid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">42.3</span>
+<span class="o">+</span><span class="mi">42</span>
+<span class="mi">9223372036854775808</span>
+<span class="o">-</span><span class="mi">9223372036854775809</span>
+<span class="s2">&quot;garbage&quot;</span>
+<span class="s2">&quot;   42 &quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Output<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>If encodeInt64AsString is set, Int64s are encoded as strings, using the
+format <code class="docutils literal notranslate"><span class="pre">-?[0-9]+</span></code>. If encodeInt64AsString is not set, they are encoded as
+JSON numbers, also using the format <code class="docutils literal notranslate"><span class="pre">-?[0-9]+</span></code>.</p>
+<p>Note that the flag encodeInt64AsString is useful because it lets
+JavaScript consumers consume Int64s safely with the standard
+<code class="docutils literal notranslate"><span class="pre">JSON.parse</span></code>.</p>
+</div>
+</div>
+<div class="section" id="timestamp">
+<h2>Timestamp<a class="headerlink" href="#timestamp" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Input<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Timestamps are represented as ISO 8601 strings, rendered using the
+format <code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss.ssssssZ</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1990</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">09</span><span class="n">T04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mf">23.123456</span><span class="n">Z</span>
+<span class="mi">9999</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span><span class="n">T23</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mf">59.999999</span><span class="n">Z</span>
+</pre></div>
+</div>
+<p>Parsing is a little bit more flexible and uses the format
+<code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss(\.s+)?Z</span></code>, i.e. it’s OK to omit the microsecond part
+partially or entirely, or have more than 6 decimals. Sub-second data beyond
+microseconds will be dropped. The UTC timezone designator must be included. The
+rationale behind the inclusion of the timezone designator is minimizing the
+risk that users pass in local times. Valid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1990</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">09</span><span class="n">T04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mf">23.1234569</span><span class="n">Z</span>
+<span class="mi">1990</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">09</span><span class="n">T04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">23</span><span class="n">Z</span>
+<span class="mi">1990</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">09</span><span class="n">T04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mf">23.123</span><span class="n">Z</span>
+<span class="mi">0001</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="n">T00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="n">Z</span>
+<span class="mi">9999</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span><span class="n">T23</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mf">59.999999</span><span class="n">Z</span>
+</pre></div>
+</div>
+<p>The timestamp must be between the bounds specified by Daml-LF and ISO
+8601, [0001-01-01T00:00:00Z, 9999-12-31T23:59:59.999999Z].</p>
+<p>JavaScript</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">new</span> <span class="n">Date</span><span class="p">()</span><span class="o">.</span><span class="n">toISOString</span><span class="p">()</span>
+<span class="s1">&#39;2019-06-18T08:59:34.191Z&#39;</span>
+</pre></div>
+</div>
+<p>Python</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;Z&#39;</span>
+<span class="go">&#39;2019-06-18T08:59:08.392764Z&#39;</span>
+</pre></div>
+</div>
+<p>Java</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.time.Instant</span><span class="p">;</span>
+<span class="k">class</span> <span class="nc">Main</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Instant</span> <span class="n">instant</span> <span class="o">=</span> <span class="n">Instant</span><span class="o">.</span><span class="n">now</span><span class="p">();</span>
+        <span class="o">//</span> <span class="n">prints</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">18</span><span class="n">T09</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mf">16.652</span><span class="n">Z</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="n">instant</span><span class="o">.</span><span class="n">toString</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Output<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Timestamps are encoded as ISO 8601 strings, rendered using the format
+<code class="docutils literal notranslate"><span class="pre">yyyy-mm-ddThh:mm:ss[.ssssss]Z</span></code>.</p>
+<p>The sub-second part will be formatted as follows:</p>
+<ul class="simple">
+<li>If no sub-second part is present in the timestamp (i.e. the timestamp
+represents whole seconds), the sub-second part will be omitted
+entirely;</li>
+<li>If the sub-second part does not go beyond milliseconds, the sub-second
+part will be up to milliseconds, padding with trailing 0s if
+necessary;</li>
+<li>Otherwise, the sub-second part will be up to microseconds, padding
+with trailing 0s if necessary.</li>
+</ul>
+<p>In other words, the encoded timestamp will either have no sub-second
+part, a sub-second part of length 3, or a sub-second part of length 6.</p>
+</div>
+</div>
+<div class="section" id="party">
+<h2>Party<a class="headerlink" href="#party" title="Permalink to this headline">¶</a></h2>
+<p>Represented using their string representation, without any additional
+quotes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Alice&quot;</span>
+<span class="s2">&quot;Bob&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="unit">
+<h2>Unit<a class="headerlink" href="#unit" title="Permalink to this headline">¶</a></h2>
+<p>Represented as empty object <code class="docutils literal notranslate"><span class="pre">{}</span></code>. Note that in JavaScript <code class="docutils literal notranslate"><span class="pre">{}</span> <span class="pre">!==</span>
+<span class="pre">{}</span></code>; however, <code class="docutils literal notranslate"><span class="pre">null</span></code> would be ambiguous; for the type <code class="docutils literal notranslate"><span class="pre">Optional</span>
+<span class="pre">Unit</span></code>, <code class="docutils literal notranslate"><span class="pre">null</span></code> decodes to <code class="docutils literal notranslate"><span class="pre">None</span></code>, but <code class="docutils literal notranslate"><span class="pre">{}</span></code> decodes to <code class="docutils literal notranslate"><span class="pre">Some</span> <span class="pre">()</span></code>.</p>
+<p>Additionally, we think that this is the least confusing encoding for
+Unit since unit is conceptually an empty record.  We do not want to
+imply that Unit is used similarly to null in JavaScript or None in
+Python.</p>
+</div>
+<div class="section" id="date">
+<h2>Date<a class="headerlink" href="#date" title="Permalink to this headline">¶</a></h2>
+<p>Represented as an ISO 8601 date rendered using the format
+<code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2019</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">18</span>
+<span class="mi">9999</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">31</span>
+<span class="mi">0001</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span>
+</pre></div>
+</div>
+<p>The dates must be between the bounds specified by Daml-LF and ISO 8601,
+[0001-01-01, 9999-12-31].</p>
+</div>
+<div class="section" id="text">
+<h2>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
+<p>Represented as strings.</p>
+</div>
+<div class="section" id="bool">
+<h2>Bool<a class="headerlink" href="#bool" title="Permalink to this headline">¶</a></h2>
+<p>Represented as booleans.</p>
+</div>
+<div class="section" id="record">
+<h2>Record<a class="headerlink" href="#record" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Input<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Records can be represented in two ways. As objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{ f₁: v₁, ..., fₙ: vₙ }
+</pre></div>
+</div>
+<p>And as arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[ v₁, ..., vₙ ]
+</pre></div>
+</div>
+<p>Note that Daml-LF record fields are ordered. So if we have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span> <span class="n">Foo</span> <span class="o">=</span> <span class="p">{</span><span class="n">f1</span><span class="p">:</span> <span class="n">Int64</span><span class="p">,</span> <span class="n">f2</span><span class="p">:</span> <span class="n">Bool</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>when representing the record as an array the user must specify the
+fields in order:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="n">true</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The motivation for the array format for records is to allow specifying
+tuple types closer to what it looks like in Daml. Note that a Daml
+tuple, i.e. (42, True), will be compiled to a Daml-LF record <code class="docutils literal notranslate"><span class="pre">Tuple2</span> <span class="pre">{</span>
+<span class="pre">_1</span> <span class="pre">=</span> <span class="pre">42,</span> <span class="pre">_2</span> <span class="pre">=</span> <span class="pre">True</span> <span class="pre">}</span></code>.</p>
+</div>
+<div class="section" id="id6">
+<h3>Output<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Records are always encoded as objects.</p>
+</div>
+</div>
+<div class="section" id="list">
+<h2>List<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h2>
+<p>Lists are represented as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[v₁, ..., vₙ]
+</pre></div>
+</div>
+</div>
+<div class="section" id="textmap">
+<h2>TextMap<a class="headerlink" href="#textmap" title="Permalink to this headline">¶</a></h2>
+<p>TextMaps are represented as objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>{ k₁: v₁, ..., kₙ: vₙ }
+</pre></div>
+</div>
+</div>
+<div class="section" id="genmap">
+<h2>GenMap<a class="headerlink" href="#genmap" title="Permalink to this headline">¶</a></h2>
+<p>GenMaps are represented as lists of pairs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[ [k₁, v₁], [kₙ, vₙ] ]
+</pre></div>
+</div>
+<p>Order does not matter.  However, any duplicate keys will cause the map
+to be treated as invalid.</p>
+</div>
+<div class="section" id="optional">
+<h2>Optional<a class="headerlink" href="#optional" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Input<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Optionals are encoded using <code class="docutils literal notranslate"><span class="pre">null</span></code> if the value is None, and with the
+value itself if it’s Some. However, this alone does not let us encode
+nested optionals unambiguously. Therefore, nested Optionals are encoded
+using an empty list for None, and a list with one element for Some. Note
+that after the top-level Optional, all the nested ones must be
+represented using the list notation.</p>
+<p>A few examples, using the form</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">JSON</span>  <span class="o">--&gt;</span>  <span class="n">Daml</span><span class="o">-</span><span class="n">LF</span>  <span class="p">:</span>  <span class="n">Expected</span> <span class="n">Daml</span><span class="o">-</span><span class="n">LF</span> <span class="nb">type</span>
+</pre></div>
+</div>
+<p>to make clear what the target Daml-LF type is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">null</span>    <span class="o">--&gt;</span>  <span class="kc">None</span>                  <span class="p">:</span> <span class="n">Optional</span> <span class="n">Int64</span>
+<span class="n">null</span>    <span class="o">--&gt;</span>  <span class="kc">None</span>                  <span class="p">:</span> <span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">)</span>
+<span class="mi">42</span>      <span class="o">--&gt;</span>  <span class="n">Some</span> <span class="mi">42</span>               <span class="p">:</span> <span class="n">Optional</span> <span class="n">Int64</span>
+<span class="p">[]</span>      <span class="o">--&gt;</span>  <span class="n">Some</span> <span class="kc">None</span>             <span class="p">:</span> <span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">42</span><span class="p">]</span>    <span class="o">--&gt;</span>  <span class="n">Some</span> <span class="p">(</span><span class="n">Some</span> <span class="mi">42</span><span class="p">)</span>        <span class="p">:</span> <span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">)</span>
+<span class="p">[[]]</span>    <span class="o">--&gt;</span>  <span class="n">Some</span> <span class="p">(</span><span class="n">Some</span> <span class="kc">None</span><span class="p">)</span>      <span class="p">:</span> <span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">))</span>
+<span class="p">[[</span><span class="mi">42</span><span class="p">]]</span>  <span class="o">--&gt;</span>  <span class="n">Some</span> <span class="p">(</span><span class="n">Some</span> <span class="p">(</span><span class="n">Some</span> <span class="mi">42</span><span class="p">))</span> <span class="p">:</span> <span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">))</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Finally, if Optional values appear in records, they can be omitted to
+represent None. Given Daml-LF types</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span> <span class="n">Depth1</span> <span class="o">=</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Optional</span> <span class="n">Int64</span> <span class="p">}</span>
+<span class="n">record</span> <span class="n">Depth2</span> <span class="o">=</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Optional</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">)</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>We have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="p">}</span>              <span class="o">--&gt;</span>  <span class="n">Depth1</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="kc">None</span> <span class="p">}</span>            <span class="p">:</span>  <span class="n">Depth1</span>
+<span class="p">{</span> <span class="p">}</span>              <span class="o">--&gt;</span>  <span class="n">Depth2</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="kc">None</span> <span class="p">}</span>            <span class="p">:</span>  <span class="n">Depth2</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="mi">42</span> <span class="p">}</span>      <span class="o">--&gt;</span>  <span class="n">Depth1</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Some</span> <span class="mi">42</span> <span class="p">}</span>         <span class="p">:</span>  <span class="n">Depth1</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="p">[</span><span class="mi">42</span><span class="p">]</span> <span class="p">}</span>    <span class="o">--&gt;</span>  <span class="n">Depth2</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Some</span> <span class="p">(</span><span class="n">Some</span> <span class="mi">42</span><span class="p">)</span> <span class="p">}</span>  <span class="p">:</span>  <span class="n">Depth2</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">null</span> <span class="p">}</span>    <span class="o">--&gt;</span>  <span class="n">Depth1</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="kc">None</span> <span class="p">}</span>            <span class="p">:</span>  <span class="n">Depth1</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">null</span> <span class="p">}</span>    <span class="o">--&gt;</span>  <span class="n">Depth2</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="kc">None</span> <span class="p">}</span>            <span class="p">:</span>  <span class="n">Depth2</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>      <span class="o">--&gt;</span>  <span class="n">Depth2</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Some</span> <span class="kc">None</span> <span class="p">}</span>       <span class="p">:</span>  <span class="n">Depth2</span>
+</pre></div>
+</div>
+<p>Note that the shortcut for records and Optional fields does not apply to
+Map (which are also represented as objects), since Map relies on absence
+of key to determine what keys are present in the Map to begin with.  Nor
+does it apply to the <code class="docutils literal notranslate"><span class="pre">[f₁,</span> <span class="pre">...,</span> <span class="pre">fₙ]</span></code> record form; <code class="docutils literal notranslate"><span class="pre">Depth1</span> <span class="pre">None</span></code> in
+the array notation must be written as <code class="docutils literal notranslate"><span class="pre">[null]</span></code>.</p>
+<p>Type variables may appear in the Daml-LF language, but are always
+resolved before deciding on a JSON encoding.  So, for example, even
+though <code class="docutils literal notranslate"><span class="pre">Oa</span></code> doesn’t appear to contain a nested <code class="docutils literal notranslate"><span class="pre">Optional</span></code>, it may
+contain a nested <code class="docutils literal notranslate"><span class="pre">Optional</span></code> by virtue of substituting the type
+variable <code class="docutils literal notranslate"><span class="pre">a</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span> <span class="n">Oa</span> <span class="n">a</span> <span class="o">=</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Optional</span> <span class="n">a</span> <span class="p">}</span>
+
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="mi">42</span> <span class="p">}</span>     <span class="o">--&gt;</span>  <span class="n">Oa</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Some</span> <span class="mi">42</span> <span class="p">}</span>        <span class="p">:</span> <span class="n">Oa</span> <span class="n">Int</span>
+<span class="p">{</span> <span class="p">}</span>             <span class="o">--&gt;</span>  <span class="n">Oa</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="kc">None</span> <span class="p">}</span>           <span class="p">:</span> <span class="n">Oa</span> <span class="n">Int</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="p">[]</span> <span class="p">}</span>     <span class="o">--&gt;</span>  <span class="n">Oa</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Some</span> <span class="kc">None</span> <span class="p">}</span>      <span class="p">:</span> <span class="n">Oa</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int</span><span class="p">)</span>
+<span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="p">[</span><span class="mi">42</span><span class="p">]</span> <span class="p">}</span>   <span class="o">--&gt;</span>  <span class="n">Oa</span> <span class="p">{</span> <span class="n">foo</span><span class="p">:</span> <span class="n">Some</span> <span class="p">(</span><span class="n">Some</span> <span class="mi">42</span><span class="p">)</span> <span class="p">}</span> <span class="p">:</span> <span class="n">Oa</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In other words, the correct JSON encoding for any LF value is the one
+you get when you have eliminated all type variables.</p>
+</div>
+<div class="section" id="id8">
+<h3>Output<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>Encoded as described above, never applying the shortcut for None record
+fields; e.g. <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">foo:</span> <span class="pre">None</span> <span class="pre">}</span></code> will always encode as <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">foo:</span> <span class="pre">null</span> <span class="pre">}</span></code>.</p>
+</div>
+</div>
+<div class="section" id="variant">
+<h2>Variant<a class="headerlink" href="#variant" title="Permalink to this headline">¶</a></h2>
+<p>Variants are expressed as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="n">tag</span><span class="p">:</span> <span class="n">constructor</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">argument</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>For example, if we have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variant</span> <span class="n">Foo</span> <span class="o">=</span> <span class="n">Bar</span> <span class="n">Int64</span> <span class="o">|</span> <span class="n">Baz</span> <span class="n">Unit</span> <span class="o">|</span> <span class="n">Quux</span> <span class="p">(</span><span class="n">Optional</span> <span class="n">Int64</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These are all valid JSON encodings for values of type Foo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Bar&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+<span class="p">{</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Baz&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+<span class="p">{</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Quux&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">null</span><span class="p">}</span>
+<span class="p">{</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Quux&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that Daml data types with named fields are compiled by factoring
+out the record. So for example if we have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="n">Foo</span> <span class="o">=</span> <span class="n">Bar</span> <span class="p">{</span><span class="n">f1</span><span class="p">:</span> <span class="n">Int64</span><span class="p">,</span> <span class="n">f2</span><span class="p">:</span> <span class="n">Bool</span><span class="p">}</span> <span class="o">|</span> <span class="n">Baz</span>
+</pre></div>
+</div>
+<p>We’ll get in Daml-LF</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span> <span class="n">Foo</span><span class="o">.</span><span class="n">Bar</span> <span class="o">=</span> <span class="p">{</span><span class="n">f1</span><span class="p">:</span> <span class="n">Int64</span><span class="p">,</span> <span class="n">f2</span><span class="p">:</span> <span class="n">Bool</span><span class="p">}</span>
+<span class="n">variant</span> <span class="n">Foo</span> <span class="o">=</span> <span class="n">Bar</span> <span class="n">Foo</span><span class="o">.</span><span class="n">Bar</span> <span class="o">|</span> <span class="n">Baz</span> <span class="n">Unit</span>
+</pre></div>
+</div>
+<p>and then, from JSON</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Bar&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s2">&quot;f2&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">}}</span>
+<span class="p">{</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Baz&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+</pre></div>
+</div>
+<p>This can be encoded and used in TypeScript, including exhaustiveness
+checking; see <a class="reference external" href="https://www.typescriptlang.org/play/#code/C4TwDgpgBAYg9nKBeAsAKCpqBvKwCGA5gFxQBEAQvgE5kA0UAbvgDYCuEpuAZgIykA7NgFsARhGoNuAJlKiELCPgFQAvmvSYAPjjxFSlfAC96TVhy5q1AbnTpubAQGNgASzgrgEAM7AAFIyk8HAAlDiaUN4A7q7ATgAWUAEAdASEYdgRmE743tCGtMRZWE4e3nCKySxwhCnM7BDJfAyMyfUcTdIhthhYmNQQwGzUAj19OXnkVCZFveNlFY3Vta3tEN3F-YPDo8UAJhDc+GwswLN92WXAUAD6ghCMEshMYxpoqkA">a type refinement example</a>.</p>
+</div>
+<div class="section" id="enum">
+<h2>Enum<a class="headerlink" href="#enum" title="Permalink to this headline">¶</a></h2>
+<p>Enums are represented as strings. So if we have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">Foo</span> <span class="o">=</span> <span class="n">Bar</span> <span class="o">|</span> <span class="n">Baz</span>
+</pre></div>
+</div>
+<p>There are exactly two valid JSON values for Foo, “Bar” and “Baz”.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="index.html" class="da-btn da-btn-label btn-prev" title="HTTP JSON API Service" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="search-query-language.html" class="da-btn da-btn-label btn-next" title="Query language" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

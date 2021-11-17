@@ -1,0 +1,1179 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3 Data types &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="4 Transforming data using choices" href="4_Transformations.html" />
+  <link rel="prev" title="2 Testing templates using Daml Script" href="2_DamlScript.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="0_Intro.html">An introduction to Daml</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">3 Data types</a><ul>
+<li><a class="reference internal" href="#native-types">Native types</a></li>
+<li><a class="reference internal" href="#assembling-types">Assembling types</a><ul>
+<li><a class="reference internal" href="#tuples">Tuples</a></li>
+<li><a class="reference internal" href="#lists">Lists</a></li>
+<li><a class="reference internal" href="#records">Records</a></li>
+<li><a class="reference internal" href="#variants-and-pattern-matching">Variants and pattern matching</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#manipulating-data">Manipulating data</a></li>
+<li><a class="reference internal" href="#contract-keys">Contract keys</a></li>
+<li><a class="reference internal" href="#next-up">Next up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="data-types">
+<h1>3 Data types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h1>
+<p>In <a class="reference internal" href="1_Token.html"><span class="doc">1 Basic contracts</span></a>, you learnt about contract templates, which specify the types of contracts that can be created on the ledger, and what data those contracts hold in their arguments.</p>
+<p>In <a class="reference internal" href="2_DamlScript.html"><span class="doc">2 Testing templates using Daml Script</span></a>, you learnt about the script view in Daml Studio, which displays the current ledger state. It shows one table per template, with one row per contract of that type and one column per field in the arguments.</p>
+<p>This actually provides a useful way of thinking about templates: like tables in databases. Templates specify a data schema for the ledger:</p>
+<ul class="simple">
+<li>each template corresponds to a table</li>
+<li>each field in the <code class="docutils literal notranslate"><span class="pre">with</span></code> block of a template corresponds to a column in that table</li>
+<li>each contract of that type corresponds to a table row</li>
+</ul>
+<p>In this section, you’ll learn how to create rich data schemas for your ledger. Specifically you’ll learn about:</p>
+<ul class="simple">
+<li>Daml’s built-in and native data types</li>
+<li>Record types</li>
+<li>Derivation of standard properties</li>
+<li>Variants</li>
+<li>Manipulating immutable data</li>
+<li>Contract keys</li>
+</ul>
+<p>After this section, you should be able to use a Daml ledger as a simple database where individual parties can write, read and delete complex data.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Remember that you can load all the code for this section into a folder called <code class="docutils literal notranslate"><span class="pre">3_Data</span></code> by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">new</span> <span class="pre">3_Data</span> <span class="pre">--template</span> <span class="pre">daml-intro-3</span></code></p>
+</div>
+<div class="section" id="native-types">
+<span id="id1"></span><h2>Native types<a class="headerlink" href="#native-types" title="Permalink to this headline">¶</a></h2>
+<p>You have already encountered a few native Daml types: <code class="docutils literal notranslate"><span class="pre">Party</span></code> in <a class="reference internal" href="1_Token.html"><span class="doc">1 Basic contracts</span></a>, and <code class="docutils literal notranslate"><span class="pre">Text</span></code> and <code class="docutils literal notranslate"><span class="pre">ContractId</span></code> in <a class="reference internal" href="2_DamlScript.html"><span class="doc">2 Testing templates using Daml Script</span></a>. Here are those native types and more:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">Party</span></code>
+Stores the identity of an entity that is able to act on the ledger, in the sense that they can sign contracts and submit transactions. In general, <code class="docutils literal notranslate"><span class="pre">Party</span></code> is opaque.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Text</span></code>
+Stores a unicode character string like <code class="docutils literal notranslate"><span class="pre">&quot;Alice&quot;</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ContractId</span> <span class="pre">a</span></code>
+Stores a reference to a contract of type <code class="docutils literal notranslate"><span class="pre">a</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Int</span></code>
+Stores signed 64-bit integers. For example, <code class="docutils literal notranslate"><span class="pre">-123</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Decimal</span></code>
+Stores fixed-point number with 28 digits before and 10 digits after the decimal point. For example, <code class="docutils literal notranslate"><span class="pre">0.0000000001</span></code> or <code class="docutils literal notranslate"><span class="pre">-9999999999999999999999999999.9999999999</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Bool</span></code>
+Stores <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Date</span></code>
+Stores a date.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Time</span></code>
+Stores absolute UTC time.</li>
+<li><code class="docutils literal notranslate"><span class="pre">RelTime</span></code>
+Stores a difference in time.</li>
+</ul>
+<p>The below script instantiates each one of these types, manipulates it where appropriate, and tests the result.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Daml.Script</span>
+<span class="kr">import</span> <span class="nn">DA.Time</span>
+<span class="kr">import</span> <span class="nn">DA.Date</span>
+
+<span class="nf">native_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="kr">let</span>
+    <span class="n">my_int</span> <span class="ow">=</span> <span class="o">-</span><span class="mi">123</span>
+    <span class="n">my_dec</span> <span class="ow">=</span> <span class="mf">0.001</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="n">my_text</span> <span class="ow">=</span> <span class="s">&quot;Alice&quot;</span>
+    <span class="n">my_bool</span> <span class="ow">=</span> <span class="kc">False</span>
+    <span class="n">my_date</span> <span class="ow">=</span> <span class="n">date</span> <span class="mi">2020</span> <span class="kt">Jan</span> <span class="mi">01</span>
+    <span class="n">my_time</span> <span class="ow">=</span> <span class="n">time</span> <span class="n">my_date</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+    <span class="n">my_rel_time</span> <span class="ow">=</span> <span class="n">hours</span> <span class="mi">24</span>
+
+  <span class="n">assert</span> <span class="p">(</span><span class="n">alice</span> <span class="o">/=</span> <span class="n">bob</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="o">-</span><span class="n">my_int</span> <span class="o">==</span> <span class="mi">123</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="mf">1000.0</span> <span class="o">*</span> <span class="n">my_dec</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_text</span> <span class="o">==</span> <span class="s">&quot;Alice&quot;</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">not</span> <span class="n">my_bool</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">addDays</span> <span class="n">my_date</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">date</span> <span class="mi">2020</span> <span class="kt">Jan</span> <span class="mi">02</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">addRelTime</span> <span class="n">my_time</span> <span class="n">my_rel_time</span> <span class="o">==</span> <span class="n">time</span> <span class="p">(</span><span class="n">addDays</span> <span class="n">my_date</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Despite its simplicity, there are quite a few things to note in this script:</p>
+<ul>
+<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">import</span></code> statements at the top import two packages from the Daml Standard Library, which contain all the date and time related functions we use here as well as the functions used in Daml Scripts. More on packages, imports and the standard library later.</p>
+</li>
+<li><p class="first">Most of the variables are declared inside a <code class="docutils literal notranslate"><span class="pre">let</span></code> block.</p>
+<p>That’s because the <code class="docutils literal notranslate"><span class="pre">script</span> <span class="pre">do</span></code> block expects script actions like <code class="docutils literal notranslate"><span class="pre">submit</span></code> or <code class="docutils literal notranslate"><span class="pre">Party</span></code>. An integer like <code class="docutils literal notranslate"><span class="pre">123</span></code> is not an action, it’s a pure expression, something we can evaluate without any ledger. You can think of the <code class="docutils literal notranslate"><span class="pre">let</span></code> as turning variable declaration into an action.</p>
+</li>
+<li><p class="first">Most variables do not have annotations to say what type they are.</p>
+<p>That’s because Daml is very good at <em>inferring</em> types. The compiler knows that <code class="docutils literal notranslate"><span class="pre">123</span></code> is an <code class="docutils literal notranslate"><span class="pre">Int</span></code>, so if you declare <code class="docutils literal notranslate"><span class="pre">my_int</span> <span class="pre">=</span> <span class="pre">123</span></code>, it can infer that <code class="docutils literal notranslate"><span class="pre">my_int</span></code> is also an <code class="docutils literal notranslate"><span class="pre">Int</span></code>. This means you don’t have to write the type annotation <code class="docutils literal notranslate"><span class="pre">my_int</span> <span class="pre">:</span> <span class="pre">Int</span> <span class="pre">=</span> <span class="pre">123</span></code>.</p>
+<p>However, if the type is ambiguous so that the compiler can’t infer
+it, you do have to add a type annotation. This is the case for
+<code class="docutils literal notranslate"><span class="pre">0.001</span></code> which could be any <code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">n</span></code>. Here we
+specify <code class="docutils literal notranslate"><span class="pre">0.001</span> <span class="pre">:</span> <span class="pre">Decimal</span></code> which is a synonym for <code class="docutils literal notranslate"><span class="pre">Numeric</span> <span class="pre">10</span></code>. You can always choose to add type annotations to aid readability.</p>
+</li>
+<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">assert</span></code> function is an action that takes a boolean value and succeeds with <code class="docutils literal notranslate"><span class="pre">True</span></code> and fails with <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<p>Try putting <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">False</span></code> somewhere in a script and see what happens to the script result.</p>
+</li>
+</ul>
+<p>With templates and these native types, it’s already possible to write a schema akin to a table in a relational database. Below, <code class="docutils literal notranslate"><span class="pre">Token</span></code> is extended into a simple <code class="docutils literal notranslate"><span class="pre">CashBalance</span></code>, administered by a party in the role of an accountant.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">CashBalance</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">account_number</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">bank</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">bank_address</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">bank_telephone</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+<span class="nf">cash_balance_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="n">accountant</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bank of Bob&quot;</span>
+
+  <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">CashBalance</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+      <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+      <span class="n">owner</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">account_number</span> <span class="ow">=</span> <span class="s">&quot;ABC123&quot;</span>
+      <span class="n">bank</span> <span class="ow">=</span> <span class="n">bob</span>
+      <span class="n">bank_address</span> <span class="ow">=</span> <span class="s">&quot;High Street&quot;</span>
+      <span class="n">bank_telephone</span> <span class="ow">=</span> <span class="s">&quot;012 3456 789&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="assembling-types">
+<h2>Assembling types<a class="headerlink" href="#assembling-types" title="Permalink to this headline">¶</a></h2>
+<p>There’s quite a lot of information on the <code class="docutils literal notranslate"><span class="pre">CashBalance</span></code> above and it would be nice to be able to give that data more structure. Fortunately, Daml’s type system has a number of ways to assemble these native types into much more expressive structures.</p>
+<div class="section" id="tuples">
+<h3>Tuples<a class="headerlink" href="#tuples" title="Permalink to this headline">¶</a></h3>
+<p>A common task is to group values in a generic way. Take, for example, a key-value pair with a <code class="docutils literal notranslate"><span class="pre">Text</span></code> key and an <code class="docutils literal notranslate"><span class="pre">Int</span></code> value. In Daml, you could use a two-tuple of type <code class="docutils literal notranslate"><span class="pre">(Text,</span> <span class="pre">Int)</span></code> to do so. If you wanted to express a coordinate in three dimensions, you could group three <code class="docutils literal notranslate"><span class="pre">Decimal</span></code> values using a three-tuple <code class="docutils literal notranslate"><span class="pre">(Decimal,</span> <span class="pre">Decimal,</span> <span class="pre">Decimal)</span></code>.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">DA.Tuple</span>
+<span class="kr">import</span> <span class="nn">Daml.Script</span>
+
+<span class="nf">tuple_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="kr">let</span>
+    <span class="n">my_key_value</span> <span class="ow">=</span> <span class="p">(</span><span class="s">&quot;Key&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">my_coordinate</span> <span class="ow">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="kt">:</span> <span class="kt">Decimal</span><span class="p">,</span> <span class="mf">2.0</span> <span class="kt">:</span> <span class="kt">Decimal</span><span class="p">,</span> <span class="mf">3.0</span> <span class="kt">:</span> <span class="kt">Decimal</span><span class="p">)</span>
+
+  <span class="n">assert</span> <span class="p">(</span><span class="n">fst</span> <span class="n">my_key_value</span> <span class="o">==</span> <span class="s">&quot;Key&quot;</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">snd</span> <span class="n">my_key_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_key_value</span><span class="o">.</span><span class="n">_1</span> <span class="o">==</span> <span class="s">&quot;Key&quot;</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_key_value</span><span class="o">.</span><span class="n">_2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_coordinate</span> <span class="o">==</span> <span class="p">(</span><span class="n">fst3</span> <span class="n">my_coordinate</span><span class="p">,</span> <span class="n">snd3</span> <span class="n">my_coordinate</span><span class="p">,</span> <span class="n">thd3</span> <span class="n">my_coordinate</span><span class="p">))</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_coordinate</span> <span class="o">==</span> <span class="p">(</span><span class="n">my_coordinate</span><span class="o">.</span><span class="n">_1</span><span class="p">,</span> <span class="n">my_coordinate</span><span class="o">.</span><span class="n">_2</span><span class="p">,</span> <span class="n">my_coordinate</span><span class="o">.</span><span class="n">_3</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>You can access the data in the tuples using:</p>
+<ul class="simple">
+<li>functions <code class="docutils literal notranslate"><span class="pre">fst</span></code>, <code class="docutils literal notranslate"><span class="pre">snd</span></code>, <code class="docutils literal notranslate"><span class="pre">fst3</span></code>, <code class="docutils literal notranslate"><span class="pre">snd3</span></code>, <code class="docutils literal notranslate"><span class="pre">thd3</span></code></li>
+<li>a dot-syntax with field names <code class="docutils literal notranslate"><span class="pre">_1</span></code>, <code class="docutils literal notranslate"><span class="pre">_2</span></code>, <code class="docutils literal notranslate"><span class="pre">_3</span></code>, etc.</li>
+</ul>
+<p>Daml supports tuples with up to 20 elements, but accessor functions like <code class="docutils literal notranslate"><span class="pre">fst</span></code> are only included for 2- and 3-tuples.</p>
+</div>
+<div class="section" id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h3>
+<p>Lists in Daml take a single type parameter defining the type of thing in the list. So you can have a list of integers <code class="docutils literal notranslate"><span class="pre">[Int]</span></code> or a list of strings <code class="docutils literal notranslate"><span class="pre">[Text]</span></code>, but not a list mixing integers and strings.</p>
+<p>That’s because Daml is statically and strongly typed. When you get an element out of a list, the compiler needs to know what type that element has.</p>
+<p>The below script instantiates a few lists of integers and demonstrates the most important list functions.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">DA.List</span>
+<span class="kr">import</span> <span class="nn">Daml.Script</span>
+
+<span class="nf">list_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="kr">let</span>
+    <span class="n">empty</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="ow">=</span> <span class="kt">[]</span>
+    <span class="n">one</span> <span class="ow">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">two</span> <span class="ow">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">many</span> <span class="ow">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+  <span class="c1">-- `head` gets the first element of a list</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">head</span> <span class="n">one</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">head</span> <span class="n">many</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+
+  <span class="c1">-- `tail` gets the remainder after head</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">tail</span> <span class="n">one</span> <span class="o">==</span> <span class="n">empty</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">tail</span> <span class="n">many</span> <span class="o">==</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+
+  <span class="c1">-- `++` concatenates lists</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">one</span> <span class="o">++</span> <span class="n">two</span> <span class="o">++</span> <span class="n">many</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">empty</span> <span class="o">++</span> <span class="n">many</span> <span class="o">++</span> <span class="n">empty</span> <span class="o">==</span> <span class="n">many</span><span class="p">)</span>
+
+  <span class="c1">-- `::` adds an element to the beginning of a list.</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="mi">1</span> <span class="ow">::</span> <span class="mi">2</span> <span class="ow">::</span> <span class="mi">3</span> <span class="ow">::</span> <span class="mi">4</span> <span class="ow">::</span> <span class="mi">5</span> <span class="ow">::</span> <span class="n">empty</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">::</span> <span class="mi">2</span> <span class="ow">::</span> <span class="n">many</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note the type annotation on <code class="docutils literal notranslate"><span class="pre">empty</span> <span class="pre">:</span> <span class="pre">[Int]</span> <span class="pre">=</span> <span class="pre">[]</span></code>. It’s necessary because <code class="docutils literal notranslate"><span class="pre">[]</span></code> is ambiguous. It could be a list of integers or of strings, but the compiler needs to know which it is.</p>
+</div>
+<div class="section" id="records">
+<h3>Records<a class="headerlink" href="#records" title="Permalink to this headline">¶</a></h3>
+<p>You can think of records as named tuples with named fields. Declare them using the <code class="docutils literal notranslate"><span class="pre">data</span></code> keyword: <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">T</span> <span class="pre">=</span> <span class="pre">C</span> <span class="pre">with</span></code>, where <code class="docutils literal notranslate"><span class="pre">T</span></code> is the type name and <code class="docutils literal notranslate"><span class="pre">C</span></code> is the data constructor. In practice, it’s a good idea to always use the same name for type and data constructor.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">MyRecord</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span>
+  <span class="n">my_txt</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">my_int</span> <span class="kt">:</span> <span class="kt">Int</span>
+  <span class="n">my_dec</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+  <span class="n">my_list</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Text</span><span class="p">]</span>
+
+<span class="c1">-- Fields of same type can be declared in one line</span>
+<span class="kr">data</span> <span class="kt">Coordinate</span> <span class="ow">=</span> <span class="kt">Coordinate</span> <span class="kr">with</span>
+  <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+
+<span class="c1">-- Custom data types can also have variables</span>
+<span class="kr">data</span> <span class="kt">KeyValue</span> <span class="n">k</span> <span class="n">v</span> <span class="ow">=</span> <span class="kt">KeyValue</span> <span class="kr">with</span>
+  <span class="n">my_key</span> <span class="kt">:</span> <span class="n">k</span>
+  <span class="n">my_val</span> <span class="kt">:</span> <span class="n">v</span>
+
+<span class="kr">data</span> <span class="kt">Nested</span> <span class="ow">=</span> <span class="kt">Nested</span> <span class="kr">with</span>
+  <span class="n">my_coord</span> <span class="kt">:</span> <span class="kt">Coordinate</span>
+  <span class="n">my_record</span> <span class="kt">:</span> <span class="kt">MyRecord</span>
+  <span class="n">my_kv</span> <span class="kt">:</span> <span class="kt">KeyValue</span> <span class="kt">Text</span> <span class="kt">Int</span>
+
+<span class="nf">record_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="kr">let</span>
+    <span class="n">my_record</span> <span class="ow">=</span> <span class="kt">MyRecord</span> <span class="kr">with</span>
+      <span class="n">my_txt</span> <span class="ow">=</span> <span class="s">&quot;Text&quot;</span>
+      <span class="n">my_int</span> <span class="ow">=</span> <span class="mi">2</span>
+      <span class="n">my_dec</span> <span class="ow">=</span> <span class="mf">2.5</span>
+      <span class="n">my_list</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Three&quot;</span><span class="p">]</span>
+
+    <span class="n">my_coord</span> <span class="ow">=</span> <span class="kt">Coordinate</span> <span class="kr">with</span>
+      <span class="n">x</span> <span class="ow">=</span> <span class="mf">1.0</span>
+      <span class="n">y</span> <span class="ow">=</span> <span class="mf">2.0</span>
+      <span class="n">z</span> <span class="ow">=</span> <span class="mf">3.0</span>
+
+    <span class="c1">-- `my_text_int` has type `KeyValue Text Int`</span>
+    <span class="n">my_text_int</span> <span class="ow">=</span> <span class="kt">KeyValue</span> <span class="kr">with</span>
+      <span class="n">my_key</span> <span class="ow">=</span> <span class="s">&quot;Key&quot;</span>
+      <span class="n">my_val</span> <span class="ow">=</span> <span class="mi">1</span>
+
+    <span class="c1">-- `my_int_decimal` has type `KeyValue Int Decimal`</span>
+    <span class="n">my_int_decimal</span> <span class="ow">=</span> <span class="kt">KeyValue</span> <span class="kr">with</span>
+      <span class="n">my_key</span> <span class="ow">=</span> <span class="mi">2</span>
+      <span class="n">my_val</span> <span class="ow">=</span> <span class="mf">2.0</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+
+    <span class="c1">-- If variables are in scope that match field names, we can pick them up</span>
+    <span class="c1">-- implicitly, writing just `my_coord` instead of `my_coord = my_coord`.</span>
+    <span class="n">my_nested</span> <span class="ow">=</span> <span class="kt">Nested</span> <span class="kr">with</span>
+      <span class="n">my_coord</span>
+      <span class="n">my_record</span>
+      <span class="n">my_kv</span> <span class="ow">=</span> <span class="n">my_text_int</span>
+
+  <span class="c1">-- Fields can be accessed with dot syntax</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_coord</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_text_int</span><span class="o">.</span><span class="n">my_key</span> <span class="o">==</span> <span class="s">&quot;Key&quot;</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">my_nested</span><span class="o">.</span><span class="n">my_record</span><span class="o">.</span><span class="n">my_dec</span> <span class="o">==</span> <span class="mf">2.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You’ll notice that the syntax to declare records is very similar to the syntax used to declare templates. That’s no accident because a template is really just a special record. When you write <code class="docutils literal notranslate"><span class="pre">template</span> <span class="pre">Token</span> <span class="pre">with</span></code>, one of the things that happens in the background is that this becomes a <code class="docutils literal notranslate"><span class="pre">data</span> <span class="pre">Token</span> <span class="pre">=</span> <span class="pre">Token</span> <span class="pre">with</span></code>.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements above, we always compared values of in-built types. If you wrote <code class="docutils literal notranslate"><span class="pre">assert</span> <span class="pre">(my_record</span> <span class="pre">==</span> <span class="pre">my_record)</span></code> in the script, you may be surprised to get an error message <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">instance</span> <span class="pre">for</span> <span class="pre">(Eq</span> <span class="pre">MyRecord)</span> <span class="pre">arising</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">use</span> <span class="pre">of</span> <span class="pre">‘==’</span></code>. Equality in Daml is always value equality and we haven’t written a function to check value equality for <code class="docutils literal notranslate"><span class="pre">MyRecord</span></code> values. But don’t worry, you don’t have to implement this rather obvious function yourself. The compiler is smart enough to do it for you, if you use <code class="docutils literal notranslate"><span class="pre">deriving</span> <span class="pre">(Eq)</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">EqRecord</span> <span class="ow">=</span> <span class="kt">EqRecord</span> <span class="kr">with</span>
+  <span class="n">my_txt</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">my_int</span> <span class="kt">:</span> <span class="kt">Int</span>
+  <span class="n">my_dec</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+  <span class="n">my_list</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Text</span><span class="p">]</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">MyContainer</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MyContainer</span> <span class="kr">with</span>
+  <span class="n">contents</span> <span class="kt">:</span> <span class="n">a</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">)</span>
+
+<span class="nf">eq_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="kr">let</span>
+    <span class="n">eq_record</span> <span class="ow">=</span> <span class="kt">EqRecord</span> <span class="kr">with</span>
+      <span class="n">my_txt</span> <span class="ow">=</span> <span class="s">&quot;Text&quot;</span>
+      <span class="n">my_int</span> <span class="ow">=</span> <span class="mi">2</span>
+      <span class="n">my_dec</span> <span class="ow">=</span> <span class="mf">2.5</span>
+      <span class="n">my_list</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Three&quot;</span><span class="p">]</span>
+
+    <span class="n">my_container</span> <span class="ow">=</span> <span class="kt">MyContainer</span> <span class="kr">with</span>
+      <span class="n">contents</span> <span class="ow">=</span> <span class="n">eq_record</span>
+    <span class="n">other_container</span> <span class="ow">=</span> <span class="kt">MyContainer</span> <span class="kr">with</span>
+      <span class="n">contents</span> <span class="ow">=</span> <span class="n">eq_record</span>
+
+  <span class="n">assert</span><span class="p">(</span><span class="n">my_container</span><span class="o">.</span><span class="n">contents</span> <span class="o">==</span> <span class="n">eq_record</span><span class="p">)</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">my_container</span> <span class="o">==</span> <span class="n">other_container</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Eq</span></code> is what is called a <em>typeclass</em>. You can think of a typeclass as being like an interface in other languages: it is the mechanism by which you can define a set of functions (for example, <code class="docutils literal notranslate"><span class="pre">==</span></code> and <code class="docutils literal notranslate"><span class="pre">/=</span></code> in the case of <code class="docutils literal notranslate"><span class="pre">Eq</span></code>) to work on multiple types, with a specific implementation for each type they can apply to.</p>
+<p>There are some other typeclasses that the compiler can derive automatically. Most prominently, <code class="docutils literal notranslate"><span class="pre">Show</span></code> to get access to the function <code class="docutils literal notranslate"><span class="pre">show</span></code> (equivalent to <code class="docutils literal notranslate"><span class="pre">toString</span></code> in many languages) and <code class="docutils literal notranslate"><span class="pre">Ord</span></code>, which gives access to comparison operators <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>.</p>
+<p>It’s a good idea to always derive <code class="docutils literal notranslate"><span class="pre">Eq</span></code> and <code class="docutils literal notranslate"><span class="pre">Show</span></code> using <code class="docutils literal notranslate"><span class="pre">deriving</span> <span class="pre">(Eq,</span> <span class="pre">Show)</span></code>. The record types created using <code class="docutils literal notranslate"><span class="pre">template</span> <span class="pre">T</span> <span class="pre">with</span></code> do this automatically, and the native types have appropriate typeclass instances. Eg <code class="docutils literal notranslate"><span class="pre">Int</span></code> derives <code class="docutils literal notranslate"><span class="pre">Eq</span></code>, <code class="docutils literal notranslate"><span class="pre">Show</span></code> and <code class="docutils literal notranslate"><span class="pre">Ord</span></code>, and <code class="docutils literal notranslate"><span class="pre">ContractId</span> <span class="pre">a</span></code> derives <code class="docutils literal notranslate"><span class="pre">Eq</span></code> and <code class="docutils literal notranslate"><span class="pre">Show</span></code>.</p>
+<p>Records can give the data on <code class="docutils literal notranslate"><span class="pre">CashBalance</span></code> a bit more structure:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+  <span class="n">party</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="n">address</span><span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">telephone</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">Account</span> <span class="ow">=</span> <span class="kt">Account</span> <span class="kr">with</span>
+  <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="n">number</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">bank</span> <span class="kt">:</span> <span class="kt">Bank</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">Cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+  <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">template</span> <span class="kt">CashBalance</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">cash</span> <span class="kt">:</span> <span class="kt">Cash</span>
+    <span class="n">account</span> <span class="kt">:</span> <span class="kt">Account</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+<span class="nf">cash_balance_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="n">accountant</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">owner</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bank_party</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bank&quot;</span>
+  <span class="kr">let</span>
+    <span class="n">bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+      <span class="n">party</span> <span class="ow">=</span> <span class="n">bank_party</span>
+      <span class="n">address</span> <span class="ow">=</span> <span class="s">&quot;High Street&quot;</span>
+      <span class="n">telephone</span> <span class="ow">=</span> <span class="s">&quot;012 3456 789&quot;</span>
+    <span class="n">account</span> <span class="ow">=</span> <span class="kt">Account</span> <span class="kr">with</span>
+      <span class="n">owner</span>
+      <span class="n">bank</span>
+      <span class="n">number</span> <span class="ow">=</span> <span class="s">&quot;ABC123&quot;</span>
+    <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+      <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+      <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+
+  <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">CashBalance</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">cash</span>
+      <span class="n">account</span>
+  <span class="n">pure</span> <span class="nb">()</span>
+</pre></div>
+</div>
+<p>If you look at the resulting script view, you’ll see that this still gives rise to one table. The records are expanded out into columns using dot notation.</p>
+</div>
+<div class="section" id="variants-and-pattern-matching">
+<h3>Variants and pattern matching<a class="headerlink" href="#variants-and-pattern-matching" title="Permalink to this headline">¶</a></h3>
+<p>Suppose now that you also wanted to keep track of cash in hand. Cash in hand doesn’t have a bank, but you can’t just leave <code class="docutils literal notranslate"><span class="pre">bank</span></code> empty. Daml doesn’t have an equivalent to <code class="docutils literal notranslate"><span class="pre">null</span></code>. Variants can express that cash can either be in hand or at a bank.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+  <span class="n">party</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="n">address</span><span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">telephone</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">Account</span> <span class="ow">=</span> <span class="kt">Account</span> <span class="kr">with</span>
+  <span class="n">number</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">bank</span> <span class="kt">:</span> <span class="kt">Bank</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">Cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+  <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">Location</span>
+  <span class="ow">=</span> <span class="kt">InHand</span>
+  <span class="o">|</span> <span class="kt">InAccount</span> <span class="kt">Account</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">template</span> <span class="kt">CashBalance</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">cash</span> <span class="kt">:</span> <span class="kt">Cash</span>
+    <span class="n">location</span> <span class="kt">:</span> <span class="kt">Location</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+<span class="nf">cash_balance_test</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">accountant</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">owner</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bank_party</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bank&quot;</span>
+  <span class="kr">let</span>
+    <span class="n">bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+      <span class="n">party</span> <span class="ow">=</span> <span class="n">bank_party</span>
+      <span class="n">address</span> <span class="ow">=</span> <span class="s">&quot;High Street&quot;</span>
+      <span class="n">telephone</span> <span class="ow">=</span> <span class="s">&quot;012 3456 789&quot;</span>
+    <span class="n">account</span> <span class="ow">=</span> <span class="kt">Account</span> <span class="kr">with</span>
+      <span class="n">bank</span>
+      <span class="n">number</span> <span class="ow">=</span> <span class="s">&quot;ABC123&quot;</span>
+    <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+      <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+      <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+
+  <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">CashBalance</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">owner</span>
+      <span class="n">cash</span>
+      <span class="n">location</span> <span class="ow">=</span> <span class="kt">InHand</span>
+
+  <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">CashBalance</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">owner</span>
+      <span class="n">cash</span>
+      <span class="n">location</span> <span class="ow">=</span> <span class="kt">InAccount</span> <span class="n">account</span>
+</pre></div>
+</div>
+<p>The way to read the declaration of <code class="docutils literal notranslate"><span class="pre">Location</span></code> is “<em>A Location either has value</em> <code class="docutils literal notranslate"><span class="pre">InHand</span></code> <em>OR has a value</em> <code class="docutils literal notranslate"><span class="pre">InAccount</span> <span class="pre">a</span></code> <em>where</em> <code class="docutils literal notranslate"><span class="pre">a</span></code> <em>is of type Account</em>”. This is quite an explicit way to say that there may or may not be an <code class="docutils literal notranslate"><span class="pre">Account</span></code> associated with a <code class="docutils literal notranslate"><span class="pre">CashBalance</span></code> and gives both cases suggestive names.</p>
+<p>Another option is to use the built-in <code class="docutils literal notranslate"><span class="pre">Optional</span></code> type. The <code class="docutils literal notranslate"><span class="pre">None</span></code> value of type <code class="docutils literal notranslate"><span class="pre">Optional</span> <span class="pre">a</span></code> is the closest Daml has to a <code class="docutils literal notranslate"><span class="pre">null</span></code> value:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Optional</span> <span class="n">a</span>
+  <span class="ow">=</span> <span class="kt">None</span>
+  <span class="o">|</span> <span class="kt">Some</span> <span class="n">a</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Variant types where none of the data constructors take a parameter are called enums:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">DayOfWeek</span>
+  <span class="ow">=</span> <span class="kt">Monday</span>
+  <span class="o">|</span> <span class="kt">Tuesday</span>
+  <span class="o">|</span> <span class="kt">Wednesday</span>
+  <span class="o">|</span> <span class="kt">Thursday</span>
+  <span class="o">|</span> <span class="kt">Friday</span>
+  <span class="o">|</span> <span class="kt">Saturday</span>
+  <span class="o">|</span> <span class="kt">Sunday</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To access the data in variants, you need to distinguish the different possible cases. For example, you can no longer access the account number of a <code class="docutils literal notranslate"><span class="pre">Location</span></code> directly, because if it is <code class="docutils literal notranslate"><span class="pre">InHand</span></code>, there may be no account number.</p>
+<p>To do this, you can use <em>pattern matching</em> and either throw errors or return compatible types for all cases:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="cm">{-</span>
+<span class="cm">-- Commented out as `Either` is defined in the standard library.</span>
+<span class="cm">data Either a b</span>
+<span class="cm">  = Left a</span>
+<span class="cm">  | Right b</span>
+<span class="cm">-}</span>
+
+<span class="nf">variant_access_test</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="kr">let</span>
+    <span class="n">l</span> <span class="kt">:</span> <span class="kt">Either</span> <span class="kt">Int</span> <span class="kt">Text</span> <span class="ow">=</span> <span class="kt">Left</span> <span class="mi">1</span>
+    <span class="n">r</span> <span class="kt">:</span> <span class="kt">Either</span> <span class="kt">Int</span> <span class="kt">Text</span> <span class="ow">=</span> <span class="kt">Right</span> <span class="s">&quot;r&quot;</span>
+
+    <span class="c1">-- If we know that `l` is a `Left`, we can error on the `Right` case.</span>
+    <span class="n">l_value</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">l</span> <span class="kr">of</span>
+      <span class="kt">Left</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="n">i</span>
+      <span class="kt">Right</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="ne">error</span> <span class="s">&quot;Expecting Left&quot;</span>
+    <span class="c1">-- Comment out at your own peril</span>
+    <span class="cm">{-</span>
+<span class="cm">    r_value = case r of</span>
+<span class="cm">      Left i -&gt; i</span>
+<span class="cm">      Right i -&gt; error &quot;Expecting Left&quot;</span>
+<span class="cm">    -}</span>
+
+    <span class="c1">-- If we are unsure, we can return an `Optional` in both cases</span>
+    <span class="n">ol_value</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">l</span> <span class="kr">of</span>
+      <span class="kt">Left</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="kt">Some</span> <span class="n">i</span>
+      <span class="kt">Right</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="kt">None</span>
+    <span class="n">or_value</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">r</span> <span class="kr">of</span>
+      <span class="kt">Left</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="kt">Some</span> <span class="n">i</span>
+      <span class="kt">Right</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="kt">None</span>
+
+    <span class="c1">-- If we don&#39;t care about values or even constructors, we can use wildcards</span>
+    <span class="n">l_value2</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">l</span> <span class="kr">of</span>
+      <span class="kt">Left</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="n">i</span>
+      <span class="kt">Right</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="ne">error</span> <span class="s">&quot;Expecting Left&quot;</span>
+    <span class="n">l_value3</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">l</span> <span class="kr">of</span>
+      <span class="kt">Left</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="n">i</span>
+      <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="ne">error</span> <span class="s">&quot;Expecting Left&quot;</span>
+
+    <span class="n">day</span> <span class="ow">=</span> <span class="kt">Sunday</span>
+    <span class="n">weekend</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">day</span> <span class="kr">of</span>
+      <span class="kt">Saturday</span> <span class="ow">-&gt;</span> <span class="kc">True</span>
+      <span class="kt">Sunday</span> <span class="ow">-&gt;</span> <span class="kc">True</span>
+      <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="kc">False</span>
+
+  <span class="n">assert</span> <span class="p">(</span><span class="n">l_value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">l_value2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">l_value3</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">ol_value</span> <span class="o">==</span> <span class="kt">Some</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">or_value</span> <span class="o">==</span> <span class="kt">None</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="n">weekend</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="manipulating-data">
+<h2>Manipulating data<a class="headerlink" href="#manipulating-data" title="Permalink to this headline">¶</a></h2>
+<p>You’ve got all the ingredients to build rich types expressing the data you want to be able to write to the ledger, and you have seen how to create new values and read fields from values. But how do you manipulate values once created?</p>
+<p>All data in Daml is immutable, meaning once a value is created, it will never change. Rather than changing values, you create new values based on old ones with some changes applied:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">manipulation_demo</span> <span class="ow">=</span> <span class="n">script</span> <span class="kr">do</span>
+  <span class="kr">let</span>
+    <span class="n">eq_record</span> <span class="ow">=</span> <span class="kt">EqRecord</span> <span class="kr">with</span>
+      <span class="n">my_txt</span> <span class="ow">=</span> <span class="s">&quot;Text&quot;</span>
+      <span class="n">my_int</span> <span class="ow">=</span> <span class="mi">2</span>
+      <span class="n">my_dec</span> <span class="ow">=</span> <span class="mf">2.5</span>
+      <span class="n">my_list</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Three&quot;</span><span class="p">]</span>
+
+    <span class="c1">-- A verbose way to change `eq_record`</span>
+    <span class="n">changed_record</span> <span class="ow">=</span> <span class="kt">EqRecord</span> <span class="kr">with</span>
+      <span class="n">my_txt</span> <span class="ow">=</span> <span class="n">eq_record</span><span class="o">.</span><span class="n">my_txt</span>
+      <span class="n">my_int</span> <span class="ow">=</span> <span class="mi">3</span>
+      <span class="n">my_dec</span> <span class="ow">=</span> <span class="n">eq_record</span><span class="o">.</span><span class="n">my_dec</span>
+      <span class="n">my_list</span> <span class="ow">=</span> <span class="n">eq_record</span><span class="o">.</span><span class="n">my_list</span>
+
+    <span class="c1">-- A better way</span>
+    <span class="n">better_changed_record</span> <span class="ow">=</span> <span class="n">eq_record</span> <span class="kr">with</span>
+      <span class="n">my_int</span> <span class="ow">=</span> <span class="mi">3</span>
+
+    <span class="n">record_with_changed_list</span> <span class="ow">=</span> <span class="n">eq_record</span> <span class="kr">with</span>
+      <span class="n">my_list</span> <span class="ow">=</span> <span class="s">&quot;Zero&quot;</span> <span class="ow">::</span> <span class="n">eq_record</span><span class="o">.</span><span class="n">my_list</span>
+
+  <span class="n">assert</span> <span class="p">(</span><span class="n">eq_record</span><span class="o">.</span><span class="n">my_int</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">changed_record</span> <span class="o">==</span> <span class="n">better_changed_record</span><span class="p">)</span>
+
+  <span class="c1">-- The list on `eq_record` can&#39;t be changed.</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">eq_record</span><span class="o">.</span><span class="n">my_list</span> <span class="o">==</span> <span class="p">[</span><span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Three&quot;</span><span class="p">])</span>
+  <span class="c1">-- The list on `record_with_changed_list` is a new one.</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">record_with_changed_list</span><span class="o">.</span><span class="n">my_list</span> <span class="o">==</span> <span class="p">[</span><span class="s">&quot;Zero&quot;</span><span class="p">,</span> <span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Three&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">changed_record</span></code> and <code class="docutils literal notranslate"><span class="pre">better_changed_record</span></code> are each a copy of <code class="docutils literal notranslate"><span class="pre">eq_record</span></code> with the field <code class="docutils literal notranslate"><span class="pre">my_int</span></code> changed. <code class="docutils literal notranslate"><span class="pre">better_changed_record</span></code> shows the recommended way to change fields on a record. The syntax is almost the same as for a new record, but the record name is replaced with the old value: <code class="docutils literal notranslate"><span class="pre">eq_record</span> <span class="pre">with</span></code> instead of <code class="docutils literal notranslate"><span class="pre">EqRecord</span> <span class="pre">with</span></code>. The <code class="docutils literal notranslate"><span class="pre">with</span></code> block no longer needs to give values to all fields of <code class="docutils literal notranslate"><span class="pre">EqRecord</span></code>. Any missing fields are taken from <code class="docutils literal notranslate"><span class="pre">eq_record</span></code>.</p>
+<p>Throughout the script, <code class="docutils literal notranslate"><span class="pre">eq_record</span></code> never changes. The expression <code class="docutils literal notranslate"><span class="pre">&quot;Zero&quot;</span> <span class="pre">::</span> <span class="pre">eq_record.my_list</span></code> doesn’t change the list in-place, but creates a new list, which is <code class="docutils literal notranslate"><span class="pre">eq_record.my_list</span></code> with an extra element in the beginning.</p>
+</div>
+<div class="section" id="contract-keys">
+<span id="id2"></span><h2>Contract keys<a class="headerlink" href="#contract-keys" title="Permalink to this headline">¶</a></h2>
+<p>Daml’s type system lets you store richly structured data on Daml templates, but just like most database schemas have more than one table, Daml contract models often have multiple templates that reference each other. For example, you may not want to store your bank and account information on each individual cash balance contract, but instead store those on separate contracts.</p>
+<p>You have already met the type <code class="docutils literal notranslate"><span class="pre">ContractId</span> <span class="pre">a</span></code>, which references a contract of type <code class="docutils literal notranslate"><span class="pre">a</span></code>. The below shows a contract model where <code class="docutils literal notranslate"><span class="pre">Account</span></code> is split out into a separate template and referenced by <code class="docutils literal notranslate"><span class="pre">ContractId</span></code>, but it also highlights a big problem with that kind of reference: just like data, contracts are immutable. They can only be created and archived, so if you want to change the data on a contract, you end up archiving the original contract and creating a new one with the changed data. That makes contract IDs very unstable, and can cause stale references.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+  <span class="n">party</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="n">address</span><span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">telephone</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">template</span> <span class="kt">Account</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">number</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">bank</span> <span class="kt">:</span> <span class="kt">Bank</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+<span class="kr">data</span> <span class="kt">Cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+  <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">template</span> <span class="kt">CashBalance</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">cash</span> <span class="kt">:</span> <span class="kt">Cash</span>
+    <span class="n">account</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Account</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+<span class="nf">id_ref_test</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">accountant</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">owner</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bank_party</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bank&quot;</span>
+  <span class="kr">let</span>
+    <span class="n">bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+      <span class="n">party</span> <span class="ow">=</span> <span class="n">bank_party</span>
+      <span class="n">address</span> <span class="ow">=</span> <span class="s">&quot;High Street&quot;</span>
+      <span class="n">telephone</span> <span class="ow">=</span> <span class="s">&quot;012 3456 789&quot;</span>
+    <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+      <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+      <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+
+  <span class="n">accountCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+     <span class="n">createCmd</span> <span class="kt">Account</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">owner</span>
+      <span class="n">bank</span>
+      <span class="n">number</span> <span class="ow">=</span> <span class="s">&quot;ABC123&quot;</span>
+
+  <span class="n">balanceCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">CashBalance</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">cash</span>
+      <span class="n">account</span> <span class="ow">=</span> <span class="n">accountCid</span>
+
+  <span class="c1">-- Now the accountant updates the telephone number for the bank on the account</span>
+  <span class="kt">Some</span> <span class="n">account</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">accountant</span> <span class="n">accountCid</span>
+  <span class="n">new_account</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">archiveCmd</span> <span class="n">accountCid</span>
+    <span class="n">createCmd</span> <span class="n">account</span> <span class="kr">with</span>
+      <span class="n">bank</span> <span class="ow">=</span> <span class="n">account</span><span class="o">.</span><span class="n">bank</span> <span class="kr">with</span>
+        <span class="n">telephone</span> <span class="ow">=</span> <span class="s">&quot;098 7654 321&quot;</span>
+    <span class="n">pure</span> <span class="nb">()</span>
+
+  <span class="c1">-- The `account` field on the balance now refers to the archived</span>
+  <span class="c1">-- contract, so this will fail.</span>
+  <span class="kt">Some</span> <span class="n">balance</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">accountant</span> <span class="n">balanceCid</span>
+  <span class="n">optAccount</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">accountant</span> <span class="n">balance</span><span class="o">.</span><span class="n">account</span>
+  <span class="n">optAccount</span> <span class="o">===</span> <span class="kt">None</span>
+</pre></div>
+</div>
+<p>The script above uses the <code class="docutils literal notranslate"><span class="pre">queryContractId</span></code> function, which retrieves the arguments of an active contract using its contract ID. If there is no active contract with the given identifier visible to the given party, <code class="docutils literal notranslate"><span class="pre">queryContractId</span></code> returns <code class="docutils literal notranslate"><span class="pre">None</span></code>. Here, we use a pattern match on <code class="docutils literal notranslate"><span class="pre">Some</span></code> which will abort the script if <code class="docutils literal notranslate"><span class="pre">queryContractId</span></code> returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>Note that, for the first time, the party submitting a transaction is doing more than one thing as part of that transaction. To create <code class="docutils literal notranslate"><span class="pre">new_account</span></code>, the accountant archives the old account and creates a new account, all in one transaction. More on building transactions in <a class="reference internal" href="7_Composing.html"><span class="doc">7 Composing choices</span></a>.</p>
+<p>You can define <em>stable</em> keys for contracts using the <code class="docutils literal notranslate"><span class="pre">key</span></code> and <code class="docutils literal notranslate"><span class="pre">maintainer</span></code> keywords. <code class="docutils literal notranslate"><span class="pre">key</span></code> defines the primary key of a template, with the ability to look up contracts by key, and a uniqueness constraint in the sense that only one contract of a given template and with a given key value can be active at a time.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+  <span class="n">party</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="n">address</span><span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">telephone</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">data</span> <span class="kt">AccountKey</span> <span class="ow">=</span> <span class="kt">AccountKey</span> <span class="kr">with</span>
+  <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="n">number</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">bank_party</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">template</span> <span class="kt">Account</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">number</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">bank</span> <span class="kt">:</span> <span class="kt">Bank</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+    <span class="n">key</span> <span class="kt">AccountKey</span> <span class="kr">with</span>
+        <span class="n">accountant</span>
+        <span class="n">number</span>
+        <span class="n">bank_party</span> <span class="ow">=</span> <span class="n">bank</span><span class="o">.</span><span class="n">party</span>
+      <span class="kt">:</span> <span class="kt">AccountKey</span>
+    <span class="n">maintainer</span> <span class="n">key</span><span class="o">.</span><span class="n">accountant</span>
+
+<span class="kr">data</span> <span class="kt">Cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+  <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+  <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span>
+
+<span class="kr">template</span> <span class="kt">CashBalance</span>
+  <span class="kr">with</span>
+    <span class="n">accountant</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">cash</span> <span class="kt">:</span> <span class="kt">Cash</span>
+    <span class="n">account</span> <span class="kt">:</span> <span class="kt">AccountKey</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">accountant</span>
+
+<span class="nf">id_ref_test</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">accountant</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">owner</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bank_party</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bank&quot;</span>
+  <span class="kr">let</span>
+    <span class="n">bank</span> <span class="ow">=</span> <span class="kt">Bank</span> <span class="kr">with</span>
+      <span class="n">party</span> <span class="ow">=</span> <span class="n">bank_party</span>
+      <span class="n">address</span> <span class="ow">=</span> <span class="s">&quot;High Street&quot;</span>
+      <span class="n">telephone</span> <span class="ow">=</span> <span class="s">&quot;012 3456 789&quot;</span>
+    <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+      <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+      <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+
+  <span class="n">accountCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+     <span class="n">createCmd</span> <span class="kt">Account</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">owner</span>
+      <span class="n">bank</span>
+      <span class="n">number</span> <span class="ow">=</span> <span class="s">&quot;ABC123&quot;</span>
+
+  <span class="kt">Some</span> <span class="n">account</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">accountant</span> <span class="n">accountCid</span>
+  <span class="n">balanceCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">CashBalance</span> <span class="kr">with</span>
+      <span class="n">accountant</span>
+      <span class="n">cash</span>
+      <span class="n">account</span> <span class="ow">=</span> <span class="n">key</span> <span class="n">account</span>
+
+  <span class="c1">-- Now the accountant updates the telephone number for the bank on the account</span>
+  <span class="kt">Some</span> <span class="n">account</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">accountant</span> <span class="n">accountCid</span>
+  <span class="n">new_accountCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">archiveCmd</span> <span class="n">accountCid</span>
+    <span class="n">cid</span> <span class="ow">&lt;-</span> <span class="n">createCmd</span> <span class="n">account</span> <span class="kr">with</span>
+      <span class="n">bank</span> <span class="ow">=</span> <span class="n">account</span><span class="o">.</span><span class="n">bank</span> <span class="kr">with</span>
+        <span class="n">telephone</span> <span class="ow">=</span> <span class="s">&quot;098 7654 321&quot;</span>
+    <span class="n">pure</span> <span class="n">cid</span>
+
+  <span class="c1">-- Thanks to contract keys, the current account contract is fetched</span>
+  <span class="kt">Some</span> <span class="n">balance</span> <span class="ow">&lt;-</span> <span class="n">queryContractId</span> <span class="n">accountant</span> <span class="n">balanceCid</span>
+  <span class="p">(</span><span class="n">cid</span><span class="p">,</span> <span class="n">account</span><span class="p">)</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">accountant</span> <span class="kr">do</span>
+    <span class="n">createAndExerciseCmd</span> <span class="p">(</span><span class="kt">Helper</span> <span class="n">accountant</span><span class="p">)</span> <span class="p">(</span><span class="kt">FetchAccountByKey</span> <span class="n">balance</span><span class="o">.</span><span class="n">account</span><span class="p">)</span>
+  <span class="n">assert</span> <span class="p">(</span><span class="n">cid</span> <span class="o">==</span> <span class="n">new_accountCid</span><span class="p">)</span>
+
+<span class="c1">-- Helper template to call `fetchByKey`.</span>
+<span class="kr">template</span> <span class="kt">Helper</span>
+  <span class="kr">with</span>
+    <span class="n">p</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">p</span>
+    <span class="n">choice</span> <span class="kt">FetchAccountByKey</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">ContractId</span> <span class="kt">Account</span><span class="p">,</span> <span class="kt">Account</span><span class="p">)</span>
+      <span class="kr">with</span>
+        <span class="n">accountKey</span> <span class="kt">:</span> <span class="kt">AccountKey</span>
+      <span class="kr">controller</span> <span class="n">p</span>
+      <span class="kr">do</span> <span class="n">fetchByKey</span> <span class="o">@</span><span class="kt">Account</span> <span class="n">accountKey</span>
+</pre></div>
+</div>
+<p>Since Daml is designed to run on distributed systems, you have to assume that there is no global entity that can guarantee uniqueness, which is why each <code class="docutils literal notranslate"><span class="pre">key</span></code> expression must come with a <code class="docutils literal notranslate"><span class="pre">maintainer</span></code> expression. <code class="docutils literal notranslate"><span class="pre">maintainer</span></code> takes one or several parties, all of which have to be signatories of the contract and be part of the key. That way the index can be partitioned amongst sets of maintainers, and each set of maintainers can independently ensure the uniqueness constraint on their piece of the index. The constraint that maintainers are part of the key is ensured by only having the variable <cite>key</cite> in each maintainer expression.</p>
+<p>Instead of calling <code class="docutils literal notranslate"><span class="pre">queryContractId</span></code> to get the contract arguments associated with a given contract identifier, we use <code class="docutils literal notranslate"><span class="pre">fetchByKey</span> <span class="pre">&#64;Account</span></code>. <code class="docutils literal notranslate"><span class="pre">fetchByKey</span> <span class="pre">&#64;Account</span></code> takes a value of type <code class="docutils literal notranslate"><span class="pre">AccountKey</span></code> and returns a tuple <code class="docutils literal notranslate"><span class="pre">(ContractId</span> <span class="pre">Account,</span> <span class="pre">Account)</span></code> if the lookup was successful or fails the transaction otherwise. <code class="docutils literal notranslate"><span class="pre">fetchByKey</span></code> cannot be used directly in the list of commands sent to the ledger. Therefore we create a <code class="docutils literal notranslate"><span class="pre">Helper</span></code> template with a <code class="docutils literal notranslate"><span class="pre">FetchAccountByKey</span></code> choice and call that
+via <code class="docutils literal notranslate"><span class="pre">createAndExerciseCmd</span></code>. We will learn more about choices in the <a class="reference internal" href="4_Transformations.html"><span class="doc">next section</span></a>.</p>
+<p>Since a single type could be used as the key for multiple templates, you need to tell the compiler what type of contract is being fetched by using the <code class="docutils literal notranslate"><span class="pre">&#64;Account</span></code> notation.</p>
+</div>
+<div class="section" id="next-up">
+<h2>Next up<a class="headerlink" href="#next-up" title="Permalink to this headline">¶</a></h2>
+<p>You can now define data schemas for the ledger, read, write and delete data from the ledger, and use keys to reference and look up data in a stable fashion.</p>
+<p>In <a class="reference internal" href="4_Transformations.html"><span class="doc">4 Transforming data using choices</span></a> you’ll learn how to define data transformations and give other parties the right to manipulate data in restricted ways.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="2_DamlScript.html" class="da-btn da-btn-label btn-prev" title="2 Testing templates using Daml Script" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="4_Transformations.html" class="da-btn da-btn-label btn-next" title="4 Transforming data using choices" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

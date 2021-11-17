@@ -1,0 +1,245 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-date-26380:
+
+Module DA.Date
+==============
+
+Data Types
+----------
+
+.. _type-da-date-types-dayofweek-14817:
+
+**data** `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+
+  .. _constr-da-date-types-monday-72210:
+  
+  `Monday <constr-da-date-types-monday-72210_>`_
+  
+  
+  .. _constr-da-date-types-tuesday-33888:
+  
+  `Tuesday <constr-da-date-types-tuesday-33888_>`_
+  
+  
+  .. _constr-da-date-types-wednesday-59823:
+  
+  `Wednesday <constr-da-date-types-wednesday-59823_>`_
+  
+  
+  .. _constr-da-date-types-thursday-80350:
+  
+  `Thursday <constr-da-date-types-thursday-80350_>`_
+  
+  
+  .. _constr-da-date-types-friday-33603:
+  
+  `Friday <constr-da-date-types-friday-33603_>`_
+  
+  
+  .. _constr-da-date-types-saturday-92901:
+  
+  `Saturday <constr-da-date-types-saturday-92901_>`_
+  
+  
+  .. _constr-da-date-types-sunday-33198:
+  
+  `Sunday <constr-da-date-types-sunday-33198_>`_
+  
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+  
+  **instance** :ref:`Bounded <class-ghc-enum-bounded-74406>` `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+  
+  **instance** :ref:`Enum <class-ghc-enum-enum-67791>` `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+  
+  **instance** :ref:`Show <class-ghc-show-show-56447>` `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+
+.. _type-da-date-types-month-59594:
+
+**data** `Month <type-da-date-types-month-59594_>`_
+
+  The ``Month`` type represents a month in the Gregorian calendar\.
+  
+  Note that, while ``Month`` has an ``Enum`` instance, the ``toEnum`` and ``fromEnum``
+  functions start counting at 0, i\.e\. ``toEnum 1 :: Month`` is ``Feb``\.
+  
+  .. _constr-da-date-types-jan-84494:
+  
+  `Jan <constr-da-date-types-jan-84494_>`_
+  
+  
+  .. _constr-da-date-types-feb-90818:
+  
+  `Feb <constr-da-date-types-feb-90818_>`_
+  
+  
+  .. _constr-da-date-types-mar-33577:
+  
+  `Mar <constr-da-date-types-mar-33577_>`_
+  
+  
+  .. _constr-da-date-types-apr-60950:
+  
+  `Apr <constr-da-date-types-apr-60950_>`_
+  
+  
+  .. _constr-da-date-types-may-79110:
+  
+  `May <constr-da-date-types-may-79110_>`_
+  
+  
+  .. _constr-da-date-types-jun-25098:
+  
+  `Jun <constr-da-date-types-jun-25098_>`_
+  
+  
+  .. _constr-da-date-types-jul-96300:
+  
+  `Jul <constr-da-date-types-jul-96300_>`_
+  
+  
+  .. _constr-da-date-types-aug-95492:
+  
+  `Aug <constr-da-date-types-aug-95492_>`_
+  
+  
+  .. _constr-da-date-types-sep-20333:
+  
+  `Sep <constr-da-date-types-sep-20333_>`_
+  
+  
+  .. _constr-da-date-types-oct-92523:
+  
+  `Oct <constr-da-date-types-oct-92523_>`_
+  
+  
+  .. _constr-da-date-types-nov-14200:
+  
+  `Nov <constr-da-date-types-nov-14200_>`_
+  
+  
+  .. _constr-da-date-types-dec-14081:
+  
+  `Dec <constr-da-date-types-dec-14081_>`_
+  
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` `Month <type-da-date-types-month-59594_>`_
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` `Month <type-da-date-types-month-59594_>`_
+  
+  **instance** :ref:`Bounded <class-ghc-enum-bounded-74406>` `Month <type-da-date-types-month-59594_>`_
+  
+  **instance** :ref:`Enum <class-ghc-enum-enum-67791>` `Month <type-da-date-types-month-59594_>`_
+  
+  **instance** :ref:`Show <class-ghc-show-show-56447>` `Month <type-da-date-types-month-59594_>`_
+
+Functions
+---------
+
+.. _function-da-date-adddays-46997:
+
+`addDays <function-da-date-adddays-46997_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Date <type-da-internal-lf-date-71388>`
+  
+  Add the given number of days to a date\.
+
+.. _function-da-date-subtractdays-59333:
+
+`subtractDays <function-da-date-subtractdays-59333_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Date <type-da-internal-lf-date-71388>`
+  
+  Subtract the given number of days from a date\.
+  
+  ``subtractDays d r`` is equivalent to ``addDays d (- r)``\.
+
+.. _function-da-date-subdate-22855:
+
+`subDate <function-da-date-subdate-22855_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> :ref:`Date <type-da-internal-lf-date-71388>` \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  Returns the number of days between the two given dates\.
+
+.. _function-da-date-dayofweek-19250:
+
+`dayOfWeek <function-da-date-dayofweek-19250_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> `DayOfWeek <type-da-date-types-dayofweek-14817_>`_
+  
+  Returns the day of week for the given date\.
+
+.. _function-da-date-fromgregorian-54975:
+
+`fromGregorian <function-da-date-fromgregorian-54975_>`_
+  \: (:ref:`Int <type-ghc-types-int-68728>`, `Month <type-da-date-types-month-59594_>`_, :ref:`Int <type-ghc-types-int-68728>`) \-\> :ref:`Date <type-da-internal-lf-date-71388>`
+  
+  Constructs a ``Date`` from the triplet ``(year, month, days)``\.
+
+.. _function-da-date-togregorian-65204:
+
+`toGregorian <function-da-date-togregorian-65204_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> (:ref:`Int <type-ghc-types-int-68728>`, `Month <type-da-date-types-month-59594_>`_, :ref:`Int <type-ghc-types-int-68728>`)
+  
+  Turn ``Date`` value into a ``(year, month, day)`` triple, according
+  to the Gregorian calendar\.
+
+.. _function-da-date-date-16948:
+
+`date <function-da-date-date-16948_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `Month <type-da-date-types-month-59594_>`_ \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Date <type-da-internal-lf-date-71388>`
+  
+  Given the three values (year, month, day), constructs a ``Date`` value\.
+  ``date y m d`` turns the year ``y``, month ``m``, and day ``d`` into a ``Date`` value\.
+  Raises an error if ``d`` is outside the range ``1 .. monthDayCount y m``\.
+
+.. _function-da-date-isleapyear-58371:
+
+`isLeapYear <function-da-date-isleapyear-58371_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Returns ``True`` if the given year is a leap year\.
+
+.. _function-da-date-frommonth-34537:
+
+`fromMonth <function-da-date-frommonth-34537_>`_
+  \: `Month <type-da-date-types-month-59594_>`_ \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  Get the number corresponding to given month\. For example, ``Jan`` corresponds
+  to ``1``, ``Feb`` corresponds to ``2``, and so on\.
+
+.. _function-da-date-monthdaycount-52758:
+
+`monthDayCount <function-da-date-monthdaycount-52758_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `Month <type-da-date-types-month-59594_>`_ \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  Get number of days in the given month in the given year, according to Gregorian calendar\.
+  This does not take historical calendar changes into account (for example, the
+  moves from Julian to Gregorian calendar), but does count leap years\.
+
+.. _function-da-date-datetime-6395:
+
+`datetime <function-da-date-datetime-6395_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `Month <type-da-date-types-month-59594_>`_ \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Time <type-da-internal-lf-time-19011>`
+  
+  Constructs an instant using ``year``, ``month``, ``day``, ``hours``, ``minutes``, ``seconds``\.
+
+.. _function-da-date-todateutc-68592:
+
+`toDateUTC <function-da-date-todateutc-68592_>`_
+  \: :ref:`Time <type-da-internal-lf-time-19011>` \-\> :ref:`Date <type-da-internal-lf-date-71388>`
+  
+  Extracts UTC date from UTC time\.
+  
+  This function will truncate Time to Date, but in many cases it will not return the date you really want\.
+  The reason for this is that usually the source of Time would be getTime, and getTime returns UTC, and most likely
+  the date you want is something local to a location or an exchange\. Consequently the date retrieved this way would be
+  yesterday if retrieved when the market opens in say Singapore\.
+
+.. _function-da-date-passtodate-34414:
+
+`passToDate <function-da-date-passtodate-34414_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> :ref:`Scenario <type-da-internal-lf-scenario-45418>` :ref:`Time <type-da-internal-lf-time-19011>`
+  
+  Within a ``scenario``, pass the simulated scenario to given date\.
