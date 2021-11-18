@@ -358,11 +358,18 @@ but there is no guarantee given that additional information will be preserved ac
 Error Codes Inventory
 **********************
 
-.. list-all-error-codes::
+
+.. This file is generated:
+.. include:: error_codes_inventory.rst
+
+
+.. .. list-all-error-codes::
+
 
 
 Error Codes Migration Guide
----------------------------
+*****************************
+
 
 The Ledger API gRPC error codes change introduced in the Daml SDK 1.18 release involves breaking
 compatibility with previous releases for some service Ledger API endpoints.

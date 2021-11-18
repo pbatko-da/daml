@@ -3,14 +3,15 @@
 
 package com.daml.error.generator
 
-import com.daml.error.Explanation
+import com.daml.error.{ErrorGroupPath, Explanation}
 
 /** Contains error presentation data to be used for documentation rendering on the website.
   *
-  * @param className The group class name (see [[com.daml.error.ErrorGroup]]).
+  * @param fullClassName The group class name (see [[com.daml.error.ErrorGroup]]).
   * @param explanation The detailed error explanation.
   */
 case class GroupDocItem(
-    className: String,
-    explanation: Explanation,
+                         fullClassName: String,
+                         explanation: Option[Explanation],
+                         errorGroupPath: ErrorGroupPath
 )

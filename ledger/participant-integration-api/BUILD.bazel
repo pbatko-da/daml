@@ -443,8 +443,13 @@ da_scala_binary(
     deps = [
         ":participant-integration-api",
         "//ledger/error",
+        "//ledger/error/generator:lib",
         "@maven//:commons_io_commons_io",
         "@maven//:io_grpc_grpc_api",
         "@maven//:org_slf4j_slf4j_api",
     ],
+    runtime_deps = [
+        # Add the KVErrors to the classpath so they can be picked up by the generator
+        "//ledger/participant-state/kvutils",
+    ]
 )

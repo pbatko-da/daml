@@ -10,6 +10,7 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 import java.nio.charset.StandardCharsets
 
+import com.daml.error.generator.{ErrorCodeDocumentationGenerator, ErrorDocItem, GroupDocItem}
 import com.daml.error.{Description, ErrorCategory, Resolution, RetryStrategy}
 
 // TODO error codes: Delete it once final version of migration guide is ready.
@@ -20,6 +21,13 @@ import com.daml.error.{Description, ErrorCategory, Resolution, RetryStrategy}
   */
 object SelfServiceErrorCodes_MigrationGuideGen_App {
   def main(args: Array[String]): Unit = {
+
+
+    println(getSelfServiceErrorCodeInventory_asSubsections())
+    if (args.length < 10) {
+      System.exit(0)
+    }
+
 
     // Generate error categories table
 
@@ -204,7 +212,10 @@ object SelfServiceErrorCodes_MigrationGuideGen_App {
       ),
     )
     println(reStTable)
+
+
   }
+
 
   private def printOutAsCsvText(tableLines: Array[Array[String]]): Unit = {
     val csvLines = for {
