@@ -1,0 +1,651 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>App Architecture &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Your First Feature" href="first-feature.html" />
+  <link rel="prev" title="Getting Started with Daml" href="index.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Building Your App</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">App Architecture</a><ul>
+<li><a class="reference internal" href="#the-daml-model">The Daml Model</a></li>
+<li><a class="reference internal" href="#typescript-code-generation">TypeScript Code Generation</a></li>
+<li><a class="reference internal" href="#the-ui">The UI</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="app-architecture">
+<h1>App Architecture<a class="headerlink" href="#app-architecture" title="Permalink to this headline">¶</a></h1>
+<p>In this section we’ll look at the different components of our social network app. The goal is to familiarize you enough to feel comfortable extending the code with a new feature in the next section. There are two main components:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the Daml model and</li>
+<li>the React/TypeScript frontend.</li>
+</ul>
+</div></blockquote>
+<p>We generate TypeScript code to bridge the two.</p>
+<p>Overall, the social networking app is following the <a class="reference internal" href="../app-dev/app-arch.html#recommended-architecture"><span class="std std-ref">recommended architecture of a fullstack Daml application</span></a>. Below you can see a simplified version of the architecture represented in the app.</p>
+<img alt="../_images/gsg_architecture.svg" src="../_images/gsg_architecture.svg" /><p>Let’s start by looking at the Daml model, which defines the core logic of the application. Have <a class="reference external" href="https://docs.daml.com/cheat-sheet/">the Daml cheat-sheet</a> open in a separate tab for a quick overview of the most common Daml concepts.</p>
+<div class="section" id="the-daml-model">
+<h2>The Daml Model<a class="headerlink" href="#the-daml-model" title="Permalink to this headline">¶</a></h2>
+<p>In your terminal, navigate to the root <code class="docutils literal notranslate"><span class="pre">create-daml-app</span></code> directory and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">daml</span> <span class="n">studio</span>
+</pre></div>
+</div>
+<p>This should open the Visual Studio Code editor at the root of the project.
+(You may get a new tab pop up with release notes for the latest version of Daml Connect - just close this.)
+Using the file <em>Explorer</em> on the left sidebar, navigate to the <code class="docutils literal notranslate"><span class="pre">daml</span></code> folder and double-click on the <code class="docutils literal notranslate"><span class="pre">User.daml</span></code> file.</p>
+<p>The Daml code defines the <em>data</em> and <em>workflow</em> of the application.
+Both are described in the <code class="docutils literal notranslate"><span class="pre">User</span></code> contract <em>template</em>.
+Let’s look at the data portion first.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">User</span> <span class="kr">with</span>
+    <span class="n">username</span><span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">following</span><span class="kt">:</span> <span class="p">[</span><span class="kt">Party</span><span class="p">]</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">username</span>
+    <span class="kr">observer</span> <span class="n">following</span>
+</pre></div>
+</div>
+<p>There are two important aspects here:</p>
+<p>1. The data definition (a <em>schema</em> in database terms), describing the data stored with each user contract.
+In this case it is an identifier for the user and the list of users they are following.
+Both fields use the built-in <code class="docutils literal notranslate"><span class="pre">Party</span></code> type which lets us use them in the following clauses.</p>
+<p>2. The signatories and observers of the contract.
+The signatories are the parties whose authorization is required to create or archive contracts, in this case the user herself.
+The observers are the parties who are able to view the contract on the ledger.
+In this case all users that a particular user is following are able to see the user contract.</p>
+<p>Let’s see what the <code class="docutils literal notranslate"><span class="pre">signatory</span></code> and <code class="docutils literal notranslate"><span class="pre">observer</span></code> clauses mean in our app more concretely.
+A user Alice can see another user Bob in the network only when Bob is following Alice (only if Alice is in the <code class="docutils literal notranslate"><span class="pre">following</span></code> list in his user contract).
+For this to be true, Bob must have previously started to follow Alice, as he is the sole signatory on his user contract.
+If not, Bob will be invisible to Alice.</p>
+<p>Here we see two concepts that are central to Daml: <em>authorization</em> and <em>privacy</em>.
+Authorization is about who can <em>do</em> what, and privacy is about who can <em>see</em> what.
+In Daml we must answer these questions upfront, as they fundamentally change the design of an application.</p>
+<p>The last part of the Daml model is the operation to follow users, called a <em>choice</em> in Daml.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">nonconsuming</span> <span class="n">choice</span> <span class="kt">Follow:</span> <span class="kt">ContractId</span> <span class="kt">User</span> <span class="kr">with</span>
+        <span class="n">userToFollow</span><span class="kt">:</span> <span class="kt">Party</span>
+      <span class="kr">controller</span> <span class="n">username</span>
+      <span class="kr">do</span>
+        <span class="n">assertMsg</span> <span class="s">&quot;You cannot follow yourself&quot;</span> <span class="p">(</span><span class="n">userToFollow</span> <span class="o">/=</span> <span class="n">username</span><span class="p">)</span>
+        <span class="n">assertMsg</span> <span class="s">&quot;You cannot follow the same user twice&quot;</span> <span class="p">(</span><span class="n">notElem</span> <span class="n">userToFollow</span> <span class="n">following</span><span class="p">)</span>
+        <span class="n">archive</span> <span class="n">self</span>
+        <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span> <span class="n">following</span> <span class="ow">=</span> <span class="n">userToFollow</span> <span class="ow">::</span> <span class="n">following</span>
+</pre></div>
+</div>
+<p>Daml contracts are <em>immutable</em> (can not be changed in place), so the only way to “update” one is to archive it and create a new instance.
+That is what the <code class="docutils literal notranslate"><span class="pre">Follow</span></code> choice does: after checking some preconditions, it archives the current user contract and creates a new one with the new user to follow added to the list. Here is a quick explanation of the code:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The choice starts with the <code class="docutils literal notranslate"><span class="pre">nonconsuming</span> <span class="pre">choice</span></code> keyword followed by the choice name <code class="docutils literal notranslate"><span class="pre">Follow</span></code>.</li>
+<li>The return type of a choice is defined next. In this case it is <code class="docutils literal notranslate"><span class="pre">ContractId</span> <span class="pre">User</span></code>.</li>
+<li>After that we declare choice parameters with the <code class="docutils literal notranslate"><span class="pre">with</span></code> keyword. Here this is the user we want to start following.</li>
+<li>The keyword <code class="docutils literal notranslate"><span class="pre">controller</span></code> defines the <code class="docutils literal notranslate"><span class="pre">Party</span></code> that is allowed to execute the choice. In this case, it is the <code class="docutils literal notranslate"><span class="pre">username</span></code> party associated with the <code class="docutils literal notranslate"><span class="pre">User</span></code> contract.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">do</span></code> keyword marks the start of the choice body where its functionality will be written.</li>
+<li>After passing some checks, the current contract is archived with <code class="docutils literal notranslate"><span class="pre">archive</span> <span class="pre">self</span></code>.</li>
+<li>A new <code class="docutils literal notranslate"><span class="pre">User</span></code> contract with the new user we have started following is created (the new user is added to the <code class="docutils literal notranslate"><span class="pre">following</span></code> list).</li>
+</ul>
+</div></blockquote>
+<p>This information should be enough for understanding how choices work in this guide. More detailed information on choices can be found in <a class="reference internal" href="../daml/reference/choices.html"><span class="doc">our docs</span></a>.</p>
+<p>Let’s move on to how our Daml model is reflected and used on the UI side.</p>
+</div>
+<div class="section" id="typescript-code-generation">
+<h2>TypeScript Code Generation<a class="headerlink" href="#typescript-code-generation" title="Permalink to this headline">¶</a></h2>
+<p>The user interface for our app is written in <a class="reference external" href="https://www.typescriptlang.org/">TypeScript</a>.
+TypeScript is a variant of JavaScript that provides more support during development through its type system.</p>
+<p>In order to build an application on top of Daml, we need a way to refer to our Daml templates and choices in TypeScript.
+We do this using a Daml to TypeScript code generation tool in the SDK.</p>
+<p>To run code generation, we first need to compile the Daml model to an archive format (a <code class="docutils literal notranslate"><span class="pre">.dar</span></code> file).
+The <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">codegen</span> <span class="pre">js</span></code> command then takes this file as argument to produce a number of TypeScript packages in the output folder.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">daml</span> <span class="n">build</span>
+<span class="n">daml</span> <span class="n">codegen</span> <span class="n">js</span> <span class="o">.</span><span class="n">daml</span><span class="o">/</span><span class="n">dist</span><span class="o">/</span><span class="n">create</span><span class="o">-</span><span class="n">daml</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="mf">0.1.0</span><span class="o">.</span><span class="n">dar</span> <span class="o">-</span><span class="n">o</span> <span class="n">daml</span><span class="o">.</span><span class="n">js</span>
+</pre></div>
+</div>
+<p>Now we have a TypeScript interface (types and companion objects) to our Daml model, which we’ll use in our UI code next.</p>
+</div>
+<div class="section" id="the-ui">
+<h2>The UI<a class="headerlink" href="#the-ui" title="Permalink to this headline">¶</a></h2>
+<p>On top of TypeScript, we use the UI framework <a class="reference external" href="https://reactjs.org/">React</a>.
+React helps us write modular UI components using a functional style - a component is rerendered whenever one of its inputs changes - with careful use of global state.</p>
+<p>Let’s see an example of a React component.
+All components are in the <code class="docutils literal notranslate"><span class="pre">ui/src/components</span></code> folder.
+You can navigate there within Visual Studio Code using the file explorer on the left sidebar.
+We’ll first look at <code class="docutils literal notranslate"><span class="pre">App.tsx</span></code>, which is the entry point to our application.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="kr">const</span> <span class="nx">App</span>: <span class="kt">React.FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">[</span><span class="nx">credentials</span><span class="p">,</span> <span class="nx">setCredentials</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">Credentials</span> <span class="p">|</span> <span class="na">undefined</span><span class="p">&gt;();</span>
+
+  <span class="k">return</span> <span class="nx">credentials</span>
+    <span class="o">?</span> <span class="p">&lt;</span><span class="nt">DamlLedger</span>
+        <span class="na">token</span><span class="o">=</span><span class="p">{</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">token</span><span class="p">}</span>
+        <span class="na">party</span><span class="o">=</span><span class="p">{</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">party</span><span class="p">}</span>
+        <span class="na">httpBaseUrl</span><span class="o">=</span><span class="p">{</span><span class="nx">httpBaseUrl</span><span class="p">}</span>
+      <span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">MainScreen</span> <span class="na">onLogout</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="nx">setCredentials</span><span class="p">(</span><span class="kc">undefined</span><span class="p">)}</span><span class="s">/</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">DamlLedger</span><span class="p">&gt;</span>
+    <span class="o">:</span> <span class="p">&lt;</span><span class="nt">LoginScreen</span> <span class="na">onLogin</span><span class="o">=</span><span class="p">{</span><span class="nx">setCredentials</span><span class="p">}</span> <span class="p">/&gt;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>An important tool in the design of our components is a React feature called <a class="reference external" href="https://reactjs.org/docs/hooks-intro.html">Hooks</a>.
+Hooks allow you to share and update state across components, avoiding having to thread it through manually.
+We take advantage of hooks in particular to share ledger state across components.
+We use custom <a class="reference internal" href="../app-dev/bindings-ts/daml-react.html"><span class="doc">Daml React hooks</span></a> to query the ledger for contracts, create new contracts, and exercise choices. This is the library you will be using the most when interacting with the ledger <a class="footnote-reference" href="#f1" id="id1">[1]</a> .</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">useState</span></code> hook (not specific to Daml) here keeps track of the user’s credentials.
+If they are not set, we render the <code class="docutils literal notranslate"><span class="pre">LoginScreen</span></code> with a callback to <code class="docutils literal notranslate"><span class="pre">setCredentials</span></code>.
+If they are set, then we render the <code class="docutils literal notranslate"><span class="pre">MainScreen</span></code> of the app.
+This is wrapped in the <code class="docutils literal notranslate"><span class="pre">DamlLedger</span></code> component, a <a class="reference external" href="https://reactjs.org/docs/context.html">React context</a> with a handle to the ledger.</p>
+<p>Let’s move on to more advanced uses of our Daml React library.
+The <code class="docutils literal notranslate"><span class="pre">MainScreen</span></code> is a simple frame around the <code class="docutils literal notranslate"><span class="pre">MainView</span></code> component, which houses the main functionality of our app.
+It uses Daml React hooks to query and update ledger state.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="kr">const</span> <span class="nx">MainView</span>: <span class="kt">React.FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">useParty</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">myUserResult</span> <span class="o">=</span> <span class="nx">useStreamFetchByKeys</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="nx">username</span><span class="p">],</span> <span class="p">[</span><span class="nx">username</span><span class="p">]);</span>
+  <span class="kr">const</span> <span class="nx">myUser</span> <span class="o">=</span> <span class="nx">myUserResult</span><span class="p">.</span><span class="nx">contracts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">?</span><span class="p">.</span><span class="nx">payload</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">allUsers</span> <span class="o">=</span> <span class="nx">useStreamQueries</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">).</span><span class="nx">contracts</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">useParty</span></code> hook simply returns the current user as stored in the <code class="docutils literal notranslate"><span class="pre">DamlLedger</span></code> context.
+A more interesting example is the <code class="docutils literal notranslate"><span class="pre">allUsers</span></code> line.
+This uses the <code class="docutils literal notranslate"><span class="pre">useStreamQueries</span></code> hook to get all <code class="docutils literal notranslate"><span class="pre">User</span></code> contracts on the ledger.
+(<code class="docutils literal notranslate"><span class="pre">User.User</span></code> here is an object generated by <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">codegen</span> <span class="pre">js</span></code> - it stores metadata of the <code class="docutils literal notranslate"><span class="pre">User</span></code> template defined in <code class="docutils literal notranslate"><span class="pre">User.daml</span></code>.)
+Note however that this query preserves privacy: only users that follow the current user have their contracts revealed.
+This behaviour is due to the observers on the <code class="docutils literal notranslate"><span class="pre">User</span></code> contract being exactly in the list of users that the current user is following.</p>
+<p>A final point on this is the <em>streaming</em> aspect of the query.
+This means that results are updated as they come in - there is no need for periodic or manual reloading to see updates.</p>
+<p>Another example, showing how to <em>update</em> ledger state, is how we exercise the <code class="docutils literal notranslate"><span class="pre">Follow</span></code> choice of the <code class="docutils literal notranslate"><span class="pre">User</span></code> template.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span>  <span class="kr">const</span> <span class="nx">ledger</span> <span class="o">=</span> <span class="nx">useLedger</span><span class="p">();</span>
+
+  <span class="kr">const</span> <span class="nx">follow</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">userToFollow</span>: <span class="kt">Party</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">boolean</span><span class="p">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="nx">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">exerciseByKey</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">Follow</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="p">{</span><span class="nx">userToFollow</span><span class="p">});</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">alert</span><span class="p">(</span><span class="sb">`Unknown error:</span><span class="err">\</span><span class="sb">n</span><span class="si">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">useLedger</span></code> hook returns an object with methods for exercising choices.
+The core of the <code class="docutils literal notranslate"><span class="pre">follow</span></code> function here is the call to <code class="docutils literal notranslate"><span class="pre">ledger.exerciseByKey</span></code>.
+The <em>key</em> in this case is the username of the current user, used to look up the corresponding <code class="docutils literal notranslate"><span class="pre">User</span></code> contract.
+The wrapper function <code class="docutils literal notranslate"><span class="pre">follow</span></code> is then passed to the subcomponents of <code class="docutils literal notranslate"><span class="pre">MainView</span></code>.
+For example, <code class="docutils literal notranslate"><span class="pre">follow</span></code> is passed to the <code class="docutils literal notranslate"><span class="pre">UserList</span></code> component as an argument (a <a class="reference external" href="https://reactjs.org/docs/components-and-props.html">prop</a> in React terms).
+This gets triggered when you click the icon next to a user’s name in the <em>Network</em> panel.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span>              <span class="p">&lt;</span><span class="nt">UserList</span>
+                <span class="na">users</span><span class="o">=</span><span class="p">{</span><span class="nx">followers</span><span class="p">}</span>
+                <span class="na">onFollow</span><span class="o">=</span><span class="p">{</span><span class="nx">follow</span><span class="p">}</span>
+              <span class="p">/&gt;</span>
+</pre></div>
+</div>
+<p>This should give you a taste of how the UI works alongside a Daml ledger.
+You’ll see this more as you develop <a class="reference internal" href="first-feature.html"><span class="doc">your first feature</span></a> for our social network.</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>FYI Behind the scenes the Daml React hooks library uses the <a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html"><span class="doc">Daml Ledger TypeScript library</span></a> to communicate with a ledger implementation via the <a class="reference internal" href="../json-api/index.html"><span class="doc">HTTP JSON API</span></a>.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="index.html" class="da-btn da-btn-label btn-prev" title="Getting Started with Daml" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="first-feature.html" class="da-btn da-btn-label btn-next" title="Your First Feature" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

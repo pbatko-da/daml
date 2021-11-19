@@ -1,0 +1,854 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6 Parties and authority &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="7 Composing choices" href="7_Composing.html" />
+  <link rel="prev" title="5 Adding constraints to a contract" href="5_Restrictions.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="0_Intro.html">An introduction to Daml</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">6 Parties and authority</a><ul>
+<li><a class="reference internal" href="#preventing-iou-revocation">Preventing IOU revocation</a></li>
+<li><a class="reference internal" href="#use-propose-accept-workflows-for-one-off-authorization">Use propose-accept workflows for one-off authorization</a></li>
+<li><a class="reference internal" href="#use-role-contracts-for-ongoing-authorization">Use role contracts for ongoing authorization</a></li>
+<li><a class="reference internal" href="#daml-s-authorization-model">Daml’s authorization model</a><ul>
+<li><a class="reference internal" href="#an-authorization-example">An authorization example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-up">Next up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="parties-and-authority">
+<h1>6 Parties and authority<a class="headerlink" href="#parties-and-authority" title="Permalink to this headline">¶</a></h1>
+<p>Daml is designed for distributed applications involving mutually distrusting parties. In a well-constructed contract model, all parties have strong guarantees that nobody cheats or circumvents the rules laid out by templates and choices.</p>
+<p>In this section you will learn about Daml’s authorization rules and how to develop contract models that give all parties the required guarantees. In particular, you’ll learn how to:</p>
+<ul class="simple">
+<li>Pass authority from one contract to another</li>
+<li>Write advanced choices</li>
+<li>Reason through Daml’s Authorization model</li>
+</ul>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Remember that you can load all the code for this section into a folder called <code class="docutils literal notranslate"><span class="pre">6_Parties</span></code> by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">new</span> <span class="pre">6_Parties</span> <span class="pre">--template</span> <span class="pre">daml-intro-6</span></code></p>
+</div>
+<div class="section" id="preventing-iou-revocation">
+<h2>Preventing IOU revocation<a class="headerlink" href="#preventing-iou-revocation" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">SimpleIou</span></code> contract from <a class="reference internal" href="4_Transformations.html"><span class="doc">4 Transforming data using choices</span></a> and <a class="reference internal" href="5_Restrictions.html"><span class="doc">5 Adding constraints to a contract</span></a> has one major problem: The contract is only signed by the <code class="docutils literal notranslate"><span class="pre">issuer</span></code>. The signatories are the parties with the power to create and archive contracts. If Alice gave Bob a <code class="docutils literal notranslate"><span class="pre">SimpleIou</span></code> for $100 in exchange for some goods, she could just archive it after receiving the goods. Bob would have a record of such actions, but would have to resort to off-ledger means to get his money back.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">SimpleIou</span>
+  <span class="kr">with</span>
+    <span class="n">issuer</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">cash</span> <span class="kt">:</span> <span class="kt">Cash</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">issuer</span>
+</pre></div>
+</div>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">simple_iou_test</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+
+  <span class="c1">-- Alice and Bob enter into a trade.</span>
+  <span class="c1">-- Alice transfers the payment as a SimpleIou.</span>
+  <span class="n">iou</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">SimpleIou</span> <span class="kr">with</span>
+      <span class="n">issuer</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">owner</span> <span class="ow">=</span> <span class="n">bob</span>
+      <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+        <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+        <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+
+  <span class="n">passTime</span> <span class="p">(</span><span class="n">days</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="c1">-- Bob delivers the goods.</span>
+
+  <span class="n">passTime</span> <span class="p">(</span><span class="n">minutes</span> <span class="mi">10</span><span class="p">)</span>
+  <span class="c1">-- Alice just deletes the payment.</span>
+  <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">archiveCmd</span> <span class="n">iou</span>
+</pre></div>
+</div>
+<p>For a party to have any guarantees that only those transformations specified in the choices are actually followed, they either need to be a signatory themselves, or trust one of the signatories to not agree to transactions that archive and re-create contracts in unexpected ways. To make the <code class="docutils literal notranslate"><span class="pre">SimpleIou</span></code> safe for Bob, you need to add him as a signatory.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Iou</span>
+  <span class="kr">with</span>
+    <span class="n">issuer</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">cash</span> <span class="kt">:</span> <span class="kt">Cash</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span>
+
+    <span class="kr">controller</span> <span class="n">owner</span> <span class="kr">can</span>
+      <span class="kt">Transfer</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">with</span>
+          <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+        <span class="kr">do</span>
+          <span class="n">assertMsg</span> <span class="s">&quot;newOwner cannot be equal to owner.&quot;</span> <span class="p">(</span><span class="n">owner</span> <span class="o">/=</span> <span class="n">newOwner</span><span class="p">)</span>
+          <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span>
+            <span class="n">owner</span> <span class="ow">=</span> <span class="n">newOwner</span>
+</pre></div>
+</div>
+<p>There’s a new problem here: There is no way for Alice to issue or transfer this <code class="docutils literal notranslate"><span class="pre">Iou</span></code> to Bob. To get an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> with Bob’s signature as <code class="docutils literal notranslate"><span class="pre">owner</span></code> onto the ledger, his authority is needed.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">iou_test</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Bob&quot;</span>
+
+  <span class="c1">-- Alice and Bob enter into a trade.</span>
+  <span class="c1">-- Alice wants to give Bob an Iou, but she can&#39;t without Bob&#39;s authority.</span>
+  <span class="n">submitMustFail</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">Iou</span> <span class="kr">with</span>
+      <span class="n">issuer</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">owner</span> <span class="ow">=</span> <span class="n">bob</span>
+      <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+        <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+        <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+
+  <span class="c1">-- She can issue herself an Iou.</span>
+  <span class="n">iou</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">Iou</span> <span class="kr">with</span>
+      <span class="n">issuer</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">owner</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+        <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+        <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+
+  <span class="c1">-- However, she can&#39;t transfer it to Bob.</span>
+  <span class="n">submitMustFail</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">iou</span> <span class="kt">Transfer</span> <span class="kr">with</span>
+      <span class="n">newOwner</span> <span class="ow">=</span> <span class="n">bob</span>
+</pre></div>
+</div>
+<p>This may seem awkward, but notice that the <code class="docutils literal notranslate"><span class="pre">ensure</span></code> clause is gone from the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> again. The above <code class="docutils literal notranslate"><span class="pre">Iou</span></code> can contain negative values so Bob should be glad that <code class="docutils literal notranslate"><span class="pre">Alice</span></code> cannot put his signature on any <code class="docutils literal notranslate"><span class="pre">Iou</span></code>.</p>
+<p>You’ll now learn a couple of common ways of building issuance and transfer workflows for the above <code class="docutils literal notranslate"><span class="pre">Iou</span></code>, before diving into the authorization model in full.</p>
+</div>
+<div class="section" id="use-propose-accept-workflows-for-one-off-authorization">
+<span id="intro-propose-accept"></span><h2>Use propose-accept workflows for one-off authorization<a class="headerlink" href="#use-propose-accept-workflows-for-one-off-authorization" title="Permalink to this headline">¶</a></h2>
+<p>If there is no standing relationship between Alice and Bob, Alice can propose the issuance of an Iou to Bob, giving him the choice to accept. You can do so by introducing a proposal contract <code class="docutils literal notranslate"><span class="pre">IouProposal</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">IouProposal</span>
+  <span class="kr">with</span>
+    <span class="n">iou</span> <span class="kt">:</span> <span class="kt">Iou</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">iou</span><span class="o">.</span><span class="n">issuer</span>
+
+    <span class="kr">controller</span> <span class="n">iou</span><span class="o">.</span><span class="n">owner</span> <span class="kr">can</span>
+      <span class="kt">IouProposal_Accept</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">do</span>
+          <span class="n">create</span> <span class="n">iou</span>
+</pre></div>
+</div>
+<p>Note how we have used the fact that templates are records here to store the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> in a single field.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="n">iouProposal</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">IouProposal</span> <span class="kr">with</span>
+      <span class="n">iou</span> <span class="ow">=</span> <span class="kt">Iou</span> <span class="kr">with</span>
+        <span class="n">issuer</span> <span class="ow">=</span> <span class="n">alice</span>
+        <span class="n">owner</span> <span class="ow">=</span> <span class="n">bob</span>
+        <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+          <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+          <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+
+  <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">iouProposal</span> <span class="kt">IouProposal_Accept</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">IouProposal</span></code> contract carries the authority of <code class="docutils literal notranslate"><span class="pre">iou.issuer</span></code> by virtue of them being a signatory. By exercising the <code class="docutils literal notranslate"><span class="pre">IouProposal_Accept</span></code> choice, Bob adds his authority to that of Alice, which is why an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> with both signatories can be created in the context of that choice.</p>
+<p>The choice is called <code class="docutils literal notranslate"><span class="pre">IouProposal_Accept</span></code>, not <code class="docutils literal notranslate"><span class="pre">Accept</span></code>, because propose-accept patterns are very common. In fact, you’ll see another one just below. As each choice defines a record type, you cannot have two choices of the same name in scope. It’s a good idea to qualify choice names to ensure uniqueness.</p>
+<p>The above solves issuance, but not transfers. You can solve transfers exactly the same way, though, by creating a <code class="docutils literal notranslate"><span class="pre">TransferProposal</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">IouTransferProposal</span>
+  <span class="kr">with</span>
+    <span class="n">iou</span> <span class="kt">:</span> <span class="kt">Iou</span>
+    <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="p">(</span><span class="kr">signatory</span> <span class="n">iou</span><span class="p">)</span>
+
+    <span class="kr">controller</span> <span class="n">iou</span><span class="o">.</span><span class="n">owner</span> <span class="kr">can</span>
+      <span class="kt">IouTransferProposal_Cancel</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">do</span>
+          <span class="n">create</span> <span class="n">iou</span>
+
+    <span class="kr">controller</span> <span class="n">newOwner</span> <span class="kr">can</span>
+      <span class="kt">IouTransferProposal_Reject</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">do</span>
+          <span class="n">create</span> <span class="n">iou</span>
+
+      <span class="kt">IouTransferProposal_Accept</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">do</span>
+          <span class="n">create</span> <span class="n">iou</span> <span class="kr">with</span>
+            <span class="n">owner</span> <span class="ow">=</span> <span class="n">newOwner</span>
+</pre></div>
+</div>
+<p>In addition to defining the signatories of a contract, <code class="docutils literal notranslate"><span class="pre">signatory</span></code> can also be used to extract the signatories from another contract. Instead of writing <code class="docutils literal notranslate"><span class="pre">signatory</span> <span class="pre">(signatory</span> <span class="pre">iou)</span></code>, you could write <code class="docutils literal notranslate"><span class="pre">signatory</span> <span class="pre">iou.issuer,</span> <span class="pre">iou.owner</span></code>.</p>
+<p>Note also how <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> is given multiple choices using a single <code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">newOwner</span> <span class="pre">can</span></code> block. The <code class="docutils literal notranslate"><span class="pre">IouProposal</span></code> had a single signatory so it could be cancelled easily by archiving it. Without a <code class="docutils literal notranslate"><span class="pre">Cancel</span></code> choice, the <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> could abuse an open TransferProposal as an option. The triple <code class="docutils literal notranslate"><span class="pre">Accept</span></code>, <code class="docutils literal notranslate"><span class="pre">Reject</span></code>, <code class="docutils literal notranslate"><span class="pre">Cancel</span></code> is common to most proposal templates.</p>
+<p>To allow an <code class="docutils literal notranslate"><span class="pre">iou.owner</span></code> to create such a proposal, you need to give them the choice to propose a transfer on the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> contract. The choice looks just like the above <code class="docutils literal notranslate"><span class="pre">Transfer</span></code> choice, except that a <code class="docutils literal notranslate"><span class="pre">IouTransferProposal</span></code> is created instead of an <code class="docutils literal notranslate"><span class="pre">Iou</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>      <span class="kt">ProposeTransfer</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">IouTransferProposal</span>
+        <span class="kr">with</span>
+          <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+        <span class="kr">do</span>
+          <span class="n">assertMsg</span> <span class="s">&quot;newOwner cannot be equal to owner.&quot;</span> <span class="p">(</span><span class="n">owner</span> <span class="o">/=</span> <span class="n">newOwner</span><span class="p">)</span>
+          <span class="n">create</span> <span class="kt">IouTransferProposal</span> <span class="kr">with</span>
+            <span class="n">iou</span> <span class="ow">=</span> <span class="kr">this</span>
+            <span class="n">newOwner</span>
+</pre></div>
+</div>
+<p>Bob can now transfer his <code class="docutils literal notranslate"><span class="pre">Iou</span></code>. The transfer workflow can even be used for issuance:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="n">charlie</span> <span class="ow">&lt;-</span> <span class="n">allocateParty</span> <span class="s">&quot;Charlie&quot;</span>
+
+  <span class="c1">-- Alice issues an Iou using a transfer proposal.</span>
+  <span class="n">tpab</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">IouTransferProposal</span> <span class="kr">with</span>
+      <span class="n">newOwner</span> <span class="ow">=</span> <span class="n">bob</span>
+      <span class="n">iou</span> <span class="ow">=</span> <span class="kt">Iou</span> <span class="kr">with</span>
+        <span class="n">issuer</span> <span class="ow">=</span> <span class="n">alice</span>
+        <span class="n">owner</span> <span class="ow">=</span> <span class="n">alice</span>
+        <span class="n">cash</span> <span class="ow">=</span> <span class="kt">Cash</span> <span class="kr">with</span>
+          <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+          <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;USD&quot;</span>
+
+  <span class="c1">-- Bob accepts the transfer from Alice.</span>
+  <span class="n">iou2</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">tpab</span> <span class="kt">IouTransferProposal_Accept</span>
+
+  <span class="c1">-- Bob offers Charlie a transfer.</span>
+  <span class="n">tpbc</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">iou2</span> <span class="kt">ProposeTransfer</span> <span class="kr">with</span>
+      <span class="n">newOwner</span> <span class="ow">=</span> <span class="n">charlie</span>
+
+  <span class="c1">-- Charlie accepts the transfer from Bob.</span>
+  <span class="n">submit</span> <span class="n">charlie</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">tpbc</span> <span class="kt">IouTransferProposal_Accept</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-role-contracts-for-ongoing-authorization">
+<h2>Use role contracts for ongoing authorization<a class="headerlink" href="#use-role-contracts-for-ongoing-authorization" title="Permalink to this headline">¶</a></h2>
+<p>Many actions, like the issuance of assets or their transfer, can be pre-agreed. You can represent this succinctly in Daml through relationship or role contracts.</p>
+<p>Jointly, an <code class="docutils literal notranslate"><span class="pre">owner</span></code> and <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> can transfer an asset, as demonstrated in the script above. In <a class="reference internal" href="7_Composing.html"><span class="doc">7 Composing choices</span></a>, you will see how to compose the <code class="docutils literal notranslate"><span class="pre">ProposeTransfer</span></code> and <code class="docutils literal notranslate"><span class="pre">IouTransferProposal_Accept</span></code> choices into a single new choice, but for now, here is a different way. You can give them the joint right to transfer an IOU:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="n">choice</span> <span class="kt">Mutual_Transfer</span>
+      <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+      <span class="kr">with</span>
+        <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+      <span class="kr">controller</span> <span class="n">owner</span><span class="p">,</span> <span class="n">newOwner</span>
+      <span class="kr">do</span>
+        <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span>
+          <span class="n">owner</span> <span class="ow">=</span> <span class="n">newOwner</span>
+</pre></div>
+</div>
+<p>Up to now, the controllers of choices were known from the current contract. Here, the <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> variable is part of the choice arguments, not the <code class="docutils literal notranslate"><span class="pre">Iou</span></code>.</p>
+<p>The above syntax is an alternative to <code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">c</span> <span class="pre">can</span></code>, which allows for this. Such choices live outside any <code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">c</span> <span class="pre">can</span></code> block. They declared using the <code class="docutils literal notranslate"><span class="pre">choice</span></code> keyword, and have an extra clause <code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">c</span></code>, which takes the place of <code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">c</span> <span class="pre">can</span></code>, and has access to the choice arguments.</p>
+<p>This is also the first time we have shown a choice with more than one controller. If multiple controllers are specified, the authority of <em>all</em> the controllers is needed. Here, neither <code class="docutils literal notranslate"><span class="pre">owner</span></code>, nor <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> can execute a transfer unilaterally, hence the name <code class="docutils literal notranslate"><span class="pre">Mutual_Transfer</span></code>.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">IouSender</span>
+  <span class="kr">with</span>
+    <span class="n">sender</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">receiver</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">receiver</span>
+
+    <span class="kr">controller</span> <span class="n">sender</span> <span class="kr">can</span>
+      <span class="kr">nonconsuming</span> <span class="kt">Send_Iou</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">with</span>
+          <span class="n">iouCid</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Iou</span>
+        <span class="kr">do</span>
+          <span class="n">iou</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">iouCid</span>
+          <span class="n">assert</span> <span class="p">(</span><span class="n">iou</span><span class="o">.</span><span class="n">cash</span><span class="o">.</span><span class="n">amount</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span>
+          <span class="n">assert</span> <span class="p">(</span><span class="n">sender</span> <span class="o">==</span> <span class="n">iou</span><span class="o">.</span><span class="n">owner</span><span class="p">)</span>
+          <span class="n">exercise</span> <span class="n">iouCid</span> <span class="kt">Mutual_Transfer</span> <span class="kr">with</span>
+            <span class="n">newOwner</span> <span class="ow">=</span> <span class="n">receiver</span>
+</pre></div>
+</div>
+<p>The above <code class="docutils literal notranslate"><span class="pre">IouSender</span></code> contract now gives one party, the <code class="docutils literal notranslate"><span class="pre">sender</span></code> the right to send <code class="docutils literal notranslate"><span class="pre">Iou</span></code> contracts with positive amounts to a <code class="docutils literal notranslate"><span class="pre">receiver</span></code>. The <code class="docutils literal notranslate"><span class="pre">nonconsuming</span></code> keyword on the choice <code class="docutils literal notranslate"><span class="pre">Send_Iou</span></code> changes the behaviour of the choice so that the contract it’s exercised on does not get archived when the choice is exercised. That way the <code class="docutils literal notranslate"><span class="pre">sender</span></code> can use the contract to send multiple Ious.</p>
+<p>Here it is in action:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="c1">-- Bob allows Alice to send him Ious.</span>
+  <span class="n">sab</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">IouSender</span> <span class="kr">with</span>
+      <span class="n">sender</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">receiver</span> <span class="ow">=</span> <span class="n">bob</span>
+
+  <span class="c1">-- Charlie allows Bob to send him Ious.</span>
+  <span class="n">sbc</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">charlie</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">IouSender</span> <span class="kr">with</span>
+      <span class="n">sender</span> <span class="ow">=</span> <span class="n">bob</span>
+      <span class="n">receiver</span> <span class="ow">=</span> <span class="n">charlie</span>
+
+  <span class="c1">-- Alice can now send the Iou she issued herself earlier.</span>
+  <span class="n">iou4</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">sab</span> <span class="kt">Send_Iou</span> <span class="kr">with</span>
+      <span class="n">iouCid</span> <span class="ow">=</span> <span class="n">iou</span>
+
+  <span class="c1">-- Bob sends it on to Charlie.</span>
+  <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">sbc</span> <span class="kt">Send_Iou</span> <span class="kr">with</span>
+      <span class="n">iouCid</span> <span class="ow">=</span> <span class="n">iou4</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="daml-s-authorization-model">
+<h2>Daml’s authorization model<a class="headerlink" href="#daml-s-authorization-model" title="Permalink to this headline">¶</a></h2>
+<p>Hopefully, the above will have given you a good intuition for how authority is passed around in Daml. In this section you’ll learn about  the formal authorization model to allow you to reason through your contract models. This will allow you to construct them in such a way that you don’t run into authorization errors at runtime, or, worse still, allow malicious transactions.</p>
+<p>In <a class="reference internal" href="4_Transformations.html#choices"><span class="std std-ref">Choices in the Ledger Model</span></a> you learned that a transaction is, equivalently, a tree of transactions, or a forest of actions, where each transaction is a list of actions, and each action has a child-transaction called its consequences.</p>
+<p>Each action has a set of <em>required authorizers</em> – the parties that must authorize that action – and each transaction has a set of <em>authorizers</em> – the parties that did actually authorize the transaction.</p>
+<p>The authorization rule is that the required authorizers of every action are a subset of the authorizers of the parent transaction.</p>
+<p>The required authorizers of actions are:</p>
+<ul class="simple">
+<li>The required authorizers of an <strong>exercise action</strong> are the controllers on the corresponding choice. Remember that <code class="docutils literal notranslate"><span class="pre">Archive</span></code> and <code class="docutils literal notranslate"><span class="pre">archive</span></code> are just an implicit choice with the signatories as controllers.</li>
+<li>The required authorizers of a <strong>create action</strong> are the signatories of the contract.</li>
+<li>The required authorizers of a <strong>fetch action</strong> (which also includes <code class="docutils literal notranslate"><span class="pre">fetchByKey</span></code>) are somewhat dynamic and covered later.</li>
+</ul>
+<p>The authorizers of transactions are:</p>
+<ul class="simple">
+<li>The root transaction of a commit is authorized by the submitting party.</li>
+<li>The consequences of an exercise action are authorized by the actors of that action plus the signatories of the contract on which the action was taken.</li>
+</ul>
+<div class="section" id="an-authorization-example">
+<h3>An authorization example<a class="headerlink" href="#an-authorization-example" title="Permalink to this headline">¶</a></h3>
+<p>Consider the transaction from the script above where Bob sends an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> to Charlie using a <code class="docutils literal notranslate"><span class="pre">Send_Iou</span></code> contract.
+It is authorized as follows, ignoring fetches:</p>
+<ul class="simple">
+<li>Bob submits the transaction so he’s the authorizer on the root transaction.</li>
+<li>The root transaction has a single action, which is to exercise <code class="docutils literal notranslate"><span class="pre">Send_Iou</span></code> on a <code class="docutils literal notranslate"><span class="pre">IouSender</span></code> contract with Bob as <code class="docutils literal notranslate"><span class="pre">sender</span></code> and Charlie as <code class="docutils literal notranslate"><span class="pre">receiver</span></code>. Since the controller of that choice is the <code class="docutils literal notranslate"><span class="pre">sender</span></code>, Bob is the required authorizer.</li>
+<li>The consequences of the <code class="docutils literal notranslate"><span class="pre">Send_Iou</span></code> action are authorized by its actors, Bob, as well as signatories of the contract on which the action was taken. That’s Charlie in this case, so the consequences are  authorized by both Bob and Charlie.</li>
+<li>The consequences contain a single action, which is a <code class="docutils literal notranslate"><span class="pre">Mutual_Transfer</span></code> with Charlie as <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> on an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> with <code class="docutils literal notranslate"><span class="pre">issuer</span></code> Alice and <code class="docutils literal notranslate"><span class="pre">owner</span></code> Bob. The required authorizers of the action are the <code class="docutils literal notranslate"><span class="pre">owner</span></code>, Bob, and the <code class="docutils literal notranslate"><span class="pre">newOwner</span></code>, Charlie, which matches the parent’s authorizers.</li>
+<li>The consequences of <code class="docutils literal notranslate"><span class="pre">Mutual_Transfer</span></code> are authorized by the actors (Bob and Charlie), as well as the signatories on the Iou (Alice and Bob).</li>
+<li>The single action on the consequences, the creation of an Iou with <code class="docutils literal notranslate"><span class="pre">issuer</span></code> Alice and <code class="docutils literal notranslate"><span class="pre">owner</span></code> Charlie has required authorizers Alice and Charlie, which is a proper subset of the parent’s authorizers.</li>
+</ul>
+<p>You can see the graph of this transaction in the transaction view of the IDE:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TX #12 1970-01-01T00:00:00Z (Parties:269:3)
+#12:0
+│   known to (since): &#39;Bob&#39; (#12), &#39;Charlie&#39; (#12)
+└─&gt; &#39;Bob&#39; exercises Send_Iou on #10:0 (Parties:IouSender)
+          with
+            iouCid = #11:3
+    children:
+    #12:1
+    │   known to (since): &#39;Bob&#39; (#12), &#39;Charlie&#39; (#12)
+    └─&gt; fetch #11:3 (Parties:Iou)
+
+    #12:2
+    │   known to (since): &#39;Bob&#39; (#12), &#39;Alice&#39; (#12), &#39;Charlie&#39; (#12)
+    └─&gt; &#39;Bob&#39;, &#39;Charlie&#39; exercises Mutual_Transfer on #11:3 (Parties:Iou)
+                         with
+                           newOwner = &#39;Charlie&#39;
+        children:
+        #12:3
+        │   known to (since): &#39;Charlie&#39; (#12), &#39;Alice&#39; (#12), &#39;Bob&#39; (#12)
+        └─&gt; create Parties:Iou
+            with
+              issuer = &#39;Alice&#39;;
+              owner = &#39;Charlie&#39;;
+              cash =
+                (Parties:Cash with
+                   currency = &quot;USD&quot;; amount = 100.0)
+</pre></div>
+</div>
+<p>Note that authority is not automatically transferred transitively.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">NonTransitive</span>
+  <span class="kr">with</span>
+    <span class="n">partyA</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">partyB</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">partyA</span>
+
+    <span class="kr">controller</span> <span class="n">partyA</span> <span class="kr">can</span>
+      <span class="kt">TryA</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">NonTransitive</span>
+        <span class="kr">do</span>
+          <span class="n">create</span> <span class="kt">NonTransitive</span> <span class="kr">with</span>
+            <span class="n">partyA</span> <span class="ow">=</span> <span class="n">partyB</span>
+            <span class="n">partyB</span> <span class="ow">=</span> <span class="n">partyA</span>
+
+    <span class="kr">controller</span> <span class="n">partyB</span> <span class="kr">can</span>
+      <span class="kt">TryB</span>
+        <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">NonTransitive</span>
+          <span class="kr">with</span>
+            <span class="n">other</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">NonTransitive</span>
+        <span class="kr">do</span>
+          <span class="n">exercise</span> <span class="n">other</span> <span class="kt">TryA</span>
+</pre></div>
+</div>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="n">nt1</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">NonTransitive</span> <span class="kr">with</span>
+      <span class="n">partyA</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">partyB</span> <span class="ow">=</span> <span class="n">bob</span>
+  <span class="n">nt2</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">createCmd</span> <span class="kt">NonTransitive</span> <span class="kr">with</span>
+      <span class="n">partyA</span> <span class="ow">=</span> <span class="n">alice</span>
+      <span class="n">partyB</span> <span class="ow">=</span> <span class="n">bob</span>
+
+  <span class="n">submitMustFail</span> <span class="n">bob</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">nt1</span> <span class="kt">TryB</span> <span class="kr">with</span>
+      <span class="n">other</span> <span class="ow">=</span> <span class="n">nt2</span>
+</pre></div>
+</div>
+<p>The consequences of <code class="docutils literal notranslate"><span class="pre">TryB</span></code> are authorized by both Alice and Bob, but the action <code class="docutils literal notranslate"><span class="pre">TryA</span></code> only has Alice as an actor and Alice is the only signatory on the contract.</p>
+<p>Therefore, the consequences of <code class="docutils literal notranslate"><span class="pre">TryA</span></code> are only authorized by Alice. Bob’s authority is now missing to create the flipped <code class="docutils literal notranslate"><span class="pre">NonTransitive</span></code> so the transaction fails.</p>
+</div>
+</div>
+<div class="section" id="next-up">
+<h2>Next up<a class="headerlink" href="#next-up" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="7_Composing.html"><span class="doc">7 Composing choices</span></a> you will put everything you have learned together to build a simple asset holding and trading model akin to that in the <a class="reference internal" href="../../app-dev/bindings-java/quickstart.html"><span class="doc">IOU Quickstart Tutorial</span></a>. In that context you’ll learn a bit more about the <code class="docutils literal notranslate"><span class="pre">Update</span></code> action and how to use it to compose transactions, as well as about privacy on Daml ledgers.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="5_Restrictions.html" class="da-btn da-btn-label btn-prev" title="5 Adding constraints to a contract" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="7_Composing.html" class="da-btn da-btn-label btn-next" title="7 Composing choices" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

@@ -1,0 +1,1220 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. KVErrors &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">1. KVErrors</a></li>
+<li><a class="reference internal" href="#kverrors-internal">1.1. KVErrors / Internal</a><ul>
+<li><a class="reference internal" href="#error-code-internally-duplicate-keys">Error code: INTERNALLY_DUPLICATE_KEYS</a></li>
+<li><a class="reference internal" href="#error-code-internally-inconsistent-keys">Error code: INTERNALLY_INCONSISTENT_KEYS</a></li>
+<li><a class="reference internal" href="#error-code-invalid-participant-state">Error code: INVALID_PARTICIPANT_STATE</a></li>
+<li><a class="reference internal" href="#error-code-missing-input-state">Error code: MISSING_INPUT_STATE</a></li>
+<li><a class="reference internal" href="#error-code-rejection-reason-not-set">Error code: REJECTION_REASON_NOT_SET</a></li>
+<li><a class="reference internal" href="#error-code-validation-failure">Error code: VALIDATION_FAILURE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kverrors-resources">1.2. KVErrors / Resources</a><ul>
+<li><a class="reference internal" href="#error-code-resource-exhausted">Error code: RESOURCE_EXHAUSTED</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kverrors-time">1.3. KVErrors / Time</a><ul>
+<li><a class="reference internal" href="#error-code-causal-monotonicity-violated">Error code: CAUSAL_MONOTONICITY_VIOLATED</a></li>
+<li><a class="reference internal" href="#error-code-invalid-record-time">Error code: INVALID_RECORD_TIME</a></li>
+<li><a class="reference internal" href="#error-code-record-time-out-of-range">Error code: RECORD_TIME_OUT_OF_RANGE</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup">2. ParticipantErrorGroup</a></li>
+<li><a class="reference internal" href="#participanterrorgroup-indexerrors">2.1. ParticipantErrorGroup / IndexErrors</a></li>
+<li><a class="reference internal" href="#participanterrorgroup-indexerrors-databaseerrors">2.1.1. ParticipantErrorGroup / IndexErrors / DatabaseErrors</a><ul>
+<li><a class="reference internal" href="#error-code-index-db-invalid-result-set">Error code: INDEX_DB_INVALID_RESULT_SET</a></li>
+<li><a class="reference internal" href="#error-code-index-db-sql-non-transient-error">Error code: INDEX_DB_SQL_NON_TRANSIENT_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-index-db-sql-transient-error">Error code: INDEX_DB_SQL_TRANSIENT_ERROR</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors">2.2. ParticipantErrorGroup / LedgerApiErrors</a><ul>
+<li><a class="reference internal" href="#error-code-configuration-entry-rejected">Error code: CONFIGURATION_ENTRY_REJECTED</a></li>
+<li><a class="reference internal" href="#error-code-ledger-api-internal-error">Error code: LEDGER_API_INTERNAL_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-package-upload-rejected">Error code: PACKAGE_UPLOAD_REJECTED</a></li>
+<li><a class="reference internal" href="#error-code-participant-backpressure">Error code: PARTICIPANT_BACKPRESSURE</a></li>
+<li><a class="reference internal" href="#error-code-request-time-out">Error code: REQUEST_TIME_OUT</a></li>
+<li><a class="reference internal" href="#error-code-service-not-running">Error code: SERVICE_NOT_RUNNING</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-authorizationchecks">2.2.1. ParticipantErrorGroup / LedgerApiErrors / AuthorizationChecks</a><ul>
+<li><a class="reference internal" href="#error-code-internal-authorization-error">Error code: INTERNAL_AUTHORIZATION_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-permission-denied">Error code: PERMISSION_DENIED</a></li>
+<li><a class="reference internal" href="#error-code-unauthenticated">Error code: UNAUTHENTICATED</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-commandexecution">2.2.2. ParticipantErrorGroup / LedgerApiErrors / CommandExecution</a><ul>
+<li><a class="reference internal" href="#error-code-failed-to-determine-ledger-time">Error code: FAILED_TO_DETERMINE_LEDGER_TIME</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-commandexecution-interpreter">2.2.2.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Interpreter</a><ul>
+<li><a class="reference internal" href="#error-code-contract-not-active">Error code: CONTRACT_NOT_ACTIVE</a></li>
+<li><a class="reference internal" href="#error-code-daml-authorization-error">Error code: DAML_AUTHORIZATION_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-daml-interpretation-error">Error code: DAML_INTERPRETATION_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-daml-interpreter-invalid-argument">Error code: DAML_INTERPRETER_INVALID_ARGUMENT</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-commandexecution-interpreter-lookuperrors">2.2.2.1.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Interpreter / LookupErrors</a><ul>
+<li><a class="reference internal" href="#error-code-contract-key-not-found">Error code: CONTRACT_KEY_NOT_FOUND</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-commandexecution-package">2.2.2.2. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Package</a><ul>
+<li><a class="reference internal" href="#error-code-allowed-language-versions">Error code: ALLOWED_LANGUAGE_VERSIONS</a></li>
+<li><a class="reference internal" href="#error-code-package-validation-failed">Error code: PACKAGE_VALIDATION_FAILED</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-commandexecution-preprocessing">2.2.2.3. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Preprocessing</a><ul>
+<li><a class="reference internal" href="#error-code-command-preprocessing-failed">Error code: COMMAND_PREPROCESSING_FAILED</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-consistencyerrors">2.2.3. ParticipantErrorGroup / LedgerApiErrors / ConsistencyErrors</a><ul>
+<li><a class="reference internal" href="#error-code-contract-not-found">Error code: CONTRACT_NOT_FOUND</a></li>
+<li><a class="reference internal" href="#error-code-duplicate-command">Error code: DUPLICATE_COMMAND</a></li>
+<li><a class="reference internal" href="#error-code-duplicate-contract-key">Error code: DUPLICATE_CONTRACT_KEY</a></li>
+<li><a class="reference internal" href="#error-code-inconsistent">Error code: INCONSISTENT</a></li>
+<li><a class="reference internal" href="#error-code-inconsistent-contracts">Error code: INCONSISTENT_CONTRACTS</a></li>
+<li><a class="reference internal" href="#error-code-inconsistent-contract-key">Error code: INCONSISTENT_CONTRACT_KEY</a></li>
+<li><a class="reference internal" href="#error-code-invalid-ledger-time">Error code: INVALID_LEDGER_TIME</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-packageserviceerror">2.2.4. ParticipantErrorGroup / LedgerApiErrors / PackageServiceError</a><ul>
+<li><a class="reference internal" href="#error-code-dar-not-self-consistent">Error code: DAR_NOT_SELF_CONSISTENT</a></li>
+<li><a class="reference internal" href="#error-code-dar-validation-error">Error code: DAR_VALIDATION_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-package-service-internal-error">Error code: PACKAGE_SERVICE_INTERNAL_ERROR</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-packageserviceerror-reading">2.2.4.1. ParticipantErrorGroup / LedgerApiErrors / PackageServiceError / Reading</a><ul>
+<li><a class="reference internal" href="#error-code-dar-parse-error">Error code: DAR_PARSE_ERROR</a></li>
+<li><a class="reference internal" href="#error-code-invalid-dar">Error code: INVALID_DAR</a></li>
+<li><a class="reference internal" href="#error-code-invalid-dar-file-name">Error code: INVALID_DAR_FILE_NAME</a></li>
+<li><a class="reference internal" href="#error-code-invalid-legacy-dar">Error code: INVALID_LEGACY_DAR</a></li>
+<li><a class="reference internal" href="#error-code-invalid-zip-entry">Error code: INVALID_ZIP_ENTRY</a></li>
+<li><a class="reference internal" href="#error-code-zip-bomb">Error code: ZIP_BOMB</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-requestvalidation">2.2.5. ParticipantErrorGroup / LedgerApiErrors / RequestValidation</a><ul>
+<li><a class="reference internal" href="#error-code-invalid-argument">Error code: INVALID_ARGUMENT</a></li>
+<li><a class="reference internal" href="#error-code-invalid-deduplication-period">Error code: INVALID_DEDUPLICATION_PERIOD</a></li>
+<li><a class="reference internal" href="#error-code-invalid-field">Error code: INVALID_FIELD</a></li>
+<li><a class="reference internal" href="#error-code-ledger-id-mismatch">Error code: LEDGER_ID_MISMATCH</a></li>
+<li><a class="reference internal" href="#error-code-missing-field">Error code: MISSING_FIELD</a></li>
+<li><a class="reference internal" href="#error-code-non-hexadecimal-offset">Error code: NON_HEXADECIMAL_OFFSET</a></li>
+<li><a class="reference internal" href="#error-code-offset-after-ledger-end">Error code: OFFSET_AFTER_LEDGER_END</a></li>
+<li><a class="reference internal" href="#error-code-offset-out-of-range">Error code: OFFSET_OUT_OF_RANGE</a></li>
+<li><a class="reference internal" href="#error-code-participant-pruned-data-accessed">Error code: PARTICIPANT_PRUNED_DATA_ACCESSED</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-requestvalidation-notfound">2.2.5.1. ParticipantErrorGroup / LedgerApiErrors / RequestValidation / NotFound</a><ul>
+<li><a class="reference internal" href="#error-code-ledger-configuration-not-found">Error code: LEDGER_CONFIGURATION_NOT_FOUND</a></li>
+<li><a class="reference internal" href="#error-code-package-not-found">Error code: PACKAGE_NOT_FOUND</a></li>
+<li><a class="reference internal" href="#error-code-transaction-not-found">Error code: TRANSACTION_NOT_FOUND</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#participanterrorgroup-ledgerapierrors-writeservicerejections">2.2.6. ParticipantErrorGroup / LedgerApiErrors / WriteServiceRejections</a><ul>
+<li><a class="reference internal" href="#error-code-disputed">Error code: DISPUTED</a></li>
+<li><a class="reference internal" href="#error-code-out-of-quota">Error code: OUT_OF_QUOTA</a></li>
+<li><a class="reference internal" href="#error-code-party-not-known-on-ledger">Error code: PARTY_NOT_KNOWN_ON_LEDGER</a></li>
+<li><a class="reference internal" href="#error-code-submitter-cannot-act-via-participant">Error code: SUBMITTER_CANNOT_ACT_VIA_PARTICIPANT</a></li>
+<li><a class="reference internal" href="#error-code-submitting-party-not-known-on-ledger">Error code: SUBMITTING_PARTY_NOT_KNOWN_ON_LEDGER</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="kverrors">
+<h1>1. KVErrors<a class="headerlink" href="#kverrors" title="Permalink to this headline">¶</a></h1>
+<p>Errors that are specific to ledgers based on the KV architecture. Note that this section will soon cover all ledgers due to an ongoing error consolidation effort.</p>
+</div>
+<div class="section" id="kverrors-internal">
+<h1>1.1. KVErrors / Internal<a class="headerlink" href="#kverrors-internal" title="Permalink to this headline">¶</a></h1>
+<p>Errors that arise from an internal system misbehavior.</p>
+<div class="section" id="error-code-internally-duplicate-keys">
+<h2>Error code: INTERNALLY_DUPLICATE_KEYS<a class="headerlink" href="#error-code-internally-duplicate-keys" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The participant didn’t detect an attempt by the transaction submission to use the same key for two active contracts.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-internally-inconsistent-keys">
+<h2>Error code: INTERNALLY_INCONSISTENT_KEYS<a class="headerlink" href="#error-code-internally-inconsistent-keys" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The participant didn’t detect an attempt by the transaction submission to use a stale contract key.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-participant-state">
+<h2>Error code: INVALID_PARTICIPANT_STATE<a class="headerlink" href="#error-code-invalid-participant-state" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: An invalid participant state has been detected.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-missing-input-state">
+<h2>Error code: MISSING_INPUT_STATE<a class="headerlink" href="#error-code-missing-input-state" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The participant didn’t provide a necessary transaction submission input.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-rejection-reason-not-set">
+<h2>Error code: REJECTION_REASON_NOT_SET<a class="headerlink" href="#error-code-rejection-reason-not-set" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: A rejection reason has not been set.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-validation-failure">
+<h2>Error code: VALIDATION_FAILURE<a class="headerlink" href="#error-code-validation-failure" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: An invalid transaction submission was not detected by the participant.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="kverrors-resources">
+<h1>1.2. KVErrors / Resources<a class="headerlink" href="#kverrors-resources" title="Permalink to this headline">¶</a></h1>
+<p>Errors that relate to system resources.</p>
+<div class="section" id="error-code-resource-exhausted">
+<h2>Error code: RESOURCE_EXHAUSTED<a class="headerlink" href="#error-code-resource-exhausted" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: A system resource has been exhausted.</p>
+<p><strong>Category</strong>: ContentionOnSharedResources</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status ABORTED including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the transaction submission or provide the details to the participant operator.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="kverrors-time">
+<h1>1.3. KVErrors / Time<a class="headerlink" href="#kverrors-time" title="Permalink to this headline">¶</a></h1>
+<p>Errors that relate to the Daml concepts of time.</p>
+<div class="section" id="error-code-causal-monotonicity-violated">
+<h2>Error code: CAUSAL_MONOTONICITY_VIOLATED<a class="headerlink" href="#error-code-causal-monotonicity-violated" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: At least one input contract’s ledger time is later than that of the submitted transaction.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the transaction submission.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-record-time">
+<h2>Error code: INVALID_RECORD_TIME<a class="headerlink" href="#error-code-invalid-record-time" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The record time is not within bounds for reasons other than deduplication, such as excessive latency. Excessive clock skew between the participant and the committer or a time model that is too restrictive may also produce this rejection.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the submission or contact the participant operator.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-record-time-out-of-range">
+<h2>Error code: RECORD_TIME_OUT_OF_RANGE<a class="headerlink" href="#error-code-record-time-out-of-range" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The record time is not within bounds for reasons other than deduplication, such as excessive latency. Excessive clock skew between the participant and the committer or a time model that is too restrictive may also produce this rejection.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the transaction submission or contact the participant operator.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup">
+<h1>2. ParticipantErrorGroup<a class="headerlink" href="#participanterrorgroup" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="participanterrorgroup-indexerrors">
+<h1>2.1. ParticipantErrorGroup / IndexErrors<a class="headerlink" href="#participanterrorgroup-indexerrors" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="participanterrorgroup-indexerrors-databaseerrors">
+<h1>2.1.1. ParticipantErrorGroup / IndexErrors / DatabaseErrors<a class="headerlink" href="#participanterrorgroup-indexerrors-databaseerrors" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-index-db-invalid-result-set">
+<h2>Error code: INDEX_DB_INVALID_RESULT_SET<a class="headerlink" href="#error-code-index-db-invalid-result-set" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if the result set returned by a query against the Index database is invalid.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-index-db-sql-non-transient-error">
+<h2>Error code: INDEX_DB_SQL_NON_TRANSIENT_ERROR<a class="headerlink" href="#error-code-index-db-sql-non-transient-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a non-transient error arises when executing a query against the index database.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact the participant operator.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-index-db-sql-transient-error">
+<h2>Error code: INDEX_DB_SQL_TRANSIENT_ERROR<a class="headerlink" href="#error-code-index-db-sql-transient-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a transient error arises when executing a query against the index database.</p>
+<p><strong>Category</strong>: TransientServerFailure</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status UNAVAILABLE including a detailed error message</p>
+<p><strong>Resolution</strong>: Re-submit the request.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors">
+<h1>2.2. ParticipantErrorGroup / LedgerApiErrors<a class="headerlink" href="#participanterrorgroup-ledgerapierrors" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-configuration-entry-rejected">
+<h2>Error code: CONFIGURATION_ENTRY_REJECTED<a class="headerlink" href="#error-code-configuration-entry-rejected" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a new configuration is rejected.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Fetch newest configuration and/or retry.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-ledger-api-internal-error">
+<h2>Error code: LEDGER_API_INTERNAL_ERROR<a class="headerlink" href="#error-code-ledger-api-internal-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if there was an unexpected error in the Ledger API.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-package-upload-rejected">
+<h2>Error code: PACKAGE_UPLOAD_REJECTED<a class="headerlink" href="#error-code-package-upload-rejected" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a package upload is rejected.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Refer to the detailed message of the received error.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-participant-backpressure">
+<h2>Error code: PARTICIPANT_BACKPRESSURE<a class="headerlink" href="#error-code-participant-backpressure" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs when a participant rejects a command due to excessive load. Load can be caused by the following factors: 1. when commands are submitted to the participant through its Ledger API, 2. when the participant receives requests from other participants through a connected domain.</p>
+<p><strong>Category</strong>: ContentionOnSharedResources</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level WARN on the server side. This error is exposed on the API with grpc-status ABORTED including a detailed error message</p>
+<p><strong>Resolution</strong>: Wait a bit and retry, preferably with some backoff factor. If possible, ask other participants to send fewer requests; the domain operator can enforce this by imposing a rate limit.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-request-time-out">
+<h2>Error code: REQUEST_TIME_OUT<a class="headerlink" href="#error-code-request-time-out" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a request processing status is not known and a time-out is reached.</p>
+<p><strong>Category</strong>: DeadlineExceededRequestStateUnknown</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status DEADLINE_EXCEEDED including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry for transient problems. If non-transient contact the operator as the time-out limit might be too short.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-service-not-running">
+<h2>Error code: SERVICE_NOT_RUNNING<a class="headerlink" href="#error-code-service-not-running" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when the requested service has already been closed.</p>
+<p><strong>Category</strong>: TransientServerFailure</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status UNAVAILABLE including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry re-submitting the request. If the error persists, contact the participant operator.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-authorizationchecks">
+<h1>2.2.1. ParticipantErrorGroup / LedgerApiErrors / AuthorizationChecks<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-authorizationchecks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-internal-authorization-error">
+<h2>Error code: INTERNAL_AUTHORIZATION_ERROR<a class="headerlink" href="#error-code-internal-authorization-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: An internal system authorization error occurred.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact the participant operator.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-permission-denied">
+<h2>Error code: PERMISSION_DENIED<a class="headerlink" href="#error-code-permission-denied" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given if the supplied authorization token is not sufficient for the intended command. The exact reason is logged on the participant, but not given to the user for security reasons.</p>
+<p><strong>Category</strong>: InsufficientPermission</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level WARN on the server side. This error is exposed on the API with grpc-status PERMISSION_DENIED without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Inspect your command and your token or ask your participant operator for an explanation why this command failed.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-unauthenticated">
+<h2>Error code: UNAUTHENTICATED<a class="headerlink" href="#error-code-unauthenticated" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given if the submitted command does not contain a JWT token on a participant enforcing JWT authentication.</p>
+<p><strong>Category</strong>: AuthInterceptorInvalidAuthenticationCredentials</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level WARN on the server side. This error is exposed on the API with grpc-status UNAUTHENTICATED without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Ask your participant operator to provide you with an appropriate JWT token.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-commandexecution">
+<h1>2.2.2. ParticipantErrorGroup / LedgerApiErrors / CommandExecution<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-commandexecution" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-failed-to-determine-ledger-time">
+<h2>Error code: FAILED_TO_DETERMINE_LEDGER_TIME<a class="headerlink" href="#error-code-failed-to-determine-ledger-time" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if the participant fails to determine the max ledger time of the used contracts. Most likely, this means that one of the contracts is not active anymore which can happen under contention. It can also happen with contract keys.</p>
+<p><strong>Category</strong>: ContentionOnSharedResources</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status ABORTED including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the transaction submission.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-commandexecution-interpreter">
+<h1>2.2.2.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Interpreter<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-commandexecution-interpreter" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-contract-not-active">
+<h2>Error code: CONTRACT_NOT_ACTIVE<a class="headerlink" href="#error-code-contract-not-active" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if an exercise or fetch happens on a transaction-locally consumed contract.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: This error indicates an application error.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-daml-authorization-error">
+<h2>Error code: DAML_AUTHORIZATION_ERROR<a class="headerlink" href="#error-code-daml-authorization-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a Daml transaction fails due to an authorization error. An authorization means that the Daml transaction computed a different set of required submitters than you have provided during the submission as <cite>actAs</cite> parties.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: This error type occurs if there is an application error.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-daml-interpretation-error">
+<h2>Error code: DAML_INTERPRETATION_ERROR<a class="headerlink" href="#error-code-daml-interpretation-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a Daml transaction fails during interpretation.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: This error type occurs if there is an application error.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-daml-interpreter-invalid-argument">
+<h2>Error code: DAML_INTERPRETER_INVALID_ARGUMENT<a class="headerlink" href="#error-code-daml-interpreter-invalid-argument" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a Daml transaction fails during interpretation due to an invalid argument.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: This error type occurs if there is an application error.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-commandexecution-interpreter-lookuperrors">
+<h1>2.2.2.1.1. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Interpreter / LookupErrors<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-commandexecution-interpreter-lookuperrors" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-contract-key-not-found">
+<h2>Error code: CONTRACT_KEY_NOT_FOUND<a class="headerlink" href="#error-code-contract-key-not-found" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if the Daml engine interpreter cannot resolve a contract key to an active contract. This can be caused by either the contract key not being known to the participant, or not being known to the submitting parties or the contract representing an already archived key.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: This error type occurs if there is contention on a contract.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-commandexecution-package">
+<h1>2.2.2.2. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Package<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-commandexecution-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-allowed-language-versions">
+<h2>Error code: ALLOWED_LANGUAGE_VERSIONS<a class="headerlink" href="#error-code-allowed-language-versions" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the uploaded DAR is based on an unsupported language version.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Use a DAR compiled with a language version that this participant supports.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-package-validation-failed">
+<h2>Error code: PACKAGE_VALIDATION_FAILED<a class="headerlink" href="#error-code-package-validation-failed" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a package referred to by a command fails validation. This should not happen as packages are validated when being uploaded.</p>
+<p><strong>Category</strong>: MaliciousOrFaultyBehaviour</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level WARN on the server side. This error is exposed on the API with grpc-status UNKNOWN without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-commandexecution-preprocessing">
+<h1>2.2.2.3. ParticipantErrorGroup / LedgerApiErrors / CommandExecution / Preprocessing<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-commandexecution-preprocessing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-command-preprocessing-failed">
+<h2>Error code: COMMAND_PREPROCESSING_FAILED<a class="headerlink" href="#error-code-command-preprocessing-failed" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if a command fails during interpreter pre-processing.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect error details and correct your application.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-consistencyerrors">
+<h1>2.2.3. ParticipantErrorGroup / LedgerApiErrors / ConsistencyErrors<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-consistencyerrors" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-contract-not-found">
+<h2>Error code: CONTRACT_NOT_FOUND<a class="headerlink" href="#error-code-contract-not-found" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error occurs if the Daml engine can not find a referenced contract. This can be caused by either the contract not being known to the participant, or not being known to the submitting parties or already being archived.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: This error type occurs if there is contention on a contract.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-duplicate-command">
+<h2>Error code: DUPLICATE_COMMAND<a class="headerlink" href="#error-code-duplicate-command" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: A command with the given command id has already been successfully processed.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceExists</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status ALREADY_EXISTS including a detailed error message</p>
+<p><strong>Resolution</strong>: The correct resolution depends on the use case. If the error received pertains to a submission retried due to a timeout, do nothing, as the previous command has already been accepted. If the intent is to submit a new command, re-submit using a distinct command id.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-duplicate-contract-key">
+<h2>Error code: DUPLICATE_CONTRACT_KEY<a class="headerlink" href="#error-code-duplicate-contract-key" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error signals that within the transaction we got to a point where two contracts with the same key were active.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceExists</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status ALREADY_EXISTS including a detailed error message</p>
+<p><strong>Resolution</strong>: This error indicates an application error.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-inconsistent">
+<h2>Error code: INCONSISTENT<a class="headerlink" href="#error-code-inconsistent" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: At least one input has been altered by a concurrent transaction submission.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: The correct resolution depends on the business flow, for example it may be possible to proceed without an archived contract as an input, or the transaction submission may be retried to load the up-to-date value of a contract key.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-inconsistent-contracts">
+<h2>Error code: INCONSISTENT_CONTRACTS<a class="headerlink" href="#error-code-inconsistent-contracts" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: An input contract has been archived by a concurrent transaction submission.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: The correct resolution depends on the business flow, for example it may be possible to proceed without the archived contract as an input, or a different contract could be used.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-inconsistent-contract-key">
+<h2>Error code: INCONSISTENT_CONTRACT_KEY<a class="headerlink" href="#error-code-inconsistent-contract-key" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: An input contract key was re-assigned to a different contract by a concurrent transaction submission.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the transaction submission.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-ledger-time">
+<h2>Error code: INVALID_LEDGER_TIME<a class="headerlink" href="#error-code-invalid-ledger-time" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The ledger time of the submission violated some constraint on the ledger time.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Retry the transaction submission.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-packageserviceerror">
+<h1>2.2.4. ParticipantErrorGroup / LedgerApiErrors / PackageServiceError<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-packageserviceerror" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-dar-not-self-consistent">
+<h2>Error code: DAR_NOT_SELF_CONSISTENT<a class="headerlink" href="#error-code-dar-not-self-consistent" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the uploaded Dar is broken because it is missing internal dependencies.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Contact the supplier of the Dar.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-dar-validation-error">
+<h2>Error code: DAR_VALIDATION_ERROR<a class="headerlink" href="#error-code-dar-validation-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the validation of the uploaded dar failed.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message and contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-package-service-internal-error">
+<h2>Error code: PACKAGE_SERVICE_INTERNAL_ERROR<a class="headerlink" href="#error-code-package-service-internal-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates an internal issue within the package service.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Inspect the error message and contact support.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-packageserviceerror-reading">
+<h1>2.2.4.1. ParticipantErrorGroup / LedgerApiErrors / PackageServiceError / Reading<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-packageserviceerror-reading" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-dar-parse-error">
+<h2>Error code: DAR_PARSE_ERROR<a class="headerlink" href="#error-code-dar-parse-error" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the content of the Dar file could not be parsed successfully.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message and contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-dar">
+<h2>Error code: INVALID_DAR<a class="headerlink" href="#error-code-invalid-dar" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the supplied dar file was invalid.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message for details and contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-dar-file-name">
+<h2>Error code: INVALID_DAR_FILE_NAME<a class="headerlink" href="#error-code-invalid-dar-file-name" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the supplied dar file name did not meet the requirements to be stored in the persistence store.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect error message for details and change the file name accordingly</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-legacy-dar">
+<h2>Error code: INVALID_LEGACY_DAR<a class="headerlink" href="#error-code-invalid-legacy-dar" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the supplied zipped dar is an unsupported legacy Dar.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Please use a more recent dar version.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-zip-entry">
+<h2>Error code: INVALID_ZIP_ENTRY<a class="headerlink" href="#error-code-invalid-zip-entry" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the supplied zipped dar file was invalid.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message for details and contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-zip-bomb">
+<h2>Error code: ZIP_BOMB<a class="headerlink" href="#error-code-zip-bomb" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error indicates that the supplied zipped dar is regarded as zip-bomb.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the dar and contact support.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-requestvalidation">
+<h1>2.2.5. ParticipantErrorGroup / LedgerApiErrors / RequestValidation<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-requestvalidation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-invalid-argument">
+<h2>Error code: INVALID_ARGUMENT<a class="headerlink" href="#error-code-invalid-argument" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error is emitted when a submitted ledger API command contains an invalid argument.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the reason given and correct your application.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-deduplication-period">
+<h2>Error code: INVALID_DEDUPLICATION_PERIOD<a class="headerlink" href="#error-code-invalid-deduplication-period" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error is emitted when a submitted ledger API command specifies an invalid deduplication period.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message, adjust the value of the deduplication period or ask the participant operator to increase the maximum deduplication period.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-invalid-field">
+<h2>Error code: INVALID_FIELD<a class="headerlink" href="#error-code-invalid-field" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error is emitted when a submitted ledger API command contains a field value that cannot be understood.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the reason given and correct your application.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-ledger-id-mismatch">
+<h2>Error code: LEDGER_ID_MISMATCH<a class="headerlink" href="#error-code-ledger-id-mismatch" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: Every ledger API command contains a ledger-id which is verified against the running ledger.           This error indicates that the provided ledger-id does not match the expected one.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: Ensure that your application is correctly configured to use the correct ledger.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-missing-field">
+<h2>Error code: MISSING_FIELD<a class="headerlink" href="#error-code-missing-field" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This error is emitted when a mandatory field is not set in a submitted ledger API command.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the reason given and correct your application.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-non-hexadecimal-offset">
+<h2>Error code: NON_HEXADECIMAL_OFFSET<a class="headerlink" href="#error-code-non-hexadecimal-offset" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The supplied offset could not be converted to a binary offset.</p>
+<p><strong>Category</strong>: InvalidIndependentOfSystemState</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status INVALID_ARGUMENT including a detailed error message</p>
+<p><strong>Resolution</strong>: Ensure the offset is specified as a hexadecimal string.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-offset-after-ledger-end">
+<h2>Error code: OFFSET_AFTER_LEDGER_END<a class="headerlink" href="#error-code-offset-after-ledger-end" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a read request uses an offset beyond the current ledger end.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateSeekAfterEnd</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status OUT_OF_RANGE including a detailed error message</p>
+<p><strong>Resolution</strong>: Use an offset that is before the ledger end.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-offset-out-of-range">
+<h2>Error code: OFFSET_OUT_OF_RANGE<a class="headerlink" href="#error-code-offset-out-of-range" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a read request uses an offset invalid in the requests’ context.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message and use a valid offset.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-participant-pruned-data-accessed">
+<h2>Error code: PARTICIPANT_PRUNED_DATA_ACCESSED<a class="headerlink" href="#error-code-participant-pruned-data-accessed" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a read request tries to access pruned data.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateOther</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status FAILED_PRECONDITION including a detailed error message</p>
+<p><strong>Resolution</strong>: Use an offset that is after the pruning offset.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-requestvalidation-notfound">
+<h1>2.2.5.1. ParticipantErrorGroup / LedgerApiErrors / RequestValidation / NotFound<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-requestvalidation-notfound" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-ledger-configuration-not-found">
+<h2>Error code: LEDGER_CONFIGURATION_NOT_FOUND<a class="headerlink" href="#error-code-ledger-configuration-not-found" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The ledger configuration could not be retrieved. This could happen due to incomplete initialization of the participant or due to an internal system error.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: Contact the participant operator.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-package-not-found">
+<h2>Error code: PACKAGE_NOT_FOUND<a class="headerlink" href="#error-code-package-not-found" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: This rejection is given when a read request tries to access a package which does not exist on the ledger.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: Use a package id pertaining to a package existing on the ledger.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-transaction-not-found">
+<h2>Error code: TRANSACTION_NOT_FOUND<a class="headerlink" href="#error-code-transaction-not-found" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The transaction does not exist or the requesting set of parties are not authorized to fetch it.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: Check the transaction id and verify that the requested transaction is visible to the requesting parties.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="participanterrorgroup-ledgerapierrors-writeservicerejections">
+<h1>2.2.6. ParticipantErrorGroup / LedgerApiErrors / WriteServiceRejections<a class="headerlink" href="#participanterrorgroup-ledgerapierrors-writeservicerejections" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="error-code-disputed">
+<h2>Error code: DISPUTED<a class="headerlink" href="#error-code-disputed" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Depreciation</strong>: Corresponds to transaction submission rejections that are not produced anymore.</p>
+<p><strong>Explanation</strong>: An invalid transaction submission was not detected by the participant.</p>
+<p><strong>Category</strong>: SystemInternalAssumptionViolated</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level ERROR on the server side. This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact support.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-out-of-quota">
+<h2>Error code: OUT_OF_QUOTA<a class="headerlink" href="#error-code-out-of-quota" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Depreciation</strong>: Corresponds to transaction submission rejections that are not produced anymore.</p>
+<p><strong>Explanation</strong>: The Participant node did not have sufficient resource quota to submit the transaction.</p>
+<p><strong>Category</strong>: ContentionOnSharedResources</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status ABORTED including a detailed error message</p>
+<p><strong>Resolution</strong>: Inspect the error message and retry after after correcting the underlying issue.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-party-not-known-on-ledger">
+<h2>Error code: PARTY_NOT_KNOWN_ON_LEDGER<a class="headerlink" href="#error-code-party-not-known-on-ledger" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: One or more informee parties have not been allocated.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: Check that all the informee party identifiers are correct, allocate all the informee parties, request their allocation or wait for them to be allocated before retrying the transaction submission.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-submitter-cannot-act-via-participant">
+<h2>Error code: SUBMITTER_CANNOT_ACT_VIA_PARTICIPANT<a class="headerlink" href="#error-code-submitter-cannot-act-via-participant" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: A submitting party is not authorized to act through the participant.</p>
+<p><strong>Category</strong>: InsufficientPermission</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level WARN on the server side. This error is exposed on the API with grpc-status PERMISSION_DENIED without any details due to security reasons</p>
+<p><strong>Resolution</strong>: Contact the participant operator or re-submit with an authorized party.</p>
+</div></blockquote>
+</div>
+<div class="section" id="error-code-submitting-party-not-known-on-ledger">
+<h2>Error code: SUBMITTING_PARTY_NOT_KNOWN_ON_LEDGER<a class="headerlink" href="#error-code-submitting-party-not-known-on-ledger" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p><strong>Explanation</strong>: The submitting party has not been allocated.</p>
+<p><strong>Category</strong>: InvalidGivenCurrentSystemStateResourceMissing</p>
+<p><strong>Conveyance</strong>: This error is logged with log-level INFO on the server side. This error is exposed on the API with grpc-status NOT_FOUND including a detailed error message</p>
+<p><strong>Resolution</strong>: Check that the party identifier is correct, allocate the submitting party, request its allocation or wait for it to be allocated before retrying the transaction submission.</p>
+</div></blockquote>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

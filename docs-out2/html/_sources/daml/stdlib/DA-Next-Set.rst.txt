@@ -1,0 +1,146 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-next-set-27899:
+
+Module DA.Next.Set
+==================
+
+``DA.Next.Set`` is deprecated\. Please use ``DA.Set`` instead\.
+
+Data Types
+----------
+
+.. _type-da-next-set-set-92560:
+
+**data** `Set <type-da-next-set-set-92560_>`_ a
+
+  The type of a set\.
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> :ref:`Monoid <class-da-internal-prelude-monoid-13063>` (`Set <type-da-next-set-set-92560_>`_ a)
+  
+  **instance** :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> :ref:`Semigroup <class-da-internal-prelude-semigroup-80733>` (`Set <type-da-next-set-set-92560_>`_ a)
+  
+  **instance** :ref:`IsParties <class-da-internal-template-functions-isparties-57119>` (`Set <type-da-next-set-set-92560_>`_ :ref:`Party <type-da-internal-lf-party-50311>`)
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` (`Set <type-da-next-set-set-92560_>`_ a)
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` (`Set <type-da-next-set-set-92560_>`_ a)
+  
+  **instance** (:ref:`MapKey <class-da-next-map-mapkey-12781>` a, :ref:`Show <class-ghc-show-show-56447>` a) \=\> :ref:`Show <class-ghc-show-show-56447>` (`Set <type-da-next-set-set-92560_>`_ a)
+
+Functions
+---------
+
+.. _function-da-next-set-empty-23701:
+
+`empty <function-da-next-set-empty-23701_>`_
+  \: `Set <type-da-next-set-set-92560_>`_ a
+  
+  The empty set\.
+
+.. _function-da-next-set-size-52900:
+
+`size <function-da-next-set-size-52900_>`_
+  \: `Set <type-da-next-set-set-92560_>`_ a \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  The number of elements in the set\.
+
+.. _function-da-next-set-tolist-45762:
+
+`toList <function-da-next-set-tolist-45762_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> `Set <type-da-next-set-set-92560_>`_ a \-\> \[a\]
+  
+  Convert the set to a list of elements\.
+
+.. _function-da-next-set-fromlist-25231:
+
+`fromList <function-da-next-set-fromlist-25231_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> \[a\] \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  Create a set from a list of elements\.
+
+.. _function-da-next-set-totextmap-54322:
+
+`toTextMap <function-da-next-set-totextmap-54322_>`_
+  \: `Set <type-da-next-set-set-92560_>`_ :ref:`Text <type-ghc-types-text-57703>` \-\> :ref:`TextMap <type-da-internal-lf-textmap-34396>` ()
+  
+  Convert a ``Set`` into a ``TextMap``\.
+
+.. _function-da-next-set-fromtextmap-48517:
+
+`fromTextMap <function-da-next-set-fromtextmap-48517_>`_
+  \: :ref:`TextMap <type-da-internal-lf-textmap-34396>` () \-\> `Set <type-da-next-set-set-92560_>`_ :ref:`Text <type-ghc-types-text-57703>`
+  
+  Create a ``Set`` from a ``TextMap``\.
+
+.. _function-da-next-set-member-64803:
+
+`member <function-da-next-set-member-64803_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> a \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Is the element in the set?
+
+.. _function-da-next-set-null-79188:
+
+`null <function-da-next-set-null-79188_>`_
+  \: `Set <type-da-next-set-set-92560_>`_ a \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Is this the empty set?
+
+.. _function-da-next-set-insert-45526:
+
+`insert <function-da-next-set-insert-45526_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> a \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  Insert an element in a set\. If the set already contains an
+  element equal to the given value, it is replaced with the new
+  value\.
+
+.. _function-da-next-set-filter-91287:
+
+`filter <function-da-next-set-filter-91287_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  Filter all elements that satisfy the predicate\.
+
+.. _function-da-next-set-delete-42664:
+
+`delete <function-da-next-set-delete-42664_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> a \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  Delete an element from a set\.
+
+.. _function-da-next-set-singleton-52205:
+
+`singleton <function-da-next-set-singleton-52205_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  Create a singleton set\.
+
+.. _function-da-next-set-union-92255:
+
+`union <function-da-next-set-union-92255_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  The union of two sets, preferring the first set when equal
+  elements are encountered\.
+
+.. _function-da-next-set-intersection-87704:
+
+`intersection <function-da-next-set-intersection-87704_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  The intersection of two sets\. Elements of the result come from
+  the first set\.
+
+.. _function-da-next-set-difference-33276:
+
+`difference <function-da-next-set-difference-33276_>`_
+  \: :ref:`MapKey <class-da-next-map-mapkey-12781>` a \=\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a \-\> `Set <type-da-next-set-set-92560_>`_ a
+  
+  ``difference x y`` returns the set consisting of all
+  elements in ``x`` that are not in ``y``\.
+  
+  > > > fromList \[1, 2, 3\] `difference` fromList \[1, 4\]
+  > > > fromList \[2, 3\]

@@ -1,0 +1,680 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Structure &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Integrity" href="ledger-integrity.html" />
+  <link rel="prev" title="Daml Ledger Model" href="index.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Daml Ledger Model</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Structure</a><ul>
+<li><a class="reference internal" href="#actions-and-transactions">Actions and Transactions</a></li>
+<li><a class="reference internal" href="#ledgers">Ledgers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="structure">
+<span id="ledger-structure"></span><h1>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h1>
+<p>This section looks at the structure of a Daml ledger and the associated ledger
+changes. The basic building blocks of changes are <em>actions</em>, which get grouped
+into <em>transactions</em>.</p>
+<div class="section" id="actions-and-transactions">
+<span id="id1"></span><h2>Actions and Transactions<a class="headerlink" href="#actions-and-transactions" title="Permalink to this headline">¶</a></h2>
+<p>One of the main features of the Daml ledger model is a <em>hierarchical action
+structure</em>.</p>
+<p>This structure is illustrated below on a toy example of a multi-party
+interaction. Alice (<cite>A</cite>) gets some digital cash, in the form of an I-Owe-You
+(IOU for short)
+from a bank, and she needs her house painted. She gets an offer from
+a painter (<cite>P</cite>) with reference number <cite>P123</cite> to paint her house in
+exchange for this IOU. Lastly, <cite>A</cite>
+accepts the offer, transferring the money and signing
+a contract with <cite>P</cite>, whereby he is promising to paint her house.</p>
+<p>This acceptance can be viewed as <cite>A</cite> <em>exercising</em> her right to accept
+the offer. Her acceptance has two consequences. First, <cite>A</cite> transfers
+her IOU, that is, <em>exercises</em> her right to transfer the IOU, after
+which a new IOU for <cite>P</cite> is <em>created</em>.  Second, a new contract is
+<em>created</em> that requires <cite>P</cite> to paint <cite>A</cite>’s house.</p>
+<p>Thus, the acceptance in this example is reduced to two types of actions: (1)
+creating contracts, and (2) exercising rights on them. These are also the
+two main kinds of actions in the Daml ledger model. The visual notation below
+records the relations between the actions during the above acceptance.</p>
+<div align="center" class="align-center"><img alt="../../_images/action-structure-expanded-paint-offer.svg" src="../../_images/action-structure-expanded-paint-offer.svg" width="70%" /></div>
+<p>Formally, an <strong>action</strong> is one of the following:</p>
+<ol class="arabic simple">
+<li>a <strong>Create</strong> action on a contract, which records the creation of the contract</li>
+<li>an <strong>Exercise</strong> action on a contract, which records that one or more parties
+have exercised a right they have on the contract, and which also contains:<ol class="arabic">
+<li>An associated set of parties called <strong>actors</strong>. These are the
+parties who perform the action.</li>
+<li>An exercise <strong>kind</strong>, which is either <strong>consuming</strong> or
+<strong>non-consuming</strong>. Once consumed, a contract cannot be used again
+(for example, Alice should not be able to accept the painter’s
+offer twice). Contracts exercised in a non-consuming fashion
+can be reused.</li>
+<li>A list of <strong>consequences</strong>, which are themselves actions. Note that
+the consequences, as well as the kind and the actors, are
+considered a part of the exercise action itself. This nesting of
+actions within other actions through consequences of exercises
+gives rise to the hierarchical structure.
+The exercise action is the <strong>parent action</strong> of its consequences.</li>
+</ol>
+</li>
+<li>a <strong>Fetch</strong> action on a contract, which demonstrates that the contract exists and is active at the time of
+fetching.
+The action also contains <strong>actors</strong>, the parties who fetch the contract.
+A <strong>Fetch</strong> behaves like a non-consuming exercise with no consequences, and can be repeated.</li>
+<li>a <strong>Key assertion</strong>, which records the assertion that the given <a class="reference internal" href="../../daml/reference/contract-keys.html"><span class="doc">contract key</span></a> is <strong>not</strong> assigned to any unconsumed contract on the ledger.</li>
+</ol>
+<p>An <strong>Exercise</strong> or a <strong>Fetch</strong> action on a contract is said to <strong>use</strong> the contract.
+Moreover, a consuming <strong>Exercise</strong> is said to <strong>consume</strong> (or <strong>archive</strong>) its contract.</p>
+<p>The following EBNF-like grammar summarizes the structure of actions
+and transactions. Here, “s | t” represents the choice between <cite>s</cite> and
+<cite>t</cite>, “s t” represents <cite>s</cite> followed by <cite>t</cite>, and “s*” represents the
+repetition of <cite>s</cite> zero or more times. The terminal ‘contract’ denotes
+the underlying type of contracts, and the terminal ‘party’ the
+underlying type of parties.</p>
+<div class="highlight-default notranslate" id="action-ebnf"><div class="highlight"><pre><span></span><span class="n">Action</span>       <span class="p">:</span><span class="o">:=</span> <span class="s1">&#39;Create&#39;</span> <span class="n">contract</span>
+               <span class="o">|</span> <span class="s1">&#39;Exercise&#39;</span> <span class="n">party</span><span class="o">*</span> <span class="n">contract</span> <span class="n">Kind</span> <span class="n">Transaction</span>
+               <span class="o">|</span> <span class="s1">&#39;Fetch&#39;</span> <span class="n">party</span><span class="o">*</span> <span class="n">contract</span>
+               <span class="o">|</span> <span class="s1">&#39;NoSuchKey&#39;</span> <span class="n">key</span>
+<span class="n">Transaction</span>  <span class="p">:</span><span class="o">:=</span> <span class="n">Action</span><span class="o">*</span>
+<span class="n">Kind</span>         <span class="p">:</span><span class="o">:=</span> <span class="s1">&#39;Consuming&#39;</span> <span class="o">|</span> <span class="s1">&#39;NonConsuming&#39;</span>
+</pre></div>
+</div>
+<p>The visual notation presented earlier captures actions precisely with
+conventions that:</p>
+<ol class="arabic simple">
+<li><strong>Exercise</strong> denotes consuming, <strong>ExerciseN</strong> non-consuming exercises, and <strong>Fetch</strong> a fetch.</li>
+<li>double arrows connect exercises to their consequences, if any.</li>
+<li>the consequences are ordered left-to-right.</li>
+<li>to aid intuitions, exercise actions are annotated with suggestive names
+like “accept” or “transfer”. Intuitively, these correspond to names of
+Daml choices, but they have no semantic meaning.</li>
+</ol>
+<p>An alternative shorthand notation, shown below uses the abbreviations <strong>Exe</strong> and <strong>ExeN</strong> for exercises, and omits the
+<strong>Create</strong> labels on create actions.</p>
+<div align="center" class="align-center"><img alt="../../_images/action-structure-paint-offer.svg" src="../../_images/action-structure-paint-offer.svg" width="60%" /></div>
+<p>To show an example of a non-consuming exercise, consider a different
+offer example with an easily replenishable subject. For example, if
+<cite>P</cite> was a car manufacturer, and <cite>A</cite> a car dealer, <cite>P</cite> could make an
+offer that could be accepted multiple times.</p>
+<div align="center" class="align-center"><img alt="../../_images/non-consuming-exercises.svg" src="../../_images/non-consuming-exercises.svg" width="60%" /></div>
+<p>To see an example of a fetch, we can extend this example to the case where <cite>P</cite> produces exclusive cars and allows only
+certified dealers to sell them.
+Thus, when accepting the offer, <cite>A</cite> has to additionally show a valid quality certificate issued by some standards body <cite>S</cite>.</p>
+<div align="center" class="align-center"><img alt="../../_images/fetches.svg" src="../../_images/fetches.svg" width="90%" /></div>
+<p>In the paint offer example, the underlying type of contracts consists
+of three sorts of contracts:</p>
+<dl class="docutils">
+<dt>PaintOffer houseOwner painter obligor refNo</dt>
+<dd>Intuitively an offer (with a reference number) by
+which the painter proposes to the house owner to paint her house, in
+exchange for a single IOU token issued by the specified obligor.</dd>
+<dt>PaintAgree painter houseOwner refNo</dt>
+<dd>Intuitively a contract whereby
+the painter agrees to paint the owner’s house</dd>
+<dt>Iou obligor owner</dt>
+<dd>An IOU token from an obligor to an owner
+(for simplicity, the token is of unit amount).</dd>
+</dl>
+<p>In practice, multiple IOU contracts can exist between the same <cite>obligor</cite> and
+<cite>owner</cite>, in which case each contract should have a unique identifier. However,
+in this section, each contract only appears once, allowing us to drop the notion
+of identifiers for simplicity reasons.</p>
+<p>A <strong>transaction</strong> is a list of actions. Thus, the consequences of
+an exercise form a transaction. In the example, the consequences of
+Alice’s exercise form the following transaction, where actions are again
+ordered left-to-right.</p>
+<div align="center" class="align-center"><img alt="../../_images/consequences-are-transactions.svg" src="../../_images/consequences-are-transactions.svg" width="50%" /></div>
+<p>For an action <cite>act</cite>,
+its <strong>proper subactions</strong> are all actions in the consequences of
+<cite>act</cite>, together with all of their proper subactions. Additionally,
+<cite>act</cite> is a (non-proper) <strong>subaction</strong> of itself.</p>
+<p>The subaction relation is visualized below. Both the green
+and yellow boxes are proper subactions of Alice’s exercise on the paint
+offer. Additionally, the creation of <cite>Iou Bank P</cite> (yellow box) is also a
+proper subaction of the exercise on the <cite>Iou Bank A</cite>.</p>
+<div align="center" class="align-center"><img alt="../../_images/subactions-paint-offer.svg" src="../../_images/subactions-paint-offer.svg" width="60%" /></div>
+<p>Similarly, a <strong>subtransaction</strong> of a transaction is either the transaction
+itself, or a <strong>proper subtransaction</strong>: a transaction obtained by removing at
+least one action, or replacing it by a subtransaction of its consequences. For
+example, given the transaction consisting of just one action, the paint offer
+acceptance, the image below shows all its proper non-empty subtransactions on the right
+(yellow boxes).</p>
+<div align="center" class="align-center"><img alt="../../_images/subtransactions-paint-offer.svg" src="../../_images/subtransactions-paint-offer.svg" width="100%" /></div>
+<p>To illustrate <a class="reference internal" href="../../daml/reference/contract-keys.html"><span class="doc">contract keys</span></a>, suppose that the contract key for a <cite>PaintOffer</cite> consists of the reference number and the painter.
+So Alice can refer to the <cite>PaintOffer</cite> by its key <cite>(P, P123)</cite>.
+To make this explicit, we use the notation <cite>PaintOffer &#64;P A &amp;P123</cite> for contracts, where <cite>&#64;</cite> and <cite>&amp;</cite> mark the parts that belong to a key.
+(The difference between <cite>&#64;</cite> and <cite>&amp;</cite> will be explained in the <a class="reference internal" href="ledger-integrity.html#da-signatories-agreements-maintainers"><span class="std std-ref">integrity section</span></a>.)
+The ledger integrity constraints in the next section ensure that there is always at most one active <cite>PaintOffer</cite> for a given key.
+So if the painter retracts its <cite>PaintOffer</cite> and later Alice tries to accept it, she can then record the absence with a <cite>NoSuchKey (P, P123)</cite> key assertion.</p>
+</div>
+<div class="section" id="ledgers">
+<h2>Ledgers<a class="headerlink" href="#ledgers" title="Permalink to this headline">¶</a></h2>
+<p>The transaction structure records the contents of the
+changes, but not <em>who requested them</em>. This information is added by the notion
+of a <strong>commit</strong>: a transaction paired with the parties that
+requested it, called the <strong>requesters</strong> of the commit.
+A commit may have one or more requesters.
+Given a commit <cite>(p, tx)</cite> with transaction <cite>tx = act</cite><sub>1</sub><cite>, …, act</cite><sub>n</sub>, every <cite>act</cite><sub>i</sub> is
+called a <strong>top-level action</strong> of the commit. A <strong>ledger</strong> is a sequence of
+commits. A top-level action of any ledger commit is also a top-level action of
+the ledger.</p>
+<p>The following EBNF grammar summarizes the structure of commits and ledgers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Commit</span>   <span class="p">:</span><span class="o">:=</span> <span class="n">party</span><span class="o">+</span> <span class="n">Transaction</span>
+<span class="n">Ledger</span>   <span class="p">:</span><span class="o">:=</span> <span class="n">Commit</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>A Daml ledger thus represents the full history of all actions taken by
+parties.<a class="footnote-reference" href="#ledger-vs-journal" id="id2">[1]</a> Since the ledger is a sequence (of dependent actions), it induces an
+<em>order</em> on the commits in the ledger. Visually, a ledger can be represented
+as a sequence growing from left to right as time progresses. Below,
+dashed vertical lines mark the boundaries of commits, and each commit is
+annotated with its requester(s). Arrows link the create and
+exercise actions on the same contracts. These additional arrows highlight
+that the ledger forms a <strong>transaction graph</strong>. For example, the
+aforementioned house painting scenario is visually represented as
+follows.</p>
+<div align="center" class="align-center"><img alt="../../_images/paint-offer-ledger.svg" src="../../_images/paint-offer-ledger.svg" /></div>
+<p>The definitions presented here are all the ingredients required to
+<em>record</em> the interaction between parties in a Daml ledger. That is, they
+address the first question: “what do changes and ledgers look
+like?”. To answer the next question, “who can request which changes”,
+a precise definition is needed of which ledgers are permissible,
+and which are not. For example, the above
+paint offer ledger is intuitively permissible, while all of the
+following ledgers are not.</p>
+<div class="figure align-center" id="id3">
+<img alt="../../_images/double-spend.svg" src="../../_images/double-spend.svg" /><p class="caption"><span class="caption-text">Alice spending her IOU twice (“double spend”), once transferring it
+to <cite>B</cite> and once to <cite>P</cite>.</span></p>
+</div>
+<div class="figure align-center" id="alice-changes-offer">
+<img alt="../../_images/non-conformant-action.svg" src="../../_images/non-conformant-action.svg" /><p class="caption"><span class="caption-text">Alice changing the offer’s outcome by removing the transfer of the <cite>Iou</cite>.</span></p>
+</div>
+<div class="figure align-center" id="obligation-imposed-on-painter">
+<img alt="../../_images/invalid-obligation.svg" src="../../_images/invalid-obligation.svg" /><p class="caption"><span class="caption-text">An obligation imposed on the painter without his consent.</span></p>
+</div>
+<div class="figure align-center" id="painter-stealing-ious">
+<img alt="../../_images/stealing-ious.svg" src="../../_images/stealing-ious.svg" /><p class="caption"><span class="caption-text">Painter stealing Alice’s IOU. Note that the ledger would be
+intuitively permissible if it was Alice performing the last commit.</span></p>
+</div>
+<div class="figure align-center" id="alice-claiming-retracted-offer">
+<img alt="../../_images/failed-key-assertion.svg" src="../../_images/failed-key-assertion.svg" /><p class="caption"><span class="caption-text">Painter falsely claiming that there is no offer.</span></p>
+</div>
+<div class="figure align-center" id="painter-creating-two-offers-with-same-key">
+<img alt="../../_images/double-key-creation.svg" src="../../_images/double-key-creation.svg" /><p class="caption"><span class="caption-text">Painter trying to create two different paint offers with the same reference number.</span></p>
+</div>
+<p>The next section discusses the criteria that rule out the above examples as
+invalid ledgers.</p>
+<table class="docutils footnote" frame="void" id="ledger-vs-journal" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Calling such a complete record “ledger” is standard in the
+distributed ledger technology community. In accounting terminology,
+this record is closer to a <em>journal</em> than to a ledger.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="index.html" class="da-btn da-btn-label btn-prev" title="Daml Ledger Model" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="ledger-integrity.html" class="da-btn da-btn-label btn-next" title="Integrity" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

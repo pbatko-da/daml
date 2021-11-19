@@ -1,0 +1,3903 @@
+Ledger API Reference
+####################
+
+
+.. _com/daml/ledger/api/v1/active_contracts_service.proto:
+
+com/daml/ledger/api/v1/active_contracts_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.GetActiveContractsRequest:
+
+GetActiveContractsRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetActiveContractsRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetActiveContractsRequest.filter: 
+
+       filter
+     - :ref:`TransactionFilter <com.daml.ledger.api.v1.TransactionFilter>`
+     - 
+     - Templates to include in the served snapshot, per party. Required
+   * - .. _com.daml.ledger.api.v1.GetActiveContractsRequest.verbose: 
+
+       verbose
+     - :ref:`bool <bool>`
+     - 
+     - If enabled, values served over the API will contain more information than strictly necessary to interpret the data. In particular, setting the verbose flag to true triggers the ledger to include labels for record fields. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetActiveContractsResponse:
+
+GetActiveContractsResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetActiveContractsResponse.offset: 
+
+       offset
+     - :ref:`string <string>`
+     - 
+     - Included in the last message. The client should start consuming the transactions endpoint with this offset. The format of this field is described in ``ledger_offset.proto``. Required
+   * - .. _com.daml.ledger.api.v1.GetActiveContractsResponse.workflow_id: 
+
+       workflow_id
+     - :ref:`string <string>`
+     - 
+     - The workflow that created the contracts. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.GetActiveContractsResponse.active_contracts: 
+
+       active_contracts
+     - :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+     - repeated
+     - The list of contracts that were introduced by the workflow with ``workflow_id`` at the offset. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.ActiveContractsService:
+
+ActiveContractsService
+===================================================================================================
+
+Allows clients to initialize themselves according to a fairly recent state of the ledger without reading through all transactions that were committed since the ledger's creation.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetActiveContracts
+     - :ref:`GetActiveContractsRequest <com.daml.ledger.api.v1.GetActiveContractsRequest>`
+     - :ref:`GetActiveContractsResponse <com.daml.ledger.api.v1.GetActiveContractsResponse>`
+     - Returns a stream of the latest snapshot of active contracts. If there are no active contracts, the stream returns a single GetActiveContractsResponse message with the offset at which the snapshot has been taken. Clients SHOULD use the offset in the last GetActiveContractsResponse message to continue streaming transactions with the transaction service. Clients SHOULD NOT assume that the set of active contracts they receive reflects the state at the ledger end. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (filters by party cannot be empty)
+   
+
+
+
+.. _com/daml/ledger/api/v1/admin/config_management_service.proto:
+
+com/daml/ledger/api/v1/admin/config_management_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.admin.GetTimeModelRequest:
+
+GetTimeModelRequest
+===================================================================================================
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.GetTimeModelResponse:
+
+GetTimeModelResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.GetTimeModelResponse.configuration_generation: 
+
+       configuration_generation
+     - :ref:`int64 <int64>`
+     - 
+     - The current configuration generation. The generation is a monotonically increasing integer that is incremented on each change. Used when setting the time model.
+   * - .. _com.daml.ledger.api.v1.admin.GetTimeModelResponse.time_model: 
+
+       time_model
+     - :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
+     - 
+     - The current ledger time model.
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.SetTimeModelRequest:
+
+SetTimeModelRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.submission_id: 
+
+       submission_id
+     - :ref:`string <string>`
+     - 
+     - Submission identifier used for tracking the request and to reject duplicate submissions. Required.
+   * - .. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.maximum_record_time: 
+
+       maximum_record_time
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - Deadline for the configuration change after which the change is rejected.
+   * - .. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.configuration_generation: 
+
+       configuration_generation
+     - :ref:`int64 <int64>`
+     - 
+     - The current configuration generation which we're submitting the change against. This is used to perform a compare-and-swap of the configuration to safeguard against concurrent modifications. Required.
+   * - .. _com.daml.ledger.api.v1.admin.SetTimeModelRequest.new_time_model: 
+
+       new_time_model
+     - :ref:`TimeModel <com.daml.ledger.api.v1.admin.TimeModel>`
+     - 
+     - The new time model that replaces the current one. Required.
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.SetTimeModelResponse:
+
+SetTimeModelResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.SetTimeModelResponse.configuration_generation: 
+
+       configuration_generation
+     - :ref:`int64 <int64>`
+     - 
+     - The configuration generation of the committed time model.
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.TimeModel:
+
+TimeModel
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.TimeModel.avg_transaction_latency: 
+
+       avg_transaction_latency
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - The expected average latency of a transaction, i.e., the average time from submitting the transaction to a [[WriteService]] and the transaction being assigned a record time. Required.
+   * - .. _com.daml.ledger.api.v1.admin.TimeModel.min_skew: 
+
+       min_skew
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - The minimimum skew between ledger time and record time: lt_TX >= rt_TX - minSkew Required.
+   * - .. _com.daml.ledger.api.v1.admin.TimeModel.max_skew: 
+
+       max_skew
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - The maximum skew between ledger time and record time: lt_TX <= rt_TX + maxSkew Required.
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.ConfigManagementService:
+
+ConfigManagementService
+===================================================================================================
+
+Status: experimental interface, will change before it is deemed production
+ready
+
+Ledger configuration management service provides methods for the ledger administrator
+to change the current ledger configuration. The services provides methods to modify
+different aspects of the configuration.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetTimeModel
+     - :ref:`GetTimeModelRequest <com.daml.ledger.api.v1.admin.GetTimeModelRequest>`
+     - :ref:`GetTimeModelResponse <com.daml.ledger.api.v1.admin.GetTimeModelResponse>`
+     - Return the currently active time model and the current configuration generation. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation
+   * - SetTimeModel
+     - :ref:`SetTimeModelRequest <com.daml.ledger.api.v1.admin.SetTimeModelRequest>`
+     - :ref:`SetTimeModelResponse <com.daml.ledger.api.v1.admin.SetTimeModelResponse>`
+     - Set the ledger time model. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``INVALID_ARGUMENT``: if arguments are invalid, or the provided configuration generation does not match the current active configuration generation. The caller is expected to retry by again fetching current time model using 'GetTimeModel', applying changes and resubmitting. - ``ABORTED``: if the request is rejected or times out. Note that a timed out request may have still been committed to the ledger. Application should re-query the current time model before retrying. - ``UNIMPLEMENTED``: if this method is not supported by the backing ledger.
+   
+
+
+
+.. _com/daml/ledger/api/v1/admin/package_management_service.proto:
+
+com/daml/ledger/api/v1/admin/package_management_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPackagesRequest:
+
+ListKnownPackagesRequest
+===================================================================================================
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPackagesResponse:
+
+ListKnownPackagesResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.ListKnownPackagesResponse.package_details: 
+
+       package_details
+     - :ref:`PackageDetails <com.daml.ledger.api.v1.admin.PackageDetails>`
+     - repeated
+     - The details of all Daml-LF packages known to backing participant. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.PackageDetails:
+
+PackageDetails
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.PackageDetails.package_id: 
+
+       package_id
+     - :ref:`string <string>`
+     - 
+     - The identity of the Daml-LF package. Must be a valid PackageIdString (as describe in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.admin.PackageDetails.package_size: 
+
+       package_size
+     - :ref:`uint64 <uint64>`
+     - 
+     - Size of the package in bytes. The size of the package is given by the size of the ``daml_lf`` ArchivePayload. See further details in ``daml_lf.proto``. Required
+   * - .. _com.daml.ledger.api.v1.admin.PackageDetails.known_since: 
+
+       known_since
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - Indicates since when the package is known to the backing participant. Required
+   * - .. _com.daml.ledger.api.v1.admin.PackageDetails.source_description: 
+
+       source_description
+     - :ref:`string <string>`
+     - 
+     - Description provided by the backing participant describing where it got the package from. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.UploadDarFileRequest:
+
+UploadDarFileRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.UploadDarFileRequest.dar_file: 
+
+       dar_file
+     - :ref:`bytes <bytes>`
+     - 
+     - Contains a Daml archive DAR file, which in turn is a jar like zipped container for ``daml_lf`` archives. See further details in ``daml_lf.proto``. Required
+   * - .. _com.daml.ledger.api.v1.admin.UploadDarFileRequest.submission_id: 
+
+       submission_id
+     - :ref:`string <string>`
+     - 
+     - Unique submission identifier. Optional, defaults to a random identifier.
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.UploadDarFileResponse:
+
+UploadDarFileResponse
+===================================================================================================
+
+An empty message that is received when the upload operation succeeded.
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.PackageManagementService:
+
+PackageManagementService
+===================================================================================================
+
+Status: experimental interface, will change before it is deemed production
+ready
+
+Query the Daml-LF packages supported by the ledger participant and upload
+DAR files. We use 'backing participant' to refer to this specific participant
+in the methods of this API.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - ListKnownPackages
+     - :ref:`ListKnownPackagesRequest <com.daml.ledger.api.v1.admin.ListKnownPackagesRequest>`
+     - :ref:`ListKnownPackagesResponse <com.daml.ledger.api.v1.admin.ListKnownPackagesResponse>`
+     - Returns the details of all Daml-LF packages known to the backing participant. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation
+   * - UploadDarFile
+     - :ref:`UploadDarFileRequest <com.daml.ledger.api.v1.admin.UploadDarFileRequest>`
+     - :ref:`UploadDarFileResponse <com.daml.ledger.api.v1.admin.UploadDarFileResponse>`
+     - Upload a DAR file to the backing participant. Depending on the ledger implementation this might also make the package available on the whole ledger. This call might not be supported by some ledger implementations. Canton could be an example, where uploading a DAR is not sufficient to render it usable, it must be activated first. This call may: - Succeed, if the package was successfully uploaded, or if the same package was already uploaded before. - Respond with a gRPC error Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``UNIMPLEMENTED``: if DAR package uploading is not supported by the backing participant - ``INVALID_ARGUMENT``: if the DAR file is too big or malformed. The maximum supported size is implementation specific.
+   
+
+
+
+.. _com/daml/ledger/api/v1/admin/participant_pruning_service.proto:
+
+com/daml/ledger/api/v1/admin/participant_pruning_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.admin.PruneRequest:
+
+PruneRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.PruneRequest.prune_up_to: 
+
+       prune_up_to
+     - :ref:`string <string>`
+     - 
+     - Inclusive offset up to which the ledger is to be pruned. By default the following data is pruned: 1. All normal and divulged contracts that have been archived before `prune_up_to`. 2. All transaction events and completions before `prune_up_to`
+   * - .. _com.daml.ledger.api.v1.admin.PruneRequest.submission_id: 
+
+       submission_id
+     - :ref:`string <string>`
+     - 
+     - Unique submission identifier. Optional, defaults to a random identifier, used for logging.
+   * - .. _com.daml.ledger.api.v1.admin.PruneRequest.prune_all_divulged_contracts: 
+
+       prune_all_divulged_contracts
+     - :ref:`bool <bool>`
+     - 
+     - Prune all immediately and retroactively divulged contracts created before `prune_up_to` independent of whether they were archived before `prune_up_to`. Useful to avoid leaking storage on participant nodes that can see a divulged contract but not its archival.
+
+Application developers SHOULD write their Daml applications such that they do not rely on divulged contracts; i.e., no warnings from using divulged contracts as inputs to transactions are emitted.
+
+Participant node operators SHOULD set the `prune_all_divulged_contracts` flag to avoid leaking storage due to accumulating unarchived divulged contracts PROVIDED that: 1. no application using this participant node relies on divulgence OR 2. divulged contracts on which applications rely have been re-divulged after the `prune_up_to` offset.
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.PruneResponse:
+
+PruneResponse
+===================================================================================================
+
+Empty for now, but may contain fields in the future
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.ParticipantPruningService:
+
+ParticipantPruningService
+===================================================================================================
+
+Prunes/truncates the "oldest" transactions from the participant (the participant Ledger Api Server plus any other
+participant-local state) by removing a portion of the ledger in such a way that the set of future, allowed
+commands are not affected.
+
+This enables:
+1. keeping the "inactive" portion of the ledger to a manageable size and
+2. removing inactive state to honor the right to be forgotten.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - Prune
+     - :ref:`PruneRequest <com.daml.ledger.api.v1.admin.PruneRequest>`
+     - :ref:`PruneResponse <com.daml.ledger.api.v1.admin.PruneResponse>`
+     - Prune the ledger specifying the offset before and at which ledger transactions should be removed. Only returns when the potentially long-running prune request ends successfully or with one of the following errors: - ``INVALID_ARGUMENT``: if the payload, particularly the offset is malformed or missing - ``UNIMPLEMENTED``: if the participant is based on a ledger that has not implemented pruning - ``INTERNAL``: if the participant has encountered a failure and has potentially applied pruning partially. Such cases warrant verifying the participant health before retrying the prune with the same (or a larger, valid) offset. Successful retries after such errors ensure that different components reach a consistent pruning state.
+
+Other GRPC errors can be returned depending on the type of condition preventing a prune: - ``OUT_OF_RANGE``: if the participant is not yet able to prune at the specified offset, but without user intervention the offset will eventually be usable for pruning. - ``FAILED_PRECONDITION`` if some sort of user intervention is required before pruning can proceed at the specified offset.
+   
+
+
+
+.. _com/daml/ledger/api/v1/admin/party_management_service.proto:
+
+com/daml/ledger/api/v1/admin/party_management_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyRequest:
+
+AllocatePartyRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.AllocatePartyRequest.party_id_hint: 
+
+       party_id_hint
+     - :ref:`string <string>`
+     - 
+     - A hint to the backing participant which party ID to allocate. It can be ignored. Must be a valid PartyIdString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.admin.AllocatePartyRequest.display_name: 
+
+       display_name
+     - :ref:`string <string>`
+     - 
+     - Human-readable name of the party to be added to the participant. It doesn't have to be unique. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.AllocatePartyResponse:
+
+AllocatePartyResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.AllocatePartyResponse.party_details: 
+
+       party_details
+     - :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.GetParticipantIdRequest:
+
+GetParticipantIdRequest
+===================================================================================================
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.GetParticipantIdResponse:
+
+GetParticipantIdResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.GetParticipantIdResponse.participant_id: 
+
+       participant_id
+     - :ref:`string <string>`
+     - 
+     - Identifier of the participant, which SHOULD be globally unique. Must be a valid LedgerString (as describe in ``value.proto``).
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.GetPartiesRequest:
+
+GetPartiesRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.GetPartiesRequest.parties: 
+
+       parties
+     - :ref:`string <string>`
+     - repeated
+     - The stable, unique identifier of the Daml parties. Must be valid PartyIdStrings (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.GetPartiesResponse:
+
+GetPartiesResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.GetPartiesResponse.party_details: 
+
+       party_details
+     - :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
+     - repeated
+     - The details of the requested Daml parties by the participant, if known. The party details may not be in the same order as requested. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesRequest:
+
+ListKnownPartiesRequest
+===================================================================================================
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.ListKnownPartiesResponse:
+
+ListKnownPartiesResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.ListKnownPartiesResponse.party_details: 
+
+       party_details
+     - :ref:`PartyDetails <com.daml.ledger.api.v1.admin.PartyDetails>`
+     - repeated
+     - The details of all Daml parties known by the participant. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.admin.PartyDetails:
+
+PartyDetails
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.admin.PartyDetails.party: 
+
+       party
+     - :ref:`string <string>`
+     - 
+     - The stable unique identifier of a Daml party. Must be a valid PartyIdString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.admin.PartyDetails.display_name: 
+
+       display_name
+     - :ref:`string <string>`
+     - 
+     - Human readable name associated with the party. Caution, it might not be unique. Optional
+   * - .. _com.daml.ledger.api.v1.admin.PartyDetails.is_local: 
+
+       is_local
+     - :ref:`bool <bool>`
+     - 
+     - true if party is hosted by the backing participant. Required
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.admin.PartyManagementService:
+
+PartyManagementService
+===================================================================================================
+
+Status: experimental interface, will change before it is deemed production
+ready
+
+Inspect the party management state of a ledger participant and modify the
+parts that are modifiable. We use 'backing participant' to refer to this
+specific participant in the methods of this API.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetParticipantId
+     - :ref:`GetParticipantIdRequest <com.daml.ledger.api.v1.admin.GetParticipantIdRequest>`
+     - :ref:`GetParticipantIdResponse <com.daml.ledger.api.v1.admin.GetParticipantIdResponse>`
+     - Return the identifier of the backing participant. All horizontally scaled replicas should return the same id. daml-on-sql: returns an identifier supplied on command line at launch time daml-on-kv-ledger: as above canton: returns globally unique identifier of the backing participant Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation
+   * - GetParties
+     - :ref:`GetPartiesRequest <com.daml.ledger.api.v1.admin.GetPartiesRequest>`
+     - :ref:`GetPartiesResponse <com.daml.ledger.api.v1.admin.GetPartiesResponse>`
+     - Get the party details of the given parties. Only known parties will be returned in the list. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation
+   * - ListKnownParties
+     - :ref:`ListKnownPartiesRequest <com.daml.ledger.api.v1.admin.ListKnownPartiesRequest>`
+     - :ref:`ListKnownPartiesResponse <com.daml.ledger.api.v1.admin.ListKnownPartiesResponse>`
+     - List the parties known by the backing participant. The list returned contains parties whose ledger access is facilitated by backing participant and the ones maintained elsewhere. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation
+   * - AllocateParty
+     - :ref:`AllocatePartyRequest <com.daml.ledger.api.v1.admin.AllocatePartyRequest>`
+     - :ref:`AllocatePartyResponse <com.daml.ledger.api.v1.admin.AllocatePartyResponse>`
+     - Adds a new party to the set managed by the backing participant. Caller specifies a party identifier suggestion, the actual identifier allocated might be different and is implementation specific. This call may: - Succeed, in which case the actual allocated identifier is visible in the response. - Respond with a gRPC error Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``UNIMPLEMENTED``: if synchronous party allocation is not supported by the backing participant - ``INVALID_ARGUMENT``: if the provided hint and/or display name is invalid on the given ledger (see below). daml-on-sql: suggestion's uniqueness is checked and call rejected if the identifier is already present daml-on-kv-ledger: suggestion's uniqueness is checked by the validators in the consensus layer and call rejected if the identifier is already present. canton: completely different globally unique identifier is allocated. Behind the scenes calls to an internal protocol are made. As that protocol is richer than the surface protocol, the arguments take implicit values The party identifier suggestion must be a valid party name. Party names are required to be non-empty US-ASCII strings built from letters, digits, space, colon, minus and underscore limited to 255 chars
+   
+
+
+
+.. _com/daml/ledger/api/v1/command_completion_service.proto:
+
+com/daml/ledger/api/v1/command_completion_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.Checkpoint:
+
+Checkpoint
+===================================================================================================
+
+Checkpoints may be used to:
+
+* detect time out of commands.
+* provide an offset which can be used to restart consumption.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Checkpoint.record_time: 
+
+       record_time
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - All commands with a maximum record time below this value MUST be considered lost if their completion has not arrived before this checkpoint. Required
+   * - .. _com.daml.ledger.api.v1.Checkpoint.offset: 
+
+       offset
+     - :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
+     - 
+     - May be used in a subsequent CompletionStreamRequest to resume the consumption of this stream at a later time. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.CompletionEndRequest:
+
+CompletionEndRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CompletionEndRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.CompletionEndResponse:
+
+CompletionEndResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CompletionEndResponse.offset: 
+
+       offset
+     - :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
+     - 
+     - This offset can be used in a CompletionStreamRequest message. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.CompletionStreamRequest:
+
+CompletionStreamRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CompletionStreamRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger id reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.CompletionStreamRequest.application_id: 
+
+       application_id
+     - :ref:`string <string>`
+     - 
+     - Only completions of commands submitted with the same application_id will be visible in the stream. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.CompletionStreamRequest.parties: 
+
+       parties
+     - :ref:`string <string>`
+     - repeated
+     - Non-empty list of parties whose data should be included. Only completions of commands for which at least one of the ``act_as`` parties is in the given set of parties will be visible in the stream. Must be a valid PartyIdString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.CompletionStreamRequest.offset: 
+
+       offset
+     - :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
+     - 
+     - This field indicates the minimum offset for completions. This can be used to resume an earlier completion stream. This offset is exclusive: the response will only contain commands whose offset is strictly greater than this. Optional, if not set the ledger uses the current ledger end offset instead.
+   
+
+
+
+.. _com.daml.ledger.api.v1.CompletionStreamResponse:
+
+CompletionStreamResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CompletionStreamResponse.checkpoint: 
+
+       checkpoint
+     - :ref:`Checkpoint <com.daml.ledger.api.v1.Checkpoint>`
+     - 
+     - This checkpoint may be used to restart consumption. The checkpoint is after any completions in this response. Optional
+   * - .. _com.daml.ledger.api.v1.CompletionStreamResponse.completions: 
+
+       completions
+     - :ref:`Completion <com.daml.ledger.api.v1.Completion>`
+     - repeated
+     - If set, one or more completions.
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.CommandCompletionService:
+
+CommandCompletionService
+===================================================================================================
+
+Allows clients to observe the status of their submissions.
+Commands may be submitted via the Command Submission Service.
+The on-ledger effects of their submissions are disclosed by the Transaction Service.
+
+Commands may fail in 2 distinct manners:
+
+1. Failure communicated synchronously in the gRPC error of the submission.
+2. Failure communicated asynchronously in a Completion, see ``completion.proto``.
+
+Note that not only successfully submitted commands MAY produce a completion event. For example, the participant MAY
+choose to produce a completion event for a rejection of a duplicate command.
+
+Clients that do not receive a successful completion about their submission MUST NOT assume that it was successful.
+Clients SHOULD subscribe to the CompletionStream before starting to submit commands to prevent race conditions.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - CompletionStream
+     - :ref:`CompletionStreamRequest <com.daml.ledger.api.v1.CompletionStreamRequest>`
+     - :ref:`CompletionStreamResponse <com.daml.ledger.api.v1.CompletionStreamResponse>`
+     - Subscribe to command completion events. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or if the ledger has been pruned before ``begin`` - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields - ``OUT_OF_RANGE``: if the absolute offset is not before the end of the ledger
+   * - CompletionEnd
+     - :ref:`CompletionEndRequest <com.daml.ledger.api.v1.CompletionEndRequest>`
+     - :ref:`CompletionEndResponse <com.daml.ledger.api.v1.CompletionEndResponse>`
+     - Returns the offset after the latest completion. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id
+   
+
+
+
+.. _com/daml/ledger/api/v1/command_service.proto:
+
+com/daml/ledger/api/v1/command_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse:
+
+SubmitAndWaitForTransactionIdResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse.transaction_id: 
+
+       transaction_id
+     - :ref:`string <string>`
+     - 
+     - The id of the transaction that resulted from the submitted command. Must be a valid LedgerString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionResponse:
+
+SubmitAndWaitForTransactionResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionResponse.transaction: 
+
+       transaction
+     - :ref:`Transaction <com.daml.ledger.api.v1.Transaction>`
+     - 
+     - The flat transaction that resulted from the submitted command. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionTreeResponse:
+
+SubmitAndWaitForTransactionTreeResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.SubmitAndWaitForTransactionTreeResponse.transaction: 
+
+       transaction
+     - :ref:`TransactionTree <com.daml.ledger.api.v1.TransactionTree>`
+     - 
+     - The transaction tree that resulted from the submitted command. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.SubmitAndWaitRequest:
+
+SubmitAndWaitRequest
+===================================================================================================
+
+These commands are atomic, and will become transactions.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.SubmitAndWaitRequest.commands: 
+
+       commands
+     - :ref:`Commands <com.daml.ledger.api.v1.Commands>`
+     - 
+     - The commands to be submitted. Required
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.CommandService:
+
+CommandService
+===================================================================================================
+
+Command Service is able to correlate submitted commands with completion data, identify timeouts, and return contextual
+information with each tracking result. This supports the implementation of stateless clients.
+
+Note that submitted commands generally produce completion events as well, even in case a command gets rejected.
+For example, the participant MAY choose to produce a completion event for a rejection of a duplicate command.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - SubmitAndWait
+     - :ref:`SubmitAndWaitRequest <com.daml.ledger.api.v1.SubmitAndWaitRequest>`
+     -  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Empty>`__
+     - Submits a single composite command and waits for its result. Propagates the gRPC error of failed submissions including Daml interpretation errors. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields - ``RESOURCE_EXHAUSTED``: if the number of in-flight commands reached the maximum (if a limit is configured) - ``UNAVAILABLE``: if the participant is not yet ready to submit commands or if the service has been shut down. - ``ABORTED``: if a contract key is missing or duplicated due to for example contention on resources
+   * - SubmitAndWaitForTransactionId
+     - :ref:`SubmitAndWaitRequest <com.daml.ledger.api.v1.SubmitAndWaitRequest>`
+     - :ref:`SubmitAndWaitForTransactionIdResponse <com.daml.ledger.api.v1.SubmitAndWaitForTransactionIdResponse>`
+     - Submits a single composite command, waits for its result, and returns the transaction id. Propagates the gRPC error of failed submissions including Daml interpretation errors. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields - ``RESOURCE_EXHAUSTED``: if the number of in-flight commands reached the maximum (if a limit is configured) - ``UNAVAILABLE``: if the participant is not yet ready to submit commands or if the service has been shut down. - ``ABORTED``: if a contract key is missing or duplicated due to for example contention on resources
+   * - SubmitAndWaitForTransaction
+     - :ref:`SubmitAndWaitRequest <com.daml.ledger.api.v1.SubmitAndWaitRequest>`
+     - :ref:`SubmitAndWaitForTransactionResponse <com.daml.ledger.api.v1.SubmitAndWaitForTransactionResponse>`
+     - Submits a single composite command, waits for its result, and returns the transaction. Propagates the gRPC error of failed submissions including Daml interpretation errors. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields - ``RESOURCE_EXHAUSTED``: if the number of in-flight commands reached the maximum (if a limit is configured) - ``UNAVAILABLE``: if the participant is not yet ready to submit commands or if the service has been shut down. - ``ABORTED``: if a contract key is missing or duplicated due to for example contention on resources
+   * - SubmitAndWaitForTransactionTree
+     - :ref:`SubmitAndWaitRequest <com.daml.ledger.api.v1.SubmitAndWaitRequest>`
+     - :ref:`SubmitAndWaitForTransactionTreeResponse <com.daml.ledger.api.v1.SubmitAndWaitForTransactionTreeResponse>`
+     - Submits a single composite command, waits for its result, and returns the transaction tree. Propagates the gRPC error of failed submissions including Daml interpretation errors. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields - ``RESOURCE_EXHAUSTED``: if the number of in-flight commands reached the maximum (if a limit is configured) - ``UNAVAILABLE``: if the participant is not yet ready to submit commands or if the service has been shut down. - ``ABORTED``: if a contract key is missing or duplicated due to for example contention on resources
+   
+
+
+
+.. _com/daml/ledger/api/v1/command_submission_service.proto:
+
+com/daml/ledger/api/v1/command_submission_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.SubmitRequest:
+
+SubmitRequest
+===================================================================================================
+
+The submitted commands will be processed atomically in a single transaction. Moreover, each ``Command`` in ``commands`` will be executed in the order specified by the request.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.SubmitRequest.commands: 
+
+       commands
+     - :ref:`Commands <com.daml.ledger.api.v1.Commands>`
+     - 
+     - The commands to be submitted in a single transaction. Required
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.CommandSubmissionService:
+
+CommandSubmissionService
+===================================================================================================
+
+Allows clients to attempt advancing the ledger's state by submitting commands.
+The final states of their submissions are disclosed by the Command Completion Service.
+The on-ledger effects of their submissions are disclosed by the Transaction Service.
+
+Commands may fail in 2 distinct manners:
+
+1. Failure communicated synchronously in the gRPC error of the submission.
+2. Failure communicated asynchronously in a Completion, see ``completion.proto``.
+
+Note that not only successfully submitted commands MAY produce a completion event. For example, the participant MAY
+choose to produce a completion event for a rejection of a duplicate command.
+
+Clients that do not receive a successful completion about their submission MUST NOT assume that it was successful.
+Clients SHOULD subscribe to the CompletionStream before starting to submit commands to prevent race conditions.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - Submit
+     - :ref:`SubmitRequest <com.daml.ledger.api.v1.SubmitRequest>`
+     -  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Empty>`__
+     - Submit a single composite command. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields - ``UNAVAILABLE``: if the participant is not yet ready to submit commands or if the service has been shut down. - ``RESOURCE_EXHAUSTED``: if the participant or the ledger is overloaded. Clients should back off exponentially and retry. - ``ABORTED``: if a contract key is missing or duplicated due to for example contention on resources
+   
+
+
+
+.. _com/daml/ledger/api/v1/commands.proto:
+
+com/daml/ledger/api/v1/commands.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.Command:
+
+Command
+===================================================================================================
+
+A command can either create a new contract or exercise a choice on an existing contract.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Command.create: 
+
+       create
+     - :ref:`CreateCommand <com.daml.ledger.api.v1.CreateCommand>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Command.exercise: 
+
+       exercise
+     - :ref:`ExerciseCommand <com.daml.ledger.api.v1.ExerciseCommand>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Command.exerciseByKey: 
+
+       exerciseByKey
+     - :ref:`ExerciseByKeyCommand <com.daml.ledger.api.v1.ExerciseByKeyCommand>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Command.createAndExercise: 
+
+       createAndExercise
+     - :ref:`CreateAndExerciseCommand <com.daml.ledger.api.v1.CreateAndExerciseCommand>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.Commands:
+
+Commands
+===================================================================================================
+
+A composite command that groups multiple commands together.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Commands.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.Commands.workflow_id: 
+
+       workflow_id
+     - :ref:`string <string>`
+     - 
+     - Identifier of the on-ledger workflow that this command is a part of. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.Commands.application_id: 
+
+       application_id
+     - :ref:`string <string>`
+     - 
+     - Uniquely identifies the application (or its part) that issued the command. This is used in tracing across different components and to let applications subscribe to their own submissions only. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.Commands.command_id: 
+
+       command_id
+     - :ref:`string <string>`
+     - 
+     - Uniquely identifies the command. The triple (application_id, party + act_as, command_id) constitutes the change ID for the intended ledger change, where party + act_as is interpreted as a set of party names. The change ID can be used for matching the intended ledger changes with all their completions. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.Commands.party: 
+
+       party
+     - :ref:`string <string>`
+     - 
+     - Party on whose behalf the command should be executed. If ledger API authorization is enabled, then the authorization metadata must authorize the sender of the request to act on behalf of the given party. Must be a valid PartyIdString (as described in ``value.proto``). Deprecated in favor of the ``act_as`` field. If both are set, then the effective list of parties on whose behalf the command should be executed is the union of all parties listed in ``party`` and ``act_as``. Optional
+   * - .. _com.daml.ledger.api.v1.Commands.commands: 
+
+       commands
+     - :ref:`Command <com.daml.ledger.api.v1.Command>`
+     - repeated
+     - Individual elements of this atomic command. Must be non-empty. Required
+   * - .. _com.daml.ledger.api.v1.Commands.deduplication_time: 
+
+       deduplication_time
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - Specifies the length of the deduplication period. Same semantics apply as for `deduplication_duration`.
+
+Must be non-negative. Must not exceed the maximum deduplication time (see ``ledger_configuration_service.proto``).
+   * - .. _com.daml.ledger.api.v1.Commands.deduplication_duration: 
+
+       deduplication_duration
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - Specifies the length of the deduplication period. It is interpreted relative to the local clock at some point during the submission's processing.
+
+Must be non-negative. Must not exceed the maximum deduplication time (see ``ledger_configuration_service.proto``).
+   * - .. _com.daml.ledger.api.v1.Commands.min_ledger_time_abs: 
+
+       min_ledger_time_abs
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - Lower bound for the ledger time assigned to the resulting transaction. Note: The ledger time of a transaction is assigned as part of command interpretation. Use this property if you expect that command interpretation will take a considerate amount of time, such that by the time the resulting transaction is sequenced, its assigned ledger time is not valid anymore. Must not be set at the same time as min_ledger_time_rel. Optional
+   * - .. _com.daml.ledger.api.v1.Commands.min_ledger_time_rel: 
+
+       min_ledger_time_rel
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - Same as min_ledger_time_abs, but specified as a duration, starting from the time the command is received by the server. Must not be set at the same time as min_ledger_time_abs. Optional
+   * - .. _com.daml.ledger.api.v1.Commands.act_as: 
+
+       act_as
+     - :ref:`string <string>`
+     - repeated
+     - Set of parties on whose behalf the command should be executed. If ledger API authorization is enabled, then the authorization metadata must authorize the sender of the request to act on behalf of each of the given parties. This field supersedes the ``party`` field. The effective set of parties on whose behalf the command should be executed is the union of all parties listed in ``party`` and ``act_as``, which must be non-empty. Each element must be a valid PartyIdString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.Commands.read_as: 
+
+       read_as
+     - :ref:`string <string>`
+     - repeated
+     - Set of parties on whose behalf (in addition to all parties listed in ``act_as``) contracts can be retrieved. This affects Daml operations such as ``fetch``, ``fetchByKey``, ``lookupByKey``, ``exercise``, and ``exerciseByKey``. Note: A participant node of a Daml network can host multiple parties. Each contract present on the participant node is only visible to a subset of these parties. A command can only use contracts that are visible to at least one of the parties in ``act_as`` or ``read_as``. This visibility check is independent from the Daml authorization rules for fetch operations. If ledger API authorization is enabled, then the authorization metadata must authorize the sender of the request to read contract data on behalf of each of the given parties. Optional
+   * - .. _com.daml.ledger.api.v1.Commands.submission_id: 
+
+       submission_id
+     - :ref:`string <string>`
+     - 
+     - A unique identifier to distinguish completions for different submissions with the same change ID. Typically a random UUID. Applications are expected to use a different UUID for each retry of a submission with the same change ID. Must be a valid LedgerString (as described in ``value.proto``).
+
+If omitted, the participant or the committer may set a value of their choice. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.CreateAndExerciseCommand:
+
+CreateAndExerciseCommand
+===================================================================================================
+
+Create a contract and exercise a choice on it in the same transaction.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CreateAndExerciseCommand.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of the contract the client wants to create. Required
+   * - .. _com.daml.ledger.api.v1.CreateAndExerciseCommand.create_arguments: 
+
+       create_arguments
+     - :ref:`Record <com.daml.ledger.api.v1.Record>`
+     - 
+     - The arguments required for creating a contract from this template. Required
+   * - .. _com.daml.ledger.api.v1.CreateAndExerciseCommand.choice: 
+
+       choice
+     - :ref:`string <string>`
+     - 
+     - The name of the choice the client wants to exercise. Must be a valid NameString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.CreateAndExerciseCommand.choice_argument: 
+
+       choice_argument
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The argument for this choice. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.CreateCommand:
+
+CreateCommand
+===================================================================================================
+
+Create a new contract instance based on a template.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CreateCommand.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of contract the client wants to create. Required
+   * - .. _com.daml.ledger.api.v1.CreateCommand.create_arguments: 
+
+       create_arguments
+     - :ref:`Record <com.daml.ledger.api.v1.Record>`
+     - 
+     - The arguments required for creating a contract from this template. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.ExerciseByKeyCommand:
+
+ExerciseByKeyCommand
+===================================================================================================
+
+Exercise a choice on an existing contract specified by its key.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ExerciseByKeyCommand.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of contract the client wants to exercise. Required
+   * - .. _com.daml.ledger.api.v1.ExerciseByKeyCommand.contract_key: 
+
+       contract_key
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The key of the contract the client wants to exercise upon. Required
+   * - .. _com.daml.ledger.api.v1.ExerciseByKeyCommand.choice: 
+
+       choice
+     - :ref:`string <string>`
+     - 
+     - The name of the choice the client wants to exercise. Must be a valid NameString (as described in ``value.proto``) Required
+   * - .. _com.daml.ledger.api.v1.ExerciseByKeyCommand.choice_argument: 
+
+       choice_argument
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The argument for this choice. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.ExerciseCommand:
+
+ExerciseCommand
+===================================================================================================
+
+Exercise a choice on an existing contract.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ExerciseCommand.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of contract the client wants to exercise. Required
+   * - .. _com.daml.ledger.api.v1.ExerciseCommand.contract_id: 
+
+       contract_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the contract the client wants to exercise upon. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ExerciseCommand.choice: 
+
+       choice
+     - :ref:`string <string>`
+     - 
+     - The name of the choice the client wants to exercise. Must be a valid NameString (as described in ``value.proto``) Required
+   * - .. _com.daml.ledger.api.v1.ExerciseCommand.choice_argument: 
+
+       choice_argument
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The argument for this choice. Required
+   
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/completion.proto:
+
+com/daml/ledger/api/v1/completion.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.Completion:
+
+Completion
+===================================================================================================
+
+A completion represents the status of a submitted command on the ledger: it can be successful or failed.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Completion.command_id: 
+
+       command_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the succeeded or failed command. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.Completion.status: 
+
+       status
+     -  `google.rpc.Status <https://cloud.google.com/tasks/docs/reference/rpc/google.rpc#google.rpc.Status>`__
+     - 
+     - Identifies the exact type of the error. For example, malformed or double spend transactions will result in a ``INVALID_ARGUMENT`` status. Transactions with invalid time time windows (which may be valid at a later date) will result in an ``ABORTED`` error. Optional
+   * - .. _com.daml.ledger.api.v1.Completion.transaction_id: 
+
+       transaction_id
+     - :ref:`string <string>`
+     - 
+     - The transaction_id of the transaction that resulted from the command with command_id. Only set for successfully executed commands. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.Completion.application_id: 
+
+       application_id
+     - :ref:`string <string>`
+     - 
+     - The application ID that was used for the submission, as described in ``commands.proto``. Must be a valid LedgerString (as described in ``value.proto``). Optional for historic completions where this data is not available.
+   * - .. _com.daml.ledger.api.v1.Completion.act_as: 
+
+       act_as
+     - :ref:`string <string>`
+     - repeated
+     - The set of parties on whose behalf the commands were executed. Contains the union of ``party`` and ``act_as`` from ``commands.proto``. The order of the parties need not be the same as in the submission. Each element must be a valid PartyIdString (as described in ``value.proto``). Optional for historic completions where this data is not available.
+   * - .. _com.daml.ledger.api.v1.Completion.submission_id: 
+
+       submission_id
+     - :ref:`string <string>`
+     - 
+     - The submission ID this completion refers to, as described in ``commands.proto``. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.Completion.deduplication_offset: 
+
+       deduplication_offset
+     - :ref:`string <string>`
+     - 
+     - Specifies the start of the deduplication period by a completion stream offset.
+
+Must be a valid LedgerString (as described in ``value.proto``).
+   * - .. _com.daml.ledger.api.v1.Completion.deduplication_duration: 
+
+       deduplication_duration
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - Specifies the length of the deduplication period. It is measured in record time of completions.
+
+Must be non-negative.
+   
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/event.proto:
+
+com/daml/ledger/api/v1/event.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.ArchivedEvent:
+
+ArchivedEvent
+===================================================================================================
+
+Records that a contract has been archived, and choices may no longer be exercised on it.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ArchivedEvent.event_id: 
+
+       event_id
+     - :ref:`string <string>`
+     - 
+     - The ID of this particular event. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ArchivedEvent.contract_id: 
+
+       contract_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the archived contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ArchivedEvent.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of the archived contract. Required
+   * - .. _com.daml.ledger.api.v1.ArchivedEvent.witness_parties: 
+
+       witness_parties
+     - :ref:`string <string>`
+     - repeated
+     - The parties that are notified of this event. For ``ArchivedEvent``s, these are the intersection of the stakeholders of the contract in question and the parties specified in the ``TransactionFilter``. The stakeholders are the union of the signatories and the observers of the contract. Each one of its elements must be a valid PartyIdString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.CreatedEvent:
+
+CreatedEvent
+===================================================================================================
+
+Records that a contract has been created, and choices may now be exercised on it.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.event_id: 
+
+       event_id
+     - :ref:`string <string>`
+     - 
+     - The ID of this particular event. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.contract_id: 
+
+       contract_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the created contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of the created contract. Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.contract_key: 
+
+       contract_key
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The key of the created contract, if defined. Optional
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.create_arguments: 
+
+       create_arguments
+     - :ref:`Record <com.daml.ledger.api.v1.Record>`
+     - 
+     - The arguments that have been used to create the contract. Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.witness_parties: 
+
+       witness_parties
+     - :ref:`string <string>`
+     - repeated
+     - The parties that are notified of this event. When a ``CreatedEvent`` is returned as part of a transaction tree, this will include all the parties specified in the ``TransactionFilter`` that are informees of the event. If served as part of a flat transaction those will be limited to all parties specified in the ``TransactionFilter`` that are stakeholders of the contract (i.e. either signatories or observers). Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.signatories: 
+
+       signatories
+     - :ref:`string <string>`
+     - repeated
+     - The signatories for this contract as specified by the template. Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.observers: 
+
+       observers
+     - :ref:`string <string>`
+     - repeated
+     - The observers for this contract as specified explicitly by the template or implicitly as choice controllers. This field never contains parties that are signatories. Required
+   * - .. _com.daml.ledger.api.v1.CreatedEvent.agreement_text: 
+
+       agreement_text
+     -  `google.protobuf.StringValue <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.StringValue>`__
+     - 
+     - The agreement text of the contract. We use StringValue to properly reflect optionality on the wire for backwards compatibility. This is necessary since the empty string is an acceptable (and in fact the default) agreement text, but also the default string in protobuf. This means a newer client works with an older sandbox seamlessly. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.Event:
+
+Event
+===================================================================================================
+
+An event in the flat transaction stream can either be the creation
+or the archiving of a contract.
+
+In the transaction service the events are restricted to the events
+visible for the parties specified in the transaction filter. Each
+event message type below contains a ``witness_parties`` field which
+indicates the subset of the requested parties that can see the event
+in question. In the flat transaction stream you'll only receive events
+that have witnesses.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Event.created: 
+
+       created
+     - :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Event.archived: 
+
+       archived
+     - :ref:`ArchivedEvent <com.daml.ledger.api.v1.ArchivedEvent>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.ExercisedEvent:
+
+ExercisedEvent
+===================================================================================================
+
+Records that a choice has been exercised on a target contract.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.event_id: 
+
+       event_id
+     - :ref:`string <string>`
+     - 
+     - The ID of this particular event. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.contract_id: 
+
+       contract_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the target contract. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.template_id: 
+
+       template_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - The template of the target contract. Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.choice: 
+
+       choice
+     - :ref:`string <string>`
+     - 
+     - The choice that's been exercised on the target contract. Must be a valid NameString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.choice_argument: 
+
+       choice_argument
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The argument the choice was made with. Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.acting_parties: 
+
+       acting_parties
+     - :ref:`string <string>`
+     - repeated
+     - The parties that made the choice. Each element must be a valid PartyIdString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.consuming: 
+
+       consuming
+     - :ref:`bool <bool>`
+     - 
+     - If true, the target contract may no longer be exercised. Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.witness_parties: 
+
+       witness_parties
+     - :ref:`string <string>`
+     - repeated
+     - The parties that are notified of this event. The witnesses of an exercise node will depend on whether the exercise was consuming or not. If consuming, the witnesses are the union of the stakeholders and the actors. If not consuming, the witnesses are the union of the signatories and the actors. Note that the actors might not necessarily be observers and thus signatories. This is the case when the controllers of a choice are specified using "flexible controllers", using the ``choice ... controller`` syntax, and said controllers are not explicitly marked as observers. Each element must be a valid PartyIdString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.child_event_ids: 
+
+       child_event_ids
+     - :ref:`string <string>`
+     - repeated
+     - References to further events in the same transaction that appeared as a result of this ``ExercisedEvent``. It contains only the immediate children of this event, not all members of the subtree rooted at this node. Each element must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.ExercisedEvent.exercise_result: 
+
+       exercise_result
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The result of exercising the choice Required
+   
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/experimental_features.proto:
+
+com/daml/ledger/api/v1/experimental_features.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.ExperimentalFeatures:
+
+ExperimentalFeatures
+===================================================================================================
+
+See the feature message definitions for descriptions.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ExperimentalFeatures.self_service_error_codes: 
+
+       self_service_error_codes
+     - :ref:`ExperimentalSelfServiceErrorCodes <com.daml.ledger.api.v1.ExperimentalSelfServiceErrorCodes>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.ExperimentalSelfServiceErrorCodes:
+
+ExperimentalSelfServiceErrorCodes
+===================================================================================================
+
+GRPC self-service error codes are returned by the Ledger API.
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/ledger_configuration_service.proto:
+
+com/daml/ledger/api/v1/ledger_configuration_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerConfigurationRequest:
+
+GetLedgerConfigurationRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerConfigurationRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerConfigurationResponse:
+
+GetLedgerConfigurationResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerConfigurationResponse.ledger_configuration: 
+
+       ledger_configuration
+     - :ref:`LedgerConfiguration <com.daml.ledger.api.v1.LedgerConfiguration>`
+     - 
+     - The latest ledger configuration.
+   
+
+
+
+.. _com.daml.ledger.api.v1.LedgerConfiguration:
+
+LedgerConfiguration
+===================================================================================================
+
+LedgerConfiguration contains parameters of the ledger instance that may be useful to clients.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.LedgerConfiguration.max_deduplication_time: 
+
+       max_deduplication_time
+     -  `google.protobuf.Duration <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Duration>`__
+     - 
+     - If a command submission specifies a deduplication period of length up to ``max_deduplication_time``, the submission SHOULD not be rejected with ``NOT_FOUND`` because the deduplication period start is too early. The deduplication period is measured on a local clock of the participant or Daml ledger, and therefore subject to clock skews and clock drifts. Command submissions with longer periods MAY get accepted though.
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.LedgerConfigurationService:
+
+LedgerConfigurationService
+===================================================================================================
+
+LedgerConfigurationService allows clients to subscribe to changes of the ledger configuration.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetLedgerConfiguration
+     - :ref:`GetLedgerConfigurationRequest <com.daml.ledger.api.v1.GetLedgerConfigurationRequest>`
+     - :ref:`GetLedgerConfigurationResponse <com.daml.ledger.api.v1.GetLedgerConfigurationResponse>`
+     - Returns the latest configuration as the first response, and publishes configuration updates in the same stream. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id
+   
+
+
+
+.. _com/daml/ledger/api/v1/ledger_identity_service.proto:
+
+com/daml/ledger/api/v1/ledger_identity_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerIdentityRequest:
+
+GetLedgerIdentityRequest
+===================================================================================================
+
+
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerIdentityResponse:
+
+GetLedgerIdentityResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerIdentityResponse.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the ledger exposed by the server. Must be a valid LedgerString (as described in ``value.proto``). Required
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.LedgerIdentityService:
+
+LedgerIdentityService
+===================================================================================================
+
+Allows clients to verify that the server they are communicating with exposes the ledger they wish to operate on.
+Note that every ledger has a unique ID.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetLedgerIdentity
+     - :ref:`GetLedgerIdentityRequest <com.daml.ledger.api.v1.GetLedgerIdentityRequest>`
+     - :ref:`GetLedgerIdentityResponse <com.daml.ledger.api.v1.GetLedgerIdentityResponse>`
+     - Clients may call this RPC to return the identifier of the ledger they are connected to. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation
+   
+
+
+
+.. _com/daml/ledger/api/v1/ledger_offset.proto:
+
+com/daml/ledger/api/v1/ledger_offset.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.LedgerOffset:
+
+LedgerOffset
+===================================================================================================
+
+Describes a specific point on the ledger.
+
+The Ledger API endpoints that take offsets allow to specify portions
+of the ledger that are relevant for the client to read.
+
+Offsets returned by the Ledger API can be used as-is (e.g.
+to keep track of processed transactions and provide a restart
+point to use in case of need).
+
+The format of absolute offsets is opaque to the client: no
+client-side transformation of an offset is guaranteed
+to return a meaningful offset.
+
+The server implementation ensures internally that offsets
+are lexicographically comparable.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.LedgerOffset.absolute: 
+
+       absolute
+     - :ref:`string <string>`
+     - 
+     - The format of this string is specific to the ledger and opaque to the client.
+   * - .. _com.daml.ledger.api.v1.LedgerOffset.boundary: 
+
+       boundary
+     - :ref:`LedgerOffset.LedgerBoundary <com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary>`
+     - 
+     - 
+   
+
+
+
+
+.. _com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary:
+
+LedgerOffset.LedgerBoundary
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Number
+     - Description
+   * - .. _com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary.LEDGER_BEGIN:
+
+       LEDGER_BEGIN
+     - 0
+     - Refers to the first transaction.
+   * - .. _com.daml.ledger.api.v1.LedgerOffset.LedgerBoundary.LEDGER_END:
+
+       LEDGER_END
+     - 1
+     - Refers to the currently last transaction, which is a moving target.
+   
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/package_service.proto:
+
+com/daml/ledger/api/v1/package_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.GetPackageRequest:
+
+GetPackageRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetPackageRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetPackageRequest.package_id: 
+
+       package_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the requested package. Must be a valid PackageIdString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetPackageResponse:
+
+GetPackageResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetPackageResponse.hash_function: 
+
+       hash_function
+     - :ref:`HashFunction <com.daml.ledger.api.v1.HashFunction>`
+     - 
+     - The hash function we use to calculate the hash. Required
+   * - .. _com.daml.ledger.api.v1.GetPackageResponse.archive_payload: 
+
+       archive_payload
+     - :ref:`bytes <bytes>`
+     - 
+     - Contains a ``daml_lf`` ArchivePayload. See further details in ``daml_lf.proto``. Required
+   * - .. _com.daml.ledger.api.v1.GetPackageResponse.hash: 
+
+       hash
+     - :ref:`string <string>`
+     - 
+     - The hash of the archive payload, can also used as a ``package_id``. Must be a valid PackageIdString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetPackageStatusRequest:
+
+GetPackageStatusRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetPackageStatusRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetPackageStatusRequest.package_id: 
+
+       package_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the requested package. Must be a valid PackageIdString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetPackageStatusResponse:
+
+GetPackageStatusResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetPackageStatusResponse.package_status: 
+
+       package_status
+     - :ref:`PackageStatus <com.daml.ledger.api.v1.PackageStatus>`
+     - 
+     - The status of the package.
+   
+
+
+
+.. _com.daml.ledger.api.v1.ListPackagesRequest:
+
+ListPackagesRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ListPackagesRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.ListPackagesResponse:
+
+ListPackagesResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.ListPackagesResponse.package_ids: 
+
+       package_ids
+     - :ref:`string <string>`
+     - repeated
+     - The IDs of all Daml-LF packages supported by the server. Each element must be a valid PackageIdString (as described in ``value.proto``). Required
+   
+
+
+
+
+.. _com.daml.ledger.api.v1.HashFunction:
+
+HashFunction
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Number
+     - Description
+   * - .. _com.daml.ledger.api.v1.HashFunction.SHA256:
+
+       SHA256
+     - 0
+     - 
+   
+
+
+.. _com.daml.ledger.api.v1.PackageStatus:
+
+PackageStatus
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Name
+     - Number
+     - Description
+   * - .. _com.daml.ledger.api.v1.PackageStatus.UNKNOWN:
+
+       UNKNOWN
+     - 0
+     - The server is not aware of such a package.
+   * - .. _com.daml.ledger.api.v1.PackageStatus.REGISTERED:
+
+       REGISTERED
+     - 1
+     - The server is able to execute Daml commands operating on this package.
+   
+
+
+
+
+.. _com.daml.ledger.api.v1.PackageService:
+
+PackageService
+===================================================================================================
+
+Allows clients to query the Daml-LF packages that are supported by the server.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - ListPackages
+     - :ref:`ListPackagesRequest <com.daml.ledger.api.v1.ListPackagesRequest>`
+     - :ref:`ListPackagesResponse <com.daml.ledger.api.v1.ListPackagesResponse>`
+     - Returns the identifiers of all supported packages. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id
+   * - GetPackage
+     - :ref:`GetPackageRequest <com.daml.ledger.api.v1.GetPackageRequest>`
+     - :ref:`GetPackageResponse <com.daml.ledger.api.v1.GetPackageResponse>`
+     - Returns the contents of a single package. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the requested package is unknown
+   * - GetPackageStatus
+     - :ref:`GetPackageStatusRequest <com.daml.ledger.api.v1.GetPackageStatusRequest>`
+     - :ref:`GetPackageStatusResponse <com.daml.ledger.api.v1.GetPackageStatusResponse>`
+     - Returns the status of a single package. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the requested package is unknown
+   
+
+
+
+.. _com/daml/ledger/api/v1/testing/reset_service.proto:
+
+com/daml/ledger/api/v1/testing/reset_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.testing.ResetRequest:
+
+ResetRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.testing.ResetRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as describe in ``value.proto``). Required
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.testing.ResetService:
+
+ResetService
+===================================================================================================
+
+Service to reset the ledger state. The goal here is to be able to reset the state in a way
+that's much faster compared to restarting the whole ledger application (be it a sandbox
+or the real ledger server).
+
+Note that *all* state present in the ledger implementation will be reset, most importantly
+including the ledger ID. This means that clients will have to re-fetch the ledger ID
+from the identity service after hitting this endpoint.
+
+The semantics are as follows:
+
+* When the reset service returns the reset is initiated, but not completed;
+* While the reset is performed, the ledger will not accept new requests. In fact we guarantee
+  that ledger stops accepting new requests by the time the response to Reset is delivered;
+* In-flight requests might be aborted, we make no guarantees on when or how quickly this
+  happens;
+* The ledger might be unavailable for a period of time before the reset is complete.
+
+Given the above, the recommended mode of operation for clients of the reset endpoint is to
+call it, then call the ledger identity endpoint in a retry loop that will tolerate a brief
+window when the ledger is down, and resume operation as soon as the new ledger ID is delivered.
+
+Note that this service will be available on the sandbox and might be available in some other testing
+environments, but will *never* be available in production.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - Reset
+     - :ref:`ResetRequest <com.daml.ledger.api.v1.testing.ResetRequest>`
+     -  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Empty>`__
+     - Resets the ledger state. Note that loaded DARs won't be removed -- this only rolls back the ledger to genesis.
+   
+
+
+
+.. _com/daml/ledger/api/v1/testing/time_service.proto:
+
+com/daml/ledger/api/v1/testing/time_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.testing.GetTimeRequest:
+
+GetTimeRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.testing.GetTimeRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as describe in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.testing.GetTimeResponse:
+
+GetTimeResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.testing.GetTimeResponse.current_time: 
+
+       current_time
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - The current time according to the ledger server.
+   
+
+
+
+.. _com.daml.ledger.api.v1.testing.SetTimeRequest:
+
+SetTimeRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.testing.SetTimeRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as describe in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.testing.SetTimeRequest.current_time: 
+
+       current_time
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - MUST precisely match the current time as it's known to the ledger server.
+   * - .. _com.daml.ledger.api.v1.testing.SetTimeRequest.new_time: 
+
+       new_time
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - The time the client wants to set on the ledger. MUST be a point int time after ``current_time``.
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.testing.TimeService:
+
+TimeService
+===================================================================================================
+
+Optional service, exposed for testing static time scenarios.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetTime
+     - :ref:`GetTimeRequest <com.daml.ledger.api.v1.testing.GetTimeRequest>`
+     - :ref:`GetTimeResponse <com.daml.ledger.api.v1.testing.GetTimeResponse>`
+     - Returns a stream of time updates. Always returns at least one response, where the first one is the current time. Subsequent responses are emitted whenever the ledger server's time is updated.
+   * - SetTime
+     - :ref:`SetTimeRequest <com.daml.ledger.api.v1.testing.SetTimeRequest>`
+     -  `.google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Empty>`__
+     - Allows clients to change the ledger's clock in an atomic get-and-set operation. Errors: - ``INVALID_ARGUMENT``: if ``current_time`` is invalid (it MUST precisely match the current time as it's known to the ledger server)
+   
+
+
+
+.. _com/daml/ledger/api/v1/transaction.proto:
+
+com/daml/ledger/api/v1/transaction.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.Transaction:
+
+Transaction
+===================================================================================================
+
+Filtered view of an on-ledger transaction.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Transaction.transaction_id: 
+
+       transaction_id
+     - :ref:`string <string>`
+     - 
+     - Assigned by the server. Useful for correlating logs. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.Transaction.command_id: 
+
+       command_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the command which resulted in this transaction. Missing for everyone except the submitting party. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.Transaction.workflow_id: 
+
+       workflow_id
+     - :ref:`string <string>`
+     - 
+     - The workflow ID used in command submission. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.Transaction.effective_at: 
+
+       effective_at
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - Ledger effective time. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.Transaction.events: 
+
+       events
+     - :ref:`Event <com.daml.ledger.api.v1.Event>`
+     - repeated
+     - The collection of events. Only contains ``CreatedEvent`` or ``ArchivedEvent``. Required
+   * - .. _com.daml.ledger.api.v1.Transaction.offset: 
+
+       offset
+     - :ref:`string <string>`
+     - 
+     - The absolute offset. The format of this field is described in ``ledger_offset.proto``. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.TransactionTree:
+
+TransactionTree
+===================================================================================================
+
+Complete view of an on-ledger transaction.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.TransactionTree.transaction_id: 
+
+       transaction_id
+     - :ref:`string <string>`
+     - 
+     - Assigned by the server. Useful for correlating logs. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.TransactionTree.command_id: 
+
+       command_id
+     - :ref:`string <string>`
+     - 
+     - The ID of the command which resulted in this transaction. Missing for everyone except the submitting party. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.TransactionTree.workflow_id: 
+
+       workflow_id
+     - :ref:`string <string>`
+     - 
+     - The workflow ID used in command submission. Only set if the ``workflow_id`` for the command was set. Must be a valid LedgerString (as described in ``value.proto``). Optional
+   * - .. _com.daml.ledger.api.v1.TransactionTree.effective_at: 
+
+       effective_at
+     -  `google.protobuf.Timestamp <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Timestamp>`__
+     - 
+     - Ledger effective time. Required
+   * - .. _com.daml.ledger.api.v1.TransactionTree.offset: 
+
+       offset
+     - :ref:`string <string>`
+     - 
+     - The absolute offset. The format of this field is described in ``ledger_offset.proto``. Required
+   * - .. _com.daml.ledger.api.v1.TransactionTree.events_by_id: 
+
+       events_by_id
+     - :ref:`TransactionTree.EventsByIdEntry <com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry>`
+     - repeated
+     - Changes to the ledger that were caused by this transaction. Nodes of the transaction tree. Each key be a valid LedgerString (as describe in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.TransactionTree.root_event_ids: 
+
+       root_event_ids
+     - :ref:`string <string>`
+     - repeated
+     - Roots of the transaction tree. Each element must be a valid LedgerString (as describe in ``value.proto``). The elements are in the same order as the commands in the corresponding Commands object that triggered this transaction. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry:
+
+TransactionTree.EventsByIdEntry
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry.key: 
+
+       key
+     - :ref:`string <string>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.TransactionTree.EventsByIdEntry.value: 
+
+       value
+     - :ref:`TreeEvent <com.daml.ledger.api.v1.TreeEvent>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.TreeEvent:
+
+TreeEvent
+===================================================================================================
+
+Each tree event message type below contains a ``witness_parties`` field which
+indicates the subset of the requested parties that can see the event
+in question.
+
+Note that transaction trees might contain events with
+_no_ witness parties, which were included simply because they were
+children of events which have witnesses.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.TreeEvent.created: 
+
+       created
+     - :ref:`CreatedEvent <com.daml.ledger.api.v1.CreatedEvent>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.TreeEvent.exercised: 
+
+       exercised
+     - :ref:`ExercisedEvent <com.daml.ledger.api.v1.ExercisedEvent>`
+     - 
+     - 
+   
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/transaction_filter.proto:
+
+com/daml/ledger/api/v1/transaction_filter.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.Filters:
+
+Filters
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Filters.inclusive: 
+
+       inclusive
+     - :ref:`InclusiveFilters <com.daml.ledger.api.v1.InclusiveFilters>`
+     - 
+     - If not set, no filters will be applied. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.InclusiveFilters:
+
+InclusiveFilters
+===================================================================================================
+
+If no internal fields are set, no filters will be applied.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.InclusiveFilters.template_ids: 
+
+       template_ids
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - repeated
+     - A collection of templates. SHOULD NOT contain duplicates. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.TransactionFilter:
+
+TransactionFilter
+===================================================================================================
+
+Used for filtering Transaction and Active Contract Set streams.
+Determines which on-ledger events will be served to the client.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.TransactionFilter.filters_by_party: 
+
+       filters_by_party
+     - :ref:`TransactionFilter.FiltersByPartyEntry <com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry>`
+     - repeated
+     - Keys of the map determine which parties' on-ledger transactions are being queried. Values of the map determine which events are disclosed in the stream per party. At the minimum, a party needs to set an empty Filters message to receive any events. Each key must be a valid PartyIdString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry:
+
+TransactionFilter.FiltersByPartyEntry
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry.key: 
+
+       key
+     - :ref:`string <string>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.TransactionFilter.FiltersByPartyEntry.value: 
+
+       value
+     - :ref:`Filters <com.daml.ledger.api.v1.Filters>`
+     - 
+     - 
+   
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/transaction_service.proto:
+
+com/daml/ledger/api/v1/transaction_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.GetFlatTransactionResponse:
+
+GetFlatTransactionResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetFlatTransactionResponse.transaction: 
+
+       transaction
+     - :ref:`Transaction <com.daml.ledger.api.v1.Transaction>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerEndRequest:
+
+GetLedgerEndRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerEndRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as describe in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerEndResponse:
+
+GetLedgerEndResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerEndResponse.offset: 
+
+       offset
+     - :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
+     - 
+     - The absolute offset of the current ledger end.
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest:
+
+GetTransactionByEventIdRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest.event_id: 
+
+       event_id
+     - :ref:`string <string>`
+     - 
+     - The ID of a particular event. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionByEventIdRequest.requesting_parties: 
+
+       requesting_parties
+     - :ref:`string <string>`
+     - repeated
+     - The parties whose events the client expects to see. Events that are not visible for the parties in this collection will not be present in the response. Each element must be a valid PartyIdString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetTransactionByIdRequest:
+
+GetTransactionByIdRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetTransactionByIdRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as describe in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionByIdRequest.transaction_id: 
+
+       transaction_id
+     - :ref:`string <string>`
+     - 
+     - The ID of a particular transaction. Must be a valid LedgerString (as describe in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionByIdRequest.requesting_parties: 
+
+       requesting_parties
+     - :ref:`string <string>`
+     - repeated
+     - The parties whose events the client expects to see. Events that are not visible for the parties in this collection will not be present in the response. Each element be a valid PartyIdString (as describe in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetTransactionResponse:
+
+GetTransactionResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetTransactionResponse.transaction: 
+
+       transaction
+     - :ref:`TransactionTree <com.daml.ledger.api.v1.TransactionTree>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetTransactionTreesResponse:
+
+GetTransactionTreesResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetTransactionTreesResponse.transactions: 
+
+       transactions
+     - :ref:`TransactionTree <com.daml.ledger.api.v1.TransactionTree>`
+     - repeated
+     - The list of transaction trees that matches the filter in ``GetTransactionsRequest`` for the ``GetTransactionTrees`` method.
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetTransactionsRequest:
+
+GetTransactionsRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetTransactionsRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionsRequest.begin: 
+
+       begin
+     - :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
+     - 
+     - Beginning of the requested ledger section. This offset is exclusive: the response will only contain transactions whose offset is strictly greater than this. Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionsRequest.end: 
+
+       end
+     - :ref:`LedgerOffset <com.daml.ledger.api.v1.LedgerOffset>`
+     - 
+     - End of the requested ledger section. This offset is inclusive: the response will only contain transactions whose offset is less than or equal to this. Optional, if not set, the stream will not terminate.
+   * - .. _com.daml.ledger.api.v1.GetTransactionsRequest.filter: 
+
+       filter
+     - :ref:`TransactionFilter <com.daml.ledger.api.v1.TransactionFilter>`
+     - 
+     - Requesting parties with template filters. Template filters must be empty for GetTransactionTrees requests. Required
+   * - .. _com.daml.ledger.api.v1.GetTransactionsRequest.verbose: 
+
+       verbose
+     - :ref:`bool <bool>`
+     - 
+     - If enabled, values served over the API will contain more information than strictly necessary to interpret the data. In particular, setting the verbose flag to true triggers the ledger to include labels for record fields. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetTransactionsResponse:
+
+GetTransactionsResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetTransactionsResponse.transactions: 
+
+       transactions
+     - :ref:`Transaction <com.daml.ledger.api.v1.Transaction>`
+     - repeated
+     - The list of transactions that matches the filter in GetTransactionsRequest for the GetTransactions method.
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.TransactionService:
+
+TransactionService
+===================================================================================================
+
+Allows clients to read transactions from the ledger.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetTransactions
+     - :ref:`GetTransactionsRequest <com.daml.ledger.api.v1.GetTransactionsRequest>`
+     - :ref:`GetTransactionsResponse <com.daml.ledger.api.v1.GetTransactionsResponse>`
+     - Read the ledger's filtered transaction stream for a set of parties. Lists only creates and archives, but not other events. Omits all events on transient contracts, i.e., contracts that were both created and archived in the same transaction. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or if the ledger has been pruned before ``begin`` - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (e.g. if ``before`` is not before ``end``) - ``OUT_OF_RANGE``: if the ``begin`` parameter value is not before the end of the ledger
+   * - GetTransactionTrees
+     - :ref:`GetTransactionsRequest <com.daml.ledger.api.v1.GetTransactionsRequest>`
+     - :ref:`GetTransactionTreesResponse <com.daml.ledger.api.v1.GetTransactionTreesResponse>`
+     - Read the ledger's complete transaction tree stream for a set of parties. The stream can be filtered only by parties, but not templates (template filter must be empty). Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or if the ledger has been pruned before ``begin`` - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (e.g. if ``before`` is not before ``end``) - ``OUT_OF_RANGE``: if the ``begin`` parameter value is not before the end of the ledger
+   * - GetTransactionByEventId
+     - :ref:`GetTransactionByEventIdRequest <com.daml.ledger.api.v1.GetTransactionByEventIdRequest>`
+     - :ref:`GetTransactionResponse <com.daml.ledger.api.v1.GetTransactionResponse>`
+     - Lookup a transaction tree by the ID of an event that appears within it. For looking up a transaction instead of a transaction tree, please see GetFlatTransactionByEventId Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or no such transaction exists - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (e.g. if requesting parties are invalid or empty)
+   * - GetTransactionById
+     - :ref:`GetTransactionByIdRequest <com.daml.ledger.api.v1.GetTransactionByIdRequest>`
+     - :ref:`GetTransactionResponse <com.daml.ledger.api.v1.GetTransactionResponse>`
+     - Lookup a transaction tree by its ID. For looking up a transaction instead of a transaction tree, please see GetFlatTransactionById Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or no such transaction exists - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (e.g. if requesting parties are invalid or empty)
+   * - GetFlatTransactionByEventId
+     - :ref:`GetTransactionByEventIdRequest <com.daml.ledger.api.v1.GetTransactionByEventIdRequest>`
+     - :ref:`GetFlatTransactionResponse <com.daml.ledger.api.v1.GetFlatTransactionResponse>`
+     - Lookup a transaction by the ID of an event that appears within it. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or no such transaction exists - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (e.g. if requesting parties are invalid or empty)
+   * - GetFlatTransactionById
+     - :ref:`GetTransactionByIdRequest <com.daml.ledger.api.v1.GetTransactionByIdRequest>`
+     - :ref:`GetFlatTransactionResponse <com.daml.ledger.api.v1.GetFlatTransactionResponse>`
+     - Lookup a transaction by its ID. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or no such transaction exists - ``INVALID_ARGUMENT``: if the payload is malformed or is missing required fields (e.g. if requesting parties are invalid or empty)
+   * - GetLedgerEnd
+     - :ref:`GetLedgerEndRequest <com.daml.ledger.api.v1.GetLedgerEndRequest>`
+     - :ref:`GetLedgerEndResponse <com.daml.ledger.api.v1.GetLedgerEndResponse>`
+     - Get the current ledger end. Subscriptions started with the returned offset will serve transactions created after this RPC was called. Errors: - ``UNAUTHENTICATED``: if the request does not include a valid access token - ``PERMISSION_DENIED``: if the claims in the token are insufficient to perform a given operation - ``NOT_FOUND``: if the request does not include a valid ledger id or no such transaction exists
+   
+
+
+
+.. _com/daml/ledger/api/v1/value.proto:
+
+com/daml/ledger/api/v1/value.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.Enum:
+
+Enum
+===================================================================================================
+
+A value with finite set of alternative representations.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Enum.enum_id: 
+
+       enum_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - Omitted from the transaction stream when verbose streaming is not enabled. Optional when submitting commands.
+   * - .. _com.daml.ledger.api.v1.Enum.constructor: 
+
+       constructor
+     - :ref:`string <string>`
+     - 
+     - Determines which of the Variant's alternatives is encoded in this message. Must be a valid NameString. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GenMap:
+
+GenMap
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GenMap.entries: 
+
+       entries
+     - :ref:`GenMap.Entry <com.daml.ledger.api.v1.GenMap.Entry>`
+     - repeated
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.GenMap.Entry:
+
+GenMap.Entry
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GenMap.Entry.key: 
+
+       key
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.GenMap.Entry.value: 
+
+       value
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.Identifier:
+
+Identifier
+===================================================================================================
+
+Unique identifier of an entity.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Identifier.package_id: 
+
+       package_id
+     - :ref:`string <string>`
+     - 
+     - The identifier of the Daml package that contains the entity. Must be a valid PackageIdString. Required
+   * - .. _com.daml.ledger.api.v1.Identifier.module_name: 
+
+       module_name
+     - :ref:`string <string>`
+     - 
+     - The dot-separated module name of the identifier. Required
+   * - .. _com.daml.ledger.api.v1.Identifier.entity_name: 
+
+       entity_name
+     - :ref:`string <string>`
+     - 
+     - The dot-separated name of the entity (e.g. record, template, ...) within the module. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.List:
+
+List
+===================================================================================================
+
+A homogenous collection of values.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.List.elements: 
+
+       elements
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - repeated
+     - The elements must all be of the same concrete value type. Optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.Map:
+
+Map
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Map.entries: 
+
+       entries
+     - :ref:`Map.Entry <com.daml.ledger.api.v1.Map.Entry>`
+     - repeated
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.Map.Entry:
+
+Map.Entry
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Map.Entry.key: 
+
+       key
+     - :ref:`string <string>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Map.Entry.value: 
+
+       value
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - 
+   
+
+
+
+.. _com.daml.ledger.api.v1.Optional:
+
+Optional
+===================================================================================================
+
+Corresponds to Java's Optional type, Scala's Option, and Haskell's Maybe.
+The reason why we need to wrap this in an additional ``message`` is that we
+need to be able to encode the ``None`` case in the ``Value`` oneof.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Optional.value: 
+
+       value
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - optional
+   
+
+
+
+.. _com.daml.ledger.api.v1.Record:
+
+Record
+===================================================================================================
+
+Contains nested values.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Record.record_id: 
+
+       record_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - Omitted from the transaction stream when verbose streaming is not enabled. Optional when submitting commands.
+   * - .. _com.daml.ledger.api.v1.Record.fields: 
+
+       fields
+     - :ref:`RecordField <com.daml.ledger.api.v1.RecordField>`
+     - repeated
+     - The nested values of the record. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.RecordField:
+
+RecordField
+===================================================================================================
+
+A named nested value within a record.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.RecordField.label: 
+
+       label
+     - :ref:`string <string>`
+     - 
+     - When reading a transaction stream, it's omitted if verbose streaming is not enabled. When submitting a commmand, it's optional: - if all keys within a single record are present, the order in which fields appear does not matter. however, each key must appear exactly once. - if any of the keys within a single record are omitted, the order of fields MUST match the order of declaration in the Daml template. Must be a valid NameString
+   * - .. _com.daml.ledger.api.v1.RecordField.value: 
+
+       value
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - A nested value of a record. Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.Value:
+
+Value
+===================================================================================================
+
+Encodes values that the ledger accepts as command arguments and emits as contract arguments.
+
+The values encoding use different four classes of strings as identifiers. Those classes are
+defined as follow:
+- NameStrings are strings that match the regexp ``[A-Za-z\$_][A-Za-z0-9\$_]*``.
+- PackageIdStrings are strings that match the regexp ``[A-Za-z0-9\-_ ]+``.
+- PartyIdStrings are strings that match the regexp ``[A-Za-z0-9:\-_ ]+``.
+- LedgerStrings are strings that match the regexp ``[A-Za-z0-9#:\-_/ ]+``.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Value.record: 
+
+       record
+     - :ref:`Record <com.daml.ledger.api.v1.Record>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Value.variant: 
+
+       variant
+     - :ref:`Variant <com.daml.ledger.api.v1.Variant>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Value.contract_id: 
+
+       contract_id
+     - :ref:`string <string>`
+     - 
+     - Identifier of an on-ledger contract. Commands which reference an unknown or already archived contract ID will fail. Must be a valid LedgerString.
+   * - .. _com.daml.ledger.api.v1.Value.list: 
+
+       list
+     - :ref:`List <com.daml.ledger.api.v1.List>`
+     - 
+     - Represents a homogeneous list of values.
+   * - .. _com.daml.ledger.api.v1.Value.int64: 
+
+       int64
+     - :ref:`sint64 <sint64>`
+     - 
+     - 
+   * - .. _com.daml.ledger.api.v1.Value.numeric: 
+
+       numeric
+     - :ref:`string <string>`
+     - 
+     - A Numeric, that is a decimal value with precision 38 (at most 38 significant digits) and a scale between 0 and 37 (significant digits on the right of the decimal point). The field has to match the regex [+-]?\d{1,38}(.\d{0,37})? and should be representable by a Numeric without loss of precision.
+   * - .. _com.daml.ledger.api.v1.Value.text: 
+
+       text
+     - :ref:`string <string>`
+     - 
+     - A string.
+   * - .. _com.daml.ledger.api.v1.Value.timestamp: 
+
+       timestamp
+     - :ref:`sfixed64 <sfixed64>`
+     - 
+     - Microseconds since the UNIX epoch. Can go backwards. Fixed since the vast majority of values will be greater than 2^28, since currently the number of microseconds since the epoch is greater than that. Range: 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999Z, so that we can convert to/from https://www.ietf.org/rfc/rfc3339.txt
+   * - .. _com.daml.ledger.api.v1.Value.party: 
+
+       party
+     - :ref:`string <string>`
+     - 
+     - An agent operating on the ledger. Must be a valid PartyIdString.
+   * - .. _com.daml.ledger.api.v1.Value.bool: 
+
+       bool
+     - :ref:`bool <bool>`
+     - 
+     - True or false.
+   * - .. _com.daml.ledger.api.v1.Value.unit: 
+
+       unit
+     -  `google.protobuf.Empty <https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#google.protobuf.Empty>`__
+     - 
+     - This value is used for example for choices that don't take any arguments.
+   * - .. _com.daml.ledger.api.v1.Value.date: 
+
+       date
+     - :ref:`int32 <int32>`
+     - 
+     - Days since the unix epoch. Can go backwards. Limited from 0001-01-01 to 9999-12-31, also to be compatible with https://www.ietf.org/rfc/rfc3339.txt
+   * - .. _com.daml.ledger.api.v1.Value.optional: 
+
+       optional
+     - :ref:`Optional <com.daml.ledger.api.v1.Optional>`
+     - 
+     - The Optional type, None or Some
+   * - .. _com.daml.ledger.api.v1.Value.map: 
+
+       map
+     - :ref:`Map <com.daml.ledger.api.v1.Map>`
+     - 
+     - The Map type
+   * - .. _com.daml.ledger.api.v1.Value.enum: 
+
+       enum
+     - :ref:`Enum <com.daml.ledger.api.v1.Enum>`
+     - 
+     - The Enum type
+   * - .. _com.daml.ledger.api.v1.Value.gen_map: 
+
+       gen_map
+     - :ref:`GenMap <com.daml.ledger.api.v1.GenMap>`
+     - 
+     - The GenMap type
+   
+
+
+
+.. _com.daml.ledger.api.v1.Variant:
+
+Variant
+===================================================================================================
+
+A value with alternative representations.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.Variant.variant_id: 
+
+       variant_id
+     - :ref:`Identifier <com.daml.ledger.api.v1.Identifier>`
+     - 
+     - Omitted from the transaction stream when verbose streaming is not enabled. Optional when submitting commands.
+   * - .. _com.daml.ledger.api.v1.Variant.constructor: 
+
+       constructor
+     - :ref:`string <string>`
+     - 
+     - Determines which of the Variant's alternatives is encoded in this message. Must be a valid NameString. Required
+   * - .. _com.daml.ledger.api.v1.Variant.value: 
+
+       value
+     - :ref:`Value <com.daml.ledger.api.v1.Value>`
+     - 
+     - The value encoded within the Variant. Required
+   
+
+
+
+
+
+
+
+
+.. _com/daml/ledger/api/v1/version_service.proto:
+
+com/daml/ledger/api/v1/version_service.proto
+***************************************************************************************************
+
+
+
+.. _com.daml.ledger.api.v1.FeaturesDescriptor:
+
+FeaturesDescriptor
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.FeaturesDescriptor.experimental: 
+
+       experimental
+     - :ref:`ExperimentalFeatures <com.daml.ledger.api.v1.ExperimentalFeatures>`
+     - 
+     - Features under development or features that are used for ledger implementation testing purposes only.
+
+Daml applications SHOULD not depend on these in production.
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerApiVersionRequest:
+
+GetLedgerApiVersionRequest
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerApiVersionRequest.ledger_id: 
+
+       ledger_id
+     - :ref:`string <string>`
+     - 
+     - Must correspond to the ledger ID reported by the Ledger Identification Service. Must be a valid LedgerString (as described in ``value.proto``). Required
+   
+
+
+
+.. _com.daml.ledger.api.v1.GetLedgerApiVersionResponse:
+
+GetLedgerApiVersionResponse
+===================================================================================================
+
+
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Type
+     - Label
+     - Description
+   * - .. _com.daml.ledger.api.v1.GetLedgerApiVersionResponse.version: 
+
+       version
+     - :ref:`string <string>`
+     - 
+     - The version of the ledger API.
+   * - .. _com.daml.ledger.api.v1.GetLedgerApiVersionResponse.features: 
+
+       features
+     - :ref:`FeaturesDescriptor <com.daml.ledger.api.v1.FeaturesDescriptor>`
+     - 
+     - The features supported by this Ledger API endpoint.
+
+Daml applications CAN use the feature descriptor on top of version constraints on the Ledger API version to determine whether a given Ledger API endpoint supports the features required to run the application.
+
+See the feature descriptions themselves for the relation between Ledger API versions and feature presence.
+   
+
+
+
+
+
+
+.. _com.daml.ledger.api.v1.VersionService:
+
+VersionService
+===================================================================================================
+
+Allows clients to retrieve information about the ledger API version
+
+.. list-table::
+   :header-rows: 1
+
+   * - Method name
+     - Request type
+     - Response type
+     - Description
+   * - GetLedgerApiVersion
+     - :ref:`GetLedgerApiVersionRequest <com.daml.ledger.api.v1.GetLedgerApiVersionRequest>`
+     - :ref:`GetLedgerApiVersionResponse <com.daml.ledger.api.v1.GetLedgerApiVersionResponse>`
+     - Read the Ledger API version
+   
+
+
+
+.. _scalarvaluetypes:
+
+Scalar Value Types
+***************************************************************************************************
+
+.. list-table::
+   :header-rows: 1
+
+   * - .proto type
+     - Notes
+     - C++ type
+     - Java type
+     - Python type
+   * - .. _double: 
+
+       double
+     - 
+     - double
+     - double
+     - float
+   * - .. _float: 
+
+       float
+     - 
+     - float
+     - float
+     - float
+   * - .. _int32: 
+
+       int32
+     - Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.
+     - int32
+     - int
+     - int
+   * - .. _int64: 
+
+       int64
+     - Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.
+     - int64
+     - long
+     - int/long
+   * - .. _uint32: 
+
+       uint32
+     - Uses variable-length encoding.
+     - uint32
+     - int
+     - int/long
+   * - .. _uint64: 
+
+       uint64
+     - Uses variable-length encoding.
+     - uint64
+     - long
+     - int/long
+   * - .. _sint32: 
+
+       sint32
+     - Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.
+     - int32
+     - int
+     - int
+   * - .. _sint64: 
+
+       sint64
+     - Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.
+     - int64
+     - long
+     - int/long
+   * - .. _fixed32: 
+
+       fixed32
+     - Always four bytes. More efficient than uint32 if values are often greater than 2^28.
+     - uint32
+     - int
+     - int
+   * - .. _fixed64: 
+
+       fixed64
+     - Always eight bytes. More efficient than uint64 if values are often greater than 2^56.
+     - uint64
+     - long
+     - int/long
+   * - .. _sfixed32: 
+
+       sfixed32
+     - Always four bytes.
+     - int32
+     - int
+     - int
+   * - .. _sfixed64: 
+
+       sfixed64
+     - Always eight bytes.
+     - int64
+     - long
+     - int/long
+   * - .. _bool: 
+
+       bool
+     - 
+     - bool
+     - boolean
+     - boolean
+   * - .. _string: 
+
+       string
+     - A string must always contain UTF-8 encoded or 7-bit ASCII text.
+     - string
+     - String
+     - str/unicode
+   * - .. _bytes: 
+
+       bytes
+     - May contain any arbitrary sequence of bytes.
+     - string
+     - ByteString
+     - str
+   
