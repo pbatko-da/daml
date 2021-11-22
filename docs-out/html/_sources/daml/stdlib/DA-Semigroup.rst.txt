@@ -1,0 +1,58 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-semigroup-4252:
+
+Module DA.Semigroup
+===================
+
+Data Types
+----------
+
+.. _type-da-semigroup-types-max-9956:
+
+**data** `Max <type-da-semigroup-types-max-9956_>`_ a
+
+  Semigroup under ``max``
+  
+  .. code-block:: daml
+  
+    > Max 23 <> Max 42
+    Max 42
+  
+  .. _constr-da-semigroup-types-max-43813:
+  
+  `Max <constr-da-semigroup-types-max-43813_>`_ a
+  
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> :ref:`Semigroup <class-da-internal-prelude-semigroup-80733>` (`Max <type-da-semigroup-types-max-9956_>`_ a)
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> :ref:`Eq <class-ghc-classes-eq-21216>` (`Max <type-da-semigroup-types-max-9956_>`_ a)
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> :ref:`Ord <class-ghc-classes-ord-70960>` (`Max <type-da-semigroup-types-max-9956_>`_ a)
+  
+  **instance** :ref:`Show <class-ghc-show-show-56447>` a \=\> :ref:`Show <class-ghc-show-show-56447>` (`Max <type-da-semigroup-types-max-9956_>`_ a)
+
+.. _type-da-semigroup-types-min-56710:
+
+**data** `Min <type-da-semigroup-types-min-56710_>`_ a
+
+  Semigroup under ``min``
+  
+  .. code-block:: daml
+  
+    > Min 23 <> Min 42
+    Min 23
+  
+  .. _constr-da-semigroup-types-min-69615:
+  
+  `Min <constr-da-semigroup-types-min-69615_>`_ a
+  
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> :ref:`Semigroup <class-da-internal-prelude-semigroup-80733>` (`Min <type-da-semigroup-types-min-56710_>`_ a)
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> :ref:`Eq <class-ghc-classes-eq-21216>` (`Min <type-da-semigroup-types-min-56710_>`_ a)
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> :ref:`Ord <class-ghc-classes-ord-70960>` (`Min <type-da-semigroup-types-min-56710_>`_ a)
+  
+  **instance** :ref:`Show <class-ghc-show-show-56447>` a \=\> :ref:`Show <class-ghc-show-show-56447>` (`Min <type-da-semigroup-types-min-56710_>`_ a)

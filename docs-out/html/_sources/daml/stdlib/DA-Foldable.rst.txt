@@ -1,0 +1,204 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-foldable-72255:
+
+Module DA.Foldable
+==================
+
+Class of data structures that can be folded to a summary value\.
+It's a good idea to import this module qualified to avoid clashes with
+functions defined in ``Prelude``\. Ie\.\:
+
+.. code-block:: daml
+
+  import DA.Foldable qualified as F
+
+Typeclasses
+-----------
+
+.. _class-da-foldable-foldable-61699:
+
+**class** `Foldable <class-da-foldable-foldable-61699_>`_ t **where**
+
+  Class of data structures that can be folded to a summary value\.
+  
+  .. _function-da-foldable-fold-21898:
+  
+  `fold <function-da-foldable-fold-21898_>`_
+    \: :ref:`Monoid <class-da-internal-prelude-monoid-13063>` m \=\> t m \-\> m
+    
+    Combine the elements of a structure using a monoid\.
+  
+  .. _function-da-foldable-foldmap-32873:
+  
+  `foldMap <function-da-foldable-foldmap-32873_>`_
+    \: :ref:`Monoid <class-da-internal-prelude-monoid-13063>` m \=\> (a \-\> m) \-\> t a \-\> m
+    
+    Combine the elements of a structure using a monoid\.
+  
+  .. _function-da-foldable-foldr-86039:
+  
+  `foldr <function-da-foldable-foldr-86039_>`_
+    \: (a \-\> b \-\> b) \-\> b \-\> t a \-\> b
+    
+    Right\-associative fold of a structure\.
+  
+  .. _function-da-foldable-foldl-21141:
+  
+  `foldl <function-da-foldable-foldl-21141_>`_
+    \: (b \-\> a \-\> b) \-\> b \-\> t a \-\> b
+    
+    Left\-associative fold of a structure\.
+  
+  .. _function-da-foldable-foldr1-3207:
+  
+  `foldr1 <function-da-foldable-foldr1-3207_>`_
+    \: (a \-\> a \-\> a) \-\> t a \-\> a
+    
+    A variant of foldr that has no base case, and thus should only be applied to non\-empty structures\.
+  
+  .. _function-da-foldable-foldl1-62893:
+  
+  `foldl1 <function-da-foldable-foldl1-62893_>`_
+    \: (a \-\> a \-\> a) \-\> t a \-\> a
+    
+    A variant of foldl that has no base case, and thus should only be applied to non\-empty structures\.
+  
+  .. _function-da-foldable-tolist-18686:
+  
+  `toList <function-da-foldable-tolist-18686_>`_
+    \: t a \-\> \[a\]
+    
+    List of elements of a structure, from left to right\.
+  
+  .. _function-da-foldable-null-74496:
+  
+  `null <function-da-foldable-null-74496_>`_
+    \: t a \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+    
+    Test whether the structure is empty\. The default implementation is optimized for structures that are similar to cons\-lists, because there is no general way to do better\.
+  
+  .. _function-da-foldable-length-48521:
+  
+  `length <function-da-foldable-length-48521_>`_
+    \: t a \-\> :ref:`Int <type-ghc-types-int-68728>`
+    
+    Returns the size/length of a finite structure as an ``Int``\. The default implementation is optimized for structures that are similar to cons\-lists, because there is no general way to do better\.
+  
+  .. _function-da-foldable-elem-21978:
+  
+  `elem <function-da-foldable-elem-21978_>`_
+    \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> a \-\> t a \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+    
+    Does the element occur in the structure?
+  
+  .. _function-da-foldable-sum-33425:
+  
+  `sum <function-da-foldable-sum-33425_>`_
+    \: :ref:`Additive <class-ghc-num-additive-5364>` a \=\> t a \-\> a
+    
+    The sum function computes the sum of the numbers of a structure\.
+  
+  .. _function-da-foldable-product-19409:
+  
+  `product <function-da-foldable-product-19409_>`_
+    \: :ref:`Multiplicative <class-ghc-num-multiplicative-86900>` a \=\> t a \-\> a
+    
+    The product function computes the product of the numbers of a structure\.
+  
+  .. _function-da-foldable-minimum-98064:
+  
+  `minimum <function-da-foldable-minimum-98064_>`_
+    \: :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> t a \-\> a
+    
+    The least element of a non\-empty structure\.
+  
+  .. _function-da-foldable-maximum-39282:
+  
+  `maximum <function-da-foldable-maximum-39282_>`_
+    \: :ref:`Ord <class-ghc-classes-ord-70960>` a \=\> t a \-\> a
+    
+    The largest element of a non\-empty structure\.
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> `Foldable <class-da-foldable-foldable-61699_>`_ (:ref:`Map <type-da-internal-lf-map-85851>` k)
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ :ref:`TextMap <type-da-internal-lf-textmap-34396>`
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ :ref:`Optional <type-da-internal-prelude-optional-79838>`
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ (:ref:`Map <type-da-next-map-map-36848>` k)
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>`
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ :ref:`Set <type-da-set-types-set-65731>`
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ (:ref:`Either <type-da-types-either-20245>` a)
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ :ref:`([]) <type-ghc-types-x-9664>`
+  
+  **instance** `Foldable <class-da-foldable-foldable-61699_>`_ a
+
+Functions
+---------
+
+.. _function-da-foldable-mapa-94568:
+
+`mapA_ <function-da-foldable-mapa-94568_>`_
+  \: (`Foldable <class-da-foldable-foldable-61699_>`_ t, :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f) \=\> (a \-\> f b) \-\> t a \-\> f ()
+  
+  Map each element of a structure to an action, evaluate these
+  actions from left to right, and ignore the results\. For a version
+  that doesn't ignore the results see 'DA\.Traversable\.mapA'\.
+
+.. _function-da-foldable-fora-92099:
+
+`forA_ <function-da-foldable-fora-92099_>`_
+  \: (`Foldable <class-da-foldable-foldable-61699_>`_ t, :ref:`Applicative <class-da-internal-prelude-applicative-43914>` f) \=\> t a \-\> (a \-\> f b) \-\> f ()
+  
+  'for\_' is 'mapA\_' with its arguments flipped\. For a version
+  that doesn't ignore the results see 'DA\.Traversable\.forA'\.
+
+.. _function-da-foldable-sequence-87124:
+
+`sequence_ <function-da-foldable-sequence-87124_>`_
+  \: (`Foldable <class-da-foldable-foldable-61699_>`_ t, :ref:`Action <class-da-internal-prelude-action-24943>` m) \=\> t (m a) \-\> m ()
+  
+  Evaluate each action in the structure from left to right,
+  and ignore the results\. For a version that doesn't ignore the
+  results see 'DA\.Traversable\.sequence'\.
+
+.. _function-da-foldable-concat-64769:
+
+`concat <function-da-foldable-concat-64769_>`_
+  \: `Foldable <class-da-foldable-foldable-61699_>`_ t \=\> t \[a\] \-\> \[a\]
+  
+  The concatenation of all the elements of a container of lists\.
+
+.. _function-da-foldable-and-6175:
+
+`and <function-da-foldable-and-6175_>`_
+  \: `Foldable <class-da-foldable-foldable-61699_>`_ t \=\> t :ref:`Bool <type-ghc-types-bool-8654>` \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  ``and`` returns the conjunction of a container of Bools\. For the result to be ``True``, the container must be finite; ``False``, however, results from a ``False`` value finitely far from the left end\.
+
+.. _function-da-foldable-or-98354:
+
+`or <function-da-foldable-or-98354_>`_
+  \: `Foldable <class-da-foldable-foldable-61699_>`_ t \=\> t :ref:`Bool <type-ghc-types-bool-8654>` \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  ``or`` returns the disjunction of a container of Bools\. For the result to be ``False``, the container must be finite; ``True``, however, results from a ``True`` value finitely far from the left end\.
+
+.. _function-da-foldable-any-27082:
+
+`any <function-da-foldable-any-27082_>`_
+  \: `Foldable <class-da-foldable-foldable-61699_>`_ t \=\> (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> t a \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Determines whether any element of the structure satisfies the predicate\.
+
+.. _function-da-foldable-all-96389:
+
+`all <function-da-foldable-all-96389_>`_
+  \: `Foldable <class-da-foldable-foldable-61699_>`_ t \=\> (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> t a \-\> :ref:`Bool <type-ghc-types-bool-8654>`
+  
+  Determines whether all elements of the structure satisfy the predicate\.

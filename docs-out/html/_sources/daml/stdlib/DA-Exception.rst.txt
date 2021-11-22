@@ -1,0 +1,228 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-exception-90356:
+
+Module DA.Exception
+===================
+
+Exception handling in Daml\.
+
+Typeclasses
+-----------
+
+.. _class-da-internal-exception-hasthrow-87221:
+
+**class** `HasThrow <class-da-internal-exception-hasthrow-87221_>`_ e **where**
+
+  Part of the ``Exception`` constraint\.
+  
+  .. _function-da-internal-exception-throwpure-94761:
+  
+  `throwPure <function-da-internal-exception-throwpure-94761_>`_
+    \: e \-\> t
+    
+    Throw exception in a pure context\.
+  
+  **instance** `HasThrow <class-da-internal-exception-hasthrow-87221_>`_ `ArithmeticError <type-da-exception-arithmeticerror-arithmeticerror-73855_>`_
+  
+  **instance** `HasThrow <class-da-internal-exception-hasthrow-87221_>`_ `AssertionFailed <type-da-exception-assertionfailed-assertionfailed-87879_>`_
+  
+  **instance** `HasThrow <class-da-internal-exception-hasthrow-87221_>`_ `GeneralError <type-da-exception-generalerror-generalerror-36107_>`_
+  
+  **instance** `HasThrow <class-da-internal-exception-hasthrow-87221_>`_ `PreconditionFailed <type-da-exception-preconditionfailed-preconditionfailed-80741_>`_
+
+.. _class-da-internal-exception-hasmessage-38746:
+
+**class** `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ e **where**
+
+  Part of the ``Exception`` constraint\.
+  
+  .. _function-da-internal-exception-message-70276:
+  
+  `message <function-da-internal-exception-message-70276_>`_
+    \: e \-\> :ref:`Text <type-ghc-types-text-57703>`
+    
+    Get the error message associated with an exception\.
+  
+  **instance** `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ :ref:`AnyException <type-da-internal-lf-anyexception-56385>`
+  
+  **instance** `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ `ArithmeticError <type-da-exception-arithmeticerror-arithmeticerror-73855_>`_
+  
+  **instance** `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ `AssertionFailed <type-da-exception-assertionfailed-assertionfailed-87879_>`_
+  
+  **instance** `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ `GeneralError <type-da-exception-generalerror-generalerror-36107_>`_
+  
+  **instance** `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ `PreconditionFailed <type-da-exception-preconditionfailed-preconditionfailed-80741_>`_
+
+.. _class-da-internal-exception-hastoanyexception-63250:
+
+**class** `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ e **where**
+
+  Part of the ``Exception`` constraint\.
+  
+  .. _function-da-internal-exception-toanyexception-54016:
+  
+  `toAnyException <function-da-internal-exception-toanyexception-54016_>`_
+    \: e \-\> :ref:`AnyException <type-da-internal-lf-anyexception-56385>`
+    
+    Convert an exception type to AnyException\.
+  
+  **instance** `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ :ref:`AnyException <type-da-internal-lf-anyexception-56385>`
+  
+  **instance** `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ `ArithmeticError <type-da-exception-arithmeticerror-arithmeticerror-73855_>`_
+  
+  **instance** `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ `AssertionFailed <type-da-exception-assertionfailed-assertionfailed-87879_>`_
+  
+  **instance** `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ `GeneralError <type-da-exception-generalerror-generalerror-36107_>`_
+  
+  **instance** `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ `PreconditionFailed <type-da-exception-preconditionfailed-preconditionfailed-80741_>`_
+
+.. _class-da-internal-exception-hasfromanyexception-34599:
+
+**class** `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ e **where**
+
+  Part of the ``Exception`` constraint\.
+  
+  .. _function-da-internal-exception-fromanyexception-67429:
+  
+  `fromAnyException <function-da-internal-exception-fromanyexception-67429_>`_
+    \: :ref:`AnyException <type-da-internal-lf-anyexception-56385>` \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` e
+    
+    Convert an AnyException back to the underlying exception type, if possible\.
+  
+  **instance** `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ :ref:`AnyException <type-da-internal-lf-anyexception-56385>`
+  
+  **instance** `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ `ArithmeticError <type-da-exception-arithmeticerror-arithmeticerror-73855_>`_
+  
+  **instance** `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ `AssertionFailed <type-da-exception-assertionfailed-assertionfailed-87879_>`_
+  
+  **instance** `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ `GeneralError <type-da-exception-generalerror-generalerror-36107_>`_
+  
+  **instance** `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ `PreconditionFailed <type-da-exception-preconditionfailed-preconditionfailed-80741_>`_
+
+.. _class-da-internal-exception-actionthrow-91588:
+
+**class** :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> `ActionThrow <class-da-internal-exception-actionthrow-91588_>`_ m **where**
+
+  Action type in which ``throw`` is supported\.
+  
+  .. _function-da-internal-exception-throw-97395:
+  
+  `throw <function-da-internal-exception-throw-97395_>`_
+    \: `Exception <type-da-internal-exception-exception-93008_>`_ e \=\> e \-\> m t
+  
+  **instance** `ActionThrow <class-da-internal-exception-actionthrow-91588_>`_ :ref:`Scenario <type-da-internal-lf-scenario-45418>`
+  
+  **instance** `ActionThrow <class-da-internal-exception-actionthrow-91588_>`_ :ref:`Update <type-da-internal-lf-update-36457>`
+
+.. _class-da-internal-exception-actioncatch-7117:
+
+**class** `ActionThrow <class-da-internal-exception-actionthrow-91588_>`_ m \=\> `ActionCatch <class-da-internal-exception-actioncatch-7117_>`_ m **where**
+
+  Action type in which ``try ... catch ...`` is supported\.
+  
+  .. _function-da-internal-exception-trycatch-12468:
+  
+  `_tryCatch <function-da-internal-exception-trycatch-12468_>`_
+    \: (() \-\> m t) \-\> (:ref:`AnyException <type-da-internal-lf-anyexception-56385>` \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` (m t)) \-\> m t
+    
+    Handle an exception\. Use the ``try ... catch ...`` syntax
+    instead of calling this method directly\.
+  
+  **instance** `ActionCatch <class-da-internal-exception-actioncatch-7117_>`_ :ref:`Update <type-da-internal-lf-update-36457>`
+
+Data Types
+----------
+
+.. _type-da-internal-exception-exception-93008:
+
+**type** `Exception <type-da-internal-exception-exception-93008_>`_ e
+  \= (`HasThrow <class-da-internal-exception-hasthrow-87221_>`_ e, `HasMessage <class-da-internal-exception-hasmessage-38746_>`_ e, `HasToAnyException <class-da-internal-exception-hastoanyexception-63250_>`_ e, `HasFromAnyException <class-da-internal-exception-hasfromanyexception-34599_>`_ e)
+  
+  Exception typeclass\. This should not be implemented directly,
+  instead, use the ``exception`` syntax\.
+
+.. _type-da-exception-arithmeticerror-arithmeticerror-73855:
+
+**data** `ArithmeticError <type-da-exception-arithmeticerror-arithmeticerror-73855_>`_
+
+  Exception raised by an arithmetic operation, such as divide\-by\-zero or overflow\.
+  
+  .. _constr-da-exception-arithmeticerror-arithmeticerror-83218:
+  
+  `ArithmeticError <constr-da-exception-arithmeticerror-arithmeticerror-83218_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - message
+         - :ref:`Text <type-ghc-types-text-57703>`
+         - 
+
+.. _type-da-exception-assertionfailed-assertionfailed-87879:
+
+**data** `AssertionFailed <type-da-exception-assertionfailed-assertionfailed-87879_>`_
+
+  Exception raised by assert functions in DA\.Assert
+  
+  .. _constr-da-exception-assertionfailed-assertionfailed-41418:
+  
+  `AssertionFailed <constr-da-exception-assertionfailed-assertionfailed-41418_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - message
+         - :ref:`Text <type-ghc-types-text-57703>`
+         - 
+
+.. _type-da-exception-generalerror-generalerror-36107:
+
+**data** `GeneralError <type-da-exception-generalerror-generalerror-36107_>`_
+
+  Exception raised by ``error``\.
+  
+  .. _constr-da-exception-generalerror-generalerror-22490:
+  
+  `GeneralError <constr-da-exception-generalerror-generalerror-22490_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - message
+         - :ref:`Text <type-ghc-types-text-57703>`
+         - 
+
+.. _type-da-exception-preconditionfailed-preconditionfailed-80741:
+
+**data** `PreconditionFailed <type-da-exception-preconditionfailed-preconditionfailed-80741_>`_
+
+  Exception raised when a contract is invalid, i\.e\. fails the ensure clause\.
+  
+  .. _constr-da-exception-preconditionfailed-preconditionfailed-92196:
+  
+  `PreconditionFailed <constr-da-exception-preconditionfailed-preconditionfailed-92196_>`_
+  
+    .. list-table::
+       :widths: 15 10 30
+       :header-rows: 1
+    
+       * - Field
+         - Type
+         - Description
+       * - message
+         - :ref:`Text <type-ghc-types-text-57703>`
+         - 

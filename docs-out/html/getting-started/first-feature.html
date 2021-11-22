@@ -1,0 +1,783 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Your First Feature &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="An introduction to Daml" href="../daml/intro/0_Intro.html" />
+  <link rel="prev" title="App Architecture" href="app-architecture.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Your First Feature</a><ul>
+<li><a class="reference internal" href="#daml-changes">Daml Changes</a></li>
+<li><a class="reference internal" href="#running-the-new-feature">Running the New Feature</a></li>
+<li><a class="reference internal" href="#messaging-ui">Messaging UI</a><ul>
+<li><a class="reference internal" href="#messagelist-component">MessageList Component</a></li>
+<li><a class="reference internal" href="#messageedit-component">MessageEdit Component</a></li>
+<li><a class="reference internal" href="#mainview-component">MainView Component</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-the-updated-ui">Running the updated UI</a></li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="your-first-feature">
+<h1>Your First Feature<a class="headerlink" href="#your-first-feature" title="Permalink to this headline">¶</a></h1>
+<p>Let’s dive into implementing a new feature for our social network app.
+This will give us a better idea how to develop Daml applications using our template.</p>
+<p>At the moment, our app lets us follow users in the network, but we have no way to communicate with them!
+Let’s fix that by adding a <em>direct messaging</em> feature.
+This should let users that follow each other send messages, respecting <em>authorization</em> and <em>privacy</em>.
+This means:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>You cannot send a message to someone unless they have given you the authority by following you back.</li>
+<li>You cannot see a message unless you sent it or it was sent to you.</li>
+</ol>
+</div></blockquote>
+<p>We will see that Daml lets us implement these guarantees in a direct and intuitive way.</p>
+<p>There are three parts to building and running the messaging feature:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Adding the necessary changes to the Daml model</li>
+<li>Making the corresponding changes in the UI</li>
+<li>Running the app with the new feature.</li>
+</ol>
+</div></blockquote>
+<p>As usual, we must start with the Daml model and base our UI changes on top of that.</p>
+<div class="section" id="daml-changes">
+<h2>Daml Changes<a class="headerlink" href="#daml-changes" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned in the <a class="reference internal" href="app-architecture.html"><span class="doc">architecture</span></a> section, the Daml code defines the <em>data</em> and <em>workflow</em> of the application.
+The workflow aspect refers to the interactions between parties that are permitted by the system.
+In the context of a messaging feature, these are essentially the authorization and privacy concerns listed above.</p>
+<p>For the authorization part, we take the following approach: a user Bob can message another user Alice when Alice starts following Bob back.
+When Alice starts following Bob back, she gives permission or <em>authority</em> to Bob to send her a message.</p>
+<p>To implement this workflow, let’s start by adding the new <em>data</em> for messages.
+Navigate to the <code class="docutils literal notranslate"><span class="pre">daml/User.daml</span></code> file and copy the following <code class="docutils literal notranslate"><span class="pre">Message</span></code> template to the bottom.
+Indentation is important: it should be at the top level like the original <code class="docutils literal notranslate"><span class="pre">User</span></code> template.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Message</span> <span class="kr">with</span>
+    <span class="n">sender</span><span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">receiver</span><span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">content</span><span class="kt">:</span> <span class="kt">Text</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">sender</span><span class="p">,</span> <span class="n">receiver</span>
+</pre></div>
+</div>
+<p>This template is very simple: it contains the data for a message and no choices.
+The interesting part is the <code class="docutils literal notranslate"><span class="pre">signatory</span></code> clause: both the <code class="docutils literal notranslate"><span class="pre">sender</span></code> and <code class="docutils literal notranslate"><span class="pre">receiver</span></code> are signatories on the template.
+This enforces the fact that creation and archival of <code class="docutils literal notranslate"><span class="pre">Message</span></code> contracts must be authorized by both parties.</p>
+<p>Now we can add messaging into the workflow by adding a new choice to the <code class="docutils literal notranslate"><span class="pre">User</span></code> template.
+Copy the following choice to the <code class="docutils literal notranslate"><span class="pre">User</span></code> template after the <code class="docutils literal notranslate"><span class="pre">Follow</span></code> choice. The indentation for the <code class="docutils literal notranslate"><span class="pre">SendMessage</span></code> choice must match the one of <code class="docutils literal notranslate"><span class="pre">Follow</span></code> . <em>Make sure you save the file after copying the code</em>.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">nonconsuming</span> <span class="n">choice</span> <span class="kt">SendMessage:</span> <span class="kt">ContractId</span> <span class="kt">Message</span> <span class="kr">with</span>
+        <span class="n">sender</span><span class="kt">:</span> <span class="kt">Party</span>
+        <span class="n">content</span><span class="kt">:</span> <span class="kt">Text</span>
+      <span class="kr">controller</span> <span class="n">sender</span>
+      <span class="kr">do</span>
+        <span class="n">assertMsg</span> <span class="s">&quot;Designated user must follow you back to send a message&quot;</span> <span class="p">(</span><span class="n">elem</span> <span class="n">sender</span> <span class="n">following</span><span class="p">)</span>
+        <span class="n">create</span> <span class="kt">Message</span> <span class="kr">with</span> <span class="n">sender</span><span class="p">,</span> <span class="n">receiver</span> <span class="ow">=</span> <span class="n">username</span><span class="p">,</span> <span class="n">content</span>
+</pre></div>
+</div>
+<p>As with the <code class="docutils literal notranslate"><span class="pre">Follow</span></code> choice, there are a few aspects to note here.</p>
+<blockquote>
+<div><ul class="simple">
+<li>By convention, the choice returns the <code class="docutils literal notranslate"><span class="pre">ContractId</span></code> of the resulting <code class="docutils literal notranslate"><span class="pre">Message</span></code> contract.</li>
+<li>The parameters to the choice are the <code class="docutils literal notranslate"><span class="pre">sender</span></code> and <code class="docutils literal notranslate"><span class="pre">content</span></code> of this message; the receiver is the party named on this <code class="docutils literal notranslate"><span class="pre">User</span></code> contract.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">controller</span></code> clause states that it is the <code class="docutils literal notranslate"><span class="pre">sender</span></code> who can exercise the choice.</li>
+<li>The body of the choice first ensures that the sender is a user that the receiver is following and then creates the <code class="docutils literal notranslate"><span class="pre">Message</span></code> contract with the <code class="docutils literal notranslate"><span class="pre">receiver</span></code> being the signatory of the <code class="docutils literal notranslate"><span class="pre">User</span></code> contract.</li>
+</ul>
+</div></blockquote>
+<p>This completes the workflow for messaging in our app.</p>
+</div>
+<div class="section" id="running-the-new-feature">
+<h2>Running the New Feature<a class="headerlink" href="#running-the-new-feature" title="Permalink to this headline">¶</a></h2>
+<p>Navigate to the terminal window where the <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">start</span></code> process is running and press ‘r’. This will</p>
+<blockquote>
+<div><ul class="simple">
+<li>Compile our Daml code into a <em>DAR file containing the new feature</em></li>
+<li>Update the JavaScript library under <code class="docutils literal notranslate"><span class="pre">ui/daml.js</span></code> to connect the UI with your Daml code</li>
+<li>Upload the <em>new DAR file</em> to the sandbox</li>
+</ul>
+</div></blockquote>
+<p>As mentioned at the beginning of this <em>Getting Started with Daml</em> guide, Daml Sandbox uses an
+in-memory store, which means it loses its state when stopped or restarted. That means that all user
+data and follower relationships are lost.</p>
+<p>Now let’s integrate the new functionality into the UI.</p>
+</div>
+<div class="section" id="messaging-ui">
+<h2>Messaging UI<a class="headerlink" href="#messaging-ui" title="Permalink to this headline">¶</a></h2>
+<p>The UI for messaging will consist of a new <em>Messages</em> panel in addition to the <em>Follow</em> and <em>Network</em> panel.
+This panel will have two parts:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>A list of messages you’ve received with their senders.</li>
+<li>A form with a dropdown menu for follower selection and a text field for composing the message.</li>
+</ol>
+</div></blockquote>
+<p>We will implement each part as a React component, which we’ll name <code class="docutils literal notranslate"><span class="pre">MessageList</span></code> and <code class="docutils literal notranslate"><span class="pre">MessageEdit</span></code> respectively.
+Let’s start with the simpler <code class="docutils literal notranslate"><span class="pre">MessageList</span></code>.</p>
+<div class="section" id="messagelist-component">
+<h3>MessageList Component<a class="headerlink" href="#messagelist-component" title="Permalink to this headline">¶</a></h3>
+<p>The goal of the <code class="docutils literal notranslate"><span class="pre">MessageList</span></code> component is to query all <code class="docutils literal notranslate"><span class="pre">Message</span></code> contracts where the <code class="docutils literal notranslate"><span class="pre">receiver</span></code> is the current user, and display their contents and senders in a list.
+The entire component is shown below.
+You should copy this into a new <code class="docutils literal notranslate"><span class="pre">MessageList.tsx</span></code> file in <code class="docutils literal notranslate"><span class="pre">ui/src/components</span></code> and save it.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">List</span><span class="p">,</span> <span class="nx">ListItem</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;semantic-ui-react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">User</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daml.js/create-daml-app&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">useStreamQueries</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daml/react&#39;</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * React component displaying the list of messages for the current user.</span>
+<span class="cm"> */</span>
+<span class="kr">const</span> <span class="nx">MessageList</span>: <span class="kt">React.FC</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">messagesResult</span> <span class="o">=</span> <span class="nx">useStreamQueries</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">Message</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">List</span> <span class="na">relaxed</span><span class="p">&gt;</span>
+      <span class="p">{</span><span class="nx">messagesResult</span><span class="p">.</span><span class="nx">contracts</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">message</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="p">{</span><span class="nx">sender</span><span class="p">,</span> <span class="nx">receiver</span><span class="p">,</span> <span class="nx">content</span><span class="p">}</span> <span class="o">=</span> <span class="nx">message</span><span class="p">.</span><span class="nx">payload</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">(</span>
+          <span class="p">&lt;</span><span class="nt">ListItem</span>
+            <span class="na">className</span><span class="o">=</span><span class="s">&#39;test-select-message-item&#39;</span>
+            <span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">message</span><span class="p">.</span><span class="nx">contractId</span><span class="p">}&gt;</span>
+            <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;{</span><span class="nx">sender</span><span class="p">}</span> <span class="o">&amp;</span><span class="nx">rarr</span><span class="p">;</span> <span class="p">{</span><span class="nx">receiver</span><span class="p">}</span><span class="o">:</span><span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="p">{</span><span class="nx">content</span><span class="p">}</span>
+          <span class="p">&lt;/</span><span class="nt">ListItem</span><span class="p">&gt;</span>
+        <span class="p">);</span>
+      <span class="p">})}</span>
+    <span class="p">&lt;/</span><span class="nt">List</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">MessageList</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>In the component body, <code class="docutils literal notranslate"><span class="pre">messagesResult</span></code> gets the stream of all <code class="docutils literal notranslate"><span class="pre">Message</span></code> contracts visible to the current user.
+The streaming aspect means that we don’t need to reload the page when new messages come in.
+For each contract in the stream, we destructure the <em>payload</em> (the data as opposed to metadata like the contract ID) into the <code class="docutils literal notranslate"><span class="pre">{sender,</span> <span class="pre">receiver,</span> <span class="pre">content}</span></code> object pattern.
+Then we construct a <code class="docutils literal notranslate"><span class="pre">ListItem</span></code> UI element with the details of the message.</p>
+<p>There is one important point about privacy here.
+No matter how we write our <code class="docutils literal notranslate"><span class="pre">Message</span></code> query in the UI code, it is impossible to break the privacy rules given by the Daml model.
+That is, it is impossible to see a <code class="docutils literal notranslate"><span class="pre">Message</span></code> contract of which you are not the <code class="docutils literal notranslate"><span class="pre">sender</span></code> or the <code class="docutils literal notranslate"><span class="pre">receiver</span></code> (the only parties that can observe the contract).
+This is a major benefit of writing apps on Daml: the burden of ensuring privacy and authorization is confined to the Daml model.</p>
+</div>
+<div class="section" id="messageedit-component">
+<h3>MessageEdit Component<a class="headerlink" href="#messageedit-component" title="Permalink to this headline">¶</a></h3>
+<p>Next we need the <code class="docutils literal notranslate"><span class="pre">MessageEdit</span></code> component to compose and send messages to our followers.
+Again we show the entire component here; you should copy this into a new <code class="docutils literal notranslate"><span class="pre">MessageEdit.tsx</span></code> file in <code class="docutils literal notranslate"><span class="pre">ui/src/components</span></code> and save it.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Form</span><span class="p">,</span> <span class="nx">Button</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;semantic-ui-react&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Party</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daml/types&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">User</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daml.js/create-daml-app&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">useParty</span><span class="p">,</span> <span class="nx">useLedger</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@daml/react&#39;</span><span class="p">;</span>
+
+<span class="nx">type</span> <span class="nx">Props</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">followers</span>: <span class="kt">Party</span><span class="p">[];</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * React component to edit a message to send to a follower.</span>
+<span class="cm"> */</span>
+<span class="kr">const</span> <span class="nx">MessageEdit</span>: <span class="kt">React.FC</span><span class="p">&lt;</span><span class="nt">Props</span><span class="p">&gt;</span> <span class="o">=</span> <span class="p">({</span><span class="nx">followers</span><span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">sender</span> <span class="o">=</span> <span class="nx">useParty</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="p">[</span><span class="nx">receiver</span><span class="p">,</span> <span class="nx">setReceiver</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">string</span> <span class="p">|</span> <span class="na">undefined</span><span class="p">&gt;();</span>
+  <span class="kr">const</span> <span class="p">[</span><span class="nx">content</span><span class="p">,</span> <span class="nx">setContent</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="p">[</span><span class="nx">isSubmitting</span><span class="p">,</span> <span class="nx">setIsSubmitting</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">ledger</span> <span class="o">=</span> <span class="nx">useLedger</span><span class="p">();</span>
+
+  <span class="kr">const</span> <span class="nx">submitMessage</span> <span class="o">=</span> <span class="nx">async</span> <span class="p">(</span><span class="nx">event</span>: <span class="kt">React.FormEvent</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="p">{</span>
+      <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">receiver</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">setIsSubmitting</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+      <span class="nx">await</span> <span class="nx">ledger</span><span class="p">.</span><span class="nx">exerciseByKey</span><span class="p">(</span><span class="nx">User</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">SendMessage</span><span class="p">,</span> <span class="nx">receiver</span><span class="p">,</span> <span class="p">{</span><span class="nx">sender</span><span class="p">,</span> <span class="nx">content</span><span class="p">});</span>
+      <span class="nx">setContent</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">alert</span><span class="p">(</span><span class="sb">`Error sending message:</span><span class="err">\</span><span class="sb">n</span><span class="si">${</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+      <span class="nx">setIsSubmitting</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">Form</span> <span class="na">onSubmit</span><span class="o">=</span><span class="p">{</span><span class="nx">submitMessage</span><span class="p">}&gt;</span>
+      <span class="p">&lt;</span><span class="nt">Form.Dropdown</span>
+        <span class="na">selection</span>
+        <span class="na">className</span><span class="o">=</span><span class="s">&#39;test-select-message-receiver&#39;</span>
+        <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Select a follower&quot;</span>
+        <span class="na">options</span><span class="o">=</span><span class="p">{</span><span class="nx">followers</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">follower</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">key</span>: <span class="kt">follower</span><span class="p">,</span> <span class="nx">text</span>: <span class="kt">follower</span><span class="p">,</span> <span class="nx">value</span>: <span class="kt">follower</span> <span class="p">}))}</span>
+        <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">receiver</span><span class="p">}</span>
+        <span class="na">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">event</span> <span class="o">=&gt;</span> <span class="nx">setReceiver</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">??</span> <span class="kc">undefined</span><span class="p">)}</span>
+      <span class="p">/&gt;</span>
+      <span class="p">&lt;</span><span class="nt">Form.Input</span>
+        <span class="na">className</span><span class="o">=</span><span class="s">&#39;test-select-message-content&#39;</span>
+        <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Write a message&quot;</span>
+        <span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">content</span><span class="p">}</span>
+        <span class="na">onChange</span><span class="o">=</span><span class="p">{</span><span class="nx">event</span> <span class="o">=&gt;</span> <span class="nx">setContent</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">.</span><span class="nx">value</span><span class="p">)}</span>
+      <span class="p">/&gt;</span>
+      <span class="p">&lt;</span><span class="nt">Button</span>
+        <span class="na">fluid</span>
+        <span class="na">className</span><span class="o">=</span><span class="s">&#39;test-select-message-send-button&#39;</span>
+        <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span>
+        <span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">isSubmitting</span> <span class="o">||</span> <span class="nx">receiver</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">content</span> <span class="o">===</span> <span class="s2">&quot;&quot;</span><span class="p">}</span>
+        <span class="na">loading</span><span class="o">=</span><span class="p">{</span><span class="nx">isSubmitting</span><span class="p">}</span>
+        <span class="na">content</span><span class="o">=</span><span class="s">&quot;Send&quot;</span>
+      <span class="p">/&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">Form</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">MessageEdit</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>You will first notice a <code class="docutils literal notranslate"><span class="pre">Props</span></code> type near the top of the file with a single <code class="docutils literal notranslate"><span class="pre">followers</span></code> field.
+A <em>prop</em> in React is an input to a component; in this case a list of users from which to select the message receiver.
+The prop will be passed down from the <code class="docutils literal notranslate"><span class="pre">MainView</span></code> component, reusing the work required to query users from the ledger.
+You can see this <code class="docutils literal notranslate"><span class="pre">followers</span></code> field bound at the start of the <code class="docutils literal notranslate"><span class="pre">MessageEdit</span></code> component.</p>
+<p>We use the React <code class="docutils literal notranslate"><span class="pre">useState</span></code> hook to get and set the current choices of message <code class="docutils literal notranslate"><span class="pre">receiver</span></code> and <code class="docutils literal notranslate"><span class="pre">content</span></code>.
+The Daml-specific <code class="docutils literal notranslate"><span class="pre">useLedger</span></code> hook gives us an object we can use to perform ledger operations.
+The call to <code class="docutils literal notranslate"><span class="pre">ledger.exerciseByKey</span></code> in <code class="docutils literal notranslate"><span class="pre">submitMessage</span></code> looks up the <code class="docutils literal notranslate"><span class="pre">User</span></code> contract with the receiver’s username and exercises the <code class="docutils literal notranslate"><span class="pre">SendMessage</span></code> choice with the appropriate arguments.
+If the choice fails, the <code class="docutils literal notranslate"><span class="pre">catch</span></code> block reports the error in a dialog box.
+Additionally, <code class="docutils literal notranslate"><span class="pre">submitMessage</span></code> sets the <code class="docutils literal notranslate"><span class="pre">isSubmitting</span></code> state so that the <em>Send</em> button is disabled while the request is processed.
+The result of a successful call to <code class="docutils literal notranslate"><span class="pre">submitMessage</span></code> is a new <code class="docutils literal notranslate"><span class="pre">Message</span></code> contract created on the ledger.</p>
+<p>The return value of this component is the React <code class="docutils literal notranslate"><span class="pre">Form</span></code> element.
+This contains a dropdown menu to select a receiver from the <code class="docutils literal notranslate"><span class="pre">followers</span></code>, a text field for the message content, and a <em>Send</em> button which triggers <code class="docutils literal notranslate"><span class="pre">submitMessage</span></code>.</p>
+<p>There is again an important point here, in this case about how <em>authorization</em> is enforced.
+Due to the logic of the <code class="docutils literal notranslate"><span class="pre">SendMessage</span></code> choice, it is impossible to send a message to a user who is not following us (even if you could somehow access their <code class="docutils literal notranslate"><span class="pre">User</span></code> contract).
+The assertion that <code class="docutils literal notranslate"><span class="pre">elem</span> <span class="pre">sender</span> <span class="pre">following</span></code> in <code class="docutils literal notranslate"><span class="pre">SendMessage</span></code> ensures this: no mistake or malice by the UI programmer could breach this.</p>
+</div>
+<div class="section" id="mainview-component">
+<h3>MainView Component<a class="headerlink" href="#mainview-component" title="Permalink to this headline">¶</a></h3>
+<p>Finally we can see these components come together in the <code class="docutils literal notranslate"><span class="pre">MainView</span></code> component.
+We want to add a new panel to house our messaging UI.
+Open the <code class="docutils literal notranslate"><span class="pre">ui/src/components/MainView.tsx</span></code> file and start by adding imports for the two new components.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">MessageEdit</span> <span class="nx">from</span> <span class="s1">&#39;./MessageEdit&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">MessageList</span> <span class="nx">from</span> <span class="s1">&#39;./MessageList&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Next, find where the <em>Network</em> <code class="docutils literal notranslate"><span class="pre">Segment</span></code> closes, towards the end of the component.
+This is where we’ll add a new <code class="docutils literal notranslate"><span class="pre">Segment</span></code> for <em>Messages</em>. Make sure you’ve saved the file after copying the code.</p>
+<div class="highlight-tsx notranslate"><div class="highlight"><pre><span></span>            <span class="p">&lt;</span><span class="nt">Segment</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">Header</span> <span class="na">as</span><span class="o">=</span><span class="s">&#39;h2&#39;</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">Icon</span> <span class="na">name</span><span class="o">=</span><span class="s">&#39;pencil square&#39;</span> <span class="p">/&gt;</span>
+                <span class="p">&lt;</span><span class="nt">Header.Content</span><span class="p">&gt;</span>
+                  <span class="nx">Messages</span>
+                  <span class="p">&lt;</span><span class="nt">Header.Subheader</span><span class="p">&gt;</span><span class="nx">Send</span> <span class="nx">a</span> <span class="nx">message</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">follower</span><span class="p">&lt;/</span><span class="nt">Header.Subheader</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">Header.Content</span><span class="p">&gt;</span>
+              <span class="p">&lt;/</span><span class="nt">Header</span><span class="p">&gt;</span>
+              <span class="p">&lt;</span><span class="nt">MessageEdit</span>
+                <span class="na">followers</span><span class="o">=</span><span class="p">{</span><span class="nx">followers</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">follower</span> <span class="o">=&gt;</span> <span class="nx">follower</span><span class="p">.</span><span class="nx">username</span><span class="p">)}</span>
+              <span class="p">/&gt;</span>
+              <span class="p">&lt;</span><span class="nt">Divider</span> <span class="p">/&gt;</span>
+              <span class="p">&lt;</span><span class="nt">MessageList</span> <span class="p">/&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">Segment</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>You can see we simply follow the formatting of the previous panels and include the new messaging components: <code class="docutils literal notranslate"><span class="pre">MessageEdit</span></code> supplied with the usernames of all visible parties as props, and <code class="docutils literal notranslate"><span class="pre">MessageList</span></code> to display all messages.</p>
+<p>That is all for the implementation!
+Let’s give the new functionality a spin.</p>
+</div>
+</div>
+<div class="section" id="running-the-updated-ui">
+<h2>Running the updated UI<a class="headerlink" href="#running-the-updated-ui" title="Permalink to this headline">¶</a></h2>
+<p>If you have the frontend UI up and running you’re all set. In case you don’t have the UI running open a new terminal window and navigate to the <code class="docutils literal notranslate"><span class="pre">create-daml-app/ui</span></code> folder and run the <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">start</span></code> command, which will start the UI.</p>
+<p>Once you’ve done all these changes you should see the same login page as before at <a class="reference external" href="http://localhost:3000">http://localhost:3000</a>.</p>
+<blockquote>
+<div><div class="figure">
+<img alt="Login screen for the create-daml-app" class="no-scaled-link" src="../_images/create-daml-app-login-screen.png" style="width: 457.0px; height: 204.0px;" />
+</div>
+</div></blockquote>
+<p>Once you’ve logged in, you’ll see a familiar UI but with our new <em>Messages</em> panel at the bottom!</p>
+<blockquote>
+<div><div class="figure">
+<img alt="You can now see the messaging feature in the create-daml-app" src="../_images/create-daml-app-messaging-feature.png" />
+</div>
+</div></blockquote>
+<p>Go ahead and add follow more users, and log in as some of those users in separate browser windows to follow yourself back.
+Then, if you click on the dropdown menu in the <em>Messages</em> panel, you’ll be able to see some followers to message!</p>
+<blockquote>
+<div><div class="figure">
+<img alt="Select a follower from a dropdown list in the create-daml-app" src="../_images/create-daml-app-messaging-select-user.png" style="width: 508.0px; height: 252.0px;" />
+</div>
+</div></blockquote>
+<p>Send some messages between users and make sure you can see each one from the other side.
+You’ll notice that new messages appear in the UI as soon as they are sent (due to the <em>streaming</em> React hooks).</p>
+<blockquote>
+<div><div class="figure">
+<img alt="In the create-daml-app as soon as you send the message it will appear in the &quot;Messaging&quot; panel" src="../_images/create-daml-app-message-received.png" style="width: 512.0px; height: 266.0px;" />
+</div>
+</div></blockquote>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">You completed the second part of the Getting Started Guide! <a class="reference external" href="https://discuss.daml.com">Join our forum</a> and share a screenshot of your accomplishment to <a class="reference external" href="https://discuss.daml.com/badges/126/hey-look-what-i-can-do">get your second of 3 badges</a>! Get the third badge by <a class="reference external" href="https://daml.com/learn/getting-started/deploy-to-dabl/">deploying to Daml Hub</a></p>
+</div>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>We’ve gone through the process of setting up a full-stack Daml app and implementing a useful feature end to end.
+As the next step we encourage you to really dig into the fundamentals of Daml and understand its core concepts such as parties, signatories, observers, and controllers.
+You can do that either by <a class="reference internal" href="../daml/intro/0_Intro.html"><span class="doc">going through our docs</span></a> or by taking an <a class="reference external" href="https://daml.com/learn/fundamental-concepts">online course</a>.</p>
+<p>After you’ve got a good grip on these concepts learn <a class="reference internal" href="../app-dev/bindings-ts/testing.html"><span class="doc">how to conduct end-to-end testing of your app</span></a>.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="app-architecture.html" class="da-btn da-btn-label btn-prev" title="App Architecture" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../daml/intro/0_Intro.html" class="da-btn da-btn-label btn-next" title="An introduction to Daml" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

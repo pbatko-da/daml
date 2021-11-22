@@ -1,0 +1,89 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-tuple-87631:
+
+Module DA.Tuple
+===============
+
+Tuple \- Ubiquitous functions of tuples\.
+
+Functions
+---------
+
+.. _function-da-tuple-first-62604:
+
+`first <function-da-tuple-first-62604_>`_
+  \: (a \-\> a') \-\> (a, b) \-\> (a', b)
+  
+  The pair obtained from a pair by application of a programmer
+  supplied function to the argument pair's first field\.
+
+.. _function-da-tuple-second-76321:
+
+`second <function-da-tuple-second-76321_>`_
+  \: (b \-\> b') \-\> (a, b) \-\> (a, b')
+  
+  The pair obtained from a pair by application of a programmer
+  supplied function to the argument pair's second field\.
+
+.. _function-da-tuple-both-82162:
+
+`both <function-da-tuple-both-82162_>`_
+  \: (a \-\> b) \-\> (a, a) \-\> (b, b)
+  
+  The pair obtained from a pair by application of a programmer
+  supplied function to both the argument pair's first and second
+  fields\.
+
+.. _function-da-tuple-swap-61246:
+
+`swap <function-da-tuple-swap-61246_>`_
+  \: (a, b) \-\> (b, a)
+  
+  The pair obtained from a pair by permuting the order of the
+  argument pair's first and second fields\.
+
+.. _function-da-tuple-dupe-25831:
+
+`dupe <function-da-tuple-dupe-25831_>`_
+  \: a \-\> (a, a)
+  
+  Duplicate a single value into a pair\.
+  
+  > dupe 12 == (12, 12)
+
+.. _function-da-tuple-fst3-12617:
+
+`fst3 <function-da-tuple-fst3-12617_>`_
+  \: (a, b, c) \-\> a
+  
+  Extract the 'fst' of a triple\.
+
+.. _function-da-tuple-snd3-33047:
+
+`snd3 <function-da-tuple-snd3-33047_>`_
+  \: (a, b, c) \-\> b
+  
+  Extract the 'snd' of a triple\.
+
+.. _function-da-tuple-thd3-78096:
+
+`thd3 <function-da-tuple-thd3-78096_>`_
+  \: (a, b, c) \-\> c
+  
+  Extract the final element of a triple\.
+
+.. _function-da-tuple-curry3-33017:
+
+`curry3 <function-da-tuple-curry3-33017_>`_
+  \: ((a, b, c) \-\> d) \-\> a \-\> b \-\> c \-\> d
+  
+  Converts an uncurried function to a curried function\.
+
+.. _function-da-tuple-uncurry3-75854:
+
+`uncurry3 <function-da-tuple-uncurry3-75854_>`_
+  \: (a \-\> b \-\> c \-\> d) \-\> (a, b, c) \-\> d
+  
+  Converts a curried function to a function on a triple\.

@@ -1,0 +1,1069 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>IOU Quickstart Tutorial &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="Scala bindings" href="../bindings-scala/index.html" />
+  <link rel="prev" title="Example project" href="example.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../authorization.html">Authorization</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../ledger-api.html">The Ledger API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Java bindings</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="example.html">Ping Pong Example</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">IOU Quickstart Tutorial</a><ul>
+<li><a class="reference internal" href="#download-the-quickstart-application">Download the quickstart application</a><ul>
+<li><a class="reference internal" href="#folder-structure">Folder structure</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#overview-of-what-an-iou-is">Overview of what an IOU is</a></li>
+<li><a class="reference internal" href="#run-the-application-using-prototyping-tools">Run the application using prototyping tools</a></li>
+<li><a class="reference internal" href="#try-out-the-application">Try out the application</a></li>
+<li><a class="reference internal" href="#get-started-with-daml">Get started with Daml</a><ul>
+<li><a class="reference internal" href="#develop-with-daml-studio">Develop with Daml Studio</a></li>
+<li><a class="reference internal" href="#test-using-scenarios">Test using scenarios</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integrate-with-the-ledger">Integrate with the ledger</a></li>
+<li><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="iou-quickstart-tutorial">
+<span id="quickstart"></span><h1>IOU Quickstart Tutorial<a class="headerlink" href="#iou-quickstart-tutorial" title="Permalink to this headline">¶</a></h1>
+<p>In this guide, you will learn about developer tools and Daml applications by:</p>
+<ul class="simple">
+<li>developing a simple ledger application for issuing, managing, transferring and trading IOUs (“I Owe You!”)</li>
+<li>developing an integration layer that exposes some of the functionality via custom REST services</li>
+</ul>
+<p>Prerequisites:</p>
+<ul class="simple">
+<li>You understand what an IOU is. If you are not sure, read the <a class="reference internal" href="#tutorials-iou-overview"><span class="std std-ref">IOU tutorial overview</span></a>.</li>
+<li>You have installed the SDK. See <a class="reference internal" href="../../getting-started/installation.html"><span class="doc">installation</span></a>.</li>
+</ul>
+<div class="section" id="download-the-quickstart-application">
+<span id="quickstart-download"></span><h2>Download the quickstart application<a class="headerlink" href="#download-the-quickstart-application" title="Permalink to this headline">¶</a></h2>
+<p>You can get the quickstart application using the Daml assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>):</p>
+<ol class="arabic">
+<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">new</span> <span class="pre">quickstart</span> <span class="pre">--template</span> <span class="pre">quickstart-java</span></code></p>
+<p>This creates the <code class="docutils literal notranslate"><span class="pre">quickstart-java</span></code> application into a new folder called <code class="docutils literal notranslate"><span class="pre">quickstart</span></code>.</p>
+</li>
+<li><p class="first">Run <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">quickstart</span></code> to change into the new directory.</p>
+</li>
+</ol>
+<div class="section" id="folder-structure">
+<h3>Folder structure<a class="headerlink" href="#folder-structure" title="Permalink to this headline">¶</a></h3>
+<p>The project contains the following files:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── daml
+│   ├── Iou.daml
+│   ├── IouTrade.daml
+│   ├── Main.daml
+│   ├── Setup.daml
+│   └── Tests
+│       ├── Iou.daml
+│       └── Trade.daml
+├── daml.yaml
+├── frontend-config.js
+├── pom.xml
+└── src
+    └── main
+        ├── java
+        │   └── com
+        │       └── digitalasset
+        │           └── quickstart
+        │               └── iou
+        │                   └── IouMain.java
+        └── resources
+            └── logback.xml
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> is a Daml project config file used by the SDK to find out how to build the Daml project and how to run it.</li>
+<li><code class="docutils literal notranslate"><span class="pre">daml</span></code> contains the <a class="reference internal" href="#quickstart-daml"><span class="std std-ref">Daml code</span></a> specifying the contract model for the ledger.</li>
+<li><code class="docutils literal notranslate"><span class="pre">daml/Tests</span></code> contains <a class="reference internal" href="#quickstart-scenarios"><span class="std std-ref">test scenarios</span></a> for the Daml model.</li>
+<li><code class="docutils literal notranslate"><span class="pre">frontend-config.js</span></code> and <code class="docutils literal notranslate"><span class="pre">ui-backend.conf</span></code> are configuration files for the <a class="reference internal" href="#quickstart-navigator"><span class="std std-ref">Navigator</span></a> frontend.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pom.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">src/main/java</span></code> constitute a <a class="reference internal" href="#quickstart-application"><span class="std std-ref">Java application</span></a> that provides REST services to interact with the ledger.</li>
+</ul>
+<p>You will explore these in more detail through the rest of this guide.</p>
+</div>
+</div>
+<div class="section" id="overview-of-what-an-iou-is">
+<span id="tutorials-iou-overview"></span><h2>Overview of what an IOU is<a class="headerlink" href="#overview-of-what-an-iou-is" title="Permalink to this headline">¶</a></h2>
+<p>To run through this guide, you will need to understand what an IOU is. This section describes the properties of an IOU like a bank bill that make it useful as a representation and transfer of value.</p>
+<p>A bank bill represents a contract between the owner of the bill and its issuer, the central bank. Historically, it is a bearer instrument - it gives anyone who holds it the right to demand a fixed amount of material value, often gold, from the issuer in exchange for the note.</p>
+<p>To do this, the note must have certain properties. In particular, the British pound note shown below illustrates the key elements that are needed to describe money in Daml:</p>
+<div class="figure align-center">
+<img alt="../../_images/poundNote.jpg" src="../../_images/poundNote.jpg" />
+</div>
+<p><strong>1) The Legal Agreement</strong></p>
+<p>For a long time, money was backed by physical gold or silver stored in a central bank. The British pound note, for example, represented a promise by the central bank to provide a certain amount of gold or silver in exchange for the note. This historical artifact is still represented by the following statement:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">I</span> <span class="n">promise</span> <span class="n">to</span> <span class="n">pay</span> <span class="n">the</span> <span class="n">bearer</span> <span class="n">on</span> <span class="n">demand</span> <span class="n">the</span> <span class="nb">sum</span> <span class="n">of</span> <span class="n">five</span> <span class="n">pounds</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>The true value of the note comes from the fact that it physically represents a bearer right that is matched by an obligation on the issuer.</p>
+<p><strong>2) The Signature of the Counterparty</strong></p>
+<p>The value of a right described in a legal agreement is based on a matching obligation for a counterparty. The British pound note would be worthless if the central bank, as the issuer, did not recognize its obligation to provide a certain amount of gold or silver in exchange for the note. The chief cashier confirms this obligation by signing the note as a delegate for the Bank of England. In general, determining the parties that are involved in a contract is key to understanding its true value.</p>
+<p><strong>3) The Security Token</strong></p>
+<p>Another feature of the pound note is the security token embedded within the physical paper. It allows the note to be authenticated with limited effort by holding it against a light source. Even a third party can verify the note without requiring explicit confirmation from the issuer that it still acknowledges the associated obligations.</p>
+<p><strong>4) The Unique Identifier</strong></p>
+<p>Every note has a unique registration number that allows the issuer to track their obligations and detect duplicate bills. Once the issuer has fulfilled the obligations associated with a particular note, duplicates with the same identifier automatically become invalid.</p>
+<p><strong>5) The Distribution Mechanism</strong></p>
+<p>The note itself is printed on paper, and its legal owner is the person holding it. The physical form of the note allows the rights associated with it to be transferred to other parties that are not explicitly mentioned in the contract.</p>
+</div>
+<div class="section" id="run-the-application-using-prototyping-tools">
+<span id="quickstart-start"></span><h2>Run the application using prototyping tools<a class="headerlink" href="#run-the-application-using-prototyping-tools" title="Permalink to this headline">¶</a></h2>
+<p>In this section, you will run the quickstart application and get introduced to the main tools for prototyping Daml:</p>
+<ol class="arabic">
+<li><p class="first">To compile the Daml model, run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code></p>
+<p>This creates a <a class="reference internal" href="../../concepts/glossary.html#dar-file-dalf-file"><span class="std std-ref">DAR file</span></a> (DAR is just the format that Daml compiles to) called <code class="docutils literal notranslate"><span class="pre">.daml/dist/quickstart-0.0.1.dar</span></code>. The output should look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Created .daml/dist/quickstart-0.0.1.dar.
+</pre></div>
+</div>
+</li>
+<li id="quickstart-sandbox"><p class="first">To run the <a class="reference internal" href="../../tools/sandbox.html"><span class="doc">sandbox</span></a> (a lightweight local version of the ledger), run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">sandbox</span> <span class="pre">.daml/dist/quickstart-0.0.1.dar</span></code></p>
+<p>The output should look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>INFO: Slf4jLogger started
+INFO: Listening on localhost:6865 over plain text.
+   ____             ____
+  / __/__ ____  ___/ / /  ___ __ __
+ _\ \/ _ `/ _ \/ _  / _ \/ _ \\ \ /
+/___/\_,_/_//_/\_,_/_.__/\___/_\_\
+
+INFO: Initialized sandbox version 1.6.0 with ledger-id = 3528b0dd-069b-420c-9df4-4af6b8fd4f47, port = 6865, dar file = List(.daml/dist/quickstart-0.0.1.dar), time mode = wall-clock time, ledger = in-memory, auth-service = AuthServiceWildcard$, contract ids seeding = strong
+</pre></div>
+</div>
+<p>The sandbox is now running, and you can access its <a class="reference internal" href="../ledger-api.html"><span class="doc">ledger API</span></a> on port <code class="docutils literal notranslate"><span class="pre">6865</span></code>.</p>
+</li>
+<li id="quickstart-script"><p class="first">Open a new terminal window and navigate to your project directory, <code class="docutils literal notranslate"><span class="pre">quickstart</span></code>.</p>
+</li>
+<li><p class="first">To initialize the ledger with some parties and contracts we use <a class="reference internal" href="../../daml-script/index.html"><span class="doc">Daml Script</span></a> by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">script</span> <span class="pre">--dar</span> <span class="pre">.daml/dist/quickstart-0.0.1.dar</span> <span class="pre">--script-name</span> <span class="pre">Main:initialize</span> <span class="pre">--ledger-host</span> <span class="pre">localhost</span> <span class="pre">--ledger-port</span> <span class="pre">6865</span> <span class="pre">--static-time</span></code></p>
+</li>
+<li id="quickstart-navigator"><p class="first">Start the <a class="reference internal" href="../../tools/navigator/index.html"><span class="doc">Navigator</span></a>, a browser-based ledger front-end, by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">navigator</span> <span class="pre">server</span></code></p>
+<p>The Navigator automatically connects the sandbox. You can access it on port <code class="docutils literal notranslate"><span class="pre">4000</span></code>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="try-out-the-application">
+<span id="quickstart-work"></span><h2>Try out the application<a class="headerlink" href="#try-out-the-application" title="Permalink to this headline">¶</a></h2>
+<p>Now everything is running, you can try out the quickstart application:</p>
+<ol class="arabic">
+<li><p class="first">Go to <a class="reference external" href="http://localhost:4000/">http://localhost:4000/</a>. This is the Navigator, which you launched <a class="reference internal" href="#quickstart-navigator"><span class="std std-ref">earlier</span></a>.</p>
+</li>
+<li><p class="first">On the login screen, select <strong>Alice</strong> from the dropdown. This logs you in as Alice.</p>
+<p>(The list of available parties is specified in the <code class="docutils literal notranslate"><span class="pre">ui-backend.conf</span></code> file.)</p>
+<p>This takes you to the contracts view:</p>
+<div class="figure">
+<img alt="../../_images/contracts.png" src="../../_images/contracts.png" />
+</div>
+<p>This is showing you what contracts are currently active on the sandbox ledger and visible to <em>Alice</em>. You can see that there is a single such contract, in our case with Id <code class="docutils literal notranslate"><span class="pre">#9:1</span></code>, created from a <em>template</em> called <code class="docutils literal notranslate"><span class="pre">Iou:Iou&#64;ffb...</span></code>.</p>
+<p>Your contract ID may vary. There’s a lot going on in a Daml ledger, so things could have happened in a different order, or other internal ledger events might have occurred. The actual value doesn’t matter. We’ll refer to this contract as <code class="docutils literal notranslate"><span class="pre">#9:1</span></code> in the rest of this document, and you’ll need to substitute your own value mentally.</p>
+</li>
+<li><p class="first">On the left-hand side, you can see what the pages the Navigator contains:</p>
+<ul class="simple">
+<li>Contracts</li>
+<li>Templates</li>
+<li>Issued Ious</li>
+<li>Owned Ious</li>
+<li>Iou Transfers</li>
+<li>Trades</li>
+</ul>
+<p><strong>Contracts</strong> and <strong>Templates</strong> are standard views, available in any application. The others are created just for this application, specified in the <code class="docutils literal notranslate"><span class="pre">frontend-config.js</span></code> file.</p>
+<p>For information on creating custom Navigator views, see <a class="reference internal" href="../../tools/navigator/index.html#navigator-custom-views"><span class="std std-ref">Customizable table views</span></a>.</p>
+</li>
+<li><p class="first">Click <strong>Templates</strong> to open the Templates page.</p>
+<p>This displays all available <em>contract templates</em>. Instances of contracts (or just <em>contracts</em>) are created from these templates. The names of the templates are of the format <cite>module.template&#64;hash</cite>. Including the hash disambiguates templates, even when identical module and template names are used between packages.</p>
+<p>On the far right, you see the number of <em>contracts</em> that you can see for each template.</p>
+</li>
+<li><p class="first">Try creating a contract from a template. Issue an Iou to yourself by clicking on the <code class="docutils literal notranslate"><span class="pre">Iou:Iou</span></code> row, filling it out as shown below and clicking <strong>Submit</strong>.</p>
+<div class="figure">
+<img alt="../../_images/createIou.png" src="../../_images/createIou.png" />
+</div>
+</li>
+<li><p class="first">On the left-hand side, click <strong>Issued Ious</strong> to go to that page. You can see the Iou you just issued yourself.</p>
+</li>
+<li><p class="first">Now, try transferring this Iou to someone else. Click on your Iou, select <strong>Iou_Transfer</strong>, enter <em>Bob</em> as the new owner and hit <strong>Submit</strong>.</p>
+</li>
+<li><p class="first">Go to the <strong>Owned Ious</strong> page.</p>
+<p>The screen shows the same contract <code class="docutils literal notranslate"><span class="pre">#9:1</span></code> that you already saw on the <em>Contracts</em> page. It is an Iou for €100, issued by <em>EUR_Bank</em>.</p>
+</li>
+<li><p class="first">Go to the <strong>Iou Transfers</strong> page. It shows the transfer of your recently issued Iou to Bob, but Bob has not accepted the transfer, so it is not settled.</p>
+<p>This is an important part of Daml: nobody can be forced into owning an <em>Iou</em>, or indeed agreeing to any other contract. They must explicitly consent.</p>
+<p>You could cancel the transfer by using the <em>IouTransfer_Cancel</em> choice within it, but for this walk-through, leave it alone for the time being.</p>
+</li>
+<li><p class="first">Try asking <em>Bob</em> to exchange your €100 for $110. To do so, you first have to show your Iou to <em>Bob</em> so that he can verify the settlement transaction, should he accept the proposal.</p>
+<p>Go back to <em>Owned Ious</em>, open the Iou for €100 and click on the button <em>Iou_AddObserver</em>. Submit <em>Bob</em> as the <em>newObserver</em>.</p>
+<p>Contracts in Daml are immutable, meaning they cannot be changed, only created and archived. If you head back to the <strong>Owned Ious</strong> screen, you can see that the Iou now has a new Contract ID. In our case, it’s <cite>#13:1</cite>.</p>
+</li>
+<li><p class="first">To propose the trade, go to the <strong>Templates</strong> screen. Click on the <em>IouTrade:IouTrade</em> template, fill in the form as shown below and submit the transaction.</p>
+<div class="figure">
+<img alt="../../_images/tradeProp.png" src="../../_images/tradeProp.png" />
+</div>
+</li>
+<li><p class="first">Go to the <strong>Trades</strong> page. It shows the just-proposed trade.</p>
+</li>
+<li><p class="first">You are now going to switch user to Bob, so you can accept the trades you have just proposed. Start by clicking on the logout button next to the username, at the top of the screen. On the login page, select <strong>Bob</strong> from the dropdown.</p>
+</li>
+<li><p class="first">First, accept the transfer of the <em>AliceCoin</em>. Go to the <strong>Iou Transfers</strong> page, click on the row of the transfer, and click <strong>IouTransfer_Accept</strong>, then <strong>Submit</strong>.</p>
+</li>
+<li><p class="first">Go to the <strong>Owned Ious</strong> page. It now shows the <em>AliceCoin</em>.</p>
+<p>It also shows an <em>Iou</em> for $110 issued by <em>USD_Bank</em>. This matches the trade proposal you made earlier as Alice.</p>
+<p>Note its <em>Contract Id</em>.</p>
+</li>
+<li><p class="first">Settle the trade. Go to the <strong>Trades</strong> page, and click on the row of the proposal. Accept the trade by clicking <strong>IouTrade_Accept</strong>. In the popup, enter the Contract ID you just noted as the <em>quoteIouCid</em>, then click <strong>Submit</strong>.</p>
+<p>The two legs of the transfer are now settled atomically in a single transaction. The trade either fails or succeeds as a whole.</p>
+</li>
+<li><p class="first">Privacy is an important feature of Daml. You can check that Alice and Bob’s privacy relative to the Banks was preserved.</p>
+<p>To do this, log out, then log in as <strong>USD_Bank</strong>.</p>
+<p>On the <strong>Contracts</strong> page, select <strong>Include archived</strong>. The page now shows all the contracts that <em>USD_Bank</em> has ever known about.</p>
+<p>There are just five contracts:</p>
+<ul class="simple">
+<li>Three contracts created on startup:<ol class="arabic">
+<li>A self-issued <em>Iou</em> for $110.</li>
+<li>The <em>IouTransfer</em> to transfer that <em>Iou</em> to Bob</li>
+<li>The resulting <em>Iou</em> owned by Bob.</li>
+</ol>
+</li>
+<li>The transfer of Bob’s <em>Iou</em> to Alice that happened as part of the trade.
+Note that this is a transient contract that got archived in the same transaction
+it got created in.</li>
+<li>The new $110 <em>Iou</em> owned by Alice. This is the only active contract.</li>
+</ul>
+<p>USD_Bank does not know anything about the trade or the EUR-leg. For more information on privacy, refer to the <a class="reference internal" href="../../concepts/ledger-model/index.html#da-ledgers"><span class="std std-ref">Daml Ledger Model</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>USD_Bank</em> does know about an intermediate <em>IouTransfer</em> contract that was created and consumed as part of the atomic settlement in the previous step. Since that contract was never active on the ledger, it is not shown in Navigator. You will see how to view a complete transaction graph, including who knows what, in <a class="reference internal" href="#quickstart-scenarios"><span class="std std-ref">Test using scenarios</span></a> below.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="get-started-with-daml">
+<span id="quickstart-daml"></span><h2>Get started with Daml<a class="headerlink" href="#get-started-with-daml" title="Permalink to this headline">¶</a></h2>
+<p>The <em>contract model</em> specifies the possible contracts, as well as the allowed transactions on the ledger, and is written in Daml.</p>
+<p>The core concept in Daml is a <em>contract template</em> - you used them earlier to create contracts. Contract templates specify:</p>
+<ul class="simple">
+<li>a type of contract that may exist on the ledger, including a corresponding data type</li>
+<li>the <em>signatories</em>, who need to agree to the <em>creation</em> of a contract of that type</li>
+<li>the <em>rights</em> or <em>choices</em> given to parties by a contract of that type</li>
+<li>constraints or conditions on the data on a contract</li>
+<li>additional parties, called observers, who can see the contract</li>
+</ul>
+<p>For more information about Daml Ledgers, consult <a class="reference internal" href="../../concepts/ledger-model/index.html#da-ledgers"><span class="std std-ref">Daml Ledger Model</span></a> for an in-depth technical description.</p>
+<div class="section" id="develop-with-daml-studio">
+<h3>Develop with Daml Studio<a class="headerlink" href="#develop-with-daml-studio" title="Permalink to this headline">¶</a></h3>
+<p>Take a look at the Daml that specifies the contract model in the quickstart application. The core template is <code class="docutils literal notranslate"><span class="pre">Iou</span></code>.</p>
+<ol class="arabic simple">
+<li>Open <a class="reference internal" href="../../daml/daml-studio.html"><span class="doc">Daml Studio</span></a>, a Daml IDE based on VS Code, by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">studio</span></code> from the root of your project.</li>
+<li>Using the explorer on the left, open <code class="docutils literal notranslate"><span class="pre">daml/Iou.daml</span></code>.</li>
+</ol>
+<p>The first two lines specify language version and module name:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">Iou</span> <span class="kr">where</span>
+</pre></div>
+</div>
+<p>Next, a template called <cite>Iou</cite> is declared together with its datatype. This template has five fields:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Iou</span>
+  <span class="kr">with</span>
+    <span class="n">issuer</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="n">observers</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Party</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Conditions for the creation of a contract are specified using the <cite>ensure</cite> and <cite>signatory</cite> keywords:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">ensure</span> <span class="n">amount</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+
+    <span class="kr">signatory</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span>
+</pre></div>
+</div>
+<p>In this case, there are two conditions:</p>
+<ul class="simple">
+<li>An <code class="docutils literal notranslate"><span class="pre">Iou</span></code> can only be created if it is authorized by both <code class="docutils literal notranslate"><span class="pre">issuer</span></code> and <code class="docutils literal notranslate"><span class="pre">owner</span></code>.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">amount</span></code> needs to be positive.</li>
+</ul>
+<p>Earlier, as Alice, you authorized the creation of an <code class="docutils literal notranslate"><span class="pre">Iou</span></code>. The <code class="docutils literal notranslate"><span class="pre">amount</span></code> was <code class="docutils literal notranslate"><span class="pre">100.0</span></code>, and Alice as both <code class="docutils literal notranslate"><span class="pre">issuer</span></code> and <code class="docutils literal notranslate"><span class="pre">owner</span></code>, so both conditions were satisfied, and you could successfully create the contract.</p>
+<p>To see this in action, go back to the Navigator and try to create the same <code class="docutils literal notranslate"><span class="pre">Iou</span></code> again, but with Bob as <code class="docutils literal notranslate"><span class="pre">owner</span></code>. It will not work.</p>
+<p>Observers are specified using the <code class="docutils literal notranslate"><span class="pre">observer</span></code> keyword:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">observer</span> <span class="n">observers</span>
+</pre></div>
+</div>
+<p>Next, <em>rights</em> or <em>choices</em> are given to <code class="docutils literal notranslate"><span class="pre">owner</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">controller</span> <span class="n">owner</span> <span class="kr">can</span>
+      <span class="kt">Iou_Transfer</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">IouTransfer</span>
+        <span class="kr">with</span>
+          <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+        <span class="kr">do</span> <span class="n">create</span> <span class="kt">IouTransfer</span> <span class="kr">with</span> <span class="n">iou</span> <span class="ow">=</span> <span class="kr">this</span><span class="p">;</span> <span class="n">newOwner</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">controller</span> <span class="pre">owner</span> <span class="pre">can</span></code> starts the block. In this case, <code class="docutils literal notranslate"><span class="pre">owner</span></code> has the right to:</p>
+<ul class="simple">
+<li>split the Iou</li>
+<li>merge it with another one differing only on <code class="docutils literal notranslate"><span class="pre">amount</span></code></li>
+<li>initiate a transfer</li>
+<li>add and remove observers</li>
+</ul>
+<p>The  <code class="docutils literal notranslate"><span class="pre">Iou_Transfer</span></code> choice above takes a parameter called <code class="docutils literal notranslate"><span class="pre">newOwner</span></code> and creates a new <code class="docutils literal notranslate"><span class="pre">IouTransfer</span></code> contract and returns its <code class="docutils literal notranslate"><span class="pre">ContractId</span></code>. It is important to know that, by default, choices <em>consume</em> the contract on which they are exercised. Consuming, or archiving, makes the contract no longer active. So the <code class="docutils literal notranslate"><span class="pre">IouTransfer</span></code> replaces the <code class="docutils literal notranslate"><span class="pre">Iou</span></code>.</p>
+<p>A more interesting choice is <code class="docutils literal notranslate"><span class="pre">IouTrade_Accept</span></code>. To look at it, open <code class="docutils literal notranslate"><span class="pre">IouTrade.daml</span></code>.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">controller</span> <span class="n">seller</span> <span class="kr">can</span>
+      <span class="kt">IouTrade_Accept</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">IouCid</span><span class="p">,</span> <span class="kt">IouCid</span><span class="p">)</span>
+        <span class="kr">with</span>
+          <span class="n">quoteIouCid</span> <span class="kt">:</span> <span class="kt">IouCid</span>
+        <span class="kr">do</span>
+          <span class="n">baseIou</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">baseIouCid</span>
+          <span class="n">baseIssuer</span> <span class="o">===</span> <span class="n">baseIou</span><span class="o">.</span><span class="n">issuer</span>
+          <span class="n">baseCurrency</span> <span class="o">===</span> <span class="n">baseIou</span><span class="o">.</span><span class="n">currency</span>
+          <span class="n">baseAmount</span> <span class="o">===</span> <span class="n">baseIou</span><span class="o">.</span><span class="n">amount</span>
+          <span class="n">buyer</span> <span class="o">===</span> <span class="n">baseIou</span><span class="o">.</span><span class="n">owner</span>
+          <span class="n">quoteIou</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">quoteIouCid</span>
+          <span class="n">quoteIssuer</span> <span class="o">===</span> <span class="n">quoteIou</span><span class="o">.</span><span class="n">issuer</span>
+          <span class="n">quoteCurrency</span> <span class="o">===</span> <span class="n">quoteIou</span><span class="o">.</span><span class="n">currency</span>
+          <span class="n">quoteAmount</span> <span class="o">===</span> <span class="n">quoteIou</span><span class="o">.</span><span class="n">amount</span>
+          <span class="n">seller</span> <span class="o">===</span> <span class="n">quoteIou</span><span class="o">.</span><span class="n">owner</span>
+          <span class="n">quoteIouTransferCid</span> <span class="ow">&lt;-</span> <span class="n">exercise</span> <span class="n">quoteIouCid</span> <span class="kt">Iou_Transfer</span> <span class="kr">with</span>
+            <span class="n">newOwner</span> <span class="ow">=</span> <span class="n">buyer</span>
+          <span class="n">transferredQuoteIouCid</span> <span class="ow">&lt;-</span> <span class="n">exercise</span> <span class="n">quoteIouTransferCid</span> <span class="kt">IouTransfer_Accept</span>
+          <span class="n">baseIouTransferCid</span> <span class="ow">&lt;-</span> <span class="n">exercise</span> <span class="n">baseIouCid</span> <span class="kt">Iou_Transfer</span> <span class="kr">with</span>
+            <span class="n">newOwner</span> <span class="ow">=</span> <span class="n">seller</span>
+          <span class="n">transferredBaseIouCid</span> <span class="ow">&lt;-</span> <span class="n">exercise</span> <span class="n">baseIouTransferCid</span> <span class="kt">IouTransfer_Accept</span>
+          <span class="kr">return</span> <span class="p">(</span><span class="n">transferredQuoteIouCid</span><span class="p">,</span> <span class="n">transferredBaseIouCid</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This choice uses the <code class="docutils literal notranslate"><span class="pre">===</span></code> operator from the <a class="reference internal" href="../../daml/stdlib/index.html"><span class="doc">Daml Standard Library</span></a> to check pre-conditions. The standard library is imported using <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">DA.Assert</span></code> at the top of the module.</p>
+<p>Then, it <em>composes</em> the <code class="docutils literal notranslate"><span class="pre">Iou_Transfer</span></code> and <code class="docutils literal notranslate"><span class="pre">IouTransfer_Accept</span></code> choices to build one big transaction. In this transaction, <code class="docutils literal notranslate"><span class="pre">buyer</span></code> and <code class="docutils literal notranslate"><span class="pre">seller</span></code> exchange their Ious atomically, without disclosing the entire transaction to all parties involved.</p>
+<p>The <em>Issuers</em> of the two Ious, which are involved in the transaction because they are signatories on the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> and <code class="docutils literal notranslate"><span class="pre">IouTransfer</span></code> contracts, only get to see the sub-transactions that concern them, as we saw earlier.</p>
+<p>For a deeper introduction to Daml, consult the <a class="reference internal" href="../../daml/reference/index.html"><span class="doc">Daml Reference</span></a>.</p>
+</div>
+<div class="section" id="test-using-scenarios">
+<span id="quickstart-scenarios"></span><h3>Test using scenarios<a class="headerlink" href="#test-using-scenarios" title="Permalink to this headline">¶</a></h3>
+<p>You can check the correct authorization and privacy of a contract model using <em>scenarios</em>: tests that are written in Daml.</p>
+<p>Scenarios are a linear sequence of transactions that is evaluated using the same consistency, conformance and authorization rules as it would be on the full ledger server or the sandbox ledger. They are integrated into Daml Studio, which can show you the resulting transaction graph, making them a powerful tool to test and troubleshoot the contract model.</p>
+<p>To take a look at the scenarios in the quickstart application, open <code class="docutils literal notranslate"><span class="pre">daml/Tests/Trade.daml</span></code> in Daml Studio.</p>
+<p>A scenario test is defined with <code class="docutils literal notranslate"><span class="pre">trade_test</span> <span class="pre">=</span> <span class="pre">scenario</span> <span class="pre">do</span></code>. The <code class="docutils literal notranslate"><span class="pre">submit</span></code> function takes a submitting party and a transaction, which is specified the same way as in contract choices.</p>
+<p>The following block, for example, issues an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> and transfers it to Alice:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="c1">-- Banks issue IOU transfers.</span>
+  <span class="n">iouTransferAliceCid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">eurBank</span> <span class="kr">do</span>
+    <span class="n">createAndExerciseCmd</span>
+      <span class="kt">Iou</span> <span class="kr">with</span>
+        <span class="n">issuer</span> <span class="ow">=</span> <span class="n">eurBank</span>
+        <span class="n">owner</span> <span class="ow">=</span> <span class="n">eurBank</span>
+        <span class="n">currency</span> <span class="ow">=</span> <span class="s">&quot;EUR&quot;</span>
+        <span class="n">amount</span> <span class="ow">=</span> <span class="mf">100.0</span>
+</pre></div>
+</div>
+<p>Compare the scenario with the <code class="docutils literal notranslate"><span class="pre">setup</span></code> scenario in <code class="docutils literal notranslate"><span class="pre">daml/Main.daml</span></code>. You will see that the scenario you used to initialize the sandbox is an initial segment of the <code class="docutils literal notranslate"><span class="pre">trade_test</span></code> scenario. The latter adds transactions to perform the trade you performed through Navigator, and a couple of transactions in which expectations are verified.</p>
+<p>After a short time, the text <em>Scenario results</em> should appear above the test. Click on it to open the visualization of the resulting ledger state.</p>
+<div class="figure">
+<img alt="../../_images/ledger.png" src="../../_images/ledger.png" />
+</div>
+<p>Each row shows a contract on the ledger. The first four columns show which parties know of which contracts. The remaining columns show the data on the contracts. You can see past contracts by checking the <strong>Show archived</strong> box at the top. Click the adjacent <strong>Show transaction view</strong> button to switch to a view of the entire transaction tree.</p>
+<p>In the transaction view, transaction <code class="docutils literal notranslate"><span class="pre">#6</span></code> is of particular interest, as it shows how the Ious are exchanged atomically in one transaction. The lines starting <code class="docutils literal notranslate"><span class="pre">known</span> <span class="pre">to</span> <span class="pre">(since)</span></code> show that the Banks do indeed not know anything they should not:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TX #6 1970-01-01T00:00:00Z (Tests.Trade:61:14)
+#6:0
+│   known to (since): &#39;Alice&#39; (#6), &#39;Bob&#39; (#6)
+└─&gt; &#39;Bob&#39; exercises IouTrade_Accept on #5:0 (IouTrade:IouTrade)
+          with
+            quoteIouCid = #3:1
+    children:
+    #6:1
+    │   known to (since): &#39;Alice&#39; (#6), &#39;Bob&#39; (#6)
+    └─&gt; fetch #4:1 (Iou:Iou)
+
+    #6:2
+    │   known to (since): &#39;Alice&#39; (#6), &#39;Bob&#39; (#6)
+    └─&gt; fetch #3:1 (Iou:Iou)
+
+    #6:3
+    │   known to (since): &#39;Bob&#39; (#6), &#39;USD_Bank&#39; (#6), &#39;Alice&#39; (#6)
+    └─&gt; &#39;Bob&#39; exercises Iou_Transfer on #3:1 (Iou:Iou)
+              with
+                newOwner = &#39;Alice&#39;
+        children:
+        #6:4
+        │   consumed by: #6:5
+        │   referenced by #6:5
+        │   known to (since): &#39;Bob&#39; (#6), &#39;USD_Bank&#39; (#6), &#39;Alice&#39; (#6)
+        └─&gt; create Iou:IouTransfer
+            with
+              iou =
+                (Iou:Iou with
+                   issuer = &#39;USD_Bank&#39;;
+                   owner = &#39;Bob&#39;;
+                   currency = &quot;USD&quot;;
+                   amount = 110.0;
+                   observers = []);
+              newOwner = &#39;Alice&#39;
+
+    #6:5
+    │   known to (since): &#39;Bob&#39; (#6), &#39;USD_Bank&#39; (#6), &#39;Alice&#39; (#6)
+    └─&gt; &#39;Alice&#39; exercises IouTransfer_Accept on #6:4 (Iou:IouTransfer)
+                with
+        children:
+        #6:6
+        │   referenced by #7:0
+        │   known to (since): &#39;Alice&#39; (#6), &#39;USD_Bank&#39; (#6), &#39;Bob&#39; (#6)
+        └─&gt; create Iou:Iou
+            with
+              issuer = &#39;USD_Bank&#39;;
+              owner = &#39;Alice&#39;;
+              currency = &quot;USD&quot;;
+              amount = 110.0;
+              observers = []
+
+    #6:7
+    │   known to (since): &#39;Alice&#39; (#6), &#39;EUR_Bank&#39; (#6), &#39;Bob&#39; (#6)
+    └─&gt; &#39;Alice&#39; exercises Iou_Transfer on #4:1 (Iou:Iou)
+                with
+                  newOwner = &#39;Bob&#39;
+        children:
+        #6:8
+        │   consumed by: #6:9
+        │   referenced by #6:9
+        │   known to (since): &#39;Alice&#39; (#6), &#39;EUR_Bank&#39; (#6), &#39;Bob&#39; (#6)
+        └─&gt; create Iou:IouTransfer
+            with
+              iou =
+                (Iou:Iou with
+                   issuer = &#39;EUR_Bank&#39;;
+                   owner = &#39;Alice&#39;;
+                   currency = &quot;EUR&quot;;
+                   amount = 100.0;
+                   observers = [&#39;Bob&#39;]);
+              newOwner = &#39;Bob&#39;
+
+    #6:9
+    │   known to (since): &#39;Alice&#39; (#6), &#39;EUR_Bank&#39; (#6), &#39;Bob&#39; (#6)
+    └─&gt; &#39;Bob&#39; exercises IouTransfer_Accept on #6:8 (Iou:IouTransfer)
+              with
+        children:
+        #6:10
+        │   referenced by #8:0
+        │   known to (since): &#39;Bob&#39; (#6), &#39;EUR_Bank&#39; (#6), &#39;Alice&#39; (#6)
+        └─&gt; create Iou:Iou
+            with
+              issuer = &#39;EUR_Bank&#39;; owner = &#39;Bob&#39;; currency = &quot;EUR&quot;; amount = 100.0; observers = []
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">submit</span></code> function used in this scenario tries to perform a transaction and fails if any of the ledger integrity rules are violated. There is also a <code class="docutils literal notranslate"><span class="pre">submitMustFail</span></code> function, which checks that certain transactions are not possible. This is used in <code class="docutils literal notranslate"><span class="pre">daml/Tests/Iou.daml</span></code>, for example, to confirm that the ledger model prevents double spends.</p>
+</div>
+</div>
+<div class="section" id="integrate-with-the-ledger">
+<span id="quickstart-application"></span><h2>Integrate with the ledger<a class="headerlink" href="#integrate-with-the-ledger" title="Permalink to this headline">¶</a></h2>
+<p>A distributed ledger only forms the core of a full Daml application.</p>
+<p>To build automations and integrations around the ledger, Daml Connect has <a class="reference internal" href="index.html"><span class="doc">language bindings</span></a> for the Ledger API in several programming languages.</p>
+<p>To compile the Java integration for the quickstart application, we first need to run the Java codegen on the DAR we built before:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">daml</span> <span class="n">codegen</span> <span class="n">java</span>
+</pre></div>
+</div>
+<p>Once the code has been generated, we can now compile it using <code class="docutils literal notranslate"><span class="pre">mvn</span> <span class="pre">compile</span></code>.</p>
+<p>Now start the Java integration with <code class="docutils literal notranslate"><span class="pre">mvn</span> <span class="pre">exec:java&#64;run-quickstart</span></code>. Note that
+this step requires that the sandbox started <a class="reference internal" href="#quickstart-sandbox"><span class="std std-ref">earlier</span></a> is running.</p>
+<p>The application provides REST services on port <code class="docutils literal notranslate"><span class="pre">8080</span></code> to perform basic operations on behalf on <code class="docutils literal notranslate"><span class="pre">Alice</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>To start the same application on another port, use the command-line parameter <code class="docutils literal notranslate"><span class="pre">-Drestport=PORT</span></code>. To start it for another party,  use  <code class="docutils literal notranslate"><span class="pre">-Dparty=PARTY</span></code>.</p>
+<p class="last">For example, to start the application for Bob on <code class="docutils literal notranslate"><span class="pre">8081</span></code>, run <code class="docutils literal notranslate"><span class="pre">mvn</span> <span class="pre">exec:java&#64;run-quickstart</span> <span class="pre">-Drestport=8081</span> <span class="pre">-Dparty=Bob</span></code></p>
+</div>
+<p>The following REST services are included:</p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">GET</span></code> on <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/iou</span></code> lists all active Ious, and their Ids.</p>
+<p>Note that the Ids exposed by the REST API are not the ledger contract Ids, but integers. You can open the address in your browser or run <code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">GET</span> <span class="pre">http://localhost:8080/iou</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">GET</span></code> on <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/iou/ID</span></code> returns the Iou with Id <code class="docutils literal notranslate"><span class="pre">ID</span></code>.</p>
+<p>For example, to get the content of the Iou with Id 0, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">GET</span> <span class="pre">http://localhost:8080/iou/0</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">PUT</span></code> on <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/iou</span></code> creates a new Iou on the ledger.</p>
+<p>To create another <em>AliceCoin</em>, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">PUT</span> <span class="pre">-d</span> <span class="pre">'{&quot;issuer&quot;:&quot;Alice&quot;,&quot;owner&quot;:&quot;Alice&quot;,&quot;currency&quot;:&quot;AliceCoin&quot;,&quot;amount&quot;:1.0,&quot;observers&quot;:[]}'</span> <span class="pre">http://localhost:8080/iou</span></code></p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">POST</span></code> on <code class="docutils literal notranslate"><span class="pre">http://localhost:8080/iou/ID/transfer</span></code> transfers the Iou with Id <code class="docutils literal notranslate"><span class="pre">ID</span></code>.</p>
+<p>Check the Id of your new <em>AliceCoin</em> by listing all active Ious. If you have followed this guide, it will be <code class="docutils literal notranslate"><span class="pre">0</span></code> so you can run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">curl</span> <span class="pre">-X</span> <span class="pre">POST</span> <span class="pre">-d</span> <span class="pre">'{</span> <span class="pre">&quot;newOwner&quot;:&quot;Bob&quot;</span> <span class="pre">}'</span> <span class="pre">http://localhost:8080/iou/0/transfer</span></code></p>
+<p>to transfer it to Bob. If it’s not <code class="docutils literal notranslate"><span class="pre">0</span></code>, just replace the <code class="docutils literal notranslate"><span class="pre">0</span></code> in <code class="docutils literal notranslate"><span class="pre">iou/0</span></code> in the above command.</p>
+</li>
+</ul>
+<p>The automation is based on the <a class="reference internal" href="index.html"><span class="doc">Java bindings</span></a> and the output of the <a class="reference internal" href="codegen.html"><span class="doc">Java code generator</span></a>, which are included as a Maven dependency and Maven plugin respectively:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>com.daml<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>bindings-rxjava<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>__VERSION__<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;exclusions&gt;</span>
+                <span class="nt">&lt;exclusion&gt;</span>
+                    <span class="nt">&lt;groupId&gt;</span>com.google.protobuf<span class="nt">&lt;/groupId&gt;</span>
+                    <span class="nt">&lt;artifactId&gt;</span>protobuf-lite<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;/exclusion&gt;</span>
+            <span class="nt">&lt;/exclusions&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+</pre></div>
+</div>
+<p>It consists of the application in file <code class="docutils literal notranslate"><span class="pre">IouMain.java</span></code>. It uses the class <code class="docutils literal notranslate"><span class="pre">Iou</span></code> from <code class="docutils literal notranslate"><span class="pre">Iou.java</span></code>, which is generated from the Daml model with the Java code generator. The <code class="docutils literal notranslate"><span class="pre">Iou</span></code> class provides better serialization and de-serialization to JSON via <a class="reference external" href="https://github.com/google/gson">gson</a>.</p>
+<ol class="arabic">
+<li><p class="first">A connection to the ledger is established using a <code class="docutils literal notranslate"><span class="pre">LedgerClient</span></code> object.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Create a client object to access services on the ledger.</span>
+<span class="n">DamlLedgerClient</span> <span class="n">client</span> <span class="o">=</span> <span class="n">DamlLedgerClient</span><span class="p">.</span><span class="na">newBuilder</span><span class="p">(</span><span class="n">ledgerhost</span><span class="p">,</span> <span class="n">ledgerport</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+
+<span class="c1">// Connects to the ledger and runs initial validation.</span>
+<span class="n">client</span><span class="p">.</span><span class="na">connect</span><span class="p">();</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">An in-memory contract store is initialized. This is intended to provide a live view of all active contracts, with mappings between ledger and external Ids.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">ConcurrentHashMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span> <span class="n">Iou</span><span class="o">&gt;</span> <span class="n">contracts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">BiMap</span><span class="o">&lt;</span><span class="n">Long</span><span class="p">,</span> <span class="n">Iou</span><span class="p">.</span><span class="na">ContractId</span><span class="o">&gt;</span> <span class="n">idMap</span> <span class="o">=</span> <span class="n">Maps</span><span class="p">.</span><span class="na">synchronizedBiMap</span><span class="p">(</span><span class="n">HashBiMap</span><span class="p">.</span><span class="na">create</span><span class="p">());</span>
+<span class="n">AtomicReference</span><span class="o">&lt;</span><span class="n">LedgerOffset</span><span class="o">&gt;</span> <span class="n">acsOffset</span> <span class="o">=</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The Active Contracts Service (ACS) is used to quickly build up the contract store to a recent state.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span>    <span class="p">.</span><span class="na">getActiveContractSetClient</span><span class="p">()</span>
+    <span class="p">.</span><span class="na">getActiveContracts</span><span class="p">(</span><span class="n">iouFilter</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">blockingForEach</span><span class="p">(</span>
+        <span class="n">response</span> <span class="o">-&gt;</span> <span class="p">{</span>
+          <span class="n">response</span>
+              <span class="p">.</span><span class="na">getOffset</span><span class="p">()</span>
+              <span class="p">.</span><span class="na">ifPresent</span><span class="p">(</span><span class="n">offset</span> <span class="o">-&gt;</span> <span class="n">acsOffset</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="k">new</span> <span class="n">LedgerOffset</span><span class="p">.</span><span class="na">Absolute</span><span class="p">(</span><span class="n">offset</span><span class="p">)));</span>
+          <span class="n">response</span><span class="p">.</span><span class="na">getCreatedEvents</span><span class="p">().</span><span class="na">stream</span><span class="p">()</span>
+              <span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">Iou</span><span class="p">.</span><span class="na">Contract</span><span class="p">::</span><span class="n">fromCreatedEvent</span><span class="p">)</span>
+              <span class="p">.</span><span class="na">forEach</span><span class="p">(</span>
+                  <span class="n">contract</span> <span class="o">-&gt;</span> <span class="p">{</span>
+                    <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">idCounter</span><span class="p">.</span><span class="na">getAndIncrement</span><span class="p">();</span>
+                    <span class="n">contracts</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">contract</span><span class="p">.</span><span class="na">data</span><span class="p">);</span>
+                    <span class="n">idMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">contract</span><span class="p">.</span><span class="na">id</span><span class="p">);</span>
+                  <span class="p">});</span>
+        <span class="p">});</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">blockingForEach</span></code> is used to ensure that the contract store is consistent with the ledger state at the latest offset observed by the client.</p>
+</li>
+<li><p class="first">The Transaction Service is wired up to update the contract store on occurrences of <code class="docutils literal notranslate"><span class="pre">ArchiveEvent</span></code> and <code class="docutils literal notranslate"><span class="pre">CreateEvent</span></code> for Ious. Since <code class="docutils literal notranslate"><span class="pre">getTransactions</span></code> is called without end offset, it will stream transactions indefinitely, until the application is terminated.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span>    <span class="n">client</span>
+        <span class="p">.</span><span class="na">getTransactionsClient</span><span class="p">()</span>
+        <span class="p">.</span><span class="na">getTransactions</span><span class="p">(</span><span class="n">acsOffset</span><span class="p">.</span><span class="na">get</span><span class="p">(),</span> <span class="n">iouFilter</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+        <span class="p">.</span><span class="na">forEach</span><span class="p">(</span>
+            <span class="n">t</span> <span class="o">-&gt;</span> <span class="p">{</span>
+              <span class="k">for</span> <span class="p">(</span><span class="n">Event</span> <span class="n">event</span> <span class="p">:</span> <span class="n">t</span><span class="p">.</span><span class="na">getEvents</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">event</span> <span class="k">instanceof</span> <span class="n">CreatedEvent</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="n">CreatedEvent</span> <span class="n">createdEvent</span> <span class="o">=</span> <span class="p">(</span><span class="n">CreatedEvent</span><span class="p">)</span> <span class="n">event</span><span class="p">;</span>
+                  <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">idCounter</span><span class="p">.</span><span class="na">getAndIncrement</span><span class="p">();</span>
+                  <span class="n">Iou</span><span class="p">.</span><span class="na">Contract</span> <span class="n">contract</span> <span class="o">=</span> <span class="n">Iou</span><span class="p">.</span><span class="na">Contract</span><span class="p">.</span><span class="na">fromCreatedEvent</span><span class="p">(</span><span class="n">createdEvent</span><span class="p">);</span>
+                  <span class="n">contracts</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">contract</span><span class="p">.</span><span class="na">data</span><span class="p">);</span>
+                  <span class="n">idMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">contract</span><span class="p">.</span><span class="na">id</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">event</span> <span class="k">instanceof</span> <span class="n">ArchivedEvent</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="n">ArchivedEvent</span> <span class="n">archivedEvent</span> <span class="o">=</span> <span class="p">(</span><span class="n">ArchivedEvent</span><span class="p">)</span> <span class="n">event</span><span class="p">;</span>
+                  <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span>
+                      <span class="n">idMap</span><span class="p">.</span><span class="na">inverse</span><span class="p">().</span><span class="na">get</span><span class="p">(</span><span class="k">new</span> <span class="n">Iou</span><span class="p">.</span><span class="na">ContractId</span><span class="p">(</span><span class="n">archivedEvent</span><span class="p">.</span><span class="na">getContractId</span><span class="p">()));</span>
+                  <span class="n">contracts</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+                  <span class="n">idMap</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+                <span class="p">}</span>
+              <span class="p">}</span>
+            <span class="p">});</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Commands are submitted via the Command Submission Service.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span>  <span class="k">return</span> <span class="n">client</span>
+      <span class="p">.</span><span class="na">getCommandSubmissionClient</span><span class="p">()</span>
+      <span class="p">.</span><span class="na">submit</span><span class="p">(</span>
+          <span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span>
+          <span class="s">&quot;IouApp&quot;</span><span class="p">,</span>
+          <span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span>
+          <span class="n">party</span><span class="p">,</span>
+          <span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">(),</span>
+          <span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">(),</span>
+          <span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">(),</span>
+          <span class="n">Collections</span><span class="p">.</span><span class="na">singletonList</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+      <span class="p">.</span><span class="na">blockingGet</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can find examples of <code class="docutils literal notranslate"><span class="pre">ExerciseCommand</span></code> and <code class="docutils literal notranslate"><span class="pre">CreateCommand</span></code> instantiation in the bodies of the <code class="docutils literal notranslate"><span class="pre">transfer</span></code> and <code class="docutils literal notranslate"><span class="pre">iou</span></code> endpoints, respectively.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">ExerciseCommand</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">ExerciseCommand</span> <span class="n">exerciseCommand</span> <span class="o">=</span>
+    <span class="n">contractId</span><span class="p">.</span><span class="na">exerciseIou_Transfer</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">&quot;newOwner&quot;</span><span class="p">).</span><span class="na">toString</span><span class="p">());</span>
+<span class="n">submit</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">party</span><span class="p">,</span> <span class="n">exerciseCommand</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">CreateCommand</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">submit</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">party</span><span class="p">,</span> <span class="n">iouCreate</span><span class="p">);</span>
+<span class="k">return</span> <span class="s">&quot;Iou creation submitted.&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</li>
+</ol>
+<p>The rest of the application sets up the REST services using <a class="reference external" href="http://sparkjava.com/">Spark Java</a>, and does dynamic package Id detection using the Package Service. The latter is useful during development when package Ids change frequently.</p>
+<p>For a discussion of ledger application design and architecture, take a look at <a class="reference internal" href="../app-arch.html"><span class="doc">Application Architecture Guide</span></a>.</p>
+</div>
+<div class="section" id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>Great - you’ve completed the quickstart guide!</p>
+<p>Some steps you could take next include:</p>
+<ul class="simple">
+<li>Explore <a class="reference external" href="https://daml.com/examples">examples</a> for guidance and inspiration.</li>
+<li><a class="reference internal" href="../../daml/intro/0_Intro.html"><span class="doc">Learn Daml</span></a>.</li>
+<li><a class="reference internal" href="../../daml/reference/index.html"><span class="doc">Language reference</span></a>.</li>
+<li>Learn more about <a class="reference internal" href="../app-arch.html"><span class="doc">application development</span></a>.</li>
+<li>Learn about the <a class="reference internal" href="../../concepts/ledger-model/index.html"><span class="doc">conceptual models</span></a> behind Daml.</li>
+</ul>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="example.html" class="da-btn da-btn-label btn-prev" title="Example project" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../bindings-scala/index.html" class="da-btn da-btn-label btn-next" title="Scala bindings" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

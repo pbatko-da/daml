@@ -1,0 +1,908 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Daml Studio &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Daml Sandbox" href="../tools/sandbox.html" />
+  <link rel="prev" title="Daml Assistant (daml)" href="../tools/assistant.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Next-Map.html">DA.Next.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Next-Set.html">DA.Next.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Optional-Total.html">DA.Optional.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../error-codes/self-service/index.html">Error Codes</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/index.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Daml Studio</a><ul>
+<li><a class="reference internal" href="#installing">Installing</a></li>
+<li><a class="reference internal" href="#creating-your-first-daml-file">Creating your first Daml file</a></li>
+<li><a class="reference internal" href="#supported-features">Supported features</a><ul>
+<li><a class="reference internal" href="#symbols-and-problem-reporting">Symbols and problem reporting</a></li>
+<li><a class="reference internal" href="#hover-tooltips">Hover tooltips</a></li>
+<li><a class="reference internal" href="#scenario-and-daml-script-results">Scenario and Daml Script results</a></li>
+<li><a class="reference internal" href="#daml-snippets">Daml snippets</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#common-scenario-errors">Common scenario errors</a><ul>
+<li><a class="reference internal" href="#abort-assert-and-debug">Abort, assert, and debug</a></li>
+<li><a class="reference internal" href="#missing-authorization-on-create">Missing authorization on create</a></li>
+<li><a class="reference internal" href="#missing-authorization-on-exercise">Missing authorization on exercise</a></li>
+<li><a class="reference internal" href="#contract-not-visible">Contract not visible</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#working-with-multiple-packages">Working with multiple packages</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="daml-studio">
+<h1>Daml Studio<a class="headerlink" href="#daml-studio" title="Permalink to this headline">¶</a></h1>
+<p>Daml Studio is an integrated development environment (IDE) for Daml. It is an extension on top of <a class="reference external" href="https://code.visualstudio.com">Visual Studio Code</a> (VS Code), a cross-platform, open-source editor providing a <a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved">rich code editing experience</a>.</p>
+<div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>Daml Studio is included in <a class="reference internal" href="../getting-started/installation.html"><span class="doc">the Daml Connect SDK</span></a>.</p>
+</div>
+<div class="section" id="creating-your-first-daml-file">
+<h2>Creating your first Daml file<a class="headerlink" href="#creating-your-first-daml-file" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Start Daml Studio by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">studio</span></code> in the current project.</p>
+<p>This command starts Visual Studio Code and (if needs be) installs the Daml Studio extension, or upgrades it to the latest version.</p>
+</li>
+<li><p class="first">Make sure the Daml Studio extension is installed:</p>
+<ol class="arabic simple">
+<li>Click on the Extensions icon at the bottom of the VS Code sidebar.</li>
+<li>Click on the Daml Studio extension that should be listed on the pane.</li>
+</ol>
+<img alt="../_images/daml_studio_extension_view.png" src="../_images/daml_studio_extension_view.png" />
+</li>
+<li><p class="first">Open a new file (<code class="docutils literal notranslate"><span class="pre">⌘N</span></code>) and save it (<code class="docutils literal notranslate"><span class="pre">⌘S</span></code>) as <code class="docutils literal notranslate"><span class="pre">Test.daml</span></code>.</p>
+</li>
+<li><p class="first">Copy the following code into your file:</p>
+</li>
+</ol>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">Test</span> <span class="kr">where</span>
+
+<span class="nf">double</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">double</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Your screen should now look like the image below.</p>
+<blockquote>
+<div><img alt="../_images/daml_studio_extension_double_correct.png" src="../_images/daml_studio_extension_double_correct.png" />
+</div></blockquote>
+<ol class="arabic" start="5">
+<li><p class="first">Introduce a parse error by deleting the <code class="docutils literal notranslate"><span class="pre">=</span></code> sign and then clicking the
+Ⓧ symbol on the lower-left corner. Your screen should now look like the image below.</p>
+<img alt="../_images/daml_studio_extension_double_wrong.png" src="../_images/daml_studio_extension_double_wrong.png" />
+</li>
+<li><p class="first">Remove the parse error by restoring the <code class="docutils literal notranslate"><span class="pre">=</span></code> sign.</p>
+</li>
+</ol>
+<p>We recommend reviewing the
+<a class="reference external" href="https://code.visualstudio.com/docs/editor/codebasics">Visual Studio Code documentation</a>
+to learn more about how to use it.
+To learn more about Daml, see <a class="reference internal" href="reference/index.html"><span class="doc">Language reference docs</span></a>.</p>
+</div>
+<div class="section" id="supported-features">
+<h2>Supported features<a class="headerlink" href="#supported-features" title="Permalink to this headline">¶</a></h2>
+<p>Visual Studio Code provides many helpful features for editing Daml files and we recommend reviewing
+<a class="reference external" href="https://code.visualstudio.com/docs/editor/codebasics">Visual Studio Code Basics</a> and <a class="reference external" href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf">Visual Studio Code Keyboard Shortcuts for OS X</a>.
+The Daml Studio extension for Visual Studio Code provides the following Daml-specific features:</p>
+<div class="section" id="symbols-and-problem-reporting">
+<h3>Symbols and problem reporting<a class="headerlink" href="#symbols-and-problem-reporting" title="Permalink to this headline">¶</a></h3>
+<p>Use the commands listed below to navigate between symbols, rename them, and inspect any problems detected in your Daml files. Symbols are identifiers such as template names,
+lambda arguments, variables, and so on.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="65%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Command</th>
+<th class="head">Shortcut (OS X)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition">Go to Definition</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">F12</span></code></td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_peek">Peek Definition</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">⌥F12</span></code></td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_rename-symbol">Rename Symbol</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">F2</span></code></td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-symbol">Go to Symbol in File</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">⇧⌘O</span></code></td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_open-symbol-by-name">Go to Symbol in Workspace</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">⌘T</span></code></td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_peek">Find all References</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">⇧F12</span></code></td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_errors-warnings">Problems Panel</a></td>
+<td><code class="docutils literal notranslate"><span class="pre">⇧⌘M</span></code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can also start a command by typing its name into the command palette (press <code class="docutils literal notranslate"><span class="pre">⇧⌘P</span></code> or <code class="docutils literal notranslate"><span class="pre">F1</span></code>). The command palette
+is also handy for looking up keyboard shortcuts.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_rename-symbol">Rename Symbol</a>, <a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-symbol">Go to Symbol in File</a>, <a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_open-symbol-by-name">Go to Symbol in Workspace</a>, and <a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_peek">Find all References</a> work on:
+choices, record fields, top-level definitions, let-bound variables, lambda arguments, and modules</li>
+<li><a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_go-to-definition">Go to Definition</a> and <a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_peek">Peek Definition</a> work on:
+top-level definitions, let-bound variables, lambda arguments, and modules</li>
+</ul>
+</div>
+</div>
+<div class="section" id="hover-tooltips">
+<h3>Hover tooltips<a class="headerlink" href="#hover-tooltips" title="Permalink to this headline">¶</a></h3>
+<p>You can <a class="reference external" href="https://code.visualstudio.com/docs/editor/editingevolved#_hover">hover</a> over most symbols in the code to display additional information such as its type.</p>
+</div>
+<div class="section" id="scenario-and-daml-script-results">
+<span id="scenario-script-results"></span><h3>Scenario and Daml Script results<a class="headerlink" href="#scenario-and-daml-script-results" title="Permalink to this headline">¶</a></h3>
+<p>Top-level declarations of type <code class="docutils literal notranslate"><span class="pre">Scenario</span></code> or <code class="docutils literal notranslate"><span class="pre">Script</span></code> are decorated with
+a <code class="docutils literal notranslate"><span class="pre">Scenario</span> <span class="pre">results</span></code> or a <code class="docutils literal notranslate"><span class="pre">Script</span> <span class="pre">results</span></code> code lens.
+You can click on the code lens to inspect the
+execution transaction graph and the active contracts. The functionality
+for inspecting the results is identical for Daml Scripts
+and scenarios.</p>
+<p>For the scenario from the <a class="reference download internal" download="" href="../_downloads/13dbfe0e6aff934b7c954b37dfe4a72c/Iou.daml"><code class="xref download docutils literal notranslate"><span class="pre">Iou</span></code></a>
+module, you get the following table displaying all contracts that are
+active at the end of the scenario. The first column displays the
+contract id. The columns afterwards represent the fields of the
+contract and finally you get one column per party with an <code class="docutils literal notranslate"><span class="pre">X</span></code> if the
+party can see the contract or a <code class="docutils literal notranslate"><span class="pre">-</span></code> if not.</p>
+<div class="figure align-center">
+<img alt="../_images/daml_studio_scenario_table.png" src="../_images/daml_studio_scenario_table.png" style="width: 904.4px; height: 445.9px;" />
+</div>
+<p>If you want more details, you can click on the <em>Show archived</em> checkbox, which extends
+the table to include archived contracts, and on the <em>Show detailed disclosure</em> checkbox,
+which displays why the contract is visible to each party, based on four categories:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">S</span></code>, the party sees the contract because they are a signatory on the contract.</li>
+<li><code class="docutils literal notranslate"><span class="pre">O</span></code>, the party sees the contract because they are an observer on the contract.</li>
+<li><code class="docutils literal notranslate"><span class="pre">W</span></code>, the party sees the contract because they witnessed the creation of this contract, e.g.,
+because they are an actor on the <code class="docutils literal notranslate"><span class="pre">exercise</span></code> that created it.</li>
+<li><code class="docutils literal notranslate"><span class="pre">D</span></code>, the party sees the contract because they have been divulged the contract, e.g.,
+because they witnessed an exercise that resulted in a <code class="docutils literal notranslate"><span class="pre">fetch</span></code> of this contract.</li>
+</ol>
+<p>For details on the meaning of those four categories, refer to the
+<a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html#da-model-privacy"><span class="std std-ref">Daml Ledger Model</span></a>.
+For the example above, the resulting table looks as follows. You can see the
+archived <code class="docutils literal notranslate"><span class="pre">Bank</span></code> contract and the active <code class="docutils literal notranslate"><span class="pre">Bank</span></code> contract whose creation
+<code class="docutils literal notranslate"><span class="pre">Alice</span></code> has witnessed by virtue of being an actor on the <code class="docutils literal notranslate"><span class="pre">exercise</span></code> that
+created it.</p>
+<div class="figure align-center">
+<img alt="../_images/daml_studio_scenario_table_detailed.png" src="../_images/daml_studio_scenario_table_detailed.png" style="width: 904.4px; height: 445.9px;" />
+</div>
+<p>If you want to see the detailed transaction graph you can click on the
+<code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">transaction</span> <span class="pre">view</span></code> button. The transaction graph
+consists of transactions, each of which contain one or more updates to the
+ledger, that is creates and exercises. The transaction graph also records
+fetches of contracts.</p>
+<p>For example a scenario for the <a class="reference download internal" download="" href="../_downloads/13dbfe0e6aff934b7c954b37dfe4a72c/Iou.daml"><code class="xref download docutils literal notranslate"><span class="pre">Iou</span></code></a> module looks as follows:</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/daml_studio_scenario_transaction.png" src="../_images/daml_studio_scenario_transaction.png" style="width: 904.4px; height: 445.9px;" />
+<p class="caption"><span class="caption-text">Scenario results</span></p>
+</div>
+<p>Each transaction is the result of executing a step in the scenario. In the
+image below, the transaction <code class="docutils literal notranslate"><span class="pre">#0</span></code> is the result of executing the first
+line of the scenario (line 20), where the Iou is created by the bank. The following
+information can be gathered from the transaction:</p>
+<ul class="simple">
+<li>The result of the first scenario transaction <code class="docutils literal notranslate"><span class="pre">#0</span></code> was the creation of the
+<code class="docutils literal notranslate"><span class="pre">Iou</span></code> contract with the arguments <code class="docutils literal notranslate"><span class="pre">bank</span></code>, <code class="docutils literal notranslate"><span class="pre">10</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;USD&quot;</span></code>.</li>
+<li>The created contract is referenced in transaction <code class="docutils literal notranslate"><span class="pre">#1</span></code>, step <code class="docutils literal notranslate"><span class="pre">0</span></code>.</li>
+<li>The created contract was consumed in transaction <code class="docutils literal notranslate"><span class="pre">#1</span></code>, step <code class="docutils literal notranslate"><span class="pre">0</span></code>.</li>
+<li>A new contract was created in transaction <code class="docutils literal notranslate"><span class="pre">#1</span></code>, step <code class="docutils literal notranslate"><span class="pre">1</span></code>, and has been
+divulged to parties ‘Alice’, ‘Bob’, and ‘Bank’.</li>
+<li>At the end of the scenario only the contract created in <code class="docutils literal notranslate"><span class="pre">#1:1</span></code> remains.</li>
+<li>The return value from running the scenario is the contract identifier <code class="docutils literal notranslate"><span class="pre">#1:1</span></code>.</li>
+<li>And finally, the contract identifiers assigned in scenario execution correspond to
+the scenario step that created them (e.g. <code class="docutils literal notranslate"><span class="pre">#1</span></code>).</li>
+</ul>
+<p>You can navigate to the corresponding source code by clicking on the location
+shown in parenthesis (e.g. <code class="docutils literal notranslate"><span class="pre">Iou:25:12</span></code>, which means the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> module, line 25 and column 1).
+You can also navigate between transactions by clicking on the transaction and contract ids (e.g. <code class="docutils literal notranslate"><span class="pre">#1:0</span></code>).</p>
+</div>
+<div class="section" id="daml-snippets">
+<h3>Daml snippets<a class="headerlink" href="#daml-snippets" title="Permalink to this headline">¶</a></h3>
+<p>You can automatically complete a number of “snippets” when editing a Daml
+source file. By default, hitting <code class="docutils literal notranslate"><span class="pre">^-Space</span></code> after typing a Daml keyword
+displays available snippets that you can insert.</p>
+<p>To define your own workflow around Daml snippets, adjust
+your user settings in Visual Studio Code to include the following options:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;editor.tabCompletion&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;editor.quickSuggestions&quot;</span><span class="p">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>With those changes in place, you can simply hit <code class="docutils literal notranslate"><span class="pre">Tab</span></code> after a keyword to insert the code pattern.</p>
+<img alt="../_images/daml_studio_snippet_demo.gif" src="../_images/daml_studio_snippet_demo.gif" />
+<p>You can develop your own snippets by following the instructions in
+<a class="reference external" href="https://code.visualstudio.com/docs/editor/userdefinedsnippets">Creating your own Snippets</a> to create an appropriate <code class="docutils literal notranslate"><span class="pre">daml.json</span></code>
+snippet file.</p>
+</div>
+</div>
+<div class="section" id="common-scenario-errors">
+<h2>Common scenario errors<a class="headerlink" href="#common-scenario-errors" title="Permalink to this headline">¶</a></h2>
+<p>During Daml execution, errors can occur due to exceptions (e.g. use of “abort”, or division by zero), or
+due to authorization failures. You can expect to run into the following errors when writing Daml.</p>
+<p>When a runtime error occurs in a scenario execution, the scenario result view shows the error
+together with the following additional information, if available:</p>
+<dl class="docutils">
+<dt>Location of the failed commit</dt>
+<dd>If the failing part of the script was a <code class="docutils literal notranslate"><span class="pre">submit</span></code>, the source location
+of the call to <code class="docutils literal notranslate"><span class="pre">submit</span></code> will be displayed.</dd>
+<dt>Stack trace</dt>
+<dd>A list of source locations that were encountered before the error occurred. The last encountered
+location is the first entry in the list.</dd>
+<dt>Ledger time</dt>
+<dd>The ledger time at which the error occurred.</dd>
+<dt>Partial transaction</dt>
+<dd>The transaction that is being constructed, but not yet committed to the ledger.</dd>
+<dt>Committed transaction</dt>
+<dd>Transactions that were successfully committed to the ledger prior to the error.</dd>
+<dt>Trace</dt>
+<dd>Any messages produced by calls to <code class="docutils literal notranslate"><span class="pre">trace</span></code> and <code class="docutils literal notranslate"><span class="pre">debug</span></code>.</dd>
+</dl>
+<div class="section" id="abort-assert-and-debug">
+<h3>Abort, assert, and debug<a class="headerlink" href="#abort-assert-and-debug" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">abort</span></code>, <code class="docutils literal notranslate"><span class="pre">assert</span></code> and <code class="docutils literal notranslate"><span class="pre">debug</span></code> inbuilt functions can be used in updates and scenarios. All three can be used to output messages, but <code class="docutils literal notranslate"><span class="pre">abort</span></code> and <code class="docutils literal notranslate"><span class="pre">assert</span></code> can additionally halt the execution:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">abortTest</span> <span class="ow">=</span> <span class="n">scenario</span> <span class="kr">do</span>
+  <span class="n">debug</span> <span class="s">&quot;hello, world!&quot;</span>
+  <span class="n">abort</span> <span class="s">&quot;stop&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Scenario execution failed:
+  Aborted:  stop
+
+Ledger time: 1970-01-01T00:00:00Z
+
+Partial transaction:
+
+Trace:
+  &quot;hello, world!&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="missing-authorization-on-create">
+<h3>Missing authorization on create<a class="headerlink" href="#missing-authorization-on-create" title="Permalink to this headline">¶</a></h3>
+<p>If a contract is being created without approval from all authorizing
+parties the commit will fail. For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Example</span>
+  <span class="kr">with</span>
+    <span class="n">party1</span> <span class="kt">:</span> <span class="kt">Party</span><span class="p">;</span> <span class="n">party2</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">party1</span>
+    <span class="kr">signatory</span> <span class="n">party2</span>
+
+<span class="nf">example</span> <span class="ow">=</span> <span class="n">scenario</span> <span class="kr">do</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">getParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">getParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">submit</span> <span class="n">alice</span> <span class="p">(</span><span class="n">create</span> <span class="kt">Example</span> <span class="kr">with</span> <span class="n">party1</span><span class="ow">=</span><span class="n">alice</span><span class="p">;</span> <span class="n">party2</span><span class="ow">=</span><span class="n">bob</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Execution of the example scenario fails due to ‘Bob’ being a signatory
+in the contract, but not authorizing the create:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Scenario execution failed:
+  #0: create of CreateAuthFailure:Example at unknown source
+      failed due to a missing authorization from &#39;Bob&#39;
+
+Ledger time: 1970-01-01T00:00:00Z
+
+Partial transaction:
+  Sub-transactions:
+     #0
+     └─&gt; create CreateAuthFailure:Example
+         with
+           party1 = &#39;Alice&#39;; party2 = &#39;Bob&#39;
+</pre></div>
+</div>
+<p>To create the “Example” contract one would need to bring both parties to
+authorize the creation via a choice, for example ‘Alice’ could create a contract
+giving ‘Bob’ the choice to create the ‘Example’ contract.</p>
+</div>
+<div class="section" id="missing-authorization-on-exercise">
+<h3>Missing authorization on exercise<a class="headerlink" href="#missing-authorization-on-exercise" title="Permalink to this headline">¶</a></h3>
+<p>Similarly to creates, exercises can also fail due to missing authorizations when a
+party that is not a controller of a choice exercises it.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Example</span>
+  <span class="kr">with</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">friend</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">owner</span>
+
+    <span class="kr">controller</span> <span class="n">owner</span> <span class="kr">can</span>
+      <span class="kt">Consume</span> <span class="kt">:</span> <span class="nb">()</span>
+        <span class="kr">do</span> <span class="kr">return</span> <span class="nb">()</span>
+
+    <span class="kr">controller</span> <span class="n">friend</span> <span class="kr">can</span>
+      <span class="kt">Hello</span> <span class="kt">:</span> <span class="nb">()</span>
+        <span class="kr">do</span> <span class="kr">return</span> <span class="nb">()</span>
+
+<span class="nf">example</span> <span class="ow">=</span> <span class="n">scenario</span> <span class="kr">do</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">getParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">getParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">cid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="p">(</span><span class="n">create</span> <span class="kt">Example</span> <span class="kr">with</span> <span class="n">owner</span><span class="ow">=</span><span class="n">alice</span><span class="p">;</span> <span class="n">friend</span><span class="ow">=</span><span class="n">bob</span><span class="p">)</span>
+  <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span> <span class="n">exercise</span> <span class="n">cid</span> <span class="kt">Consume</span>
+</pre></div>
+</div>
+<p>The execution of the example scenario fails when ‘Bob’ tries to exercise the
+choice ‘Consume’ of which he is not a controller</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Scenario execution failed:
+  #1: exercise of Consume in ExerciseAuthFailure:Example at unknown source
+      failed due to a missing authorization from &#39;Alice&#39;
+
+Ledger time: 1970-01-01T00:00:00Z
+
+Partial transaction:
+  Sub-transactions:
+     #0
+     └─&gt; fetch #0:0 (ExerciseAuthFailure:Example)
+
+     #1
+     └─&gt; &#39;Alice&#39; exercises Consume on #0:0 (ExerciseAuthFailure:Example)
+                 with
+
+Committed transactions:
+  TX #0 1970-01-01T00:00:00Z (unknown source)
+  #0:0
+  │   known to (since): &#39;Alice&#39; (#0), &#39;Bob&#39; (#0)
+  └─&gt; create ExerciseAuthFailure:Example
+      with
+        owner = &#39;Alice&#39;; friend = &#39;Bob&#39;
+</pre></div>
+</div>
+<p>From the error we can see that the parties authorizing the exercise (‘Bob’)
+is not a subset of the required controlling parties.</p>
+</div>
+<div class="section" id="contract-not-visible">
+<h3>Contract not visible<a class="headerlink" href="#contract-not-visible" title="Permalink to this headline">¶</a></h3>
+<p>Contract not being visible is another common error that can occur when a contract
+that is being fetched or exercised has not been disclosed to the committing party.
+For example:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Example</span>
+  <span class="kr">with</span> <span class="n">owner</span><span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">owner</span>
+
+    <span class="kr">controller</span> <span class="n">owner</span> <span class="kr">can</span>
+      <span class="kt">Consume</span> <span class="kt">:</span> <span class="nb">()</span>
+        <span class="kr">do</span> <span class="kr">return</span> <span class="nb">()</span>
+
+<span class="nf">example</span> <span class="ow">=</span> <span class="n">scenario</span> <span class="kr">do</span>
+  <span class="n">alice</span> <span class="ow">&lt;-</span> <span class="n">getParty</span> <span class="s">&quot;Alice&quot;</span>
+  <span class="n">bob</span> <span class="ow">&lt;-</span> <span class="n">getParty</span> <span class="s">&quot;Bob&quot;</span>
+  <span class="n">cid</span> <span class="ow">&lt;-</span> <span class="n">submit</span> <span class="n">alice</span> <span class="p">(</span><span class="n">create</span> <span class="kt">Example</span> <span class="kr">with</span> <span class="n">owner</span><span class="ow">=</span><span class="n">alice</span><span class="p">)</span>
+  <span class="n">submit</span> <span class="n">bob</span> <span class="kr">do</span> <span class="n">exercise</span> <span class="n">cid</span> <span class="kt">Consume</span>
+</pre></div>
+</div>
+<p>In the above scenario the ‘Example’ contract is created by ‘Alice’ and makes no mention of
+the party ‘Bob’ and hence does not cause the contract to be disclosed to ‘Bob’. When ‘Bob’ tries
+to exercise the contract the following error would occur:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Scenario execution failed:
+  Attempt to fetch or exercise a contract not visible to the committer.
+  Contract:  #0:0 (NotVisibleFailure:Example)
+  Committer: &#39;Bob&#39;
+  Disclosed to: &#39;Alice&#39;
+
+Ledger time: 1970-01-01T00:00:00Z
+
+Partial transaction:
+
+Committed transactions:
+  TX #0 1970-01-01T00:00:00Z (unknown source)
+  #0:0
+  │   known to (since): &#39;Alice&#39; (#0)
+  └─&gt; create NotVisibleFailure:Example
+      with
+        owner = &#39;Alice&#39;
+</pre></div>
+</div>
+<p>To fix this issue the party ‘Bob’ should be made a controlling party in one of the choices.</p>
+</div>
+</div>
+<div class="section" id="working-with-multiple-packages">
+<span id="daml-studio-packages"></span><h2>Working with multiple packages<a class="headerlink" href="#working-with-multiple-packages" title="Permalink to this headline">¶</a></h2>
+<p>Often a Daml project consists of multiple packages, e.g., one
+containing your templates and one containing a Daml trigger so that
+you can keep the templates stable while modifying the trigger.  It is
+possible to work on multiple packages in a single session of Daml
+studio but you have to keep some things in mind. You can see the
+directory structure of a simple multi-package project consisting of
+two packages <code class="docutils literal notranslate"><span class="pre">pkga</span></code> and <code class="docutils literal notranslate"><span class="pre">pkgb</span></code> below:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.
+├── daml.yaml
+├── pkga
+│   ├── daml
+│   │   └── A.daml
+│   └── daml.yaml
+└── pkgb
+    ├── daml
+    │   └── B.daml
+    └── daml.yaml
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pkga</span></code> and <code class="docutils literal notranslate"><span class="pre">pkgb</span></code> are regular Daml projects with a <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code>
+and a Daml module. In addition to the <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> files for the
+respective packages, you also need to add a <code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> to the root
+of your project. This file only needs to specify the SDK
+version. Replace <code class="docutils literal notranslate"><span class="pre">X.Y.Z</span></code> by the SDK version you specified in the
+<code class="docutils literal notranslate"><span class="pre">daml.yaml</span></code> files of the individual packages.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">sdk-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">X.Y.Z</span>
+</pre></div>
+</div>
+<p>You can then open Daml Studio once in the root of your project and
+work on files in both packages. Note that if <code class="docutils literal notranslate"><span class="pre">pkgb</span></code> refers to
+<code class="docutils literal notranslate"><span class="pre">pkga.dar</span></code> in its <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> field, changes will not be picked
+up automatically. This is always the case even if you open Daml Studio
+in <code class="docutils literal notranslate"><span class="pre">pkgb</span></code>. However, for multi-package projects there is an
+additional caveat: You have to both rebuild <code class="docutils literal notranslate"><span class="pre">pkga.dar</span></code> using <code class="docutils literal notranslate"><span class="pre">daml</span>
+<span class="pre">build</span></code> and then build <code class="docutils literal notranslate"><span class="pre">pkgb</span></code> using <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">build</span></code> before restarting
+Daml Studio.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tools/assistant.html" class="da-btn da-btn-label btn-prev" title="Daml Assistant (daml)" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../tools/sandbox.html" class="da-btn da-btn-label btn-next" title="Daml Sandbox" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>
