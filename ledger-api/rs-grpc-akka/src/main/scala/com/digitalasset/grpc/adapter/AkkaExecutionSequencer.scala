@@ -68,7 +68,9 @@ private[grpc] class RunnableSequencingActor extends Actor with ActorLogging {
       try {
         runnable.run()
       } catch {
-        case NonFatal(t) => log.error("Unexpected exception while executing Runnable", t)
+        case NonFatal(t) =>
+          t.printStackTrace(System.err)
+          log.error("Unexpected exception while executing Runnable", t)
       }
     case ShutdownRequest =>
       context.stop(self) // processing of the current message will continue

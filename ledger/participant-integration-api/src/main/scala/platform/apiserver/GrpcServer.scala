@@ -49,6 +49,7 @@ private[apiserver] object GrpcServer {
     interceptors.foreach(builder.intercept)
     builder.intercept(new MetricsInterceptor(metrics))
     builder.intercept(new TruncatedStatusInterceptor(MaximumStatusDescriptionLength))
+    // TODO: pbatko
     services.foreach { service =>
       builder.addService(service)
       toLegacyService(service).foreach(builder.addService)
