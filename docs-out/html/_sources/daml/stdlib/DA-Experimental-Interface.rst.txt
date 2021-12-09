@@ -1,0 +1,30 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-experimental-interface-67665:
+
+Module DA.Experimental.Interface
+================================
+
+Functions
+---------
+
+.. _function-da-experimental-interface-interfacecreate-87779:
+
+`interfaceCreate <function-da-experimental-interface-interfacecreate-87779_>`_
+  \: t \-\> :ref:`Update <type-da-internal-lf-update-36457>` (:ref:`ContractId <type-da-internal-lf-contractid-47171>` t)
+
+.. _function-da-experimental-interface-interfacesignatory-96128:
+
+`interfaceSignatory <function-da-experimental-interface-interfacesignatory-96128_>`_
+  \: t \-\> \[:ref:`Party <type-da-internal-lf-party-50311>`\]
+
+.. _function-da-experimental-interface-interfaceobserver-37015:
+
+`interfaceObserver <function-da-experimental-interface-interfaceobserver-37015_>`_
+  \: t \-\> \[:ref:`Party <type-da-internal-lf-party-50311>`\]
+
+.. _function-da-experimental-interface-totyperep-34168:
+
+`toTypeRep <function-da-experimental-interface-totyperep-34168_>`_
+  \: t \-\> TypeRep

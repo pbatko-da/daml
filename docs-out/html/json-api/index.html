@@ -1,0 +1,2037 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>HTTP JSON API Service &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Daml-LF JSON Encoding" href="lf-value-specification.html" />
+  <link rel="prev" title="Testing Your Web App" href="../app-dev/bindings-ts/testing.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/error-codes.html">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/requirements.html">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/pruning.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">HTTP JSON API Service</a><ul>
+<li><a class="reference internal" href="#running-the-json-api">Running the JSON API</a><ul>
+<li><a class="reference internal" href="#start-a-daml-ledger">Start a Daml Ledger</a></li>
+<li><a class="reference internal" href="#start-the-http-json-api-service">Start the HTTP JSON API Service</a><ul>
+<li><a class="reference internal" href="#basic">Basic</a></li>
+<li><a class="reference internal" href="#standalone-jar">Standalone JAR</a></li>
+<li><a class="reference internal" href="#with-query-store">With Query Store</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#access-tokens">Access Tokens</a><ul>
+<li><a class="reference internal" href="#party-specific-access-tokens">Party-specific Access Tokens</a><ul>
+<li><a class="reference internal" href="#auth-via-http">Auth via HTTP</a></li>
+<li><a class="reference internal" href="#auth-via-websockets">Auth via WebSockets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#http-status-codes">HTTP Status Codes</a><ul>
+<li><a class="reference internal" href="#successful-response-http-status-200-ok">Successful response, HTTP status: 200 OK</a></li>
+<li><a class="reference internal" href="#successful-response-with-a-warning-http-status-200-ok">Successful response with a warning, HTTP status: 200 OK</a></li>
+<li><a class="reference internal" href="#failure-http-status-400-401-404-500">Failure, HTTP status: 400 | 401 | 404 | 500</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-a-new-contract">Create a new Contract</a><ul>
+<li><a class="reference internal" href="#http-request">HTTP Request</a></li>
+<li><a class="reference internal" href="#http-response">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-contract-with-a-command-id">Creating a Contract with a Command ID</a></li>
+<li><a class="reference internal" href="#exercise-by-contract-id">Exercise by Contract ID</a><ul>
+<li><a class="reference internal" href="#id1">HTTP Request</a></li>
+<li><a class="reference internal" href="#exercise-response">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercise-by-contract-key">Exercise by Contract Key</a><ul>
+<li><a class="reference internal" href="#id3">HTTP Request</a></li>
+<li><a class="reference internal" href="#id4">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-and-exercise-in-the-same-transaction">Create and Exercise in the Same Transaction</a><ul>
+<li><a class="reference internal" href="#id5">HTTP Request</a></li>
+<li><a class="reference internal" href="#id6">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fetch-contract-by-contract-id">Fetch Contract by Contract ID</a><ul>
+<li><a class="reference internal" href="#id7">HTTP Request</a></li>
+<li><a class="reference internal" href="#contract-not-found-http-response">Contract Not Found HTTP Response</a></li>
+<li><a class="reference internal" href="#contract-found-http-response">Contract Found HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fetch-contract-by-key">Fetch Contract by Key</a><ul>
+<li><a class="reference internal" href="#id8">HTTP Request</a></li>
+<li><a class="reference internal" href="#id9">Contract Not Found HTTP Response</a></li>
+<li><a class="reference internal" href="#id10">Contract Found HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-all-active-contracts">Get all Active Contracts</a><ul>
+<li><a class="reference internal" href="#id11">HTTP Request</a></li>
+<li><a class="reference internal" href="#id12">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-all-active-contracts-matching-a-given-query">Get all Active Contracts Matching a Given Query</a><ul>
+<li><a class="reference internal" href="#id13">HTTP Request</a></li>
+<li><a class="reference internal" href="#empty-http-response">Empty HTTP Response</a></li>
+<li><a class="reference internal" href="#nonempty-http-response">Nonempty HTTP Response</a></li>
+<li><a class="reference internal" href="#nonempty-http-response-with-unknown-template-ids-warning">Nonempty HTTP Response with Unknown Template IDs Warning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fetch-parties-by-identifiers">Fetch Parties by Identifiers</a><ul>
+<li><a class="reference internal" href="#id14">HTTP Response</a></li>
+<li><a class="reference internal" href="#response-with-unknown-parties-warning">Response with Unknown Parties Warning</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fetch-all-known-parties">Fetch All Known Parties</a><ul>
+<li><a class="reference internal" href="#id15">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#allocate-a-new-party">Allocate a New Party</a><ul>
+<li><a class="reference internal" href="#id16">HTTP Request</a></li>
+<li><a class="reference internal" href="#id17">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#list-all-dalf-packages">List All DALF Packages</a><ul>
+<li><a class="reference internal" href="#id18">HTTP Request</a></li>
+<li><a class="reference internal" href="#id19">HTTP Response</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#download-a-dalf-package">Download a DALF Package</a><ul>
+<li><a class="reference internal" href="#id20">HTTP Request</a></li>
+<li><a class="reference internal" href="#http-response-status-200-ok">HTTP Response, status: 200 OK</a></li>
+<li><a class="reference internal" href="#http-response-with-error-any-status-different-from-200-ok">HTTP Response with Error, any status different from 200 OK</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#upload-a-dar-file">Upload a DAR File</a><ul>
+<li><a class="reference internal" href="#id21">HTTP Request</a></li>
+<li><a class="reference internal" href="#id22">HTTP Response, status: 200 OK</a></li>
+<li><a class="reference internal" href="#http-response-with-error">HTTP Response with Error</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#streaming-api">Streaming API</a><ul>
+<li><a class="reference internal" href="#error-and-warning-reporting">Error and Warning Reporting</a><ul>
+<li><a class="reference internal" href="#error-and-warning-examples">Error and Warning Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contracts-query-stream">Contracts Query Stream</a></li>
+<li><a class="reference internal" href="#fetch-by-key-contracts-stream">Fetch by Key Contracts Stream</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#healthcheck-endpoints">Healthcheck Endpoints</a><ul>
+<li><a class="reference internal" href="#liveness-check">Liveness check</a></li>
+<li><a class="reference internal" href="#readiness-check">Readiness check</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="http-json-api-service">
+<span id="json-api"></span><h1>HTTP JSON API Service<a class="headerlink" href="#http-json-api-service" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>JSON API</strong> provides a significantly simpler way to interact with a ledger than
+<a class="reference internal" href="../app-dev/ledger-api.html"><span class="doc">the Ledger API</span></a> by providing <em>basic active contract set functionality</em>:</p>
+<ul class="simple">
+<li>creating contracts,</li>
+<li>exercising choices on contracts,</li>
+<li>querying the current active contract set, and</li>
+<li>retrieving all known parties.</li>
+</ul>
+<p>The goal of this API is to get your distributed ledger application up and running quickly, so we have deliberately excluded
+complicating concerns including, but not limited to:</p>
+<ul class="simple">
+<li>inspecting transactions,</li>
+<li>asynchronous submit/completion workflows,</li>
+<li>temporal queries (e.g. active contracts <em>as of a certain time</em>), and</li>
+</ul>
+<p>For these and other features, use <a class="reference internal" href="../app-dev/ledger-api.html"><span class="doc">the Ledger API</span></a>
+instead.</p>
+<p>We welcome feedback about the JSON API on
+<a class="reference external" href="https://github.com/digital-asset/daml/issues/new?milestone=HTTP+JSON+API+Maintenance">our issue tracker</a>, or
+<a class="reference external" href="https://discuss.daml.com">on our forum</a>.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="running-the-json-api">
+<h2>Running the JSON API<a class="headerlink" href="#running-the-json-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="start-a-daml-ledger">
+<h3>Start a Daml Ledger<a class="headerlink" href="#start-a-daml-ledger" title="Permalink to this headline">¶</a></h3>
+<p>You can run the JSON API alongside any ledger exposing the gRPC Ledger API you want. If you don’t have an existing ledger, you can start an in-memory sandbox:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>daml new my_project --template quickstart-java
+<span class="nb">cd</span> my_project
+daml build
+daml sandbox --wall-clock-time --ledgerid MyLedger ./.daml/dist/quickstart-0.0.1.dar
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-the-http-json-api-service">
+<span id="start-http-service"></span><h3>Start the HTTP JSON API Service<a class="headerlink" href="#start-the-http-json-api-service" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="basic">
+<h4>Basic<a class="headerlink" href="#basic" title="Permalink to this headline">¶</a></h4>
+<p>The most basic way to start the JSON API is with the command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>daml json-api --ledger-host localhost --ledger-port <span class="m">6865</span> --http-port <span class="m">7575</span>
+</pre></div>
+</div>
+<p>This will start the JSON API on port 7575 and connect it to a ledger running on <code class="docutils literal notranslate"><span class="pre">localhost:6865</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Your JSON API service should never be exposed to the internet. When running in production the JSON API should be behind a <a class="reference external" href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/">reverse proxy, such as via NGINX</a>.</p>
+</div>
+</div>
+<div class="section" id="standalone-jar">
+<h4>Standalone JAR<a class="headerlink" href="#standalone-jar" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">json-api</span></code> command is great during development since it is
+included with the SDK and integrates with <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">start</span></code> and other
+commands. Once you are ready to deploy your application, you can
+download the standalone JAR from
+<a class="reference external" href="https://github.com/digital-asset/daml/releases">Github releases</a>. It is much smaller
+than the whole SDK and easier to deploy since it only requires a JVM
+but no other dependencies and no installation process. The JAR accepts
+exactly the same command line parameters as <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">json-api</span></code>, so to
+start the standalone JAR, you can use the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>java -jar http-json-1.5.0.jar --ledger-host localhost --ledger-port <span class="m">6865</span> --http-port <span class="m">7575</span>
+</pre></div>
+</div>
+<p>Replace the version number <code class="docutils literal notranslate"><span class="pre">1.5.0</span></code> by the version of the SDK you are
+using.</p>
+</div>
+<div class="section" id="with-query-store">
+<h4>With Query Store<a class="headerlink" href="#with-query-store" title="Permalink to this headline">¶</a></h4>
+<p>In production setups, you should configure the JSON API to use a
+PostgreSQL backend as a cache. The in-memory backend will call the
+ledger to fetch the entire active contract set for the templates in
+your query every time so it is generally not recommended to rely on
+this in production. Note that the PostgreSQL backend acts purely as a
+cache. It is safe to reinitialize the database at any time.</p>
+<p>To enable the PostgreSQL backend you can use the <code class="docutils literal notranslate"><span class="pre">--query-store-jdbc-config</span></code> flag, an example of which is below.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When you use the Query Store you’ll want to use <code class="docutils literal notranslate"><span class="pre">start-mode=create-if-needed-and-start</span></code> so that all the necessary tables are created if they don’t exist.</p>
+</div>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>daml json-api --ledger-host localhost --ledger-port <span class="m">6865</span> --http-port <span class="m">7575</span> <span class="se">\</span>
+--query-store-jdbc-config <span class="s2">&quot;driver=org.postgresql.Driver,url=jdbc:postgresql://localhost:5432/test?&amp;ssl=true,user=postgres,password=password,start-mode=create-if-needed-and-start&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The JSON API provides many other useful configuration flags, run <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">json-api</span> <span class="pre">--help</span></code> to see all of them.</p>
+</div>
+</div>
+</div>
+<div class="section" id="access-tokens">
+<h3>Access Tokens<a class="headerlink" href="#access-tokens" title="Permalink to this headline">¶</a></h3>
+<p>The JSON API essentially performs two separate tasks:</p>
+<ol class="arabic simple">
+<li>It talks to the Ledger API to get data it needs to operate, for this you need to <em>provide an access token</em> if your Ledger requires authorization. Learn more in the <a class="reference internal" href="../app-dev/authorization.html"><span class="doc">Authorization</span></a> docs.</li>
+<li>It accepts requests from Parties and passes them on to the Ledger API, for this each party needs to provide an <em>access token with each request</em> it sends to the JSON API.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, the Daml Sandbox does not does not require access tokens. However, you still need to provide a party-specific access token when submitting commands or queries as a party. The token will not be validated in this case but it will be decoded to extract information like the party submitting the command.</p>
+</div>
+<div class="section" id="party-specific-access-tokens">
+<h4>Party-specific Access Tokens<a class="headerlink" href="#party-specific-access-tokens" title="Permalink to this headline">¶</a></h4>
+<p>Party-specific requests, i.e., command submissions and queries, require a JWT with some additional restrictions compared to the format <a class="reference internal" href="../tools/sandbox.html"><span class="doc">described in the Token Payload section here</span></a>. For command submissions, <code class="docutils literal notranslate"><span class="pre">actAs</span></code> must contain at least one party and <code class="docutils literal notranslate"><span class="pre">readAs</span></code> can contain 0 or more parties. Queries require at least one party in either <code class="docutils literal notranslate"><span class="pre">actAs</span></code> or <code class="docutils literal notranslate"><span class="pre">readAs</span></code> (note that before SDK 1.7.0, every request required exactly one party and before SDK 1.8.0 actAs was limited to exactly one party). In addition to that, the application id and ledger id are mandatory. HTTP requests pass the token in a header, while WebSocket requests pass the token in a subprotocol.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">While the JSON API receives the token it doesn’t validate it itself. Upon receiving a token it will pass it, and all data contained within the request, on to the Ledger API’s AuthService which will then determine if the token is valid and authorized. However, the JSON API does decode the token to extract the ledger id, application id and party so it requires that you use the JWT format documented below.</p>
+</div>
+<p>For a ledger without authorization, e.g., the default configuration of Daml Sandbox, you can use <a class="reference external" href="https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJmb29iYXIiLCJhY3RBcyI6WyJBbGljZSJdfX0.atGiYNc9HfBFbm8s9j5vvMv2sJUlVprFiRmLeoUpJeY">https://jwt.io</a> (or the JWT library of your choice) to generate your
+token.  You can use an arbitrary secret here. The default “header” is fine.  Under “Payload”, fill in:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;https://daml.com/ledger-api&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ledgerId&quot;</span><span class="p">:</span> <span class="s2">&quot;MyLedger&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;applicationId&quot;</span><span class="p">:</span> <span class="s2">&quot;foobar&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;actAs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The value of the <code class="docutils literal notranslate"><span class="pre">ledgerId</span></code> field has to match the <code class="docutils literal notranslate"><span class="pre">ledgerId</span></code> of your underlying Daml Ledger.
+For the Sandbox this corresponds to the <code class="docutils literal notranslate"><span class="pre">--ledgerid</span> <span class="pre">MyLedger</span></code> flag.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The value of <code class="docutils literal notranslate"><span class="pre">applicationId</span></code> will be used for commands submitted using that token.</p>
+</div>
+<p>The value for <code class="docutils literal notranslate"><span class="pre">actAs</span></code> is specified as a list and you provide it with the party that you want to use.
+Such as the example which uses <code class="docutils literal notranslate"><span class="pre">Alice</span></code> for a party. Each request can only be for one party.
+For example you couldn’t have <code class="docutils literal notranslate"><span class="pre">actAs</span></code> defined as <code class="docutils literal notranslate"><span class="pre">[&quot;Alice&quot;,</span> <span class="pre">&quot;Bob&quot;]</span></code>.</p>
+<p>The party should reference an already allocated party.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As mentioned above the JSON API does not validate tokens so if your ledger runs without authorization you can use an arbitrary secret.</p>
+</div>
+<p>Then the “Encoded” box should have your <strong>token</strong>, ready for passing to
+the service as described in the following sections.</p>
+<p>Alternatively, here are two tokens you can use for testing:</p>
+<p><code class="docutils literal notranslate"><span class="pre">{&quot;https://daml.com/ledger-api&quot;:</span> <span class="pre">{&quot;ledgerId&quot;:</span> <span class="pre">&quot;MyLedger&quot;,</span> <span class="pre">&quot;applicationId&quot;:</span> <span class="pre">&quot;HTTP-JSON-API-Gateway&quot;,</span> <span class="pre">&quot;actAs&quot;:</span> <span class="pre">[&quot;Alice&quot;]}}</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVBJLUdhdGV3YXkiLCJhY3RBcyI6WyJBbGljZSJdfX0.34zzF_fbWv7p60r5s1kKzwndvGdsJDX-W4Xhm4oVdpk
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">{&quot;https://daml.com/ledger-api&quot;:</span> <span class="pre">{&quot;ledgerId&quot;:</span> <span class="pre">&quot;MyLedger&quot;,</span> <span class="pre">&quot;applicationId&quot;:</span> <span class="pre">&quot;HTTP-JSON-API-Gateway&quot;,</span> <span class="pre">&quot;actAs&quot;:</span> <span class="pre">[&quot;Bob&quot;]}}</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVBJLUdhdGV3YXkiLCJhY3RBcyI6WyJCb2IiXX19.0uPPZtM1AmKvnGixt_Qo53cMDcpnziCjKKiWLvMX2VM
+</pre></div>
+</div>
+<div class="section" id="auth-via-http">
+<h5>Auth via HTTP<a class="headerlink" href="#auth-via-http" title="Permalink to this headline">¶</a></h5>
+<p>Set HTTP header <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">paste-jwt-here</span></code></p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVBJLUdhdGV3YXkiLCJhY3RBcyI6WyJBbGljZSJdfX0.34zzF_fbWv7p60r5s1kKzwndvGdsJDX-W4Xhm4oVdpk
+</pre></div>
+</div>
+</div>
+<div class="section" id="auth-via-websockets">
+<h5>Auth via WebSockets<a class="headerlink" href="#auth-via-websockets" title="Permalink to this headline">¶</a></h5>
+<p>WebSocket clients support a “subprotocols” argument (sometimes simply
+called “protocols”); this is usually in a list form but occasionally in
+comma-separated form.  Check documentation for your WebSocket library of
+choice for details.</p>
+<p>For HTTP JSON requests, you must pass two subprotocols:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">daml.ws.auth</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">jwt.token.paste-jwt-here</span></code></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>jwt.token.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVBJLUdhdGV3YXkiLCJhY3RBcyI6WyJBbGljZSJdfX0.34zzF_fbWv7p60r5s1kKzwndvGdsJDX-W4Xhm4oVdpk
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="http-status-codes">
+<h2>HTTP Status Codes<a class="headerlink" href="#http-status-codes" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>JSON API</strong> reports errors using standard HTTP status codes. It divides HTTP status codes into 3 groups indicating:</p>
+<ol class="arabic simple">
+<li>success (200)</li>
+<li>failure due to a client-side problem (400, 401, 403, 404, 409, 429)</li>
+<li>failure due to a server-side problem (500, 503)</li>
+</ol>
+<p>The <strong>JSON API</strong> can return one of the following HTTP status codes:</p>
+<ul class="simple">
+<li>200 - OK</li>
+<li>400 - Bad Request (Client Error)</li>
+<li>401 - Unauthorized, authentication required</li>
+<li>403 - Forbidden, insufficient permissions</li>
+<li>404 - Not Found</li>
+<li>409 - Conflict, contract ID or key missing or duplicated</li>
+<li>500 - Internal Server Error</li>
+<li>503 - Service Unavailable, ledger server is not running yet or has been shut down</li>
+<li>504 - Gateway Timeout, transaction failed to receive its completion within the predefined timeout</li>
+</ul>
+<p>When the Ledger API returns an error code, the JSON API maps it to one of the above codes according to <a class="reference external" href="https://cloud.google.com/apis/design/errors#generating_errors">the official gRPC to HTTP code mapping</a>.</p>
+<p>If a client’s HTTP GET or POST request reaches an API endpoint, the corresponding response will always contain a JSON object with a <code class="docutils literal notranslate"><span class="pre">status</span></code> field, either an <code class="docutils literal notranslate"><span class="pre">errors</span></code> or <code class="docutils literal notranslate"><span class="pre">result</span></code> field and an optional <code class="docutils literal notranslate"><span class="pre">warnings</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;status&quot;: &lt;400 | 401 | 403 | 404 | 409 | 500 | 503 | 504&gt;,
+    &quot;errors&quot;: &lt;JSON array of strings&gt;, | &quot;result&quot;: &lt;JSON object or array&gt;,
+    [&quot;warnings&quot;: &lt;JSON object&gt; ]
+}
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code> – a JSON number which matches the HTTP response status code returned in the HTTP header,</li>
+<li><code class="docutils literal notranslate"><span class="pre">errors</span></code> – a JSON array of strings, each string represents one error,</li>
+<li><code class="docutils literal notranslate"><span class="pre">result</span></code> – a JSON object or JSON array, representing one or many results,</li>
+<li><code class="docutils literal notranslate"><span class="pre">warnings</span></code> – an optional field with a JSON object, representing one or many warnings.</li>
+</ul>
+<p>See the following blog post for more details about error handling best practices: <a class="reference external" href="https://blog.restcase.com/rest-api-error-codes-101/">REST API Error Codes 101</a>.</p>
+<div class="section" id="successful-response-http-status-200-ok">
+<h3>Successful response, HTTP status: 200 OK<a class="headerlink" href="#successful-response-http-status-200-ok" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;status&quot;: 200,
+    &quot;result&quot;: &lt;JSON object&gt;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="successful-response-with-a-warning-http-status-200-ok">
+<h3>Successful response with a warning, HTTP status: 200 OK<a class="headerlink" href="#successful-response-with-a-warning-http-status-200-ok" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;status&quot;: 200,
+    &quot;result&quot;: &lt;JSON object&gt;,
+    &quot;warnings&quot;: &lt;JSON object&gt;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="failure-http-status-400-401-404-500">
+<span id="error-format"></span><h3>Failure, HTTP status: 400 | 401 | 404 | 500<a class="headerlink" href="#failure-http-status-400-401-404-500" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{
+    &quot;status&quot;: &lt;400 | 401 | 404 | 500&gt;,
+    &quot;errors&quot;: &lt;JSON array of strings&gt;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p><strong>Result with JSON Object without Warnings:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;status&quot;: 200, &quot;result&quot;: {...}}
+</pre></div>
+</div>
+<p><strong>Result with JSON Array and Warnings:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;status&quot;: 200, &quot;result&quot;: [...], &quot;warnings&quot;: {&quot;unknownTemplateIds&quot;: [&quot;UnknownModule:UnknownEntity&quot;]}}
+</pre></div>
+</div>
+<p><strong>Bad Request Error:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span> <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;JSON parser error: Unexpected character &#39;f&#39; at input index 27 (line 1, position 28)&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p><strong>Bad Request Error with Warnings:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="mi">400</span><span class="p">,</span> <span class="nt">&quot;errors&quot;</span><span class="p">:[</span><span class="s2">&quot;Cannot resolve any template ID from request&quot;</span><span class="p">],</span> <span class="nt">&quot;warnings&quot;</span><span class="p">:{</span><span class="nt">&quot;unknownTemplateIds&quot;</span><span class="p">:[</span><span class="s2">&quot;XXX:YYY&quot;</span><span class="p">,</span><span class="s2">&quot;AAA:BBB&quot;</span><span class="p">]}}</span>
+</pre></div>
+</div>
+<p><strong>Authentication Error:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">401</span><span class="p">,</span> <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Authentication Required&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p><strong>Not Found Error:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">404</span><span class="p">,</span> <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;HttpMethod(POST), uri: http://localhost:7575/v1/query1&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p><strong>Internal Server Error:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Cannot initialize Ledger API&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-a-new-contract">
+<h2>Create a new Contract<a class="headerlink" href="#create-a-new-contract" title="Permalink to this headline">¶</a></h2>
+<p>To create an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> contract from the <a class="reference internal" href="../app-dev/bindings-java/quickstart.html"><span class="doc">Quickstart guide</span></a>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Iou</span>
+  <span class="kr">with</span>
+    <span class="n">issuer</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">currency</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="n">observers</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Party</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="http-request">
+<span id="create-request"></span><h3>HTTP Request<a class="headerlink" href="#http-request" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/create</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Iou:Iou&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">templateId</span></code> is the contract template identifier, which can be formatted as either:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;&lt;package</span> <span class="pre">ID&gt;:&lt;module&gt;:&lt;entity&gt;&quot;</span></code> or</li>
+<li><code class="docutils literal notranslate"><span class="pre">&quot;&lt;module&gt;:&lt;entity&gt;&quot;</span></code> if contract template can be uniquely identified by its module and entity name.</li>
+</ul>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">payload</span></code> field contains contract fields as defined in the Daml template and formatted according to <a class="reference internal" href="lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>.</li>
+</ul>
+</div>
+<div class="section" id="http-response">
+<span id="create-response"></span><h3>HTTP Response<a class="headerlink" href="#http-response" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Alice&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#124:0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code> field matches the HTTP response status code returned in the HTTP header,</li>
+<li><code class="docutils literal notranslate"><span class="pre">result</span></code> field contains created contract details. Keep in mind that <code class="docutils literal notranslate"><span class="pre">templateId</span></code> in the <strong>JSON API</strong> response is always fully qualified (always contains package ID).</li>
+</ul>
+</div>
+</div>
+<div class="section" id="creating-a-contract-with-a-command-id">
+<span id="create-request-with-meta"></span><h2>Creating a Contract with a Command ID<a class="headerlink" href="#creating-a-contract-with-a-command-id" title="Permalink to this headline">¶</a></h2>
+<p>When creating a new contract you may specify an optional <code class="docutils literal notranslate"><span class="pre">meta</span></code> field. This allows you to control the <code class="docutils literal notranslate"><span class="pre">commandId</span></code>, <code class="docutils literal notranslate"><span class="pre">actAs</span></code>, and <code class="docutils literal notranslate"><span class="pre">readAs</span></code> used when submitting a command to the ledger.  Each of these <code class="docutils literal notranslate"><span class="pre">meta</span></code> fields is optional.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You cannot currently use <code class="docutils literal notranslate"><span class="pre">commandIds</span></code> anywhere else in the JSON API, but you can use it for observing the results of its commands outside the JSON API in logs or via the Ledger API’s <a class="reference internal" href="../app-dev/services.html"><span class="doc">Command Services</span></a></p>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Iou:Iou&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;meta&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;commandId&quot;</span><span class="p">:</span> <span class="s2">&quot;a unique ID&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;actAs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;readAs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;PublicParty&quot;</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">commandId</span></code> – optional field, a unique string identifying the command.</li>
+</ul>
+</div>
+<div class="section" id="exercise-by-contract-id">
+<h2>Exercise by Contract ID<a class="headerlink" href="#exercise-by-contract-id" title="Permalink to this headline">¶</a></h2>
+<p>The JSON command below, demonstrates how to exercise an <code class="docutils literal notranslate"><span class="pre">Iou_Transfer</span></code> choice on an <code class="docutils literal notranslate"><span class="pre">Iou</span></code> contract:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="n">choice</span> <span class="kt">Iou_Transfer</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">IouTransfer</span>
+      <span class="kr">with</span>
+        <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+      <span class="kr">controller</span> <span class="n">owner</span>
+      <span class="kr">do</span> <span class="n">create</span> <span class="kt">IouTransfer</span> <span class="kr">with</span> <span class="n">iou</span> <span class="ow">=</span> <span class="kr">this</span><span class="p">;</span> <span class="n">newOwner</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h3>HTTP Request<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/exercise</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Iou:Iou&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#124:0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;choice&quot;</span><span class="p">:</span> <span class="s2">&quot;Iou_Transfer&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;argument&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;newOwner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">templateId</span></code> – contract template identifier, same as in <a class="reference internal" href="#create-request"><span class="std std-ref">create request</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">contractId</span></code> – contract identifier, the value from the  <a class="reference internal" href="#create-response"><span class="std std-ref">create response</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">choice</span></code> – Daml contract choice, that is being exercised,</li>
+<li><code class="docutils literal notranslate"><span class="pre">argument</span></code> – contract choice argument(s).</li>
+</ul>
+</div>
+<div class="section" id="exercise-response">
+<span id="id2"></span><h3>HTTP Response<a class="headerlink" href="#exercise-response" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;exerciseResult&quot;</span><span class="p">:</span> <span class="s2">&quot;#201:1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;events&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;archived&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#124:0&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:Iou&quot;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="nt">&quot;created&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                    <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&quot;iou&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                            <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                            <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+                            <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                            <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+                        <span class="p">},</span>
+                        <span class="nt">&quot;newOwner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+                    <span class="p">},</span>
+                    <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="s2">&quot;Alice&quot;</span>
+                    <span class="p">],</span>
+                    <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#201:1&quot;</span><span class="p">,</span>
+                    <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:IouTransfer&quot;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">status</span></code> field matches the HTTP response status code returned in the HTTP header,</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">result</span></code> field contains contract choice execution details:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">exerciseResult</span></code> field contains the return value of the exercised contract choice,</li>
+<li><code class="docutils literal notranslate"><span class="pre">events</span></code> contains an array of contracts that were archived and created as part of the choice execution. The array may contain: <strong>zero or many</strong> <code class="docutils literal notranslate"><span class="pre">{&quot;archived&quot;:</span> <span class="pre">{...}}</span></code> and <strong>zero or many</strong> <code class="docutils literal notranslate"><span class="pre">{&quot;created&quot;:</span> <span class="pre">{...}}</span></code> elements. The order of the contracts is the same as on the ledger.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="exercise-by-contract-key">
+<h2>Exercise by Contract Key<a class="headerlink" href="#exercise-by-contract-key" title="Permalink to this headline">¶</a></h2>
+<p>The JSON command below, demonstrates how to exercise the <code class="docutils literal notranslate"><span class="pre">Archive</span></code> choice on the <code class="docutils literal notranslate"><span class="pre">Account</span></code> contract with a <code class="docutils literal notranslate"><span class="pre">(Party,</span> <span class="pre">Text)</span></code> <a class="reference internal" href="../daml/reference/contract-keys.html"><span class="doc">contract key</span></a> defined like this:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Account</span> <span class="kr">with</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">number</span> <span class="kt">:</span> <span class="kt">Text</span>
+    <span class="n">status</span> <span class="kt">:</span> <span class="kt">AccountStatus</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">owner</span>
+    <span class="n">key</span> <span class="p">(</span><span class="n">owner</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">Party</span><span class="p">,</span> <span class="kt">Text</span><span class="p">)</span>
+    <span class="n">maintainer</span> <span class="n">key</span><span class="o">.</span><span class="n">_1</span>
+</pre></div>
+</div>
+<div class="section" id="id3">
+<h3>HTTP Request<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/exercise</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Account:Account&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;abc123&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;choice&quot;</span><span class="p">:</span> <span class="s2">&quot;Archive&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;argument&quot;</span><span class="p">:</span> <span class="p">{}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">templateId</span></code> – contract template identifier, same as in <a class="reference internal" href="#create-request"><span class="std std-ref">create request</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">key</span></code> – contract key, formatted according to the <a class="reference internal" href="lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">choice</span></code> – Daml contract choice, that is being exercised,</li>
+<li><code class="docutils literal notranslate"><span class="pre">argument</span></code> – contract choice argument(s), empty, because <code class="docutils literal notranslate"><span class="pre">Archive</span></code> does not take any.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>HTTP Response<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Formatted similar to <a class="reference internal" href="#exercise-response"><span class="std std-ref">Exercise by Contract ID response</span></a>.</p>
+</div>
+</div>
+<div class="section" id="create-and-exercise-in-the-same-transaction">
+<h2>Create and Exercise in the Same Transaction<a class="headerlink" href="#create-and-exercise-in-the-same-transaction" title="Permalink to this headline">¶</a></h2>
+<p>This command allows creating a contract and exercising a choice on the newly created contract in the same transaction.</p>
+<div class="section" id="id5">
+<h3>HTTP Request<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/create-and-exercise</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Iou:Iou&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;choice&quot;</span><span class="p">:</span> <span class="s2">&quot;Iou_Transfer&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;argument&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;newOwner&quot;</span><span class="p">:</span> <span class="s2">&quot;Bob&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">templateId</span></code> – the initial contract template identifier, in the same format as in the <a class="reference internal" href="#create-request"><span class="std std-ref">create request</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">payload</span></code> – the initial contract fields as defined in the Daml template and formatted according to <a class="reference internal" href="lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">choice</span></code> – Daml contract choice, that is being exercised,</li>
+<li><code class="docutils literal notranslate"><span class="pre">argument</span></code> – contract choice argument(s).</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>HTTP Response<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Please note that the response below is for a consuming choice, so it contains:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">created</span></code> and <code class="docutils literal notranslate"><span class="pre">archived</span></code> events for the initial contract (<code class="docutils literal notranslate"><span class="pre">&quot;contractId&quot;:</span> <span class="pre">&quot;#1:0&quot;</span></code>), which was created and archived right away when a consuming choice was exercised on it,</li>
+<li>a <code class="docutils literal notranslate"><span class="pre">created</span></code> event for the contract that is the result of exercising the choice (<code class="docutils literal notranslate"><span class="pre">&quot;contractId&quot;:</span> <span class="pre">&quot;#1:2&quot;</span></code>).</li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;exerciseResult&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:2&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;events&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;created&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+          <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Alice&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:0&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:Iou&quot;</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;archived&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:0&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:Iou&quot;</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="nt">&quot;created&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Bob&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;iou&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+              <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;newOwner&quot;</span><span class="p">:</span> <span class="s2">&quot;Bob&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Alice&quot;</span>
+          <span class="p">],</span>
+          <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:2&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;a3b788b4dc18dc060bfb82366ae6dc055b1e361d646d5cfdb1b729607e344336:Iou:IouTransfer&quot;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fetch-contract-by-contract-id">
+<h2>Fetch Contract by Contract ID<a class="headerlink" href="#fetch-contract-by-contract-id" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>HTTP Request<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/fetch</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<p>application/json body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#201:1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">readers</span></code> may be passed as with <a class="reference internal" href="#sync-query-req"><span class="std std-ref">Query</span></a>.</p>
+</div>
+<div class="section" id="contract-not-found-http-response">
+<h3>Contract Not Found HTTP Response<a class="headerlink" href="#contract-not-found-http-response" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="contract-found-http-response">
+<h3>Contract Found HTTP Response<a class="headerlink" href="#contract-found-http-response" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;iou&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;newOwner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Alice&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#201:1&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Iou:IouTransfer&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fetch-contract-by-key">
+<h2>Fetch Contract by Key<a class="headerlink" href="#fetch-contract-by-key" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>HTTP Request<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/fetch</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Account:Account&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;abc123&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">readers</span></code> may be passed as with <a class="reference internal" href="#sync-query-req"><span class="std std-ref">Query</span></a>.</p>
+</div>
+<div class="section" id="id9">
+<h3>Contract Not Found HTTP Response<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>Contract Found HTTP Response<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;abc123&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;tag&quot;</span><span class="p">:</span> <span class="s2">&quot;Enabled&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;2020-01-01T00:00:01Z&quot;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;Alice&quot;</span>
+        <span class="p">],</span>
+        <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;abc123&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#697:0&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;11c8f3ace75868d28136adc5cfc1de265a9ee5ad73fe8f2db97510e3631096a2:Account:Account&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="get-all-active-contracts">
+<h2>Get all Active Contracts<a class="headerlink" href="#get-all-active-contracts" title="Permalink to this headline">¶</a></h2>
+<p>List all currently active contracts for all known templates.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Retrieved contracts do not get persisted into a query store database. Query store is a search index and can be used to optimize search latency. See <a class="reference internal" href="#start-http-service"><span class="std std-ref">Start HTTP service</span></a> for information on how to start JSON API service with a query store enabled.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can only query active contracts with the <code class="docutils literal notranslate"><span class="pre">/v1/query</span></code> endpoint. Archived contracts (those that were archived or consumed during an exercise operation) will not be shown in the results.</p>
+</div>
+<div class="section" id="id11">
+<h3>HTTP Request<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/query</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code></li>
+<li>Content: &lt;EMPTY&gt;</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>HTTP Response<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>The response is the same as for the POST method below.</p>
+</div>
+</div>
+<div class="section" id="get-all-active-contracts-matching-a-given-query">
+<h2>Get all Active Contracts Matching a Given Query<a class="headerlink" href="#get-all-active-contracts-matching-a-given-query" title="Permalink to this headline">¶</a></h2>
+<p>List currently active contracts that match a given query.</p>
+<div class="section" id="id13">
+<h3>HTTP Request<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/query</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate" id="sync-query-req"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="mf">999.99</span><span class="p">},</span>
+    <span class="nt">&quot;readers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">templateIds</span></code> –  an array of contract template identifiers to search through,</li>
+<li><code class="docutils literal notranslate"><span class="pre">query</span></code> – search criteria to apply to the specified <code class="docutils literal notranslate"><span class="pre">templateIds</span></code>, formatted according to the <a class="reference internal" href="search-query-language.html"><span class="doc">Query language</span></a>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">readers</span></code> – <em>optional</em> non-empty list of parties to query as; must be a subset of the actAs/readAs parties in the JWT</li>
+</ul>
+</div>
+<div class="section" id="empty-http-response">
+<h3>Empty HTTP Response<a class="headerlink" href="#empty-http-response" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nonempty-http-response">
+<h3>Nonempty HTTP Response<a class="headerlink" href="#nonempty-http-response" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#52:0&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;b10d22d6c2f2fae41b353315cf893ed66996ecb0abe4424ea6a81576918f658a:Iou:Iou&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">result</span></code> contains an array of contracts, each contract formatted according to <a class="reference internal" href="lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code> matches the HTTP status code returned in the HTTP header.</li>
+</ul>
+</div>
+<div class="section" id="nonempty-http-response-with-unknown-template-ids-warning">
+<h3>Nonempty HTTP Response with Unknown Template IDs Warning<a class="headerlink" href="#nonempty-http-response-with-unknown-template-ids-warning" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;warnings&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;unknownTemplateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;UnknownModule:UnknownEntity&quot;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="nt">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#52:0&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;b10d22d6c2f2fae41b353315cf893ed66996ecb0abe4424ea6a81576918f658a:Iou:Iou&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fetch-parties-by-identifiers">
+<h2>Fetch Parties by Identifiers<a class="headerlink" href="#fetch-parties-by-identifiers" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/parties</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="s2">&quot;Dave&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>If an empty JSON array is passed: <code class="docutils literal notranslate"><span class="pre">[]</span></code>, this endpoint returns BadRequest(400) error:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+  <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;JsonReaderError. Cannot read JSON: &lt;[]&gt;. Cause: spray.json.DeserializationException: must be a list with at least 1 element&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="id14">
+<h3>HTTP Response<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;identifier&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;displayName&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice &amp; Co. LLC&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;isLocal&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;identifier&quot;</span><span class="p">:</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;displayName&quot;</span><span class="p">:</span> <span class="s2">&quot;Bob &amp; Co. LLC&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;isLocal&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;identifier&quot;</span><span class="p">:</span> <span class="s2">&quot;Dave&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;isLocal&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Please note that the order of the party objects in the response is not guaranteed to match the order of the passed party identifiers.</p>
+<p>Where</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">identifier</span></code> – a stable unique identifier of a Daml party,</li>
+<li><code class="docutils literal notranslate"><span class="pre">displayName</span></code> – optional human readable name associated with the party. Might not be unique,</li>
+<li><code class="docutils literal notranslate"><span class="pre">isLocal</span></code> – true if party is hosted by the backing participant.</li>
+</ul>
+</div>
+<div class="section" id="response-with-unknown-parties-warning">
+<h3>Response with Unknown Parties Warning<a class="headerlink" href="#response-with-unknown-parties-warning" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;identifier&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;displayName&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice &amp; Co. LLC&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;isLocal&quot;</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;warnings&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;unknownParties&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Erin&quot;</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">result</span></code> might be an empty JSON array if none of the requested parties is known.</p>
+</div>
+</div>
+<div class="section" id="fetch-all-known-parties">
+<h2>Fetch All Known Parties<a class="headerlink" href="#fetch-all-known-parties" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/parties</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code></li>
+<li>Content: &lt;EMPTY&gt;</li>
+</ul>
+<div class="section" id="id15">
+<h3>HTTP Response<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>The response is the same as for the POST method above.</p>
+</div>
+</div>
+<div class="section" id="allocate-a-new-party">
+<h2>Allocate a New Party<a class="headerlink" href="#allocate-a-new-party" title="Permalink to this headline">¶</a></h2>
+<p>This endpoint is a JSON API proxy for the Ledger API’s <a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-allocatepartyrequest"><span class="std std-ref">AllocatePartyRequest</span></a>. For more information about party management, please refer to <a class="reference internal" href="../concepts/identity-and-package-management.html#provisioning-ledger-identifiers"><span class="std std-ref">Provisioning Identifiers</span></a> part of the Ledger API documentation.</p>
+<div class="section" id="id16">
+<h3>HTTP Request<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/parties/allocate</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;identifierHint&quot;</span><span class="p">:</span> <span class="s2">&quot;Carol&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;displayName&quot;</span><span class="p">:</span> <span class="s2">&quot;Carol &amp; Co. LLC&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Please refer to <a class="reference internal" href="../app-dev/grpc/proto-docs.html#com-daml-ledger-api-v1-admin-allocatepartyrequest"><span class="std std-ref">AllocateParty</span></a> documentation for information about the meaning of the fields.</p>
+<p>All fields in the request are optional, this means that an empty JSON object is a valid request to allocate a new party:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id17">
+<h3>HTTP Response<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;identifier&quot;</span><span class="p">:</span> <span class="s2">&quot;Carol&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;displayName&quot;</span><span class="p">:</span> <span class="s2">&quot;Carol &amp; Co. LLC&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;isLocal&quot;</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="list-all-dalf-packages">
+<h2>List All DALF Packages<a class="headerlink" href="#list-all-dalf-packages" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h3>HTTP Request<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/packages</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code></li>
+<li>Content: &lt;EMPTY&gt;</li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>HTTP Response<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;c1f1f00558799eec139fb4f4c76f95fb52fa1837a5dd29600baa1c8ed1bdccfd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;733e38d36a2759688a4b2c4cec69d48e7b55ecc8dedc8067b815926c917a182a&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bfcd37bd6b84768e86e432f5f6c33e25d9e7724a9d42e33875ff74f6348e733f&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;40f452260bef3f29dede136108fc08a88d5a5250310281067087da6f0baddff7&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;8a7806365bbd98d88b4c13832ebfa305f6abaeaf32cfa2b7dd25c4fa489b79fb&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">result</span></code> is the JSON array containing the package IDs of all loaded DALFs.</p>
+</div>
+</div>
+<div class="section" id="download-a-dalf-package">
+<h2>Download a DALF Package<a class="headerlink" href="#download-a-dalf-package" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h3>HTTP Request<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/packages/&lt;package</span> <span class="pre">ID&gt;</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code></li>
+<li>Content: &lt;EMPTY&gt;</li>
+</ul>
+<p>Note that the desired package ID is specified in the URL.</p>
+</div>
+<div class="section" id="http-response-status-200-ok">
+<h3>HTTP Response, status: 200 OK<a class="headerlink" href="#http-response-status-200-ok" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Transfer-Encoding: <code class="docutils literal notranslate"><span class="pre">chunked</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/octet-stream</span></code></li>
+<li>Content: &lt;DALF bytes&gt;</li>
+</ul>
+<p>The content (body) of the HTTP response contains raw DALF package bytes, without any encoding. Note that the package ID specified in the URL is actually the SHA-256 hash of the downloaded DALF package and can be used to validate the integrity of the downloaded content.</p>
+</div>
+<div class="section" id="http-response-with-error-any-status-different-from-200-ok">
+<h3>HTTP Response with Error, any status different from 200 OK<a class="headerlink" href="#http-response-with-error-any-status-different-from-200-ok" title="Permalink to this headline">¶</a></h3>
+<p>Any status different from <code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">OK</span></code> will be in the format specified below.</p>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;io.grpc.StatusRuntimeException: NOT_FOUND&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="upload-a-dar-file">
+<h2>Upload a DAR File<a class="headerlink" href="#upload-a-dar-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h3>HTTP Request<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/packages</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">POST</span></code></li>
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/octet-stream</span></code></li>
+<li>Content: &lt;DAR bytes&gt;</li>
+</ul>
+<p>The content (body) of the HTTP request contains raw DAR file bytes, without any encoding.</p>
+</div>
+<div class="section" id="id22">
+<h3>HTTP Response, status: 200 OK<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;result&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">200</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="http-response-with-error">
+<h3>HTTP Response with Error<a class="headerlink" href="#http-response-with-error" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Content-Type: <code class="docutils literal notranslate"><span class="pre">application/json</span></code></li>
+<li>Content:</li>
+</ul>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;io.grpc.StatusRuntimeException: INVALID_ARGUMENT: Invalid argument: Invalid DAR: package-upload, content: [}]&quot;</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="mi">500</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="streaming-api">
+<h2>Streaming API<a class="headerlink" href="#streaming-api" title="Permalink to this headline">¶</a></h2>
+<p>Two subprotocols must be passed with every request, as described in
+<a class="reference external" href="#auth-via-websockets">Auth via WebSockets</a>.</p>
+<p>JavaScript/Node.js example demonstrating how to establish Streaming API connection:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span> <span class="nx">wsProtocol</span> <span class="o">=</span> <span class="s2">&quot;daml.ws.auth&quot;</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">tokenPrefix</span> <span class="o">=</span> <span class="s2">&quot;jwt.token.&quot;</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">jwt</span> <span class="o">=</span>
+  <span class="s2">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2RhbWwuY29tL2xlZGdlci1hcGkiOnsibGVkZ2VySWQiOiJNeUxlZGdlciIsImFwcGxpY2F0aW9uSWQiOiJIVFRQLUpTT04tQVBJLUdhdGV3YXkiLCJhY3RBcyI6WyJBbGljZSJdfX0.34zzF_fbWv7p60r5s1kKzwndvGdsJDX-W4Xhm4oVdp&quot;</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">subprotocols</span> <span class="o">=</span> <span class="p">[</span><span class="sb">`</span><span class="si">${</span><span class="nx">tokenPrefix</span><span class="si">}${</span><span class="nx">jwt</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span> <span class="nx">wsProtocol</span><span class="p">];</span>
+
+<span class="kd">const</span> <span class="nx">ws</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">&quot;ws://localhost:7575/v1/stream/query&quot;</span><span class="p">,</span> <span class="nx">subprotocols</span><span class="p">);</span>
+
+<span class="nx">ws</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">open</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="nx">templateIds</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">]}));</span>
+<span class="p">});</span>
+
+<span class="nx">ws</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="nx">incoming</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Please note that Streaming API does not allow multiple requests over the same WebSocket connection. The server returns an error and disconnects if second request received over the same WebSocket connection.</p>
+<div class="section" id="error-and-warning-reporting">
+<h3>Error and Warning Reporting<a class="headerlink" href="#error-and-warning-reporting" title="Permalink to this headline">¶</a></h3>
+<p>Errors and warnings reported as part of the regular <code class="docutils literal notranslate"><span class="pre">on-message</span></code> flow: <code class="docutils literal notranslate"><span class="pre">ws.addEventListener(&quot;message&quot;,</span> <span class="pre">...)</span></code>.</p>
+<p>Streaming API error messages formatted the same way as <a class="reference internal" href="#error-format"><span class="std std-ref">synchronous API errors</span></a>.</p>
+<p>Streaming API reports only one type of warnings – unknown template IDs, which is formatted as:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;warnings&quot;:{&quot;unknownTemplateIds&quot;:&lt;JSON Array of template ID strings&gt;&gt;}}
+</pre></div>
+</div>
+<div class="section" id="error-and-warning-examples">
+<h4>Error and Warning Examples<a class="headerlink" href="#error-and-warning-examples" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{&quot;warnings&quot;: {&quot;unknownTemplateIds&quot;: [&quot;UnknownModule:UnknownEntity&quot;]}}
+
+{
+  &quot;errors&quot;:[&quot;JsonReaderError. Cannot read JSON: &lt;{\&quot;templateIds\&quot;:[]}&gt;. Cause: spray.json.DeserializationException: search requires at least one item in &#39;templateIds&#39;&quot;],
+  &quot;status&quot;:400
+}
+
+{
+  &quot;errors&quot;:[&quot;Multiple requests over the same WebSocket connection are not allowed.&quot;],
+  &quot;status&quot;:400
+}
+
+{
+  &quot;errors&quot;:[&quot;Could not resolve any template ID from request.&quot;],
+  &quot;status&quot;:400
+}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="contracts-query-stream">
+<h3>Contracts Query Stream<a class="headerlink" href="#contracts-query-stream" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/stream/query</span></code></li>
+<li>Scheme: <code class="docutils literal notranslate"><span class="pre">ws</span></code></li>
+<li>Protocol: <code class="docutils literal notranslate"><span class="pre">WebSocket</span></code></li>
+</ul>
+<p>List currently active contracts that match a given query, with
+continuous updates.</p>
+<p><code class="docutils literal notranslate"><span class="pre">application/json</span></code> body must be sent first, formatted according to the
+<a class="reference internal" href="search-query-language.html"><span class="doc">Query language</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>Multiple queries may be specified in an array, for overlapping or
+different sets of template IDs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">],</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;%lte&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}}},</span>
+    <span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">],</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2">t&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}}},</span>
+    <span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Queries have two ways to specify an offset.</p>
+<p>An <code class="docutils literal notranslate"><span class="pre">offset</span></code>, a string supplied by an earlier query output message, may
+optionally be specified alongside each query itself:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">],</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;%lte&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}}},</span>
+    <span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">],</span> <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2">t&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}}},</span>
+    <span class="p">{</span><span class="s2">&quot;templateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Iou:Iou&quot;</span><span class="p">],</span> <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="s2">&quot;5609&quot;</span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>If specified, the stream will include only contract creations and
+archivals <em>after</em> the response body that included that offset.  Queries
+with no offset will begin with all active contracts for that query, as
+usual.</p>
+<p>If an offset is specified <em>before</em> the queries, as a separate body, it
+will be used as a default offset for all queries that do not include an
+offset themselves:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="s2">&quot;4307&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>For example, if this message preceded the above 3-query example, it
+would be as if <code class="docutils literal notranslate"><span class="pre">&quot;4307&quot;</span></code> had been specified for the first two queries,
+while <code class="docutils literal notranslate"><span class="pre">&quot;5609&quot;</span></code> would be used for the third query.</p>
+<p>The output is a series of JSON documents, each <code class="docutils literal notranslate"><span class="pre">payload</span></code> formatted
+according to <a class="reference internal" href="lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;events&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;999.99&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;matchedQueries&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="p">}]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">matchedQueries</span></code> indicates the 0-based indices into the request
+list of queries that matched this contract.</p>
+<p>Every <code class="docutils literal notranslate"><span class="pre">events</span></code> block following the end of contracts that existed when
+the request started includes an <code class="docutils literal notranslate"><span class="pre">offset</span></code>.  The stream is guaranteed to
+send an offset immediately at the beginning of this “live” data, which
+may or may not contain any <code class="docutils literal notranslate"><span class="pre">events</span></code>; if it does not contain events and
+no events were emitted before, it may be <code class="docutils literal notranslate"><span class="pre">null</span></code> if there was no
+transaction on the ledger
+or a string representing the current ledger end;
+otherwise, it will be a string.  For example, you might use it to turn
+off an initial “loading” indicator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;events&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="s2">&quot;2&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Events in the following “live” data may include <code class="docutils literal notranslate"><span class="pre">events</span></code> that precede
+this <code class="docutils literal notranslate"><span class="pre">offset</span></code> if an earlier per-query <code class="docutils literal notranslate"><span class="pre">offset</span></code> was specified.</p>
+<p class="last">This has been done with the intent of allowing to use per-query <code class="docutils literal notranslate"><span class="pre">offset</span></code> s to
+efficiently use a single connection to multiplex various requests. To give an
+example of how this would work, let’s say that there are two contract templates,
+<code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> . Your application first queries for <code class="docutils literal notranslate"><span class="pre">A</span></code> s without specifying
+an offset. Then some client-side interaction requires the application to do the
+same for <code class="docutils literal notranslate"><span class="pre">B</span></code> s. The application can save the latest observed offset for the
+previous query, which let’s say is <code class="docutils literal notranslate"><span class="pre">42</span></code>, and issue a new request that queries
+for all <code class="docutils literal notranslate"><span class="pre">B</span></code> s without specifying an offset and all <code class="docutils literal notranslate"><span class="pre">A</span></code> s from <code class="docutils literal notranslate"><span class="pre">42</span></code>. While
+this happens on the client, a few more <code class="docutils literal notranslate"><span class="pre">A</span></code> s and <code class="docutils literal notranslate"><span class="pre">B</span></code> s are created and the
+new request is issued once the latest offset is <code class="docutils literal notranslate"><span class="pre">47</span></code>. The response to this
+will contain a message with all active <code class="docutils literal notranslate"><span class="pre">B</span></code> s, followed by the message reporting
+the offset <code class="docutils literal notranslate"><span class="pre">47</span></code>, followed by a stream of live updates that contains new <code class="docutils literal notranslate"><span class="pre">A</span></code> s
+starting from <code class="docutils literal notranslate"><span class="pre">42</span></code> and new <code class="docutils literal notranslate"><span class="pre">B</span></code> s starting from <code class="docutils literal notranslate"><span class="pre">47</span></code> .</p>
+</div>
+<p>To keep the stream alive, you’ll occasionally see messages like this,
+which can be safely ignored if you do not need to capture the last seen ledger offset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;events&quot;</span><span class="p">:[],</span><span class="s2">&quot;offset&quot;</span><span class="p">:</span><span class="s2">&quot;5609&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">offset</span></code> is the last seen ledger offset.</p>
+<p>After submitting an <code class="docutils literal notranslate"><span class="pre">Iou_Split</span></code> exercise, which creates two contracts
+and archives the one above, the same stream will eventually produce:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;events&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="s2">&quot;archived&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:0&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;42.42&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#2:1&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;matchedQueries&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="p">},</span> <span class="p">{</span>
+        <span class="s2">&quot;created&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;agreementText&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;observers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;issuer&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;amount&quot;</span><span class="p">:</span> <span class="s2">&quot;957.57&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;currency&quot;</span><span class="p">:</span> <span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;signatories&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;contractId&quot;</span><span class="p">:</span> <span class="s2">&quot;#2:2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;eb3b150383a979d6765b8570a17dd24ae8d8b63418ee5fd20df20ad2a1c13976:Iou:Iou&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;matchedQueries&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="p">}],</span>
+    <span class="s2">&quot;offset&quot;</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If any template IDs are found not to resolve, the first element of the stream will report them:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;warnings&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;unknownTemplateIds&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;UnknownModule:UnknownEntity&quot;</span><span class="p">]}}</span>
+</pre></div>
+</div>
+<p>and the stream will continue, provided that at least one template ID
+resolved properly.</p>
+<p>Aside from <code class="docutils literal notranslate"><span class="pre">&quot;created&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;archived&quot;</span></code> elements, <code class="docutils literal notranslate"><span class="pre">&quot;error&quot;</span></code>
+elements may appear, which contain a string describing the error.  The
+stream will continue in these cases, rather than terminating.</p>
+<p>Some notes on behavior:</p>
+<ol class="arabic simple">
+<li>Each result array means “this is what would have changed if you just
+polled <code class="docutils literal notranslate"><span class="pre">/v1/query</span></code> iteratively.”  In particular, just as
+polling search can “miss” contracts (as a create and archive can be
+paired between polls), such contracts may or may not appear in any
+result object.</li>
+<li>No <code class="docutils literal notranslate"><span class="pre">archived</span></code> ever contains a contract ID occurring within a
+<code class="docutils literal notranslate"><span class="pre">created</span></code> in the same array.  So, for example, supposing you are
+keeping an internal map of active contracts keyed by contract ID, you
+can apply the <code class="docutils literal notranslate"><span class="pre">created</span></code> first or the <code class="docutils literal notranslate"><span class="pre">archived</span></code> first, forwards,
+backwards, or in random order, and be guaranteed to get the same
+results.</li>
+<li>Within a given array, if an <code class="docutils literal notranslate"><span class="pre">archived</span></code> and <code class="docutils literal notranslate"><span class="pre">created</span></code> refer to
+contracts with the same template ID and <a class="reference internal" href="../daml/reference/contract-keys.html"><span class="doc">contract key</span></a>, the
+<code class="docutils literal notranslate"><span class="pre">archived</span></code> is guaranteed to occur before the <code class="docutils literal notranslate"><span class="pre">created</span></code>.</li>
+<li>Except in cases of #3, within a single response array, the order of
+<code class="docutils literal notranslate"><span class="pre">created</span></code> and <code class="docutils literal notranslate"><span class="pre">archived</span></code> is undefined and does not imply that any
+element occurred “before” or “after” any other one.</li>
+<li>You will almost certainly receive contract IDs in <code class="docutils literal notranslate"><span class="pre">archived</span></code> that
+you never received a <code class="docutils literal notranslate"><span class="pre">created</span></code> for.  These are contracts that
+query filtered out, but for which the server no longer is aware of
+that.  You can safely ignore these.  However, such “phantom archives”
+<em>are</em> guaranteed to represent an actual archival <em>on the ledger</em>, so
+if you are keeping a more global dataset outside the context of this
+specific search, you can use that archival information as you wish.</li>
+</ol>
+</div>
+<div class="section" id="fetch-by-key-contracts-stream">
+<h3>Fetch by Key Contracts Stream<a class="headerlink" href="#fetch-by-key-contracts-stream" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/v1/stream/fetch</span></code></li>
+<li>Scheme: <code class="docutils literal notranslate"><span class="pre">ws</span></code></li>
+<li>Protocol: <code class="docutils literal notranslate"><span class="pre">WebSocket</span></code></li>
+</ul>
+<p>List currently active contracts that match one of the given <code class="docutils literal notranslate"><span class="pre">{templateId,</span> <span class="pre">key}</span></code> pairs, with continuous updates.</p>
+<p><code class="docutils literal notranslate"><span class="pre">application/json</span></code> body must be sent first, formatted according to the following rule:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[
+    {&quot;templateId&quot;: &quot;&lt;template ID 1&gt;&quot;, &quot;key&quot;: &lt;key 1&gt;},
+    {&quot;templateId&quot;: &quot;&lt;template ID 2&gt;&quot;, &quot;key&quot;: &lt;key 2&gt;},
+    ...
+    {&quot;templateId&quot;: &quot;&lt;template ID N&gt;&quot;, &quot;key&quot;: &lt;key N&gt;}
+]
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">templateId</span></code> – contract template identifier, same as in <a class="reference internal" href="#create-request"><span class="std std-ref">create request</span></a>,</li>
+<li><code class="docutils literal notranslate"><span class="pre">key</span></code> – contract key, formatted according to the <a class="reference internal" href="lf-value-specification.html"><span class="doc">Daml-LF JSON Encoding</span></a>,</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span><span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Account:Account&quot;</span><span class="p">,</span> <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;abc123&quot;</span><span class="p">}},</span>
+    <span class="p">{</span><span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Account:Account&quot;</span><span class="p">,</span> <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;def345&quot;</span><span class="p">}}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>The output stream has the same format as the output from the
+<a class="reference internal" href="#contracts-query-stream">Contracts Query Stream</a>. We further guarantee that for every <code class="docutils literal notranslate"><span class="pre">archived</span></code> event
+appearing on the stream there has been a matching <code class="docutils literal notranslate"><span class="pre">created</span></code> event
+earlier in the stream, except in the case of missing
+<code class="docutils literal notranslate"><span class="pre">contractIdAtOffset</span></code> fields in the case described below.</p>
+<p>You may supply optional <code class="docutils literal notranslate"><span class="pre">offset</span></code> s for the stream, exactly as with
+query streams.  However, you should supply with each <code class="docutils literal notranslate"><span class="pre">{templateId,</span>
+<span class="pre">key}</span></code> pair a <code class="docutils literal notranslate"><span class="pre">contractIdAtOffset</span></code>, which is the contract ID currently
+associated with that pair at the point of the given offset, or <code class="docutils literal notranslate"><span class="pre">null</span></code>
+if no contract ID was associated with the pair at that offset.  For
+example, with the above keys, if you had one <code class="docutils literal notranslate"><span class="pre">&quot;abc123&quot;</span></code> contract but
+no <code class="docutils literal notranslate"><span class="pre">&quot;def345&quot;</span></code> contract, you might specify:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="p">{</span><span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Account:Account&quot;</span><span class="p">,</span> <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;abc123&quot;</span><span class="p">},</span>
+     <span class="nt">&quot;contractIdAtOffset&quot;</span><span class="p">:</span> <span class="s2">&quot;#1:0&quot;</span><span class="p">},</span>
+    <span class="p">{</span><span class="nt">&quot;templateId&quot;</span><span class="p">:</span> <span class="s2">&quot;Account:Account&quot;</span><span class="p">,</span> <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;_1&quot;</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="nt">&quot;_2&quot;</span><span class="p">:</span> <span class="s2">&quot;def345&quot;</span><span class="p">},</span>
+     <span class="nt">&quot;contractIdAtOffset&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>If every <code class="docutils literal notranslate"><span class="pre">contractIdAtOffset</span></code> is specified, as is so in the example
+above, you will not receive any <code class="docutils literal notranslate"><span class="pre">archived</span></code> events for contracts
+created before the offset <em>unless</em> those contracts are identified in a
+<code class="docutils literal notranslate"><span class="pre">contractIdAtOffset</span></code>.  By contrast, if any <code class="docutils literal notranslate"><span class="pre">contractIdAtOffset</span></code> is
+missing, <code class="docutils literal notranslate"><span class="pre">archived</span></code> event filtering will be disabled, and you will
+receive “phantom archives” as with query streams.</p>
+</div>
+</div>
+<div class="section" id="healthcheck-endpoints">
+<h2>Healthcheck Endpoints<a class="headerlink" href="#healthcheck-endpoints" title="Permalink to this headline">¶</a></h2>
+<p>The HTTP JSON API provides two healthcheck endpoints for integration
+with schedulers like
+<a class="reference external" href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">Kubernetes</a>.</p>
+<div class="section" id="liveness-check">
+<h3>Liveness check<a class="headerlink" href="#liveness-check" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/livez</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code></li>
+</ul>
+<p>A status code of <code class="docutils literal notranslate"><span class="pre">200</span></code> indicates a successful liveness check.</p>
+<p>This is an unauthenticated endpoint intended to be used as a liveness
+probe.</p>
+</div>
+<div class="section" id="readiness-check">
+<h3>Readiness check<a class="headerlink" href="#readiness-check" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>URL: <code class="docutils literal notranslate"><span class="pre">/readyz</span></code></li>
+<li>Method: <code class="docutils literal notranslate"><span class="pre">GET</span></code></li>
+</ul>
+<p>A status code of <code class="docutils literal notranslate"><span class="pre">200</span></code> indicates a successful readiness check.</p>
+<p>This is an unauthenticated endpoint intended to be used as a liveness
+probe. It validates both the ledger connection as well as the database
+connection.</p>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../app-dev/bindings-ts/testing.html" class="da-btn da-btn-label btn-prev" title="Testing Your Web App" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="lf-value-specification.html" class="da-btn da-btn-label btn-next" title="Daml-LF JSON Encoding" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

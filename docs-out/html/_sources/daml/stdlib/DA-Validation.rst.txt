@@ -1,0 +1,92 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-validation-71581:
+
+Module DA.Validation
+====================
+
+``Validation`` type and associated functions\.
+
+Data Types
+----------
+
+.. _type-da-validation-types-validation-13527:
+
+**data** `Validation <type-da-validation-types-validation-13527_>`_ err a
+
+  A ``Validation`` represents eithor a non\-empty list of errors, or a successful value\.
+  This generalizes ``Either`` to allow more than one error to be collected\.
+  
+  .. _constr-da-validation-types-errors-23246:
+  
+  `Errors <constr-da-validation-types-errors-23246_>`_ (:ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` err)
+  
+  
+  .. _constr-da-validation-types-success-62231:
+  
+  `Success <constr-da-validation-types-success-62231_>`_ a
+  
+  
+  **instance** :ref:`Applicative <class-da-internal-prelude-applicative-43914>` (`Validation <type-da-validation-types-validation-13527_>`_ err)
+  
+  **instance** :ref:`Functor <class-ghc-base-functor-73448>` (`Validation <type-da-validation-types-validation-13527_>`_ err)
+  
+  **instance** (:ref:`Eq <class-ghc-classes-eq-21216>` err, :ref:`Eq <class-ghc-classes-eq-21216>` a) \=\> :ref:`Eq <class-ghc-classes-eq-21216>` (`Validation <type-da-validation-types-validation-13527_>`_ err a)
+  
+  **instance** (:ref:`Show <class-ghc-show-show-56447>` err, :ref:`Show <class-ghc-show-show-56447>` a) \=\> :ref:`Show <class-ghc-show-show-56447>` (`Validation <type-da-validation-types-validation-13527_>`_ err a)
+
+Functions
+---------
+
+.. _function-da-validation-invalid-20195:
+
+`invalid <function-da-validation-invalid-20195_>`_
+  \: err \-\> `Validation <type-da-validation-types-validation-13527_>`_ err a
+  
+  Fail for the given reason\.
+
+.. _function-da-validation-ok-50393:
+
+`ok <function-da-validation-ok-50393_>`_
+  \: a \-\> `Validation <type-da-validation-types-validation-13527_>`_ err a
+  
+  Succeed with the given value\.
+
+.. _function-da-validation-validate-50507:
+
+`validate <function-da-validation-validate-50507_>`_
+  \: :ref:`Either <type-da-types-either-20245>` err a \-\> `Validation <type-da-validation-types-validation-13527_>`_ err a
+  
+  Turn an ``Either`` into a ``Validation``\.
+
+.. _function-da-validation-run-29601:
+
+`run <function-da-validation-run-29601_>`_
+  \: `Validation <type-da-validation-types-validation-13527_>`_ err a \-\> :ref:`Either <type-da-types-either-20245>` (:ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` err) a
+  
+  Convert a ``Validation err a`` value into an ``Either``,
+  taking the non\-empty list of errors as the left value\.
+
+.. _function-da-validation-run1-20893:
+
+`run1 <function-da-validation-run1-20893_>`_
+  \: `Validation <type-da-validation-types-validation-13527_>`_ err a \-\> :ref:`Either <type-da-types-either-20245>` err a
+  
+  Convert a ``Validation err a`` value into an ``Either``,
+  taking just the first error as the left value\.
+
+.. _function-da-validation-runwithdefault-11353:
+
+`runWithDefault <function-da-validation-runwithdefault-11353_>`_
+  \: a \-\> `Validation <type-da-validation-types-validation-13527_>`_ err a \-\> a
+  
+  Run a ``Validation err a`` with a default value in case of errors\.
+
+.. _function-da-validation-ltwhatgt-901:
+
+`(<?>) <function-da-validation-ltwhatgt-901_>`_
+  \: :ref:`Optional <type-da-internal-prelude-optional-79838>` b \-\> :ref:`Text <type-ghc-types-text-57703>` \-\> `Validation <type-da-validation-types-validation-13527_>`_ :ref:`Text <type-ghc-types-text-57703>` b
+  
+  Convert an ``Optional t`` into a ``Validation Text t``, or
+  more generally into an ``m t`` for any ``ActionFail`` type ``m``\.

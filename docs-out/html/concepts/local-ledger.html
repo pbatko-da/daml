@@ -1,0 +1,852 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Causality and Local Ledgers &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Extractor" href="../tools/extractor.html" />
+  <link rel="prev" title="Time" href="time.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/error-codes.html">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/requirements.html">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/pruning.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time.html">Time</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Causality and Local Ledgers</a><ul>
+<li><a class="reference internal" href="#causality-examples">Causality examples</a><ul>
+<li><a class="reference internal" href="#stakeholders-of-a-contract-see-creation-and-archival-in-the-same-order">Stakeholders of a contract see creation and archival in the same order.</a></li>
+<li><a class="reference internal" href="#signatories-of-a-contract-and-stakeholder-actors-see-usages-after-the-creation-and-before-the-archival">Signatories of a contract and stakeholder actors see usages after the creation and before the archival.</a></li>
+<li><a class="reference internal" href="#commits-are-atomic">Commits are atomic.</a></li>
+<li><a class="reference internal" href="#non-consuming-usages-in-different-commits-may-appear-in-different-orders">Non-consuming usages in different commits may appear in different orders.</a></li>
+<li><a class="reference internal" href="#out-of-band-causality-is-not-respected">Out-of-band causality is not respected.</a></li>
+<li><a class="reference internal" href="#divulged-actions-do-not-induce-order">Divulged actions do not induce order.</a></li>
+<li><a class="reference internal" href="#the-ordering-guarantees-depend-on-the-party">The ordering guarantees depend on the party.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#causality-graphs">Causality graphs</a><ul>
+<li><a class="reference internal" href="#consistency">Consistency</a></li>
+<li><a class="reference internal" href="#from-causality-graphs-to-ledgers">From causality graphs to ledgers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#local-ledgers">Local ledgers</a><ul>
+<li><a class="reference internal" href="#ledger-api-ordering-guarantees">Ledger API ordering guarantees</a></li>
+<li><a class="reference internal" href="#explaining-the-causality-examples">Explaining the causality examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="causality-and-local-ledgers">
+<span id="local-ledger"></span><h1>Causality and Local Ledgers<a class="headerlink" href="#causality-and-local-ledgers" title="Permalink to this headline">¶</a></h1>
+<p>Daml ledgers do not totally order all transactions.
+So different parties may observe two transactions on different Participant Nodes in different orders via the <a class="reference internal" href="../app-dev/services.html#ledger-api-services"><span class="std std-ref">Ledger API</span></a>.
+Moreover, different Participant Nodes may output two transactions for the same party in different orders.
+This document explains the ordering guarantees that Daml ledgers do provide, by <a class="reference internal" href="#causality-examples"><span class="std std-ref">example</span></a> and formally via the concept of <a class="reference internal" href="#causality-graph"><span class="std std-ref">causality graphs</span></a> and <a class="reference internal" href="#local-ledger-structure"><span class="std std-ref">local ledgers</span></a>.</p>
+<p>The presentation assumes that you are familiar with the following concepts:</p>
+<ul class="simple">
+<li>The <a class="reference internal" href="../app-dev/services.html#ledger-api-services"><span class="std std-ref">Ledger API</span></a></li>
+<li>The <a class="reference internal" href="ledger-model/index.html#da-ledgers"><span class="std std-ref">Daml Ledger Model</span></a></li>
+</ul>
+<div class="section" id="causality-examples">
+<span id="id1"></span><h2>Causality examples<a class="headerlink" href="#causality-examples" title="Permalink to this headline">¶</a></h2>
+<p>A Daml Ledger need not totally order all transaction, unlike ledgers in the Daml Ledger Model.
+The following examples illustrate these ordering guarantees of the Ledger API.
+They are based on the paint counteroffer workflow from the Daml Ledger Model’s <a class="reference internal" href="ledger-model/ledger-privacy.html#da-model-privacy"><span class="std std-ref">privacy section</span></a>,
+ignoring the total ordering coming from the Daml Ledger Model.
+Recall that <a class="reference internal" href="ledger-model/ledger-privacy.html#da-paint-counteroffer-example"><span class="std std-ref">the party projections</span></a> are as follows.</p>
+<div align="center" class="align-center"><img alt="../_images/divulgence-for-disclosure-counteroffer1.svg" src="../_images/divulgence-for-disclosure-counteroffer1.svg" width="100%" /></div>
+<div class="section" id="stakeholders-of-a-contract-see-creation-and-archival-in-the-same-order">
+<span id="causality-example-create-archive"></span><h3>Stakeholders of a contract see creation and archival in the same order.<a class="headerlink" href="#stakeholders-of-a-contract-see-creation-and-archival-in-the-same-order" title="Permalink to this headline">¶</a></h3>
+<p>Every Daml Ledger orders the creation of the <cite>CounterOffer A P Bank</cite> before the painter exercising the consuming choice on the <cite>CounterOffer</cite>.
+(If the <strong>Create</strong> was ordered after the <strong>Exercise</strong>, the resulting shared ledger would be inconsistent, which violates the validity guarantee of Daml ledgers.)
+Accordingly, Alice will see the creation before the archival on her transaction stream and so will the painter.
+This does not depend on whether they are hosted on the same Participant Node.</p>
+</div>
+<div class="section" id="signatories-of-a-contract-and-stakeholder-actors-see-usages-after-the-creation-and-before-the-archival">
+<span id="causality-example-create-use-archive"></span><h3>Signatories of a contract and stakeholder actors see usages after the creation and before the archival.<a class="headerlink" href="#signatories-of-a-contract-and-stakeholder-actors-see-usages-after-the-creation-and-before-the-archival" title="Permalink to this headline">¶</a></h3>
+<p>The <cite>Fetch A (Iou Bank A)</cite> action comes after the creation of the <cite>Iou Bank A</cite> and before its archival,
+for both Alice and the Bank,
+because the Bank is a signatory of the <cite>Iou Bank A</cite> contract and Alice is a stakeholder of the <cite>Iou Bank A</cite> contract and an actor on the <strong>Fetch</strong> action.</p>
+</div>
+<div class="section" id="commits-are-atomic">
+<span id="causality-example-commit-atomic"></span><h3>Commits are atomic.<a class="headerlink" href="#commits-are-atomic" title="Permalink to this headline">¶</a></h3>
+<p>Alice sees the <strong>Create</strong> of her <cite>Iou</cite> before the creation of the <cite>CounterOffer</cite>,
+because the <cite>CounterOffer</cite> is created in the same commit as the <strong>Fetch</strong> of the <cite>Iou</cite>
+and the <strong>Fetch</strong> commit comes after the <strong>Create</strong> of the <cite>Iou</cite>.</p>
+</div>
+<div class="section" id="non-consuming-usages-in-different-commits-may-appear-in-different-orders">
+<span id="causality-example-non-consuming"></span><h3>Non-consuming usages in different commits may appear in different orders.<a class="headerlink" href="#non-consuming-usages-in-different-commits-may-appear-in-different-orders" title="Permalink to this headline">¶</a></h3>
+<p>Suppose that the Bank exercises a non-consuming choice on the <cite>Iou Bank A</cite> without consequences while Alice creates the <cite>CounterOffer</cite>.
+In the ledger shown below, the Bank’s commit comes before Alice’s commit.</p>
+<div align="center" class="align-center"><img alt="../_images/counteroffer-double-fetch.svg" src="../_images/counteroffer-double-fetch.svg" width="100%" /></div>
+<p>The Bank’s projection contains the nonconsuming <strong>Exercise</strong> and the <strong>Fetch</strong> action on the <cite>Iou</cite>.
+Yet, the <strong>Fetch</strong> may come before the non-consuming <strong>Exercise</strong> in the Bank’s transaction tree stream.</p>
+</div>
+<div class="section" id="out-of-band-causality-is-not-respected">
+<span id="causality-example-out-of-band"></span><h3>Out-of-band causality is not respected.<a class="headerlink" href="#out-of-band-causality-is-not-respected" title="Permalink to this headline">¶</a></h3>
+<p>The following examples assume that Alice splits up her commit into two as follows:</p>
+<div class="figure align-center" id="id2">
+<span id="split-counteroffer-ledger"></span><img alt="../_images/counteroffer-split-commit.svg" src="../_images/counteroffer-split-commit.svg" width="100%" /><p class="caption"><span class="caption-text">Counteroffer workflow with four commits.</span></p>
+</div>
+<p>Alice can specify in the <cite>CounterOffer</cite> the <cite>Iou</cite> that she wants to pay the painter with.
+In a deployed implementation, Alice’s application first observes the created <cite>Iou</cite> contract via the transaction service or active contract service before she requests to create the <cite>CounterOffer</cite>.
+Such application logic does not induce an ordering between commits.
+So the creation of the <cite>CounterOffer</cite> need not come after the creation of the <cite>Iou</cite>.</p>
+<p>If Alice is hosted on several Participant Nodes, the Participant Nodes can therefore output the two creations in either order.</p>
+<p>The rationale for this behaviour is that Alice could have learnt about the contract ID out of band or made it up.
+The Participant Nodes therefore cannot know whether there will ever be a <strong>Create</strong> event for the contract.
+So if Participant Nodes delayed outputting the <strong>Create</strong> action for the <cite>CounterOffer</cite> until a <strong>Create</strong> event for the <cite>Iou</cite> contract was published,
+this delay might last forever and liveness is lost.
+Daml ledgers therefore do not capture data flow through applications.</p>
+</div>
+<div class="section" id="divulged-actions-do-not-induce-order">
+<span id="causality-divulgence-example"></span><h3>Divulged actions do not induce order.<a class="headerlink" href="#divulged-actions-do-not-induce-order" title="Permalink to this headline">¶</a></h3>
+<p>The painter witnesses the fetching of Alice’s <cite>Iou</cite> when the <cite>ShowIou</cite> contract is consumed.
+The painter also witnesses the <strong>Exercise</strong> of the <cite>Iou</cite> when Alice exercises the transfer choice as a consequence of the painter accepting the <cite>CounterOffer</cite>.
+However, as the painter is not a stakeholder of Alice’s <cite>Iou</cite> contract, he may observe Alice’s <cite>ShowIou</cite> commit after the archival of the <cite>Iou</cite> as part of accepting the <cite>CounterOffer</cite>.</p>
+<p>In practice, this can happen in a setup where two Participant Nodes <cite>N</cite><sub>1</sub> and <cite>N</cite><sub>2</sub> host the painter.
+He sees the divulged <cite>Iou</cite> and the created <cite>CounterOffer</cite> through <cite>N</cite><sub>1</sub>’s transaction tree stream
+and then submits the acceptance through <cite>N</cite><sub>1</sub>.
+Like in the previous example, <cite>N</cite><sub>2</sub> does not know about the dependence of the two commits.
+Accordingly, <cite>N</cite><sub>2</sub> may output the accepting transaction <em>before</em> the <cite>ShowIou</cite> contract on the transaction stream.</p>
+<p>Even though this may seem unexpected, it is in line with stakeholder-based ledgers:
+Since the painter is not a stakeholder of the <cite>Iou</cite> contract, he should not care about the archivals or creates of the contract.
+In fact, the divulged <cite>Iou</cite> contract shows up neither in the painter’s active contract service nor in the flat transaction stream.
+Such witnessed events are included in the transaction tree stream as a convenience:
+They relieve the painter from computing the consequences of the choice and enable him to check that the action conforms to the Daml model.</p>
+<p>Similarly, being an actor of an <strong>Exercise</strong> action induces order with respect to other uses of the contract only if the actor is a contract stakeholder.
+This is because non-stakeholder actors of an <strong>Exercise</strong> action merely authorize the action, but they do not track whether the contract is active; this is what signatories and contract observers are for.
+Analogously, choice observers of an <strong>Exercise</strong> action benefit from the ordering guarantees only if they are contract stakeholders.</p>
+</div>
+<div class="section" id="the-ordering-guarantees-depend-on-the-party">
+<span id="causality-example-depend-on-party"></span><h3>The ordering guarantees depend on the party.<a class="headerlink" href="#the-ordering-guarantees-depend-on-the-party" title="Permalink to this headline">¶</a></h3>
+<p>By the previous example, for the painter, fetching the <cite>Iou</cite> is not ordered before transferring the <cite>Iou</cite>.
+For Alice, however, the <strong>Fetch</strong> must appear before the <strong>Exercise</strong>
+because Alice is a stakeholder on the <cite>Iou</cite> contract.
+This shows that the ordering guarantees depend on the party.</p>
+</div>
+</div>
+<div class="section" id="causality-graphs">
+<span id="causality-graph"></span><h2>Causality graphs<a class="headerlink" href="#causality-graphs" title="Permalink to this headline">¶</a></h2>
+<p>The above examples indicate that Daml ledgers order transactions only partially.
+Daml ledgers can be represented as finite directed acyclic graphs (DAG) of transactions.</p>
+<dl class="docutils" id="def-causality-graph">
+<dt>Definition »causality graph«</dt>
+<dd>A <strong>causality graph</strong> is a finite directed acyclic graph <cite>G</cite> of transactions that is transitively closed.
+Transitively closed means that whenever <cite>v</cite><sub>1</sub> -&gt; <cite>v</cite><sub>2</sub> and <cite>v</cite><sub>2</sub> -&gt; <cite>v</cite><sub>3</sub> are edges in <cite>G</cite>,
+then there is also an edge <cite>v</cite><sub>1</sub> -&gt; <cite>v</cite><sub>3</sub> in <cite>G</cite>.</dd>
+</dl>
+<dl class="docutils" id="def-action-order">
+<dt>Definition »action order«</dt>
+<dd><p class="first">For a causality graph <cite>G</cite>,
+the induced <strong>action order</strong> on the actions in the transactions combines the graph-induced order between transactions with the execution order of actions inside each transaction.
+It is the least partial order that includes the following ordering relations between two actions <cite>act</cite><sub>1</sub> and <cite>act</cite><sub>2</sub>:</p>
+<ul class="last">
+<li><p class="first"><cite>act</cite><sub>1</sub> and <cite>act</cite><sub>2</sub> belong to the same transaction and <cite>act</cite><sub>1</sub> precedes <cite>act</cite><sub>2</sub> in the transaction.</p>
+</li>
+<li><p class="first"><cite>act</cite><sub>1</sub> and <cite>act</cite><sub>2</sub> belong to different transactions in vertices <cite>tx</cite><sub>1</sub> and <cite>tx</cite><sub>2</sub> and there is a path in <cite>G</cite> from <cite>tx</cite><sub>1</sub> to <cite>tx</cite><sub>2</sub>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Checking for an <em>edge</em> instead of a <em>path</em> in <cite>G</cite> from <cite>tx</cite><sub>1</sub> to <cite>tx</cite><sub>2</sub> is equivalent
+because causality graphs are transitively closed.
+The definition uses <em>path</em> because the figures below omit transitive edges for readability.</p>
+</div>
+</li>
+</ul>
+</dd>
+</dl>
+<p>The action order is a partial order on the actions in a causality graph.
+For example, the following diagram shows such a causality graph for the ledger in the above <a class="reference internal" href="#causality-example-out-of-band"><span class="std std-ref">Out-of-band causality example</span></a>.
+Each grey box represents one transaction and the graph edges are the solid arrows between the boxes.
+Diagrams omit transitive edges for readability; in this graph the edge from <cite>tx1</cite> to <cite>tx4</cite> is not shown.
+The <strong>Create</strong> action of Alice’s <cite>Iou</cite> is ordered before the <strong>Create</strong> action of the <cite>ShowIou</cite> contract because there is an edge from the transaction <cite>tx1</cite> with the <cite>Iou</cite> <strong>Create</strong> to the transaction <cite>tx3</cite> with the <cite>ShowIou</cite> <strong>Create</strong>.
+Moreover, the <cite>ShowIou</cite> <strong>Create</strong> action is ordered before the <strong>Fetch</strong> of Alice’s <cite>Iou</cite> because the <strong>Create</strong> action precedes the <strong>Fetch</strong> action in the transaction.
+In contrast, the <strong>Create</strong> actions of the <cite>CounterOffer</cite> and Alice’s <cite>Iou</cite> are unordered: neither precedes the other because they belong to different transaction and there is no directed path between them.</p>
+<div class="figure align-center" id="id3">
+<span id="causality-graph-counteroffer-split"></span><img alt="../_images/counteroffer-split-action-order.svg" src="../_images/counteroffer-split-action-order.svg" width="100%" /><p class="caption"><span class="caption-text">Causality graph for the <a class="reference internal" href="#split-counteroffer-ledger"><span class="std std-ref">counteroffer workflow with four commits</span></a>.</span></p>
+</div>
+<div class="section" id="consistency">
+<span id="causality-graph-consistency"></span><h3>Consistency<a class="headerlink" href="#consistency" title="Permalink to this headline">¶</a></h3>
+<p>Consistency ensures that a causality graph sufficiently orders all the transactions.
+It generalizes <a class="reference internal" href="ledger-model/ledger-integrity.html#da-model-consistency"><span class="std std-ref">ledger consistency</span></a> from the Daml Ledger Model as <a class="reference internal" href="#causality-consistency-ledger-model"><span class="std std-ref">explained below</span></a>.</p>
+<dl class="docutils" id="def-causal-consistency-contract">
+<dt>Definition »Causal consistency for a contract«</dt>
+<dd><p class="first">Let <cite>G</cite> be a causality graph and <cite>X</cite> be a set of actions on a contract <cite>c</cite> that belong to transactions in <cite>G</cite>.
+The graph <cite>G</cite> is <strong>causally consistent for the contract</strong> <cite>c</cite> on <cite>X</cite> if all of the following hold:</p>
+<ul class="last simple">
+<li>If <cite>X</cite> is not empty, then <cite>X</cite> contains exactly one <strong>Create</strong> action.
+This action precedes all other actions in <cite>X</cite> in <cite>G</cite>’s action order.</li>
+<li>If <cite>X</cite> contains a consuming <strong>Exercise</strong> action <cite>act</cite>, then <cite>act</cite> follows all actions in <cite>X</cite> other than <cite>act</cite> in <cite>G</cite>’s action order.</li>
+</ul>
+</dd>
+<dt>Definition »Causal consistency for a key«</dt>
+<dd><p class="first">Let <cite>G</cite> be a causality graph and <cite>X</cite> be a set of actions on a key <cite>k</cite> that belong to transactions in <cite>G</cite>.
+The graph <cite>G</cite> is <strong>causally consistent for the key</strong> <cite>k</cite> on <cite>X</cite> if all of the following hold:</p>
+<ul class="last simple">
+<li>All <strong>Create</strong> and consuming <strong>Exercise</strong> actions in <cite>X</cite> are totally ordered in <cite>G</cite>’s action order
+and <strong>Create</strong>s and consuming <strong>Exercise</strong>s alternate, starting with <strong>Create</strong>.
+Every consecutive <strong>Create</strong>-<strong>Exercise</strong> pair acts on the same contract.</li>
+<li>All <strong>NoSuchKey</strong> actions in <cite>X</cite> are action-ordered with respect to all <strong>Create</strong> and consuming <strong>Exercise</strong> actions in <cite>X</cite>.
+No <strong>NoSuchKey</strong> action is action-ordered between a <strong>Create</strong> action and its subsequent consuming <strong>Exercise</strong> action in <cite>X</cite>.</li>
+</ul>
+</dd>
+</dl>
+<dl class="docutils" id="def-consistency-causality-graph">
+<dt>Definition »Consistency for a causality graph«</dt>
+<dd>Let <cite>X</cite> be a subset of the actions in a causality graph <cite>G</cite>.
+Then <cite>G</cite> is <strong>consistent</strong> on <cite>X</cite> (or <cite>X</cite>-<strong>consistent</strong>) if <cite>G</cite> is causally consistent for all contracts <cite>c</cite> on the set of actions on <cite>c</cite> in <cite>X</cite> and for all keys <cite>k</cite> on the set of actions on <cite>k</cite> in <cite>X</cite>.
+<cite>G</cite> is <strong>consistent</strong> if <cite>G</cite> is consistent on all the actions in <cite>G</cite>.</dd>
+</dl>
+<p>When edges are added to an <cite>X</cite>-consistent causality graph such that it remains acyclic and transitively closed,
+the resulting graph is again <cite>X</cite>-consistent.
+So it makes sense to consider minimal consistent causality graphs.</p>
+<dl class="docutils" id="minimal-consistent-causality-graph">
+<dt>Definition »Minimal consistent causality graph«</dt>
+<dd>An <cite>X</cite>-consistent causality graph <cite>G</cite> is <cite>X</cite>-<strong>minimal</strong> if no strict subgraph of <cite>G</cite> (same vertices, fewer edges) is an <cite>X</cite>-consistent causality graph.
+If <cite>X</cite> is the set of all actions in <cite>G</cite>, then <cite>X</cite> is omitted.</dd>
+</dl>
+<p>For example, the <a class="reference internal" href="#causality-graph-counteroffer-split"><span class="std std-ref">above causality graph for the split counteroffer workflow</span></a> is consistent.
+This causality graph is minimal, as the following analysis shows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Edge</th>
+<th class="head">Justification</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>tx1</cite> -&gt; <cite>tx3</cite></td>
+<td>Alice’s <cite>Iou</cite> <strong>Create</strong> action of  must precede the <strong>Fetch</strong> action.</td>
+</tr>
+<tr class="row-odd"><td><cite>tx2</cite> -&gt; <cite>tx4</cite></td>
+<td>The <cite>CounterOffer</cite> <strong>Create</strong> action of  must precede the <strong>Exercise</strong> action.</td>
+</tr>
+<tr class="row-even"><td><cite>tx3</cite> -&gt; <cite>tx4</cite></td>
+<td>The consuming <strong>Exercise</strong> action on Alice’s <cite>Iou</cite> must follow the <strong>Fetch</strong> action.</td>
+</tr>
+</tbody>
+</table>
+<p>We can focus on parts of the causality graph by restricting the set <cite>X</cite>.
+If <cite>X</cite> consists of the actions on <cite>Iou</cite> contracts, this causality graph is <cite>X</cite>-consistent.
+Yet, it is not <cite>X</cite>-minimal since the edge <cite>tx2</cite> -&gt; <cite>tx4</cite> can be removed without violating <cite>X</cite>-consistency: the edge is required only because of the <cite>CounterOffer</cite> actions, which are excluded from <cite>X</cite>.
+The <cite>X</cite>-minimal consistent causality graph looks as follows, where the actions in <cite>X</cite> are highlighted in red.</p>
+<div class="figure align-center" id="id4">
+<span id="causality-counteroffer-iou-minimal"></span><img alt="../_images/causality-counteroffer-Iou-minimal.svg" src="../_images/causality-counteroffer-Iou-minimal.svg" width="100%" /><p class="caption"><span class="caption-text">Minimal consistent causality graph for the highlighted actions.</span></p>
+</div>
+<p>Another example of a minimal causality graph is shown below.
+At the top, the transactions <cite>tx1</cite> to <cite>tx4</cite> create an <cite>Iou</cite> for Alice, exercise two non-consuming choices on it, and transfer the <cite>Iou</cite> to the painter.
+At the bottom, <cite>tx5</cite> asserts that there is no key for an Account contract for the painter.
+Then, <cite>tx6</cite> creates an such account with balance 0 and <cite>tx7</cite> deposits the painter’s <cite>Iou</cite> from <cite>tx4</cite> into the account, updating the balance to 1.</p>
+<div align="center" class="align-center"><img alt="../_images/causality-consistency-examples.svg" src="../_images/causality-consistency-examples.svg" width="100%" /></div>
+<p>Unlike in a linearly ordered ledger, the causality graph relates the transactions of the <cite>Iou</cite> transfer workflow with the <cite>Account</cite> creation workflow only at the end, when the <cite>Iou</cite> is deposited into the account.
+As will be formalized below, the Bank, Alice, and the painter therefore need not observe the transactions <cite>tx1</cite> to <cite>tx7</cite> in the same order.</p>
+<p>Moreover, transaction <cite>tx2</cite> and <cite>tx3</cite> are unordered in this causality graph even though they act on the same <cite>Iou</cite> contract.
+However, as both actions are non-consuming, they do not interfere with each other and could therefore be parallelized, too.
+Alice and the Bank accordingly may observe them in different orders.</p>
+<p>The <strong>NoSuchKey</strong> action in <cite>tx5</cite> must be ordered with respect to the two Account <strong>Create</strong> actions in <cite>tx6</cite> and <cite>tx7</cite> and the consuming <strong>Exercise</strong> on the Account contract in <cite>tx7</cite>, by the key consistency conditions.
+For this set of transactions, consistency allows only one such order: <cite>tx5</cite> comes before <cite>tx6</cite> because <cite>tx7</cite> is atomic: <cite>tx5</cite> cannot be interleaved with <cite>tx7</cite>, e.g., between the consuming <strong>Exercise</strong> of the <cite>Acc Bank P P 0</cite> and the <strong>Create</strong> of the updated account <cite>Acc Bank P P 1</cite>.</p>
+<p><strong>NoSuchKey</strong> actions are similar to non-consuming <strong>Exercise</strong>s and <strong>Fetch</strong>es of contracts when it comes to causal ordering: If there were another transaction <cite>tx5’</cite> with a <strong>NoSuchKey</strong> <cite>(Acc, Bank, P)</cite> action, then <cite>tx5</cite> and <cite>tx5’</cite> need not be ordered, just like <cite>tx2</cite> and <cite>tx3</cite> are unordered.</p>
+</div>
+<div class="section" id="from-causality-graphs-to-ledgers">
+<span id="causality-consistency-ledger-model"></span><h3>From causality graphs to ledgers<a class="headerlink" href="#from-causality-graphs-to-ledgers" title="Permalink to this headline">¶</a></h3>
+<p>Since causality graphs are acyclic, their vertices can be sorted topologically and the resulting list is again a causality graph, where every vertex has an outgoing edge to all later vertices.
+If the original causality graph is <cite>X</cite>-consistent, then so is the topological sort, as topological sorting merely adds edges.
+For example, the transactions on the <a class="reference internal" href="#split-counteroffer-ledger"><span class="std std-ref">ledger</span></a> in the <a class="reference internal" href="#causality-example-out-of-band"><span class="std std-ref">out-of-band causality example</span></a> are a topological sort of the <a class="reference internal" href="#causality-graph-counteroffer-split"><span class="std std-ref">corresponding causality graph</span></a>.</p>
+<p>Conversely, we can reduce an <cite>X</cite>-consistent causality graph to only the causal dependencies that <cite>X</cite>-consistency imposes.
+This gives a minimal <cite>X</cite>-consistent causality graph.</p>
+<dl class="docutils" id="def-reduction-causality-graph">
+<dt>Definition »Reduction of a consistent causality graph«</dt>
+<dd>For an <cite>X</cite>-consistent causality graph <cite>G</cite>, there exists a unique minimal <cite>X</cite>-consistent causality graph <cite>reduce</cite><sub>X</sub><cite>(G)</cite> with the same vertices and the edges being a subset of <cite>G</cite>.
+<cite>reduce</cite><sub>X</sub><cite>(G)</cite> is called the <cite>X</cite>-<strong>reduction</strong> of <cite>G</cite>.
+As before, <cite>X</cite> is omitted if it contains all actions in <cite>G</cite>.</dd>
+</dl>
+<p>The causality graph for the split <cite>CounterOffer</cite> workflow is minimal and therefore its own reduction.
+It is also the reduction of the topological sort, i.e., the <a class="reference internal" href="#split-counteroffer-ledger"><span class="std std-ref">ledger</span></a> in the <a class="reference internal" href="#causality-example-out-of-band"><span class="std std-ref">out-of-band causality example</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The reduction <cite>reduce</cite><sub>X</sub><cite>(G)</cite> of an <cite>X</cite>-consistent causality graph <cite>G</cite> can be computed as follows:</p>
+<ol class="last arabic simple">
+<li>Set the vertices of <cite>G’</cite> to the vertices of <cite>G</cite>.</li>
+<li>The causal consistency conditions for contracts and keys demand that certain pairs of actions
+<cite>act</cite><sub>1</sub> and <cite>act</cite><sub>2</sub> in <cite>X</cite> must be action-ordered.
+For each such pair, determine the actions’ ordering in <cite>G</cite> and add an edge to <cite>G’</cite> from the earlier action’s transaction to the later action’s transaction.</li>
+<li><cite>reduce</cite><sub>X</sub><cite>(G)</cite> is the transitive closure of <cite>G’</cite>.</li>
+</ol>
+</div>
+<p>Topological sort and reduction link causality graphs <cite>G</cite> to the ledgers <cite>L</cite> from the Daml Ledger Model.
+Topological sort transforms a causality graph <cite>G</cite> into a sequence of transactions; extending them with the requesters gives a sequence of commits, i.e., a ledger in the Daml Ledger Model.
+Conversely, a sequence of commits <cite>L</cite> yields a causality graph <cite>G</cite><sub>L</sub> by taking the transactions as vertices and adding an edge from <cite>tx1</cite> to <cite>tx2</cite> whenever <cite>tx1</cite>’s commit precedes <cite>tx2</cite>’s commit in the sequence.</p>
+<p>There are now two consistency definitions:</p>
+<ul class="simple">
+<li><a class="reference internal" href="ledger-model/ledger-integrity.html#da-model-ledger-consistency"><span class="std std-ref">Ledger Consistency</span></a> according to Daml Ledger Model</li>
+<li><a class="reference internal" href="#def-consistency-causality-graph"><span class="std std-ref">Consistency of causality graph</span></a></li>
+</ul>
+<p>Fortunately, the two definitions are equivalent:
+If <cite>G</cite> is a consistent causality graph, then the topological sort is ledger consistent.
+Conversely, if the sequence of commits <cite>L</cite> is ledger consistent, <cite>G</cite><sub>L</sub> is a consistent causality graph, and so is the reduction <cite>reduce(G</cite><sub>L</sub><cite>)</cite>.</p>
+</div>
+</div>
+<div class="section" id="local-ledgers">
+<span id="local-ledger-structure"></span><h2>Local ledgers<a class="headerlink" href="#local-ledgers" title="Permalink to this headline">¶</a></h2>
+<p>As explained in the Daml Ledger Model, parties see only a <a class="reference internal" href="ledger-model/ledger-privacy.html#da-model-projections"><span class="std std-ref">projection</span></a> of the shared ledger for privacy reasons.
+Like consistency, projection extends to causality graphs as follows.</p>
+<dl class="docutils">
+<dt>Definition »Stakeholder informee«</dt>
+<dd><p class="first">A party <cite>P</cite> is a <strong>stakeholder informee</strong> of an action <cite>act</cite> if all of the following holds:</p>
+<ul class="last simple">
+<li><cite>P</cite> is an informee of <cite>act</cite>.</li>
+<li>If <cite>act</cite> is an action on a contract then <cite>P</cite> is a stakeholder of the contract.</li>
+</ul>
+</dd>
+</dl>
+<p>An <strong>Exercise</strong> and <strong>Fetch</strong> action acts on the input contract, a <strong>Create</strong> action on the created contract, and a <strong>NoSuchKey</strong> action does not act on a contract.
+So for a <strong>NoSuchKey</strong> action, the stakeholder informees are the key maintainers.</p>
+<dl class="docutils">
+<dt>Definition »Causal consistency for a party«</dt>
+<dd>A causality graph <cite>G</cite> is <strong>consistent for a party</strong> <cite>P</cite> (<cite>P</cite>-consistent) if <cite>G</cite> is consistent on all the actions that <cite>P</cite> is a stakeholder informee of.</dd>
+</dl>
+<p>The notions of <cite>X</cite>-minimality and <cite>X</cite>-reduction extend to parties accordingly.</p>
+<p>For example, the <a class="reference internal" href="#causality-counteroffer-iou-minimal"><span class="std std-ref">split counteroffer causality graph without the edge tx2 -&gt; tx4</span></a> is consistent for the Bank because the Bank is a stakeholder informee of exactly the highlighted actions.
+It is also minimal Bank-consistent and the Bank-reduction of the <a class="reference internal" href="#causality-graph-counteroffer-split"><span class="std std-ref">original split counteroffer causality graph</span></a>.</p>
+<dl class="docutils">
+<dt>Definition »Projection of a consistent causality graph«</dt>
+<dd><p class="first">The <strong>projection</strong> <cite>proj</cite><sub>P</sub><cite>(G)</cite> of a consistent causality graph <cite>G</cite> to a party <cite>P</cite> is the <cite>P</cite>-reduction of the following causality graph <cite>G’</cite>:</p>
+<ul class="last simple">
+<li>The vertices of <cite>G’</cite> are the vertices of <cite>G</cite> projected to <cite>P</cite>, excluding empty projections.</li>
+<li>There is an edge between two vertices <cite>v</cite><sub>1</sub> and <cite>v</cite><sub>2</sub> in <cite>G’</cite> if there is an edge from the <cite>G</cite>-vertex corresponding to <cite>v</cite><sub>1</sub> to the <cite>G</cite>-vertex corresponding to <cite>v</cite><sub>2</sub>.</li>
+</ul>
+</dd>
+</dl>
+<p>For the <a class="reference internal" href="#causality-graph-counteroffer-split"><span class="std std-ref">split counteroffer causality graph</span></a>, the projections to Alice, the Bank, and the painter are as follows.</p>
+<div class="figure align-center" id="id5">
+<span id="counteroffer-causality-projections"></span><img alt="../_images/counteroffer-causality-projection.svg" src="../_images/counteroffer-causality-projection.svg" width="100%" /><p class="caption"><span class="caption-text">Projections of the <a class="reference internal" href="#causality-graph-counteroffer-split"><span class="std std-ref">split counteroffer causality graph</span></a>.</span></p>
+</div>
+<p>Alice’s projection is the same as the original minimal causality graph.
+The Bank sees only actions on <cite>Iou</cite> contracts, so the causality graph projection does not contain <cite>tx2</cite> any more.
+Similarly, the painter is not aware of <cite>tx1</cite>, where Alice’s <cite>Iou</cite> is created.
+Moreover, there is no longer an edge from <cite>tx3</cite> to <cite>tx4</cite> in the painter’s local ledger.
+This is because the edge is induced by the <strong>Fetch</strong> of Alice’s <cite>Iou</cite> preceding the consuming <strong>Exercise</strong>.
+However, the painter is not an informee of those two actions; he merely witnesses the <strong>Fetch</strong> and <strong>Exercise</strong> actions as part of divulgence.
+Therefore no ordering is required from the painter’s point of view.
+This difference explains the <a class="reference internal" href="#causality-divulgence-example"><span class="std std-ref">divulgence causality example</span></a>.</p>
+<div class="section" id="ledger-api-ordering-guarantees">
+<span id="ordering-guarantees"></span><h3>Ledger API ordering guarantees<a class="headerlink" href="#ledger-api-ordering-guarantees" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../app-dev/services.html#transaction-service"><span class="std std-ref">Transaction Service</span></a> provides the updates as a stream of Daml transactions
+and the <a class="reference internal" href="../app-dev/services.html#active-contract-service"><span class="std std-ref">Active Contract Service</span></a> summarizes all the updates up to a given point
+by the contracts that are active at this point.
+Conceptually, both services are derived from the local ledger that the Participant Node manages for each hosted party.
+That is, the transaction tree stream for a party is a topological sort of the party’s local ledger.
+The flat transaction stream contains precisely the <code class="docutils literal notranslate"><span class="pre">CreatedEvent</span></code>s and <code class="docutils literal notranslate"><span class="pre">ArchivedEvent</span></code>s
+that correspond to <strong>Create</strong> and consuming <strong>Exercise</strong> actions in transaction trees on the transaction tree stream where the party is a stakeholder of the affected contract.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The transaction trees of the <a class="reference internal" href="../app-dev/services.html#transaction-service"><span class="std std-ref">Transaction Service</span></a> omit <strong>Fetch</strong> and <strong>NoSuchKey</strong> actions
+that are part of the transactions in the local ledger.
+The <strong>Fetch</strong> and <strong>NoSuchKey</strong> actions are thus removed before the <a class="reference internal" href="../app-dev/services.html#transaction-service"><span class="std std-ref">Transaction Service</span></a> outputs the transaction trees.</p>
+</div>
+<p>Similarly, the active contract service provides the set of contracts that are active at the returned offset according to the Transaction Service streams.
+That is, the contract state changes of all events from the transaction event stream are taken into account in the provided set of contracts.
+In particular, an application can process all subsequent events from the flat transaction stream or the transaction tree stream without having to take events before the snapshot into account.</p>
+<p>Since the topological sort of a local ledger is not unique, different Participant Nodes may pick different orders for the transaction streams of the same party.
+Similarly, the transaction streams for different parties may order common transactions differently, as the party’s local ledgers impose different ordering constraints.
+Nevertheless, Daml ledgers ensure that all local ledgers are projections of a virtual shared causality graph that connects to the Daml Ledger Model as described above.
+The ledger validity guarantees therefore extend via the local ledgers to the Ledger API.
+These guarantees are subject to the deployed Daml ledger’s trust assumptions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The virtual shared causality graph exists only as a concept, to reason about Daml ledger guarantees.
+A deployed Daml ledger in general does not store or even construct such a shared causality graph.
+The Participant Nodes merely maintain the local ledgers for their parties.
+They synchronize these local ledgers to the extent that they remain consistent.
+That is, all the local ledgers can in theory be combined into a consistent single causality graph of which they are projections.</p>
+</div>
+</div>
+<div class="section" id="explaining-the-causality-examples">
+<h3>Explaining the causality examples<a class="headerlink" href="#explaining-the-causality-examples" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#causality-examples"><span class="std std-ref">causality examples</span></a> can be explained in terms of causality graphs and local ledgers as follows:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#causality-example-create-archive"><span class="std std-ref">Stakeholders of a contract see creation and archival in the same order.</span></a>
+Causal consistency for the contract requires that the <strong>Create</strong> comes before the consuming <strong>Exercise</strong> action on the contract.
+As all stakeholders are informees on <strong>Create</strong> and consuming <strong>Exercise</strong> actions of their contracts,
+the stakeholder’s local ledgers impose this order on the actions.</li>
+<li><a class="reference internal" href="#causality-example-create-use-archive"><span class="std std-ref">Signatories of a contract and stakeholder actors see usages after the creation and before the archival.</span></a>
+Causal consistency for the contract requires that the <strong>Create</strong> comes before the non-consuming <strong>Exercise</strong> and <strong>Fetch</strong> actions of a contract and that consuming <strong>Exercise</strong>s follow them.
+Since signatories and stakeholder actors are informees of <strong>Create</strong>, <strong>Exercise</strong>, and <strong>Fetch</strong> actions,
+the stakeholder’s local ledgers impose this order on the actions.</li>
+<li><a class="reference internal" href="#causality-example-commit-atomic"><span class="std std-ref">Commits are atomic.</span></a>
+Local ledgers are DAGs of (projected) transactions.
+Topologically sorting such a DAG cannot interleave one transaction with another, even if the transaction consists of several top-level actions.</li>
+<li><a class="reference internal" href="#causality-example-non-consuming"><span class="std std-ref">Non-consuming usages in different commits may appear in different orders.</span></a>
+Causal consistency does not require ordering between non-consuming usages of a contract.
+As there is no other action in the transaction that would prescribe an ordering,
+the Participant Nodes can output them in any order.</li>
+<li><a class="reference internal" href="#causality-example-out-of-band"><span class="std std-ref">Out-of-band causality is not respected.</span></a>
+Out-of-band data flow is not captured by causal consistency and therefore does not induce ordering.</li>
+<li><a class="reference internal" href="#causality-divulgence-example"><span class="std std-ref">Divulged actions do not induce order.</span></a>
+The painter is not an informee of the <strong>Fetch</strong> and <strong>Exercise</strong> actions on Alice’s <cite>Iou</cite>;
+he merely witnesses them.
+The <a class="reference internal" href="#counteroffer-causality-projections"><span class="std std-ref">painter’s local ledger</span></a> therefore does not order <cite>tx3</cite> before <cite>tx4</cite>.
+So the painter’s transaction stream can output <cite>tx4</cite> before <cite>tx3</cite>.</li>
+<li><a class="reference internal" href="#causality-example-depend-on-party"><span class="std std-ref">The ordering guarantees depend on the party.</span></a>
+Alice is an informee of the <strong>Fetch</strong> and <strong>Exercise</strong> actions on her <cite>Iou</cite>.
+Unlike for the painter, <a class="reference internal" href="#counteroffer-causality-projections"><span class="std std-ref">her local ledger</span></a> does order <cite>tx3</cite> before <cite>tx4</cite>,
+so Alice is guaranteed to observe <cite>tx3</cite> before <cite>tx4</cite> on all Participant Nodes through which she is connect to the Daml ledger.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="time.html" class="da-btn da-btn-label btn-prev" title="Time" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../tools/extractor.html" class="da-btn da-btn-label btn-next" title="Extractor" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

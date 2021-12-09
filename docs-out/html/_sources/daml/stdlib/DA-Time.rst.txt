@@ -1,0 +1,107 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-time-16153:
+
+Module DA.Time
+==============
+
+Data Types
+----------
+
+.. _type-da-time-types-reltime-66843:
+
+**data** `RelTime <type-da-time-types-reltime-66843_>`_
+
+  The ``RelTime`` type describes a time offset, i\.e\. relative time\.
+  
+  **instance** :ref:`Eq <class-ghc-classes-eq-21216>` `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  **instance** :ref:`Ord <class-ghc-classes-ord-70960>` `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  **instance** :ref:`Additive <class-ghc-num-additive-5364>` `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  **instance** :ref:`Signed <class-ghc-num-signed-13386>` `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  **instance** :ref:`Show <class-ghc-show-show-56447>` `RelTime <type-da-time-types-reltime-66843_>`_
+
+Functions
+---------
+
+.. _function-da-internal-time-time-86034:
+
+`time <function-da-internal-time-time-86034_>`_
+  \: :ref:`Date <type-da-internal-lf-date-71388>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Time <type-da-internal-lf-time-19011>`
+  
+  ``time d h m s`` turns given UTC date ``d`` and the UTC time (given in hours, minutes, seconds)
+  into a UTC timestamp (``Time``)\. Does not handle leap seconds\.
+
+.. _function-da-time-pass-56886:
+
+`pass <function-da-time-pass-56886_>`_
+  \: `RelTime <type-da-time-types-reltime-66843_>`_ \-\> :ref:`Scenario <type-da-internal-lf-scenario-45418>` :ref:`Time <type-da-internal-lf-time-19011>`
+  
+  Pass simulated scenario time by argument
+
+.. _function-da-time-addreltime-9770:
+
+`addRelTime <function-da-time-addreltime-9770_>`_
+  \: :ref:`Time <type-da-internal-lf-time-19011>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_ \-\> :ref:`Time <type-da-internal-lf-time-19011>`
+  
+  Adjusts ``Time`` with given time offset\.
+
+.. _function-da-time-subtime-16819:
+
+`subTime <function-da-time-subtime-16819_>`_
+  \: :ref:`Time <type-da-internal-lf-time-19011>` \-\> :ref:`Time <type-da-internal-lf-time-19011>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  Returns time offset between two given instants\.
+
+.. _function-da-time-wholedays-3980:
+
+`wholeDays <function-da-time-wholedays-3980_>`_
+  \: `RelTime <type-da-time-types-reltime-66843_>`_ \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  Returns the number of whole days in a time offset\. Fraction of time is rounded towards zero\.
+
+.. _function-da-time-days-78720:
+
+`days <function-da-time-days-78720_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  A number of days in relative time\.
+
+.. _function-da-time-hours-19085:
+
+`hours <function-da-time-hours-19085_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  A number of hours in relative time\.
+
+.. _function-da-time-minutes-1277:
+
+`minutes <function-da-time-minutes-1277_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  A number of minutes in relative time\.
+
+.. _function-da-time-seconds-95981:
+
+`seconds <function-da-time-seconds-95981_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_
+
+.. _function-da-time-convertreltimetomicroseconds-34804:
+
+`convertRelTimeToMicroseconds <function-da-time-convertreltimetomicroseconds-34804_>`_
+  \: `RelTime <type-da-time-types-reltime-66843_>`_ \-\> :ref:`Int <type-ghc-types-int-68728>`
+  
+  Convert RelTime to microseconds
+  Use higher level functions instead of the internal microseconds
+
+.. _function-da-time-convertmicrosecondstoreltime-93724:
+
+`convertMicrosecondsToRelTime <function-da-time-convertmicrosecondstoreltime-93724_>`_
+  \: :ref:`Int <type-ghc-types-int-68728>` \-\> `RelTime <type-da-time-types-reltime-66843_>`_
+  
+  Convert microseconds to RelTime
+  Use higher level functions instead of the internal microseconds

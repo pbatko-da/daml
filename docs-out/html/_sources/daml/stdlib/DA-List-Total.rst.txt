@@ -1,0 +1,110 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-list-total-43846:
+
+Module DA.List.Total
+====================
+
+Functions
+---------
+
+.. _function-da-list-total-head-74336:
+
+`head <function-da-list-total-head-74336_>`_
+  \: \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Return the first element of a list\. Return ``None`` if list is empty\.
+
+.. _function-da-list-total-tail-79400:
+
+`tail <function-da-list-total-tail-79400_>`_
+  \: \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` \[a\]
+  
+  Return all but the first element of a list\. Return ``None`` if list is empty\.
+
+.. _function-da-list-total-last-89790:
+
+`last <function-da-list-total-last-89790_>`_
+  \: \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Extract the last element of a list\. Returns ``None`` if list is empty\.
+
+.. _function-da-list-total-init-82764:
+
+`init <function-da-list-total-init-82764_>`_
+  \: \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` \[a\]
+  
+  Return all the elements of a list except the last one\. Returns ``None`` if list is empty\.
+
+.. _function-da-list-total-bangbang-23030:
+
+`(!!) <function-da-list-total-bangbang-23030_>`_
+  \: \[a\] \-\> :ref:`Int <type-ghc-types-int-68728>` \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Return the nth element of a list\. Return ``None`` if index is out of bounds\.
+
+.. _function-da-list-total-foldl1-42644:
+
+`foldl1 <function-da-list-total-foldl1-42644_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Fold left starting with the head of the list\.
+  For example, ``foldl1 f [a,b,c] = f (f a b) c``\.
+  Return ``None`` if list is empty\.
+
+.. _function-da-list-total-foldr1-20338:
+
+`foldr1 <function-da-list-total-foldr1-20338_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Fold right starting with the last element of the list\.
+  For example, ``foldr1 f [a,b,c] = f a (f b c)``
+
+.. _function-da-list-total-foldbalanced1-80423:
+
+`foldBalanced1 <function-da-list-total-foldbalanced1-80423_>`_
+  \: (a \-\> a \-\> a) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Fold a non\-empty list in a balanced way\. Balanced means that each
+  element has approximately the same depth in the operator
+  tree\. Approximately the same depth means that the difference
+  between maximum and minimum depth is at most 1\. The accumulation
+  operation must be associative and commutative in order to get the
+  same result as ``foldl1`` or ``foldr1``\.
+  
+  Return ``None`` if list is empty\.
+
+.. _function-da-list-total-minimumby-32090:
+
+`minimumBy <function-da-list-total-minimumby-32090_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Return the least element of a list according to the given comparison function\.
+  Return ``None`` if list is empty\.
+
+.. _function-da-list-total-maximumby-61280:
+
+`maximumBy <function-da-list-total-maximumby-61280_>`_
+  \: (a \-\> a \-\> :ref:`Ordering <type-ghc-types-ordering-20506>`) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Return the greatest element of a list according to the given comparison function\.
+  Return ``None`` if list is empty\.
+
+.. _function-da-list-total-minimumon-21626:
+
+`minimumOn <function-da-list-total-minimumon-21626_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Return the least element of a list when comparing by a key function\.
+  For example ``minimumOn (\(x,y) -> x + y) [(1,2), (2,0)] == Some (2,0)``\.
+  Return ``None`` if list is empty\.
+
+.. _function-da-list-total-maximumon-67732:
+
+`maximumOn <function-da-list-total-maximumon-67732_>`_
+  \: :ref:`Ord <class-ghc-classes-ord-70960>` k \=\> (a \-\> k) \-\> \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Return the greatest element of a list when comparing by a key function\.
+  For example ``maximumOn (\(x,y) -> x + y) [(1,2), (2,0)] == Some (1,2)``\.
+  Return ``None`` if list is empty\.

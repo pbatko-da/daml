@@ -1,0 +1,689 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>8 Exception Handling &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="9 Working with Dependencies" href="9_Dependencies.html" />
+  <link rel="prev" title="7 Composing choices" href="7_Composing.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="0_Intro.html">An introduction to Daml</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/error-codes.html">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/requirements.html">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/pruning.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">8 Exception Handling</a><ul>
+<li><a class="reference internal" href="#next-up">Next up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="exception-handling">
+<h1>8 Exception Handling<a class="headerlink" href="#exception-handling" title="Permalink to this headline">¶</a></h1>
+<p>The default behavior in Daml is to abort the transaction on any error
+and roll back all changes that have happened until then. However, this
+is not always appropriate. In some cases, it makes sense to recover
+from an error and continue the transaction instead of aborting it.</p>
+<p>One option for doing that is to represent errors explicitly via
+<code class="docutils literal notranslate"><span class="pre">Either</span></code> or <code class="docutils literal notranslate"><span class="pre">Option</span></code> as shown in <a class="reference internal" href="3_Data.html"><span class="doc">3 Data types</span></a>. This approach has
+the advantage that it is very explicit about which operations are
+allowed to fail without aborting the entire transaction. However, it
+also has two major downsides. First, it can
+be invasive for operations where aborting the transaction is often the
+desired behavior, e.g., changing division to return <code class="docutils literal notranslate"><span class="pre">Either</span></code> or an
+<code class="docutils literal notranslate"><span class="pre">Option</span></code> to handle division by zero would be a very invasive change
+and many callsites might not want to handle the error case explicitly.
+Second, and more importantly, this approach does not allow rolling
+back ledger actions that have happened before the point where failure is
+detected; if a contract
+got created before we hit the error, there is no way to undo that
+except for aborting the entire transaction (which is what we were
+trying to avoid in the first place).</p>
+<p>By contrast, exceptions provide a way to handle certain types of
+errors in such a way that, on the one hand, most of the code that is
+allowed to fail can be written just like normal code, and, on the
+other hand, the programmer can clearly delimit which part of the
+current transaction should be rolled back on failure.
+All of that still happens within the same
+transaction and is thereby atomic contrary to handling the error
+outside of Daml.</p>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">Remember that you can load all the code for this section into a folder called <code class="docutils literal notranslate"><span class="pre">8_Exceptions</span></code> by running <code class="docutils literal notranslate"><span class="pre">daml</span> <span class="pre">new</span> <span class="pre">8_Exceptions</span> <span class="pre">--template</span> <span class="pre">daml-intro-8</span></code></p>
+</div>
+<p>Our example for the use of exceptions will be a simple shop
+template. Users can order items by calling a choice and transfer money
+(in the form of an Iou issued by their bank) from their account to the
+owner in return.</p>
+<p>First, we need to setup a template to represent the account of a user.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Account</span> <span class="kr">with</span>
+    <span class="n">issuer</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">amount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span>
+    <span class="kr">ensure</span> <span class="n">amount</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+    <span class="n">key</span> <span class="p">(</span><span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span><span class="p">)</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">Party</span><span class="p">,</span> <span class="kt">Party</span><span class="p">)</span>
+    <span class="n">maintainer</span> <span class="n">key</span><span class="o">.</span><span class="n">_2</span>
+
+    <span class="n">choice</span> <span class="kt">Transfer</span> <span class="kt">:</span> <span class="nb">()</span> <span class="kr">with</span>
+        <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+        <span class="n">transferredAmount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+      <span class="kr">controller</span> <span class="n">owner</span><span class="p">,</span> <span class="n">newOwner</span>
+      <span class="kr">do</span> <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span> <span class="n">amount</span> <span class="ow">=</span> <span class="n">amount</span> <span class="o">-</span> <span class="n">transferredAmount</span>
+         <span class="n">create</span> <span class="kt">Iou</span> <span class="kr">with</span> <span class="n">issuer</span> <span class="ow">=</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span> <span class="ow">=</span> <span class="n">newOwner</span><span class="p">,</span> <span class="n">amount</span> <span class="ow">=</span> <span class="n">transferredAmount</span>
+         <span class="n">pure</span> <span class="nb">()</span>
+</pre></div>
+</div>
+<p>Note that the template has an <code class="docutils literal notranslate"><span class="pre">ensure</span></code> clause that ensures that the
+amount is always positive so <code class="docutils literal notranslate"><span class="pre">Transfer</span></code> cannot transfer more money
+than is available.</p>
+<p>The shop is represented as a template signed by the owner. It has a
+field to represent the bank accepted by the owner as well as a list of
+observers that can order items.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">Shop</span>
+  <span class="kr">with</span>
+    <span class="n">owner</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">bank</span> <span class="kt">:</span> <span class="kt">Party</span>
+    <span class="n">observers</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Party</span><span class="p">]</span>
+  <span class="kr">where</span>
+    <span class="kr">signatory</span> <span class="n">owner</span>
+    <span class="kr">observer</span> <span class="n">observers</span>
+    <span class="kr">let</span> <span class="n">price</span><span class="kt">:</span> <span class="kt">Decimal</span> <span class="ow">=</span> <span class="mf">100.0</span>
+</pre></div>
+</div>
+<p>The ordering process is then represented by a non-consuming choice on
+this template which calls <code class="docutils literal notranslate"><span class="pre">Transfer</span></code> and creates an <code class="docutils literal notranslate"><span class="pre">Order</span></code>
+contract in return.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">nonconsuming</span> <span class="n">choice</span> <span class="kt">OrderItem</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Order</span>
+      <span class="kr">with</span>
+        <span class="n">shopper</span> <span class="kt">:</span> <span class="kt">Party</span>
+      <span class="kr">controller</span> <span class="n">shopper</span>
+      <span class="kr">do</span> <span class="n">exerciseByKey</span> <span class="o">@</span><span class="kt">Account</span> <span class="p">(</span><span class="n">bank</span><span class="p">,</span> <span class="n">shopper</span><span class="p">)</span> <span class="p">(</span><span class="kt">Transfer</span> <span class="n">owner</span> <span class="n">price</span><span class="p">)</span>
+         <span class="n">create</span> <span class="kt">Order</span>
+           <span class="kr">with</span>
+             <span class="n">shopOwner</span> <span class="ow">=</span> <span class="n">owner</span>
+             <span class="n">shopper</span> <span class="ow">=</span> <span class="n">shopper</span>
+</pre></div>
+</div>
+<p>However, the shop owner has realized that often orders fail because
+the account of their users is not topped up. They have a small trusted
+userbase they know well so they decide that if the account is not
+topped up, the shoppers can instead issue an Iou to the owner and pay
+later. While it would be possible to check the conditions under which
+<code class="docutils literal notranslate"><span class="pre">Transfer</span></code> will fail in <code class="docutils literal notranslate"><span class="pre">OrderItem</span></code> this can be quite fragile: In
+this example, the condition is relatively simple but in larger
+projects replicating the conditions outside the choice and keeping the
+two in sync can be challenging.</p>
+<p>Exceptions allow us to handle this differently. Rather than
+replicating the checks in <code class="docutils literal notranslate"><span class="pre">Transfer</span></code>, we can instead catch the
+exception thrown on failure. To do so we need to use a try-catch
+block. The <code class="docutils literal notranslate"><span class="pre">try</span></code> block defines the scope within which we want to
+catch exceptions while the <code class="docutils literal notranslate"><span class="pre">catch</span></code> clauses define which exceptions
+we want to catch and how we want to handle them. In this case, we want
+to catch the exception thrown by a failed <code class="docutils literal notranslate"><span class="pre">ensure</span></code> clause. This
+exception is defined in <code class="docutils literal notranslate"><span class="pre">daml-stdlib</span></code> as
+<code class="docutils literal notranslate"><span class="pre">PreconditionFailed</span></code>. Putting it together our order process for
+trusted users looks as follows:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">nonconsuming</span> <span class="n">choice</span> <span class="kt">OrderItemTrusted</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Order</span>
+      <span class="kr">with</span>
+        <span class="n">shopper</span> <span class="kt">:</span> <span class="kt">Party</span>
+      <span class="kr">controller</span> <span class="n">shopper</span>
+      <span class="kr">do</span> <span class="n">cid</span> <span class="ow">&lt;-</span> <span class="n">create</span> <span class="kt">Order</span>
+           <span class="kr">with</span>
+             <span class="n">shopOwner</span> <span class="ow">=</span> <span class="n">owner</span>
+             <span class="n">shopper</span> <span class="ow">=</span> <span class="n">shopper</span>
+         <span class="n">try</span> <span class="kr">do</span>
+           <span class="n">exerciseByKey</span> <span class="o">@</span><span class="kt">Account</span> <span class="p">(</span><span class="n">bank</span><span class="p">,</span> <span class="n">shopper</span><span class="p">)</span> <span class="p">(</span><span class="kt">Transfer</span> <span class="n">owner</span> <span class="n">price</span><span class="p">)</span>
+         <span class="n">catch</span>
+           <span class="kt">PreconditionFailed</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="kr">do</span>
+             <span class="n">create</span> <span class="kt">Iou</span> <span class="kr">with</span>
+               <span class="n">issuer</span> <span class="ow">=</span> <span class="n">shopper</span>
+               <span class="n">owner</span> <span class="ow">=</span> <span class="n">owner</span>
+               <span class="n">amount</span> <span class="ow">=</span> <span class="n">price</span>
+             <span class="n">pure</span> <span class="nb">()</span>
+         <span class="n">pure</span> <span class="n">cid</span>
+</pre></div>
+</div>
+<p>Let’s walk through this code. First, as mentioned, the shop owner is
+the trusting kind, so he wants to start by creating the <code class="docutils literal notranslate"><span class="pre">Order</span></code>
+matter what. Next, we try to charge the customer for the order. We
+could, at this point, check their balance against the cost of the
+order, but that would amount to duplicating the logic already present
+in <code class="docutils literal notranslate"><span class="pre">Account</span></code>. This logic is pretty simple in this case, but
+duplicating invariants is a bad habit to get into. So, instead, we
+just <em>try</em> to charge the account. If that succeeds, we just merrily
+ignore the entire <code class="docutils literal notranslate"><span class="pre">catch</span></code> clause; if that fails, however, we do not
+want to destroy the Order contract we had already created. Instead, we
+want to <em>catch</em> the error thrown by the <code class="docutils literal notranslate"><span class="pre">ensure</span></code> clause of
+<code class="docutils literal notranslate"><span class="pre">Account</span></code> (in this case, it is of type <code class="docutils literal notranslate"><span class="pre">PreconditionFailed</span></code>) and
+try something else: create an <code class="docutils literal notranslate"><span class="pre">Iou</span></code>  contract to register the debt
+and move on.</p>
+<p>Note that if the <code class="docutils literal notranslate"><span class="pre">Iou</span></code> creation still failed (unlikely with our
+definition of <code class="docutils literal notranslate"><span class="pre">Iou</span></code> here, but could happen in more complex
+scenarios), because that one is not wrapped in a <code class="docutils literal notranslate"><span class="pre">try</span></code> block, we
+would revert to the default Daml behaviour and the <code class="docutils literal notranslate"><span class="pre">Order</span></code> creation
+<em>would</em> be rolled back.</p>
+<p>In addition to catching built-in exceptions like
+<code class="docutils literal notranslate"><span class="pre">PreconditionFailed</span></code>, you can also define your own exception types
+which can be caught and thrown. As an example, let’s consider a
+variant of the <code class="docutils literal notranslate"><span class="pre">Transfer</span></code> choice that only allows for transfers up
+to a given limit. If the amount is higher than the limit, we throw an
+exception called <code class="docutils literal notranslate"><span class="pre">TransferLimitExceeded</span></code>.</p>
+<p>We first have to define the exception and define a way to represent it
+as a string. In this case, our exception should store the amount that
+someone tried to transfer as well as the limit.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">exception</span> <span class="kt">TransferLimitExceeded</span>
+  <span class="kr">with</span>
+    <span class="n">limit</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+    <span class="n">attempted</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+  <span class="kr">where</span>
+    <span class="n">message</span> <span class="s">&quot;Transfer of &quot;</span> <span class="o">&lt;&gt;</span> <span class="n">show</span> <span class="n">attempted</span> <span class="o">&lt;&gt;</span> <span class="s">&quot; exceeds limit of &quot;</span> <span class="o">&lt;&gt;</span> <span class="n">show</span> <span class="n">limit</span>
+</pre></div>
+</div>
+<p>To throw our own exception, you can use <code class="docutils literal notranslate"><span class="pre">throw</span></code> in <code class="docutils literal notranslate"><span class="pre">Update</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Script</span></code> or <code class="docutils literal notranslate"><span class="pre">throwPure</span></code> in other contexts.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="n">choice</span> <span class="kt">TransferLimited</span> <span class="kt">:</span> <span class="nb">()</span> <span class="kr">with</span>
+        <span class="n">newOwner</span> <span class="kt">:</span> <span class="kt">Party</span>
+        <span class="n">transferredAmount</span> <span class="kt">:</span> <span class="kt">Decimal</span>
+      <span class="kr">controller</span> <span class="n">owner</span><span class="p">,</span> <span class="n">newOwner</span>
+      <span class="kr">do</span> <span class="kr">let</span> <span class="n">limit</span> <span class="ow">=</span> <span class="mf">50.0</span>
+         <span class="n">when</span> <span class="p">(</span><span class="n">transferredAmount</span> <span class="o">&gt;</span> <span class="n">limit</span><span class="p">)</span> <span class="o">$</span>
+           <span class="n">throw</span> <span class="kt">TransferLimitExceeded</span> <span class="kr">with</span>
+             <span class="n">limit</span> <span class="ow">=</span> <span class="n">limit</span>
+             <span class="n">attempted</span> <span class="ow">=</span> <span class="n">transferredAmount</span>
+         <span class="n">create</span> <span class="kr">this</span> <span class="kr">with</span> <span class="n">amount</span> <span class="ow">=</span> <span class="n">amount</span> <span class="o">-</span> <span class="n">transferredAmount</span>
+         <span class="n">create</span> <span class="kt">Iou</span> <span class="kr">with</span> <span class="n">issuer</span> <span class="ow">=</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">owner</span> <span class="ow">=</span> <span class="n">newOwner</span><span class="p">,</span> <span class="n">amount</span> <span class="ow">=</span> <span class="n">transferredAmount</span>
+         <span class="n">pure</span> <span class="nb">()</span>
+</pre></div>
+</div>
+<p>Finally, we can adapt our choice to catch this exception as well:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>    <span class="kr">nonconsuming</span> <span class="n">choice</span> <span class="kt">OrderItemTrustedLimited</span> <span class="kt">:</span> <span class="kt">ContractId</span> <span class="kt">Order</span>
+      <span class="kr">with</span>
+        <span class="n">shopper</span> <span class="kt">:</span> <span class="kt">Party</span>
+      <span class="kr">controller</span> <span class="n">shopper</span>
+      <span class="kr">do</span> <span class="n">try</span> <span class="kr">do</span>
+           <span class="n">exerciseByKey</span> <span class="o">@</span><span class="kt">Account</span> <span class="p">(</span><span class="n">bank</span><span class="p">,</span> <span class="n">shopper</span><span class="p">)</span> <span class="p">(</span><span class="kt">Transfer</span> <span class="n">owner</span> <span class="n">price</span><span class="p">)</span>
+           <span class="n">pure</span> <span class="nb">()</span>
+         <span class="n">catch</span>
+           <span class="kt">PreconditionFailed</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="kr">do</span>
+             <span class="n">create</span> <span class="kt">Iou</span> <span class="kr">with</span>
+               <span class="n">issuer</span> <span class="ow">=</span> <span class="n">shopper</span>
+               <span class="n">owner</span> <span class="ow">=</span> <span class="n">owner</span>
+               <span class="n">amount</span> <span class="ow">=</span> <span class="n">price</span>
+             <span class="n">pure</span> <span class="nb">()</span>
+           <span class="kt">TransferLimitExceeded</span> <span class="kr">_</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="kr">do</span>
+             <span class="n">create</span> <span class="kt">Iou</span> <span class="kr">with</span>
+               <span class="n">issuer</span> <span class="ow">=</span> <span class="n">shopper</span>
+               <span class="n">owner</span> <span class="ow">=</span> <span class="n">owner</span>
+               <span class="n">amount</span> <span class="ow">=</span> <span class="n">price</span>
+             <span class="n">pure</span> <span class="nb">()</span>
+         <span class="n">create</span> <span class="kt">Order</span>
+           <span class="kr">with</span>
+             <span class="n">shopOwner</span> <span class="ow">=</span> <span class="n">owner</span>
+             <span class="n">shopper</span> <span class="ow">=</span> <span class="n">shopper</span>
+</pre></div>
+</div>
+<p>For more information on exceptions, take a look at the
+<a class="reference internal" href="../reference/exceptions.html#exceptions"><span class="std std-ref">language reference</span></a>.</p>
+<div class="section" id="next-up">
+<h2>Next up<a class="headerlink" href="#next-up" title="Permalink to this headline">¶</a></h2>
+<p>We have now seen how to develop safe models and how we can handle
+errors in those models in a robust and simple way. But the journey
+doesn’t stop there. In <a class="reference internal" href="9_Dependencies.html"><span class="doc">9 Working with Dependencies</span></a> you will learn how to
+extend an already running application to enhance it with new
+features. In that context you’ll learn a bit more about the
+architecture of Daml, about dependencies, and about identifiers.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="7_Composing.html" class="da-btn da-btn-label btn-prev" title="7 Composing choices" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="9_Dependencies.html" class="da-btn da-btn-label btn-next" title="9 Working with Dependencies" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

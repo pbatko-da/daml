@@ -1,0 +1,155 @@
+.. Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+.. SPDX-License-Identifier: Apache-2.0
+
+.. _module-da-nonempty-85768:
+
+Module DA.NonEmpty
+==================
+
+Type and functions for non\-empty lists\. This module re\-exports many functions with
+the same name as prelude list functions, so it is expected to import the module qualified\.
+For example, with the following import list you will have access to the ``NonEmpty`` type
+and any functions on non\-empty lists will be qualified, for example as ``NE.append, NE.map, NE.foldl``\:
+
+.. code-block:: daml
+
+  import DA.NonEmpty (NonEmpty)
+  import qualified DA.NonEmpty as NE
+
+Functions
+---------
+
+.. _function-da-nonempty-cons-25107:
+
+`cons <function-da-nonempty-cons-25107_>`_
+  \: a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a
+  
+  Prepend an element to a non\-empty list\.
+
+.. _function-da-nonempty-append-22538:
+
+`append <function-da-nonempty-append-22538_>`_
+  \: :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a
+  
+  Append or concatenate two non\-empty lists\.
+
+.. _function-da-nonempty-map-50431:
+
+`map <function-da-nonempty-map-50431_>`_
+  \: (a \-\> b) \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` b
+  
+  Apply a function over each element in the non\-empty list\.
+
+.. _function-da-nonempty-nonempty-32536:
+
+`nonEmpty <function-da-nonempty-nonempty-32536_>`_
+  \: \[a\] \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` (:ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a)
+  
+  Turn a list into a non\-empty list, if possible\. Returns
+  ``None`` if the input list is empty, and ``Some`` otherwise\.
+
+.. _function-da-nonempty-singleton-22648:
+
+`singleton <function-da-nonempty-singleton-22648_>`_
+  \: a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a
+  
+  A non\-empty list with a single element\.
+
+.. _function-da-nonempty-tolist-28729:
+
+`toList <function-da-nonempty-tolist-28729_>`_
+  \: :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> \[a\]
+  
+  Turn a non\-empty list into a list (by forgetting that it is not empty)\.
+
+.. _function-da-nonempty-reverse-22163:
+
+`reverse <function-da-nonempty-reverse-22163_>`_
+  \: :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a
+  
+  Reverse a non\-empty list\.
+
+.. _function-da-nonempty-find-1757:
+
+`find <function-da-nonempty-find-1757_>`_
+  \: (a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> :ref:`Optional <type-da-internal-prelude-optional-79838>` a
+  
+  Find an element in a non\-empty list\.
+
+.. _function-da-nonempty-deleteby-74298:
+
+`deleteBy <function-da-nonempty-deleteby-74298_>`_
+  \: (a \-\> a \-\> :ref:`Bool <type-ghc-types-bool-8654>`) \-\> a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> \[a\]
+  
+  The 'deleteBy' function behaves like 'delete', but takes a
+  user\-supplied equality predicate\.
+
+.. _function-da-nonempty-delete-20823:
+
+`delete <function-da-nonempty-delete-20823_>`_
+  \: :ref:`Eq <class-ghc-classes-eq-21216>` a \=\> a \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> \[a\]
+  
+  Remove the first occurence of x from the non\-empty list, potentially
+  removing all elements\.
+
+.. _function-da-nonempty-foldl1-35146:
+
+`foldl1 <function-da-nonempty-foldl1-35146_>`_
+  \: (a \-\> a \-\> a) \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> a
+  
+  Apply a function repeatedly to pairs of elements from a non\-empty list,
+  from the left\. For example, ``foldl1 (+) (NonEmpty 1 [2,3,4]) = ((1 + 2) + 3) + 4``\.
+
+.. _function-da-nonempty-foldr1-59356:
+
+`foldr1 <function-da-nonempty-foldr1-59356_>`_
+  \: (a \-\> a \-\> a) \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> a
+  
+  Apply a function repeatedly to pairs of elements from a non\-empty list,
+  from the right\. For example, ``foldr1 (+) (NonEmpty 1 [2,3,4]) = 1 + (2 + (3 + 4))``\.
+
+.. _function-da-nonempty-foldr-78582:
+
+`foldr <function-da-nonempty-foldr-78582_>`_
+  \: (a \-\> b \-\> b) \-\> b \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> b
+  
+  Apply a function repeatedly to pairs of elements from a non\-empty list,
+  from the right, with a given initial value\. For example,
+  ``foldr (+) 0 (NonEmpty 1 [2,3,4]) = 1 + (2 + (3 + (4 + 0)))``\.
+
+.. _function-da-nonempty-foldra-12780:
+
+`foldrA <function-da-nonempty-foldra-12780_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> b \-\> m b) \-\> b \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> m b
+  
+  The same as ``foldr`` but running an action each time\.
+
+.. _function-da-nonempty-foldr1a-64042:
+
+`foldr1A <function-da-nonempty-foldr1a-64042_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> a \-\> m a) \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> m a
+  
+  The same as ``foldr1`` but running an action each time\.
+
+.. _function-da-nonempty-foldl-54500:
+
+`foldl <function-da-nonempty-foldl-54500_>`_
+  \: (b \-\> a \-\> b) \-\> b \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> b
+  
+  Apply a function repeatedly to pairs of elements from a non\-empty list,
+  from the left, with a given initial value\. For example,
+  ``foldl (+) 0 (NonEmpty 1 [2,3,4]) = (((0 + 1) + 2) + 3) + 4``\.
+
+.. _function-da-nonempty-foldla-95418:
+
+`foldlA <function-da-nonempty-foldla-95418_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (b \-\> a \-\> m b) \-\> b \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> m b
+  
+  The same as ``foldl`` but running an action each time\.
+
+.. _function-da-nonempty-foldl1a-8740:
+
+`foldl1A <function-da-nonempty-foldl1a-8740_>`_
+  \: :ref:`Action <class-da-internal-prelude-action-24943>` m \=\> (a \-\> a \-\> m a) \-\> :ref:`NonEmpty <type-da-nonempty-types-nonempty-37637>` a \-\> m a
+  
+  The same as ``foldl1`` but running an action each time\.

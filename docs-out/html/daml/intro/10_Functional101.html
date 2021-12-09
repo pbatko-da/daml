@@ -1,0 +1,959 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>10 Functional Programming 101 &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../../_static/jquery.js"></script>
+  <script type="text/javascript" src="../../_static/underscore.js"></script>
+  <script type="text/javascript" src="../../_static/doctools.js"></script>
+  <script type="text/javascript" src="../../_static/language_data.js"></script>
+  <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" />
+  <link rel="next" title="11 Intro to the Daml Standard Library" href="11_StdLib.html" />
+  <link rel="prev" title="9 Working with Dependencies" href="9_Dependencies.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="0_Intro.html">An introduction to Daml</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/error-codes.html">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/requirements.html">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/pruning.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/interoperability.html">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">10 Functional Programming 101</a><ul>
+<li><a class="reference internal" href="#the-haskell-connection">The Haskell Connection</a></li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#function-application">Function Application</a></li>
+<li><a class="reference internal" href="#infix-functions">Infix Functions</a></li>
+<li><a class="reference internal" href="#type-constraints">Type Constraints</a></li>
+<li><a class="reference internal" href="#pattern-matching-in-arguments">Pattern Matching in Arguments</a></li>
+<li><a class="reference internal" href="#functions-everywhere">Functions Everywhere</a></li>
+<li><a class="reference internal" href="#lambdas">Lambdas</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#control-flow">Control Flow</a><ul>
+<li><a class="reference internal" href="#branching">Branching</a><ul>
+<li><a class="reference internal" href="#if-else">If..Else</a></li>
+<li><a class="reference internal" href="#control-flow-as-expressions">Control Flow as Expressions</a></li>
+<li><a class="reference internal" href="#branching-in-actions">Branching in Actions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#looping">Looping</a><ul>
+<li><a class="reference internal" href="#folds">Folds</a></li>
+<li><a class="reference internal" href="#maps">Maps</a></li>
+<li><a class="reference internal" href="#recursion">Recursion</a></li>
+<li><a class="reference internal" href="#folds-and-maps-in-action-contexts">Folds and Maps in Action Contexts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-up">Next up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="functional-programming-101">
+<h1>10 Functional Programming 101<a class="headerlink" href="#functional-programming-101" title="Permalink to this headline">¶</a></h1>
+<p>In this chapter, you will learn more about expressing complex logic in a functional language like Daml. Specifically, you’ll learn about</p>
+<ul class="simple">
+<li>Function signatures and functions</li>
+<li>Advanced control flow (<code class="docutils literal notranslate"><span class="pre">if...else</span></code>, folds, recursion, <code class="docutils literal notranslate"><span class="pre">when</span></code>)</li>
+</ul>
+<p>If you no longer have your chapter 7 and 8 projects set up, and want to look back at the code, please follow the setup instructions in <a class="reference internal" href="9_Dependencies.html"><span class="doc">9 Working with Dependencies</span></a> to get hold of the code for this chapter.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is a project template <code class="docutils literal notranslate"><span class="pre">daml-intro-10</span></code> for this chapter, but it only contains a single source file with the code snippets embedded in this section.</p>
+</div>
+<div class="section" id="the-haskell-connection">
+<span id="haskell-connection"></span><h2>The Haskell Connection<a class="headerlink" href="#the-haskell-connection" title="Permalink to this headline">¶</a></h2>
+<p>The previous chapters of this introduction to Daml have mostly covered the structure of templates, and their connection to the <a class="reference internal" href="../../concepts/ledger-model/index.html"><span class="doc">Daml Ledger Model</span></a>. The logic of what happens within the <code class="docutils literal notranslate"><span class="pre">do</span></code> blocks of choices has been kept relatively simple. In this chapter, we will dive deeper into Daml’s expression language, the part that allows you to write logic inside those <code class="docutils literal notranslate"><span class="pre">do</span></code> blocks. But we can only scratch the surface here. Daml borrows a lot of its language from <a class="reference external" href="https://www.haskell.org">Haskell</a>. If you want to dive deeper, or learn about specific aspects of the language you can refer to standard literature on Haskell. Some recommendations:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://joyofhaskell.com/">Finding Success and Failure in Haskell (Julie Maronuki, Chris Martin)</a></li>
+<li><a class="reference external" href="http://haskellbook.com/">Haskell Programming from first principles (Christopher Allen, Julie Moronuki)</a></li>
+<li><a class="reference external" href="http://learnyouahaskell.com/">Learn You a Haskell for Great Good! (Miran Lipovača)</a></li>
+<li><a class="reference external" href="http://www.cs.nott.ac.uk/~pszgmh/pih.html">Programming in Haskell (Graham Hutton)</a></li>
+<li><a class="reference external" href="http://book.realworldhaskell.org/">Real World Haskell (Bryan O’Sullivan, Don Stewart, John Goerzen)</a></li>
+</ul>
+<p>When comparing Daml to Haskell it’s worth noting:</p>
+<ul class="simple">
+<li>Haskell is a lazy language, which allows you to write things like <code class="docutils literal notranslate"><span class="pre">head</span> <span class="pre">[1..]</span></code>, meaning “take the first element of an infinite list”. Daml by contrast is strict. Expressions are fully evaluated, which means it is not possible to work with infinite data structures.</li>
+<li>Daml has a <code class="docutils literal notranslate"><span class="pre">with</span></code> syntax for records, and dot syntax for record field access, neither of which present in Haskell. But Daml supports Haskell’s curly brace record notation.</li>
+<li>Daml has a number of Haskell compiler extensions active by default.</li>
+<li>Daml doesn’t support all features of Haskell’s type system. For example, there are no existential types or GADTs.</li>
+<li>Actions are called Monads in Haskell.</li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>In <a class="reference internal" href="3_Data.html"><span class="doc">3 Data types</span></a> you learnt about one half of Daml’s type system: Data types. It’s now time to learn about the other, which are Function types. Function types in Daml can be spotted by looking for <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code> which can be read as “maps to”.</p>
+<p>For example, the function signature <code class="docutils literal notranslate"><span class="pre">Int</span> <span class="pre">-&gt;</span> <span class="pre">Int</span></code> maps an integer to another integer. There are many such functions, but one would be:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">increment</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">increment</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>You can see here that the function declaration and the function definitions are separate. The declaration can be omitted in cases where the type can be inferred by the compiler, but for top-level functions (ie ones at the same level as templates, directly under a module), it’s often a good idea to include them for readability.</p>
+<p>In the case of <code class="docutils literal notranslate"><span class="pre">increment</span></code> it could have been omitted. Similarly, we could define a function <code class="docutils literal notranslate"><span class="pre">add</span></code> without a declaration:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">add</span> <span class="n">n</span> <span class="n">m</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">m</span>
+</pre></div>
+</div>
+<p>If you do this, and wonder what type the compiler has inferred, you can hover over the function name in the IDE:</p>
+<div class="figure">
+<img alt="../../_images/signature.png" src="../../_images/signature.png" />
+</div>
+<p>What you see here is a slightly more complex signature:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">add</span> <span class="kt">:</span> <span class="kt">Additive</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>There are two interesting things going on here:</p>
+<ol class="arabic simple">
+<li>We have more than one <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code>.</li>
+<li>We have a type parameter <code class="docutils literal notranslate"><span class="pre">a</span></code> with a constraint <code class="docutils literal notranslate"><span class="pre">Additive</span> <span class="pre">a</span></code>.</li>
+</ol>
+<div class="section" id="function-application">
+<h3>Function Application<a class="headerlink" href="#function-application" title="Permalink to this headline">¶</a></h3>
+<p>Let’s start by looking at the right hand part <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span></code>. The <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code> is right associative, meaning <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">(a</span> <span class="pre">-&gt;</span> <span class="pre">a)</span></code>. Using the “maps to” way of reading <code class="docutils literal notranslate"><span class="pre">-&gt;</span></code> we get “a maps to a function that maps a to a”.</p>
+<p>And this is indeed what happens. We can define a different version of <code class="docutils literal notranslate"><span class="pre">increment</span></code> by <em>partially applying</em> <code class="docutils literal notranslate"><span class="pre">add</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">increment2</span> <span class="ow">=</span> <span class="n">add</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>If you try this out in your IDE, you’ll see that the compiler infers type <code class="docutils literal notranslate"><span class="pre">Int</span> <span class="pre">-&gt;</span> <span class="pre">Int</span></code> again. It can do so because of the literal <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">:</span> <span class="pre">Int</span></code>.</p>
+<p>So if we have a function <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">:</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">c</span> <span class="pre">-&gt;</span> <span class="pre">d</span></code> and a value <code class="docutils literal notranslate"><span class="pre">valA</span> <span class="pre">:</span> <span class="pre">a</span></code>, we get <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">valA</span> <span class="pre">:</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">c</span> <span class="pre">-&gt;</span> <span class="pre">d</span></code>, ie we can apply the function argument by argument. If we also had <code class="docutils literal notranslate"><span class="pre">valB</span> <span class="pre">:</span> <span class="pre">b</span></code>, we would have <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">valA</span> <span class="pre">valB</span> <span class="pre">:</span> <span class="pre">c</span> <span class="pre">-&gt;</span> <span class="pre">d</span></code>. What this tells you is that function <em>application</em> is left associative: <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">valA</span> <span class="pre">valB</span> <span class="pre">==</span> <span class="pre">(f</span> <span class="pre">valA)</span> <span class="pre">valB</span></code>.</p>
+</div>
+<div class="section" id="infix-functions">
+<h3>Infix Functions<a class="headerlink" href="#infix-functions" title="Permalink to this headline">¶</a></h3>
+<p>Now <code class="docutils literal notranslate"><span class="pre">add</span></code> is clearly just an alias for <code class="docutils literal notranslate"><span class="pre">+</span></code>, but what is <code class="docutils literal notranslate"><span class="pre">+</span></code>? <code class="docutils literal notranslate"><span class="pre">+</span></code> is just a function. It’s only special because it starts with a symbol. Functions that start with a symbol are <em>infix</em> by default which means they can be written between two arguments. That’s why we can write <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">2</span></code> rather than <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">1</span> <span class="pre">2</span></code>. The rules for converting between normal and infix functions are simple. Wrap an infix function in parentheses to use it as a normal function, and wrap a normal function in backticks to make it infix:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">three</span> <span class="ow">=</span> <span class="mi">1</span> <span class="p">`</span><span class="n">add</span><span class="p">`</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>With that knowledge, we could have defined <code class="docutils literal notranslate"><span class="pre">add</span></code> more succinctly as the alias that it is:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">add2</span> <span class="kt">:</span> <span class="kt">Additive</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<span class="nf">add2</span> <span class="ow">=</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we want to partially apply an infix operation we can also do that as follows:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">increment3</span> <span class="ow">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span><span class="p">)</span>
+<span class="nf">decrement</span> <span class="ow">=</span> <span class="p">(</span><span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">While function application is left associative by default, infix operators can be declared left or right associative and given a precedence. Good examples are the boolean operations <code class="docutils literal notranslate"><span class="pre">&amp;&amp;</span></code> and <code class="docutils literal notranslate"><span class="pre">||</span></code>, which are declared right associative with precedences 3, and 2, respectively. This allows you to write <code class="docutils literal notranslate"><span class="pre">True</span> <span class="pre">||</span> <span class="pre">True</span> <span class="pre">&amp;&amp;</span> <span class="pre">False</span></code> and get value <code class="docutils literal notranslate"><span class="pre">True</span></code>. See section 4.4.2 of <a class="reference external" href="https://www.haskell.org/onlinereport/decls.html">the Haskell 98 report</a> for more on fixities.</p>
+</div>
+</div>
+<div class="section" id="type-constraints">
+<h3>Type Constraints<a class="headerlink" href="#type-constraints" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">Additive</span> <span class="pre">a</span> <span class="pre">=&gt;</span></code> part of the signature of <code class="docutils literal notranslate"><span class="pre">add</span></code> is a type constraint on the type parameter <code class="docutils literal notranslate"><span class="pre">a</span></code>. <code class="docutils literal notranslate"><span class="pre">Additive</span></code> here is a typeclass. You already met typeclasses like <code class="docutils literal notranslate"><span class="pre">Eq</span></code> and <code class="docutils literal notranslate"><span class="pre">Show</span></code> in <a class="reference internal" href="3_Data.html"><span class="doc">3 Data types</span></a>. The <code class="docutils literal notranslate"><span class="pre">Additive</span></code> typeclass says that you can add a thing. Ie there is a function <code class="docutils literal notranslate"><span class="pre">(+)</span> <span class="pre">:</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span></code>. Now the way to read the full signature of <code class="docutils literal notranslate"><span class="pre">add</span></code> is “Given that a has an instance for the Additive typeclass, a maps to a function which maps a to a”.</p>
+<p>Typeclasses in Daml are a bit like interfaces in other languages. To be able to add two things using the <code class="docutils literal notranslate"><span class="pre">+</span></code> function, those things need to expose the <code class="docutils literal notranslate"><span class="pre">+</span></code> interface.</p>
+<p>Unlike interfaces, typeclasses can have multiple type parameters. A good example, which also demonstrates the use of multiple constraints at the same time, is the signature of the <code class="docutils literal notranslate"><span class="pre">exercise</span></code> function:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">exercise</span> <span class="kt">:</span> <span class="p">(</span><span class="kt">Template</span> <span class="n">t</span><span class="p">,</span> <span class="kt">Choice</span> <span class="n">t</span> <span class="n">c</span> <span class="n">r</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="kt">ContractId</span> <span class="n">t</span> <span class="ow">-&gt;</span> <span class="n">c</span> <span class="ow">-&gt;</span> <span class="kt">Update</span> <span class="n">r</span>
+</pre></div>
+</div>
+<p>Let’s turn this into prose: Given that <code class="docutils literal notranslate"><span class="pre">t</span></code> is the type of a template, and that <code class="docutils literal notranslate"><span class="pre">t</span></code> has a choice <code class="docutils literal notranslate"><span class="pre">c</span></code> with return type <code class="docutils literal notranslate"><span class="pre">r</span></code>, map a <code class="docutils literal notranslate"><span class="pre">ContractId</span></code> for a contract of type <code class="docutils literal notranslate"><span class="pre">t</span></code> to a function that takes the choice arguments of type <code class="docutils literal notranslate"><span class="pre">c</span></code> and returns an <code class="docutils literal notranslate"><span class="pre">Update</span></code> resulting in type <code class="docutils literal notranslate"><span class="pre">r</span></code>.</p>
+<p>That’s quite a mouthful, and does require one to know what <em>meaning</em> the typeclass <code class="docutils literal notranslate"><span class="pre">Choice</span></code> gives to parameters <code class="docutils literal notranslate"><span class="pre">t</span></code> <code class="docutils literal notranslate"><span class="pre">c</span></code> and <code class="docutils literal notranslate"><span class="pre">r</span></code>, but in many cases, that’s obvious from the context or names of typeclasses and variables.</p>
+</div>
+<div class="section" id="pattern-matching-in-arguments">
+<h3>Pattern Matching in Arguments<a class="headerlink" href="#pattern-matching-in-arguments" title="Permalink to this headline">¶</a></h3>
+<p>You met pattern matching in <a class="reference internal" href="3_Data.html"><span class="doc">3 Data types</span></a>, using <code class="docutils literal notranslate"><span class="pre">case</span></code> statements which is one way of pattern matching. However, it can also be convenient to do the pattern matching at the level of function arguments. Think about implementing the function <code class="docutils literal notranslate"><span class="pre">uncurry</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">uncurry</span> <span class="kt">:</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">uncurry</span></code> takes a function with two arguments (or more, since <code class="docutils literal notranslate"><span class="pre">c</span></code> could be a function), and turns it into a function from a 2-tuple to <code class="docutils literal notranslate"><span class="pre">c</span></code>. Here are three ways of implementing it, using tuple accessors, <code class="docutils literal notranslate"><span class="pre">case</span></code> pattern matching, and function pattern matching:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">uncurry1</span> <span class="n">f</span> <span class="n">t</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">t</span><span class="o">.</span><span class="n">_1</span> <span class="n">t</span><span class="o">.</span><span class="n">_2</span>
+
+<span class="nf">uncurry2</span> <span class="n">f</span> <span class="n">t</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">t</span> <span class="kr">of</span>
+  <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span>
+
+<span class="nf">uncurry</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">x</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>Using function pattern matching is clearly the most elegant here. We never need the tuple as a whole, just its members. Any pattern matching you can do in <code class="docutils literal notranslate"><span class="pre">case</span></code> you can also do at the function level, and the compiler helpfully warns you if you did not cover all cases, which is called “non-exhaustive”.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">fromSome</span> <span class="kt">:</span> <span class="kt">Optional</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<span class="nf">fromSome</span> <span class="p">(</span><span class="kt">Some</span> <span class="n">x</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>The above will give you a warning:</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>warning:
+  Pattern match(es) are non-exhaustive
+  In an equation for ‘fromSome’: Patterns not matched: None
+</pre></div>
+</div>
+</div></blockquote>
+<p>This means <code class="docutils literal notranslate"><span class="pre">fromSome</span></code> is a partial function. <code class="docutils literal notranslate"><span class="pre">fromSome</span> <span class="pre">None</span></code> will cause a runtime error.</p>
+<p>We can use function level pattern matching together with a feature called <em>Record Wildcards</em> to write the function <code class="docutils literal notranslate"><span class="pre">issueAsset</span></code> in chapter 8:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">issueAsset</span> <span class="kt">:</span> <span class="kt">Asset</span> <span class="ow">-&gt;</span> <span class="kt">Script</span> <span class="p">(</span><span class="kt">ContractId</span> <span class="kt">Asset</span><span class="p">)</span>
+<span class="nf">issueAsset</span> <span class="n">asset</span><span class="o">@</span><span class="p">(</span><span class="kt">Asset</span> <span class="kr">with</span> <span class="o">..</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">assetHolders</span> <span class="ow">&lt;-</span> <span class="n">queryFilter</span> <span class="o">@</span><span class="kt">AssetHolder</span> <span class="n">issuer</span>
+    <span class="p">(</span><span class="nf">\</span><span class="n">ah</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">ah</span><span class="o">.</span><span class="n">issuer</span> <span class="o">==</span> <span class="n">issuer</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">ah</span><span class="o">.</span><span class="n">owner</span> <span class="o">==</span> <span class="n">owner</span><span class="p">))</span>
+
+  <span class="kr">case</span> <span class="n">assetHolders</span> <span class="kr">of</span>
+    <span class="p">(</span><span class="n">ahCid</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span><span class="ow">::</span><span class="kr">_</span> <span class="ow">-&gt;</span> <span class="n">submit</span> <span class="n">asset</span><span class="o">.</span><span class="n">issuer</span> <span class="kr">do</span>
+      <span class="n">exerciseCmd</span> <span class="n">ahCid</span> <span class="kt">Issue_Asset</span> <span class="kr">with</span> <span class="o">..</span>
+    <span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="n">abort</span> <span class="p">(</span><span class="s">&quot;No AssetHolder found for &quot;</span> <span class="o">&lt;&gt;</span> <span class="n">show</span> <span class="n">asset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">..</span></code> in the pattern match here means bind all fields from the given record to local variables, so we have local variables <code class="docutils literal notranslate"><span class="pre">issuer</span></code>, <code class="docutils literal notranslate"><span class="pre">owner</span></code>, etc.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">..</span></code> in the second to last line means fill all fields of the new record using local variables of the matching name. So the function succinctly transfers all fields except for <code class="docutils literal notranslate"><span class="pre">owner</span></code>, which is set explicitly, from the V1 Asset to the V2 Asset.</p>
+</div>
+<div class="section" id="functions-everywhere">
+<h3>Functions Everywhere<a class="headerlink" href="#functions-everywhere" title="Permalink to this headline">¶</a></h3>
+<p>You have probably already guessed it: Anywhere you can put a value in Daml you can also put a function. Even inside data types:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Predicate</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Predicate</span> <span class="kr">with</span>
+  <span class="n">test</span> <span class="kt">:</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+</pre></div>
+</div>
+<p>More commonly, it makes sense to define functions locally, inside a <code class="docutils literal notranslate"><span class="pre">let</span></code> clause or similar. A good example of this are the <code class="docutils literal notranslate"><span class="pre">validate</span></code> and <code class="docutils literal notranslate"><span class="pre">transfer</span></code> functions defined locally in the <code class="docutils literal notranslate"><span class="pre">Trade_Settle</span></code> choice of the  model from chapter 8:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>        <span class="kr">let</span>
+          <span class="n">validate</span> <span class="p">(</span><span class="n">asset</span><span class="p">,</span> <span class="n">assetCid</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">do</span>
+            <span class="n">fetchedAsset</span> <span class="ow">&lt;-</span> <span class="n">fetch</span> <span class="n">assetCid</span>
+            <span class="n">assertMsg</span>
+              <span class="s">&quot;Asset mismatch&quot;</span>
+              <span class="p">(</span><span class="n">asset</span> <span class="o">==</span> <span class="n">fetchedAsset</span> <span class="kr">with</span>
+                <span class="n">observers</span> <span class="ow">=</span> <span class="n">asset</span><span class="o">.</span><span class="n">observers</span><span class="p">)</span>
+
+        <span class="n">mapA_</span> <span class="n">validate</span> <span class="p">(</span><span class="n">zip</span> <span class="n">baseAssets</span> <span class="n">baseAssetCids</span><span class="p">)</span>
+        <span class="n">mapA_</span> <span class="n">validate</span> <span class="p">(</span><span class="n">zip</span> <span class="n">quoteAssets</span> <span class="n">quoteAssetCids</span><span class="p">)</span>
+
+        <span class="kr">let</span>
+          <span class="n">transfer</span> <span class="p">(</span><span class="n">assetCid</span><span class="p">,</span> <span class="n">approvalCid</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">do</span>
+            <span class="n">exercise</span> <span class="n">approvalCid</span> <span class="kt">TransferApproval_Transfer</span> <span class="kr">with</span> <span class="n">assetCid</span>
+
+        <span class="n">transferredBaseCids</span> <span class="ow">&lt;-</span> <span class="n">mapA</span> <span class="n">transfer</span> <span class="p">(</span><span class="n">zip</span> <span class="n">baseAssetCids</span> <span class="n">baseApprovalCids</span><span class="p">)</span>
+        <span class="n">transferredQuoteCids</span> <span class="ow">&lt;-</span> <span class="n">mapA</span> <span class="n">transfer</span> <span class="p">(</span><span class="n">zip</span> <span class="n">quoteAssetCids</span> <span class="n">quoteApprovalCids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can see that the function signature is inferred from the context here. If you look closely (or hover over the function in the IDE), you’ll see that it has signature</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>validate : <span class="o">(</span>HasFetch r, Eq r, HasField <span class="s2">&quot;observers&quot;</span> r a<span class="o">)</span> <span class="o">=</span>&gt; <span class="o">(</span>r, ContractId r<span class="o">)</span> -&gt; Update <span class="o">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Bear in mind that functions are not serializable, so you can’t use them inside template arguments, or as choice in- or outputs. They also don’t have instances of the <code class="docutils literal notranslate"><span class="pre">Eq</span></code> or <code class="docutils literal notranslate"><span class="pre">Show</span></code> typeclasses which one would commonly want on data types.</p>
+</div>
+<p>You can probably guess what the <code class="docutils literal notranslate"><span class="pre">mapA</span></code> and <code class="docutils literal notranslate"><span class="pre">mapA_</span></code>s in the above choice do. They somehow loop through the lists of assets, and approvals, and the functions <code class="docutils literal notranslate"><span class="pre">validate</span></code> and <code class="docutils literal notranslate"><span class="pre">transfer</span></code> to each, performing the resulting <code class="docutils literal notranslate"><span class="pre">Update</span></code> action in the process. We’ll look at that more closely under <a class="reference internal" href="#looping"><span class="std std-ref">Looping</span></a> below.</p>
+</div>
+<div class="section" id="lambdas">
+<h3>Lambdas<a class="headerlink" href="#lambdas" title="Permalink to this headline">¶</a></h3>
+<p>Like in most modern languages, Daml also supports inline functions called lambdas. They are defined using <code class="docutils literal notranslate"><span class="pre">(\x</span> <span class="pre">y</span> <span class="pre">z</span> <span class="pre">-&gt;</span> <span class="pre">...)</span></code> syntax. For example, a lambda version of <code class="docutils literal notranslate"><span class="pre">increment</span></code> would be <code class="docutils literal notranslate"><span class="pre">(\n</span> <span class="pre">-&gt;</span> <span class="pre">n</span> <span class="pre">+</span> <span class="pre">1)</span></code>.</p>
+</div>
+</div>
+<div class="section" id="control-flow">
+<h2>Control Flow<a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will cover branching and looping, and look at a few common patterns of how to translate procedural code into functional code.</p>
+<div class="section" id="branching">
+<h3>Branching<a class="headerlink" href="#branching" title="Permalink to this headline">¶</a></h3>
+<p>Until Chapter 7 the only real kind of control flow introduced has been <code class="docutils literal notranslate"><span class="pre">case</span></code>, which is a powerful tool for branching.</p>
+<div class="section" id="if-else">
+<h4>If..Else<a class="headerlink" href="#if-else" title="Permalink to this headline">¶</a></h4>
+<p>Chapter 5 also showed a seemingly self-explanatory <code class="docutils literal notranslate"><span class="pre">if..else</span></code> statement, but didn’t explain it further. And they are actually the same thing. Let’s implement the function <code class="docutils literal notranslate"><span class="pre">boolToInt</span> <span class="pre">:</span> <span class="pre">Bool</span> <span class="pre">-&gt;</span> <span class="pre">Int</span></code> which in typical fashion maps <code class="docutils literal notranslate"><span class="pre">True</span></code> to <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code> to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Here is an implementation using <code class="docutils literal notranslate"><span class="pre">case</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">boolToInt</span> <span class="n">b</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">b</span> <span class="kr">of</span>
+  <span class="kc">True</span> <span class="ow">-&gt;</span> <span class="mi">1</span>
+  <span class="kc">False</span> <span class="ow">-&gt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>If you write this function in the IDE, you’ll get a warning from the linter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Suggestion: Use if
+Found:
+case b of
+    True -&gt; 1
+    False -&gt; 0
+Perhaps:
+if b then 1 else 0
+</pre></div>
+</div>
+<p>The linter knows the equivalence and suggests a better implementation:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">boolToInt2</span> <span class="n">b</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="mi">1</span>
+  <span class="kr">else</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>In short: <code class="docutils literal notranslate"><span class="pre">if..else</span></code> statements are equivalent to a <code class="docutils literal notranslate"><span class="pre">case</span></code> statement, but are easier to read.</p>
+</div>
+<div class="section" id="control-flow-as-expressions">
+<h4>Control Flow as Expressions<a class="headerlink" href="#control-flow-as-expressions" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">case</span></code> statements and <code class="docutils literal notranslate"><span class="pre">if..else</span></code> really are control flow in the sense that they short circuit:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">doError</span> <span class="n">t</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">t</span> <span class="kr">of</span>
+  <span class="s">&quot;True&quot;</span> <span class="ow">-&gt;</span> <span class="kc">True</span>
+  <span class="s">&quot;False&quot;</span> <span class="ow">-&gt;</span> <span class="kc">False</span>
+  <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="ne">error</span> <span class="p">(</span><span class="s">&quot;Not a Bool: &quot;</span> <span class="o">&lt;&gt;</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function behaves as you expect. The error only gets evaluated if an invalid text is passed in.</p>
+<p>This is different to functions, where all arguments are evaluated immediately:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">ifelse</span> <span class="n">b</span> <span class="n">t</span> <span class="n">e</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span> <span class="kr">then</span> <span class="n">t</span> <span class="kr">else</span> <span class="n">e</span>
+<span class="nf">boom</span> <span class="ow">=</span> <span class="n">ifelse</span> <span class="kc">True</span> <span class="mi">1</span> <span class="p">(</span><span class="ne">error</span> <span class="s">&quot;Boom&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above, <code class="docutils literal notranslate"><span class="pre">boom</span></code> is an error.</p>
+<p>But while being proper control flow, <code class="docutils literal notranslate"><span class="pre">case</span></code> and <code class="docutils literal notranslate"><span class="pre">if..else</span></code> statements are also expressions in the sense that they result in a value when evaluated. You can actually see that in the function definitions above. Since each of the functions is defined just as a <code class="docutils literal notranslate"><span class="pre">case</span></code> or <code class="docutils literal notranslate"><span class="pre">if</span></code> statement, the value of the evaluated function is just the value of the <code class="docutils literal notranslate"><span class="pre">case</span></code>/<code class="docutils literal notranslate"><span class="pre">if</span></code> statement. Things that have a value have a type. The <code class="docutils literal notranslate"><span class="pre">if..else</span></code> expression in <code class="docutils literal notranslate"><span class="pre">boolToInt2</span></code> has type <code class="docutils literal notranslate"><span class="pre">Int</span></code> as that’s what the function returns, the <code class="docutils literal notranslate"><span class="pre">case</span></code> expression in <code class="docutils literal notranslate"><span class="pre">doError</span></code> has type <code class="docutils literal notranslate"><span class="pre">Bool</span></code>. To be able to give such expressions an unambiguous type, each branch needs to have the same type. The below function does not compile as one branch tries to return an <code class="docutils literal notranslate"><span class="pre">Int</span></code> and the other a <code class="docutils literal notranslate"><span class="pre">Text</span></code>:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">typeError</span> <span class="n">b</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="mi">1</span>
+  <span class="kr">else</span> <span class="s">&quot;a&quot;</span>
+</pre></div>
+</div>
+<p>If we need functions that can return two (or more) types of things we need to encode that in the return type. For two possibilities, it’s common to use the <code class="docutils literal notranslate"><span class="pre">Either</span></code> type:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">intOrText</span> <span class="kt">:</span> <span class="kt">Bool</span> <span class="ow">-&gt;</span> <span class="kt">Either</span> <span class="kt">Int</span> <span class="kt">Text</span>
+<span class="nf">intOrText</span> <span class="n">b</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="kt">Left</span> <span class="mi">1</span>
+  <span class="kr">else</span> <span class="kt">Right</span> <span class="s">&quot;a&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="branching-in-actions">
+<h4>Branching in Actions<a class="headerlink" href="#branching-in-actions" title="Permalink to this headline">¶</a></h4>
+<p>The most common case where this becomes important is inside <code class="docutils literal notranslate"><span class="pre">do</span></code> blocks. Say we want to create a contract of one type in one case, and of another type in another case. Let’s say we have two template types and want to write a function that creates an <code class="docutils literal notranslate"><span class="pre">S</span></code> if a condition is met, and a <code class="docutils literal notranslate"><span class="pre">T</span></code> otherwise.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="kr">template</span> <span class="kt">T</span>
+  <span class="kr">with</span>
+    <span class="n">p</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span> 
+    <span class="kr">signatory</span> <span class="n">p</span>
+
+<span class="kr">template</span> <span class="kt">S</span>
+  <span class="kr">with</span>
+    <span class="n">p</span> <span class="kt">:</span> <span class="kt">Party</span>
+  <span class="kr">where</span> 
+    <span class="kr">signatory</span> <span class="n">p</span>
+</pre></div>
+</div>
+<p>It would be tempting to write a simple <code class="docutils literal notranslate"><span class="pre">if..else</span></code>, but it won’t typecheck:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">typeError</span> <span class="n">b</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="n">create</span> <span class="kt">T</span> <span class="kr">with</span> <span class="n">p</span>
+  <span class="kr">else</span> <span class="n">create</span> <span class="kt">S</span> <span class="kr">with</span> <span class="n">p</span>
+</pre></div>
+</div>
+<p>We have two options:</p>
+<ol class="arabic simple">
+<li>Use the <code class="docutils literal notranslate"><span class="pre">Either</span></code> trick from above.</li>
+<li>Get rid of the return types.</li>
+</ol>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">ifThenSElseT1</span> <span class="n">b</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="kr">do</span>
+    <span class="n">cid</span> <span class="ow">&lt;-</span> <span class="n">create</span> <span class="kt">S</span> <span class="kr">with</span> <span class="n">p</span>
+    <span class="kr">return</span> <span class="p">(</span><span class="kt">Left</span> <span class="n">cid</span><span class="p">)</span>
+  <span class="kr">else</span> <span class="kr">do</span>
+    <span class="n">cid</span> <span class="ow">&lt;-</span> <span class="n">create</span> <span class="kt">T</span> <span class="kr">with</span> <span class="n">p</span>
+    <span class="kr">return</span> <span class="p">(</span><span class="kt">Right</span> <span class="n">cid</span><span class="p">)</span>
+
+<span class="nf">ifThenSElseT2</span> <span class="n">b</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="kr">do</span>
+    <span class="n">create</span> <span class="kt">S</span> <span class="kr">with</span> <span class="n">p</span>
+    <span class="kr">return</span> <span class="nb">()</span>
+  <span class="kr">else</span> <span class="kr">do</span>
+    <span class="n">create</span> <span class="kt">T</span> <span class="kr">with</span> <span class="n">p</span>
+    <span class="kr">return</span> <span class="nb">()</span>
+</pre></div>
+</div>
+<p>The latter is so common that there is a utility function in <code class="docutils literal notranslate"><span class="pre">DA.Action</span></code> to get rid of the return type: <code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">:</span> <span class="pre">Functor</span> <span class="pre">f</span> <span class="pre">=&gt;</span> <span class="pre">f</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">f</span> <span class="pre">()</span></code>.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">ifThenSElseT3</span> <span class="n">b</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="n">void</span> <span class="p">(</span><span class="n">create</span> <span class="kt">S</span> <span class="kr">with</span> <span class="n">p</span><span class="p">)</span>
+  <span class="kr">else</span> <span class="n">void</span> <span class="p">(</span><span class="n">create</span> <span class="kt">T</span> <span class="kr">with</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">void</span></code> also helps express control flow of the type “Create a <code class="docutils literal notranslate"><span class="pre">T</span></code> only if a condition is met.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">conditionalS</span> <span class="n">b</span> <span class="n">p</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">b</span>
+  <span class="kr">then</span> <span class="n">void</span> <span class="p">(</span><span class="n">create</span> <span class="kt">S</span> <span class="kr">with</span> <span class="n">p</span><span class="p">)</span>
+  <span class="kr">else</span> <span class="kr">return</span> <span class="nb">()</span>
+</pre></div>
+</div>
+<p>Note that we still need the <code class="docutils literal notranslate"><span class="pre">else</span></code> clause of the same type <code class="docutils literal notranslate"><span class="pre">()</span></code>. This pattern is so common, it’s encapsulated in the standard library function <code class="docutils literal notranslate"><span class="pre">DA.Action.when</span> <span class="pre">:</span> <span class="pre">(Applicative</span> <span class="pre">f)</span> <span class="pre">=&gt;</span> <span class="pre">Bool</span> <span class="pre">-&gt;</span> <span class="pre">f</span> <span class="pre">()</span> <span class="pre">-&gt;</span> <span class="pre">f</span> <span class="pre">()</span></code>.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">conditionalS2</span> <span class="n">b</span> <span class="n">p</span> <span class="ow">=</span> <span class="n">when</span> <span class="n">b</span> <span class="p">(</span><span class="n">void</span> <span class="p">(</span><span class="n">create</span> <span class="kt">S</span> <span class="kr">with</span> <span class="n">p</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Despite <code class="docutils literal notranslate"><span class="pre">when</span></code> looking like a simple function, the compiler does some magic so that is short circuits evaluation just like <code class="docutils literal notranslate"><span class="pre">if..else</span></code>. <code class="docutils literal notranslate"><span class="pre">noop</span></code> is a no-op, not an error as one might otherwise expect:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">noop</span> <span class="kt">:</span> <span class="kt">Update</span> <span class="nb">()</span> <span class="ow">=</span> <span class="n">when</span> <span class="kc">False</span> <span class="p">(</span><span class="ne">error</span> <span class="s">&quot;Foo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">case</span></code>, <code class="docutils literal notranslate"><span class="pre">if..else</span></code>, <code class="docutils literal notranslate"><span class="pre">void</span></code> and <code class="docutils literal notranslate"><span class="pre">when</span></code>, you can express all branching. However, one additional feature you may want to learn is guards. They are not covered here, but can help avoid deeply nested <code class="docutils literal notranslate"><span class="pre">if..else</span></code> blocks. Here’s just one example. The Haskell sources at the beginning of the chapter cover this topic in more depth.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">tellSize</span> <span class="kt">:</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Text</span>
+<span class="nf">tellSize</span> <span class="n">d</span>
+  <span class="o">|</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">=</span> <span class="s">&quot;Negative&quot;</span>
+  <span class="o">|</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">=</span> <span class="s">&quot;Zero&quot;</span>
+  <span class="o">|</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">=</span> <span class="s">&quot;Non-Zero&quot;</span>
+  <span class="o">|</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="ow">=</span> <span class="s">&quot;Small&quot;</span>
+  <span class="o">|</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="ow">=</span> <span class="s">&quot;Big&quot;</span>
+  <span class="o">|</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="mi">1000</span> <span class="ow">=</span> <span class="s">&quot;Huge&quot;</span>
+  <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="s">&quot;Enormous&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="looping">
+<span id="id1"></span><h3>Looping<a class="headerlink" href="#looping" title="Permalink to this headline">¶</a></h3>
+<p>Other than branching, the most common form of control flow is looping. Looping is usually used to iteratively modify some state. We’ll use JavaScript in this section to illustrate the procedural way of doing things.</p>
+<div class="highlight-JavaScript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">intArr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span>
+  <span class="nx">intarr</span><span class="p">.</span><span class="nx">forEach</span> <span class="p">(</span><span class="nx">i</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">result</span> <span class="o">+=</span> <span class="nx">i</span><span class="p">;</span>
+  <span class="p">});</span>
+  <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A more general loop looks like this:</p>
+<div class="highlight-JavaScript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">whileFunction</span><span class="p">(</span><span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">rev</span> <span class="o">=</span> <span class="nx">initialize</span><span class="p">(</span><span class="nx">input</span><span class="p">);</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">doContinue</span> <span class="p">(</span><span class="nx">state</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">state</span> <span class="o">=</span> <span class="nx">process</span> <span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">finalize</span><span class="p">(</span><span class="nx">state</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The only real difference is that the iterator is explicit in the former, and implicit in the latter.</p>
+<p>In both cases, state is being mutated: <code class="docutils literal notranslate"><span class="pre">result</span></code> in the former, <code class="docutils literal notranslate"><span class="pre">state</span></code> in the latter. Values in Daml are immutable, so it needs to work differently. In Daml we will do this with folds and recursion.</p>
+<div class="section" id="folds">
+<span id="id2"></span><h4>Folds<a class="headerlink" href="#folds" title="Permalink to this headline">¶</a></h4>
+<p>Folds correspond to looping with an explicit iterator: <code class="docutils literal notranslate"><span class="pre">for</span></code> and <code class="docutils literal notranslate"><span class="pre">forEach</span></code> loops in procedural languages. The most common iterator is a list, as is the case in the <code class="docutils literal notranslate"><span class="pre">sum</span></code> function above. For such cases, Daml has the <code class="docutils literal notranslate"><span class="pre">foldl</span></code> function. The <code class="docutils literal notranslate"><span class="pre">l</span></code> stands for “left” and means the list is processed from the left. There is also a corresponding <code class="docutils literal notranslate"><span class="pre">foldr</span></code> which processes from the right.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">foldl</span> <span class="kt">:</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>Let’s give the type parameters semantic names. <code class="docutils literal notranslate"><span class="pre">b</span></code> is the state, <code class="docutils literal notranslate"><span class="pre">a</span></code> is an item. <code class="docutils literal notranslate"><span class="pre">foldl</span></code>s first argument is a function which takes a state and an item and returns a new state. That’s the equivalent of the inner block of the <code class="docutils literal notranslate"><span class="pre">forEach</span></code>. It then takes a state, which is the initial state, and a list of items, which is the iterator. The result is again a state. The <code class="docutils literal notranslate"><span class="pre">sum</span></code> function above can be translated to Daml almost instantly with those correspondences in mind:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">sum</span> <span class="n">ints</span> <span class="ow">=</span> <span class="n">foldl</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="mi">0</span> <span class="n">ints</span>
+</pre></div>
+</div>
+<p>If we wanted to be more verbose, we could replace <code class="docutils literal notranslate"><span class="pre">(+)</span></code> with a lambda <code class="docutils literal notranslate"><span class="pre">(\result</span> <span class="pre">i</span> <span class="pre">-&gt;</span> <span class="pre">result</span> <span class="pre">+</span> <span class="pre">i)</span></code> which makes the correspondence to <code class="docutils literal notranslate"><span class="pre">result</span> <span class="pre">+=</span> <span class="pre">i</span></code> from the JavaScript clearer.</p>
+<p>Almost all loops with explicit iterators can be translated to folds, though we have to take a bit of care with performance when it comes to translating <code class="docutils literal notranslate"><span class="pre">for</span></code> loops:</p>
+<div class="highlight-JavaScript notranslate"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">sumArrs</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">l</span> <span class="o">=</span> <span class="nx">min</span> <span class="p">(</span><span class="nx">arr1</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="ow">new</span> <span class="kr">int</span><span class="p">[</span><span class="nx">l</span><span class="p">];</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mf">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">l</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">result</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arr1</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">arr2</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Translating the <code class="docutils literal notranslate"><span class="pre">for</span></code> into a <code class="docutils literal notranslate"><span class="pre">forEach</span></code> is easy if you can get your hands on an array containing values <code class="docutils literal notranslate"><span class="pre">[0..(l-1)]</span></code>. And that’s literally how you do it in Daml, using <em>ranges</em>. <code class="docutils literal notranslate"><span class="pre">[0..(l-1)]</span></code> is shorthand for <code class="docutils literal notranslate"><span class="pre">enumFromTo</span> <span class="pre">0</span> <span class="pre">(l-1)</span></code>, which returns the list you’d expect.</p>
+<p>Daml also has an operator <code class="docutils literal notranslate"><span class="pre">(!!)</span> <span class="pre">:</span> <span class="pre">[a]</span> <span class="pre">-&gt;</span> <span class="pre">Int</span> <span class="pre">-&gt;</span> <span class="pre">a</span></code> which returns an element in a list. You may now be tempted to write <code class="docutils literal notranslate"><span class="pre">sumArrs</span></code> like this:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">sumArrs</span> <span class="kt">:</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+<span class="nf">sumArrs</span> <span class="n">arr1</span> <span class="n">arr2</span> <span class="ow">=</span>
+  <span class="kr">let</span> <span class="n">l</span> <span class="ow">=</span> <span class="n">min</span> <span class="p">(</span><span class="n">length</span> <span class="n">arr1</span><span class="p">)</span> <span class="p">(</span><span class="n">length</span> <span class="n">arr2</span><span class="p">)</span>
+      <span class="n">sumAtI</span> <span class="n">i</span> <span class="ow">=</span> <span class="p">(</span><span class="n">arr1</span> <span class="o">!!</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">arr2</span> <span class="o">!!</span> <span class="n">i</span><span class="p">)</span>
+   <span class="kr">in</span> <span class="n">foldl</span> <span class="p">(</span><span class="nf">\</span><span class="n">state</span> <span class="n">i</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">sumAtI</span> <span class="n">i</span><span class="p">)</span> <span class="ow">::</span> <span class="n">state</span><span class="p">)</span> <span class="kt">[]</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>But you should immediately forget again that you just learnt about <code class="docutils literal notranslate"><span class="pre">(!!)</span></code>. Lists in Daml are linked lists, which makes access using <code class="docutils literal notranslate"><span class="pre">(!!)</span></code> slow and idiosyncratic. The way to do this in Daml is to get rid of the <code class="docutils literal notranslate"><span class="pre">i</span></code> altogether and instead merge the lists first, and then iterate over the “zipped” up lists:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">sumArrs2</span> <span class="n">arr1</span> <span class="n">arr2</span> <span class="ow">=</span> <span class="n">foldl</span> <span class="p">(</span><span class="nf">\</span><span class="n">state</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span> <span class="ow">::</span> <span class="n">state</span><span class="p">)</span> <span class="kt">[]</span> <span class="p">(</span><span class="n">zip</span> <span class="n">arr1</span> <span class="n">arr2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">zip</span> <span class="pre">:</span> <span class="pre">[a]</span> <span class="pre">-&gt;</span> <span class="pre">[b]</span> <span class="pre">-&gt;</span> <span class="pre">[(a,</span> <span class="pre">b)]</span></code> takes two lists, and merges them into a single list where the first element is the 2-tuple containing the first elements to the two input lists, and so on. It drops any left-over elements of the longer list, thus making the <code class="docutils literal notranslate"><span class="pre">min</span></code> logic unnecessary.</p>
+</div>
+<div class="section" id="maps">
+<h4>Maps<a class="headerlink" href="#maps" title="Permalink to this headline">¶</a></h4>
+<p>You’ve probably noticed that what we’ve done in this second version of <code class="docutils literal notranslate"><span class="pre">sumArr</span></code> is pretty standard, we have taken a list <code class="docutils literal notranslate"><span class="pre">zip</span> <span class="pre">arr1</span> <span class="pre">arr2</span></code> applied a function <code class="docutils literal notranslate"><span class="pre">\(x,</span> <span class="pre">y)</span> <span class="pre">-&gt;</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span></code>  to each element, and returned the list of results. This operation is called <code class="docutils literal notranslate"><span class="pre">map</span> <span class="pre">:</span> <span class="pre">(a</span> <span class="pre">-&gt;</span> <span class="pre">b)</span> <span class="pre">-&gt;</span> <span class="pre">[a]</span> <span class="pre">-&gt;</span> <span class="pre">[b]</span></code>. We can now write <code class="docutils literal notranslate"><span class="pre">sumArr</span></code> even more nicely:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">sumArrs3</span> <span class="n">arr1</span> <span class="n">arr2</span> <span class="ow">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">))</span> <span class="p">(</span><span class="n">zip</span> <span class="n">arr1</span> <span class="n">arr2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As a rule of thumb: Use <code class="docutils literal notranslate"><span class="pre">map</span></code> if the result has the same shape as the input and you don’t need to carry state from one iteration to the next. Use folds if you need to accumulate state in any way.</p>
+</div>
+<div class="section" id="recursion">
+<h4>Recursion<a class="headerlink" href="#recursion" title="Permalink to this headline">¶</a></h4>
+<p>If there is no explicit iterator, you can use recursion. Let’s try to write a function that reverses a list, for example. We want to avoid <code class="docutils literal notranslate"><span class="pre">(!!)</span></code> so there is no sensible iterator here. Instead, we use recursion:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">reverseWorker</span> <span class="n">rev</span> <span class="n">rem</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">rem</span> <span class="kr">of</span>
+  <span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="n">rev</span>
+  <span class="n">x</span><span class="ow">::</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="n">reverseWorker</span> <span class="p">(</span><span class="n">x</span><span class="ow">::</span><span class="n">rev</span><span class="p">)</span> <span class="n">xs</span>
+<span class="nf">reverse</span> <span class="n">xs</span> <span class="ow">=</span> <span class="n">reverseWorker</span> <span class="kt">[]</span> <span class="n">xs</span>
+</pre></div>
+</div>
+<p>You may be tempted to make <code class="docutils literal notranslate"><span class="pre">reverseWorker</span></code> a local definition inside <code class="docutils literal notranslate"><span class="pre">reverse</span></code>, but Daml only supports recursion for top-level functions so the recursive part <code class="docutils literal notranslate"><span class="pre">recurseWorker</span></code> has to be its own top-level function.</p>
+</div>
+<div class="section" id="folds-and-maps-in-action-contexts">
+<h4>Folds and Maps in Action Contexts<a class="headerlink" href="#folds-and-maps-in-action-contexts" title="Permalink to this headline">¶</a></h4>
+<p>The folds and <code class="docutils literal notranslate"><span class="pre">map</span></code> function above are pure in the sense introduced in <a class="reference internal" href="5_Restrictions.html"><span class="doc">5 Adding constraints to a contract</span></a>: The functions used to map or process items have no side-effects. In day-to-day Daml that’s the exception rather than the rule. If you have looked at the chapter 8 models, you’ll have noticed <code class="docutils literal notranslate"><span class="pre">mapA</span></code>, <code class="docutils literal notranslate"><span class="pre">mapA_</span></code>, and <code class="docutils literal notranslate"><span class="pre">forA</span></code> all over the place. A good example are the <code class="docutils literal notranslate"><span class="pre">mapA</span></code> in the <code class="docutils literal notranslate"><span class="pre">testMultiTrade</span></code> script:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="kr">let</span> <span class="n">rels</span> <span class="ow">=</span> 
+        <span class="p">[</span> <span class="kt">Relationship</span> <span class="n">chfbank</span> <span class="n">alice</span>
+        <span class="p">,</span> <span class="kt">Relationship</span> <span class="n">chfbank</span> <span class="n">bob</span>
+        <span class="p">,</span> <span class="kt">Relationship</span> <span class="n">gbpbank</span> <span class="n">alice</span>
+        <span class="p">,</span> <span class="kt">Relationship</span> <span class="n">gbpbank</span> <span class="n">bob</span>
+        <span class="p">]</span>
+  <span class="p">[</span><span class="n">chfha</span><span class="p">,</span> <span class="n">chfhb</span><span class="p">,</span> <span class="n">gbpha</span><span class="p">,</span> <span class="n">gbphb</span><span class="p">]</span> <span class="ow">&lt;-</span> <span class="n">mapA</span> <span class="n">setupRelationship</span> <span class="n">rels</span>
+</pre></div>
+</div>
+<p>Here we have a list of relationships (type <code class="docutils literal notranslate"><span class="pre">[Relationship]</span></code> and a function <code class="docutils literal notranslate"><span class="pre">setupRelationship</span> <span class="pre">:</span> <span class="pre">Relationship</span> <span class="pre">-&gt;</span> <span class="pre">Script</span> <span class="pre">(ContractId</span> <span class="pre">AssetHolder)</span></code>. We want the <code class="docutils literal notranslate"><span class="pre">AssetHolder</span></code> contracts for those relationships, ie something of type <code class="docutils literal notranslate"><span class="pre">[ContractId</span> <span class="pre">AssetHolder]</span></code>. Using the map function almost gets us there. <code class="docutils literal notranslate"><span class="pre">map</span> <span class="pre">setupRelationship</span> <span class="pre">rels</span> <span class="pre">:</span> <span class="pre">[Update</span> <span class="pre">(ContractId</span> <span class="pre">AssetHolder)]</span></code>. This is a list of <code class="docutils literal notranslate"><span class="pre">Update</span></code> actions, each resulting in a <code class="docutils literal notranslate"><span class="pre">ContractId</span> <span class="pre">AssetHolder</span></code>. What we need is an <code class="docutils literal notranslate"><span class="pre">Update</span></code> action resulting in a <code class="docutils literal notranslate"><span class="pre">[ContractId</span> <span class="pre">AssetHolder]</span></code>. The list and <code class="docutils literal notranslate"><span class="pre">Update</span></code> are the wrong way around for our purposes.</p>
+<p>Intuitively, it’s clear how to fix this: we want the compound action consisting of performing each of the actions in the list in turn. There’s a function for that, of course. <code class="docutils literal notranslate"><span class="pre">sequence</span> <span class="pre">:</span> <span class="pre">:</span> <span class="pre">Applicative</span> <span class="pre">m</span> <span class="pre">=&gt;</span> <span class="pre">[m</span> <span class="pre">a]</span> <span class="pre">-&gt;</span> <span class="pre">m</span> <span class="pre">[a]</span></code> implements that intuition and allows us to take the <code class="docutils literal notranslate"><span class="pre">Update</span></code> out of the list. So we could write <code class="docutils literal notranslate"><span class="pre">sequence</span> <span class="pre">(map</span> <span class="pre">setupRelationship</span> <span class="pre">rels)</span></code>. This is so common that it’s encapsulated in the <code class="docutils literal notranslate"><span class="pre">mapA</span></code> function, a possible implementation of which is</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">mapA</span> <span class="n">f</span> <span class="n">xs</span> <span class="ow">=</span> <span class="n">sequence</span> <span class="p">(</span><span class="n">map</span> <span class="n">f</span> <span class="n">xs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">A</span></code> in <code class="docutils literal notranslate"><span class="pre">mapA</span></code> stands for “Action” of course, and you’ll find that many functions that have something to do with “looping” have an <code class="docutils literal notranslate"><span class="pre">A</span></code> equivalent. The most fundamental of all of these is <code class="docutils literal notranslate"><span class="pre">foldlA</span> <span class="pre">:</span> <span class="pre">Action</span> <span class="pre">m</span> <span class="pre">=&gt;</span> <span class="pre">(b</span> <span class="pre">-&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">m</span> <span class="pre">b)</span> <span class="pre">-&gt;</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">[a]</span> <span class="pre">-&gt;</span> <span class="pre">m</span> <span class="pre">b</span></code>, a left fold with side effects. Here the inner function has a side-effect indicated by the <code class="docutils literal notranslate"><span class="pre">m</span></code> so the end result <code class="docutils literal notranslate"><span class="pre">m</span> <span class="pre">b</span></code> also has a side effect: the sum of all the side effects of the inner function.</p>
+<p>Have a go at implementing <code class="docutils literal notranslate"><span class="pre">foldlA</span></code> in terms of <code class="docutils literal notranslate"><span class="pre">foldl</span></code> and <code class="docutils literal notranslate"><span class="pre">sequence</span></code> and <code class="docutils literal notranslate"><span class="pre">mapA</span></code> in terms of <code class="docutils literal notranslate"><span class="pre">foldA</span></code>. Here are some possible implementations:</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span><span class="nf">foldlA2</span> <span class="n">fn</span> <span class="n">init</span> <span class="n">xs</span> <span class="ow">=</span>
+  <span class="kr">let</span> 
+    <span class="n">work</span> <span class="n">accA</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="n">acc</span> <span class="ow">&lt;-</span> <span class="n">accA</span>
+      <span class="n">fn</span> <span class="n">acc</span> <span class="n">x</span>
+   <span class="kr">in</span> <span class="n">foldl</span> <span class="n">work</span> <span class="p">(</span><span class="n">pure</span> <span class="n">init</span><span class="p">)</span> <span class="n">xs</span>
+
+<span class="nf">mapA2</span> <span class="n">fn</span> <span class="n">xs</span> <span class="ow">=</span>
+  <span class="kr">let</span>
+    <span class="n">work</span> <span class="n">ys</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="n">y</span> <span class="ow">&lt;-</span> <span class="n">fn</span> <span class="n">x</span>
+      <span class="kr">return</span> <span class="p">(</span><span class="n">y</span> <span class="ow">::</span> <span class="n">ys</span><span class="p">)</span>
+   <span class="kr">in</span> <span class="n">foldlA2</span> <span class="n">work</span> <span class="kt">[]</span> <span class="n">xs</span>
+
+<span class="nf">sequence2</span> <span class="n">actions</span> <span class="ow">=</span>
+  <span class="kr">let</span>
+    <span class="n">work</span> <span class="n">ys</span> <span class="n">action</span> <span class="ow">=</span> <span class="kr">do</span>
+      <span class="n">y</span> <span class="ow">&lt;-</span> <span class="n">action</span>
+      <span class="kr">return</span> <span class="p">(</span><span class="n">y</span> <span class="ow">::</span> <span class="n">ys</span><span class="p">)</span>
+   <span class="kr">in</span> <span class="n">foldlA2</span> <span class="n">work</span> <span class="kt">[]</span> <span class="n">actions</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">forA</span></code> is just <code class="docutils literal notranslate"><span class="pre">mapA</span></code> with its arguments reversed. This is useful for readability if the list of items is already in a variable, but the function is a lengthy lambda.</p>
+<div class="highlight-daml notranslate"><div class="highlight"><pre><span></span>  <span class="p">[</span><span class="n">usdCid</span><span class="p">,</span> <span class="n">chfCid</span><span class="p">]</span> <span class="ow">&lt;-</span> <span class="n">forA</span> <span class="p">[</span><span class="n">usdCid</span><span class="p">,</span> <span class="n">chfCid</span><span class="p">]</span> <span class="p">(</span><span class="nf">\</span><span class="n">cid</span> <span class="ow">-&gt;</span> <span class="n">submit</span> <span class="n">alice</span> <span class="kr">do</span>
+    <span class="n">exerciseCmd</span> <span class="n">cid</span> <span class="kt">SetObservers</span> <span class="kr">with</span>
+      <span class="n">newObservers</span> <span class="ow">=</span> <span class="p">[</span><span class="n">bob</span><span class="p">]</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Lastly, you’ll have noticed that in some cases we used <code class="docutils literal notranslate"><span class="pre">mapA_</span></code>, not <code class="docutils literal notranslate"><span class="pre">mapA</span></code>. The underscore indicates that the result is not used. <code class="docutils literal notranslate"><span class="pre">mapA_</span> <span class="pre">fn</span> <span class="pre">xs</span> <span class="pre">fn</span> <span class="pre">=</span> <span class="pre">void</span> <span class="pre">(mapA</span> <span class="pre">fn</span> <span class="pre">xs)</span></code>. The Daml Linter will alert you if you could use <code class="docutils literal notranslate"><span class="pre">mapA_</span></code> instead of <code class="docutils literal notranslate"><span class="pre">mapA</span></code>, and similarly for <code class="docutils literal notranslate"><span class="pre">forA_</span></code>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="next-up">
+<h2>Next up<a class="headerlink" href="#next-up" title="Permalink to this headline">¶</a></h2>
+<p>You now know the basics of functions and control flow, both in pure and Action contexts. The Chapter 8 example shows just how much can be done with just the tools you have encountered here, but there are many more tools at your disposal in the Daml Standard Library. It provides functions and typeclasses for many common circumstances and in <a class="reference internal" href="11_StdLib.html"><span class="doc">11 Intro to the Daml Standard Library</span></a>, you’ll get an overview of the library and learn how to search and browse it.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="9_Dependencies.html" class="da-btn da-btn-label btn-prev" title="9 Working with Dependencies" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="11_StdLib.html" class="da-btn da-btn-label btn-next" title="11 Intro to the Daml Standard Library" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>

@@ -1,0 +1,901 @@
+<!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ledger Interoperability &mdash; Daml SDK 0.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+  
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  <script type="text/javascript" src="../_static/jquery.js"></script>
+  <script type="text/javascript" src="../_static/underscore.js"></script>
+  <script type="text/javascript" src="../_static/doctools.js"></script>
+  <script type="text/javascript" src="../_static/language_data.js"></script>
+  <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+  <script type="text/javascript" src="../_static/copybutton.js"></script>
+  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="next" title="Non-repudiation" href="../tools/non-repudiation.html" />
+  <link rel="prev" title="Visualizing Daml Contracts" href="../tools/visual.html" /> 
+
+  
+  <link rel="icon" type="image/svg+xml"  href="../_static/images/daml-logo-mark-light.svg">
+  <link rel="alternate icon" href="../_static/images/daml-favicon-1.ico">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MSWJMNX');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <!-- Mopinion Pastea.se  start --><script type="text/javascript">(function(){var id="4s6vwov7ad6qyxhq8iwbyhocrsn2nm36k25";var js=document.createElement("script");js.setAttribute("type","text/javascript");js.setAttribute("src","//deploy.mopinion.com/js/pastease.js");js.async=true;document.getElementsByTagName("head")[0].appendChild(js);var t=setInterval(function(){try{new Pastease.load(id);clearInterval(t)}catch(e){}},50)})();</script><!-- Mopinion Pastea.se end -->
+</head>
+
+<body class="wy-body-for-nav">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MSWJMNX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-nav-side-shadow"></div>
+      <div class="wy-side-scroll">
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+          
+          
+          
+          
+          
+          <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Daml Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/installation.html">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/path-variables.html">Setting JAVA_HOME and PATH variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/manual-download.html">Manually installing the SDK</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Building Your App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/app-architecture.html">App Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/first-feature.html">Your First Feature</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://docs.daml.com/cheat-sheet">Cheat Sheet</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Writing Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../daml/intro/0_Intro.html">An introduction to Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/1_Token.html">1 Basic contracts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/2_DamlScript.html">2 Testing templates using Daml Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/3_Data.html">3 Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/4_Transformations.html">4 Transforming data using choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/5_Restrictions.html">5 Adding constraints to a contract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/6_Parties.html">6 Parties and authority</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/7_Composing.html">7 Composing choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/8_Exceptions.html">8 Exception Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/9_Dependencies.html">9 Working with Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/10_Functional101.html">10 Functional Programming 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/11_StdLib.html">11 Intro to the Daml Standard Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/intro/12_Testing.html">12 Testing Daml Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/reference/index.html">Language reference docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/structure.html">Overview: template structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/templates.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/choices.html">Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/updates.html">Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/data-types.html">Data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/working-with.html">Built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/expressions.html">Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/functions.html">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/scenarios.html">Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/file-structure.html">File structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/packages.html">Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/contract-keys.html">Contract keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/reference/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/stdlib/index.html">The standard library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/Prelude.html">Prelude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action.html">DA.Action</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State.html">DA.Action.State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Action-State-Class.html">DA.Action.State.Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Assert.html">DA.Assert</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Bifunctor.html">DA.Bifunctor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-BigNumeric.html">DA.BigNumeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Date.html">DA.Date</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Either.html">DA.Either</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Exception.html">DA.Exception</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Experimental-Interface.html">DA.Experimental.Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Foldable.html">DA.Foldable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Functor.html">DA.Functor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List.html">DA.List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-BuiltinOrder.html">DA.List.BuiltinOrder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-List-Total.html">DA.List.Total</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Logic.html">DA.Logic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Map.html">DA.Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Math.html">DA.Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Monoid.html">DA.Monoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty.html">DA.NonEmpty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-NonEmpty-Types.html">DA.NonEmpty.Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Numeric.html">DA.Numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Optional.html">DA.Optional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Record.html">DA.Record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Semigroup.html">DA.Semigroup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Set.html">DA.Set</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Stack.html">DA.Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Text.html">DA.Text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-TextMap.html">DA.TextMap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Time.html">DA.Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Traversable.html">DA.Traversable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Tuple.html">DA.Tuple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/stdlib/DA-Validation.html">DA.Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/patterns.html">Good design patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/initaccept.html">Initiate and Accept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/multiparty-agreement.html">Multiple party agreement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/delegation.html">Delegation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/locking.html">Locking</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-archiving.html">Locking by archiving</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-state.html">Locking by state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../daml/patterns/locking/locking-by-safekeeping.html">Locking by safekeeping</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../daml/patterns/legends.html">Diagram legends</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building applications</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/app-arch.html">Application architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/bindings-ts/index.html">JavaScript Client Libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml2js.html">JavaScript Code Generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-react.html">&#64;daml/react</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-ledger.html">&#64;daml/ledger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/daml-types.html">&#64;daml/types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-ts/testing.html">Testing Your Web App</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../json-api/index.html">HTTP JSON API Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/lf-value-specification.html">Daml-LF JSON Encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/search-query-language.html">Query language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../json-api/production-setup.html">Production Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-script/index.html">Daml Script</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../daml-script/api/index.html">Daml Script Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../daml-script/api/Daml-Script.html">Daml.Script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-repl/index.html">Daml REPL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrade/index.html">Upgrading and Extending Daml applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/extend.html">Extending Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/upgrade.html">Upgrading Daml applications</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../upgrade/automation.html">Automating the Upgrade Process</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/authorization.html">Authorization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../app-dev/ledger-api.html">The Ledger API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/services.html">The Ledger API services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/index.html">gRPC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/error-codes.html">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/proto-docs.html">Ledger API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/grpc/daml-to-ledger-api.html">How Daml types are translated to protobuf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/daml-lf-translation.html">How Daml types are translated to Daml-LF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-java/index.html">Java bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/codegen.html">Generate Java code from Daml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/example.html">Ping Pong Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../app-dev/bindings-java/quickstart.html">Iou Quickstart Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-scala/index.html">Scala bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-js.html">Node.js bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../app-dev/bindings-x-lang/index.html">Creating your own bindings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../triggers/index.html">Daml Triggers - Off-Ledger Automation in Daml</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../triggers/api/index.html">Daml Trigger Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger.html">Daml.Trigger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-Assert.html">Daml.Trigger.Assert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triggers/api/Daml-Trigger-LowLevel.html">Daml.Trigger.LowLevel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/trigger-service/index.html">Trigger Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/authorization.html">Authorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/trigger-service/auth0_example.html">Auth0 Example Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/auth-middleware/index.html">Auth Middleware</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/auth-middleware/oauth2.html">OAuth 2.0 Auth Middleware</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Deploying to Daml ledgers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/index.html">Overview of Daml ledgers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/generic_ledger.html">Deploying to a generic Daml ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy/ledger-topologies.html">Daml Ledger Topologies</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Operating Daml</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ops/requirements.html">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/pruning.html">Daml Participant pruning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ops/connect/index.html">Operating Daml Connect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/helm.html">Connect Helm Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ops/connect/auth0.html">Setting Up Auth0</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Tools</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tools/assistant.html">Daml Assistant (<code class="docutils literal notranslate"><span class="pre">daml</span></code>)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml/daml-studio.html">Daml Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/sandbox.html">Daml Sandbox</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/navigator/index.html">Navigator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/codegen.html">Daml codegen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/profiler.html">Daml Profiler</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Background concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary of concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ledger-model/index.html">Daml Ledger Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-structure.html">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-integrity.html">Integrity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-daml.html">Daml: Defining Contract Models Compactly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ledger-model/ledger-exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="identity-and-package-management.html">Identity and Package Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time.html">Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="local-ledger.html">Causality and Local Ledgers</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://daml.com/examples">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Early Access Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tools/extractor.html">Extractor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/export/index.html">Ledger Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../daml-integration-kit/index.html">Daml Integration Kit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tools/ledger-api-test-tool/index.html">Ledger API Test Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/visual.html">Visualizing Daml Contracts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ledger Interoperability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tools/non-repudiation.html">Non-repudiation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Daml Ecosystem</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../support/overview.html">Daml Ecosystem Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../support/status-definitions.html">Status Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../support/component-statuses.html">Feature and Component Statuses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../support/releases.html">Releases and Versioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/compatibility.html">Portability, Compatibility, and Support Durations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support/support.html">Getting Help</a></li>
+</ul>
+
+          
+          
+          
+          <div class="pdf-download"><a href="../_downloads/DigitalAssetSDK.pdf" download>Download as PDF</a></div>
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="topbar fixed">
+        
+        <nav class="wy-nav-top" aria-label="top navigation">
+          
+          <i data-toggle="wy-nav-top" class="wy-nav-top-toggle"></i>
+          
+        </nav>
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="navbar">
+    <h1><img src="../_static/images/DAML_Logo_Blue.svg"></h1>
+    <div class="navbar-menu">
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.daml.com/" role="menuitem" class="da-menu-link">Developers</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com/products" role="menuitem" class="da-menu-link">Products</a>
+        </div>
+        <div class="da-menu-item da-menu-depth-1" role="menu">
+            <a href="https://www.digitalasset.com" role="menuitem" class="da-menu-link">Company</a>
+        </div>
+    </div>
+</div>
+
+        <div class="version ">
+          <span class="hide-mobile">Version&nbsp;</span><span class="version_switcher_placeholder"></span>
+          
+        </div>
+
+
+        <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<div class="search-inline">
+    <div id="rtd-search-inline-form" class="wy-form">
+        <input type="text" class="search-inline-input" placeholder="Search" name="q">
+        <img src="../_static/images/Search.svg" class="search-inline-img"/>
+    </div>
+    <div class="search-alert">
+        Please enter at least 3 letters.
+    </div>
+    <div id="search-inline-results" class="search-inline-results">
+        
+    </div>
+</div>
+          <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<div class="content-menu collapsed">
+    <span class="content-menu-title">In This Section</span>
+    <span class="content-menu-expand"></span>
+    <div class="content-menu-wrapper">
+        
+        <!-- Local TOC -->
+        <div class="content-menu-toc"><ul>
+<li><a class="reference internal" href="#">Ledger Interoperability</a><ul>
+<li><a class="reference internal" href="#interoperability-examples">Interoperability examples</a><ul>
+<li><a class="reference internal" href="#topology">Topology</a></li>
+<li><a class="reference internal" href="#aggregation-at-the-participant">Aggregation at the participant</a></li>
+<li><a class="reference internal" href="#enter-and-leave-events">Enter and Leave events</a></li>
+<li><a class="reference internal" href="#cross-ledger-transactions">Cross-ledger transactions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multi-ledger-causality-graphs">Multi-ledger causality graphs</a><ul>
+<li><a class="reference internal" href="#consistency">Consistency</a></li>
+<li><a class="reference internal" href="#minimality-and-reduction">Minimality and reduction</a></li>
+<li><a class="reference internal" href="#from-multi-ledger-causality-graphs-to-ledgers">From multi-ledger causality graphs to ledgers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ledger-aware-projection">Ledger-aware projection</a></li>
+<li><a class="reference internal" href="#ledger-api-ordering-guarantees">Ledger API ordering guarantees</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        
+    </div>
+</div>
+        
+
+      </div>
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+          
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+                
+  <div class="section" id="ledger-interoperability">
+<span id="interoperable-ledgers"></span><h1>Ledger Interoperability<a class="headerlink" href="#ledger-interoperability" title="Permalink to this headline">¶</a></h1>
+<p>Certain Daml ledgers can interoperate with other Daml ledgers.
+That is, the contracts created on one ledger can be used and archived in transactions on other ledgers.
+Some Participant Nodes can connect to multiple ledgers and provide their parties unified access to those ledgers via the <a class="reference internal" href="../app-dev/services.html#ledger-api-services"><span class="std std-ref">Ledger API</span></a>.
+For example, when an organization initially deploys two workflows to two Daml ledgers, it can later compose those workflows into a larger workflow that spans both ledgers.</p>
+<p>Interoperability may limit the visibility a Participant Node has into a party’s ledger projection, i.e., its <a class="reference internal" href="local-ledger.html#local-ledger"><span class="std std-ref">local ledger</span></a>, when the party is hosted on multiple Participant Nodes.
+These limitations influence what parties can observe via the Ledger API of each Participant Node.
+In particular, interoperability affects which events a party observes and their order.
+This document explains the visibility limitations due to interoperability and their consequences for the Transaction Service, by <a class="reference internal" href="#interop-limitation-examples"><span class="std std-ref">example</span></a> and formally by introducing interoperable versions of <a class="reference internal" href="#interop-causality-graph"><span class="std std-ref">causality graphs</span></a> and <a class="reference internal" href="#ledger-aware-projection"><span class="std std-ref">projections</span></a>.</p>
+<p>The presentation assumes that you are familiar with the following concepts:</p>
+<ul class="simple">
+<li>The <a class="reference internal" href="../app-dev/services.html#ledger-api-services"><span class="std std-ref">Ledger API</span></a></li>
+<li>The <a class="reference internal" href="ledger-model/index.html#da-ledgers"><span class="std std-ref">Daml Ledger Model</span></a></li>
+<li><a class="reference internal" href="local-ledger.html#local-ledger"><span class="std std-ref">Local ledgers and causality graphs</span></a></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Interoperability for Daml ledgers is under active development.
+This document describes the vision for interoperability
+and gives an idea of how the Ledger API services may change and what guarantees are provided.
+The described services and guarantees may change without notice as the interoperability implementation proceeds.</p>
+</div>
+<div class="section" id="interoperability-examples">
+<span id="interop-limitation-examples"></span><h2>Interoperability examples<a class="headerlink" href="#interoperability-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="topology">
+<span id="interoperable-topology"></span><h3>Topology<a class="headerlink" href="#topology" title="Permalink to this headline">¶</a></h3>
+<p>Participant Nodes connect to Daml ledgers and parties access projections of these ledgers via the Ledger API.
+The following picture shows such a setup.</p>
+<div class="figure align-center" id="multiple-ledgers">
+<img alt="../_images/multiple-domains.svg" src="../_images/multiple-domains.svg" /><p class="caption"><span class="caption-text">Example topology with three interoperable ledgers</span></p>
+</div>
+<p>The components in this diagram are the following:</p>
+<ul class="simple">
+<li>There is a set of interoperable <strong>Daml ledgers</strong>: Ledger 1 (green) and Ledger 2 (yellow).</li>
+<li>Each <strong>Participant Node</strong> is connected to a subset of the Daml ledgers.<ul>
+<li>Participant Nodes 1 and 3 are connected to Ledger 1 and 2.</li>
+<li>Participant Node 2 is connected to Ledger 1 only.</li>
+</ul>
+</li>
+<li>Participant Nodes host parties on a subset of the Daml ledgers they are connected to.
+A Participant Node provides a party access to the Daml ledgers that it hosts the party on.<ul>
+<li>Participant Node 1 hosts Alice on Ledger 1 and 2.</li>
+<li>Participant Node 2 hosts Alice on Ledger 1.</li>
+<li>Participant Node 3 hosts the painter on Ledger 1 and 2.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="aggregation-at-the-participant">
+<span id="interoperable-aggregation"></span><h3>Aggregation at the participant<a class="headerlink" href="#aggregation-at-the-participant" title="Permalink to this headline">¶</a></h3>
+<p>The Participant Node assembles the updates from these ledgers and outputs them via the party’s Transaction Service and Active Contract Service.
+When a Participant Node hosts a party only on a subset of the interoperable Daml ledgers,
+then the transaction and active contract services of the Participant Node are derived only from those ledgers.</p>
+<p>For example, in the <a class="reference internal" href="#multiple-ledgers"><span class="std std-ref">above topology</span></a>, when a transaction creates a contract with stakeholder Alice on Ledger 2,
+then <cite>P1</cite>’s transaction stream for Alice will emit this transaction and report the contract as active, but Alice’s stream at <cite>P2</cite> will not.</p>
+</div>
+<div class="section" id="enter-and-leave-events">
+<span id="enter-leave-event"></span><h3>Enter and Leave events<a class="headerlink" href="#enter-and-leave-events" title="Permalink to this headline">¶</a></h3>
+<p>With interoperability, a transaction can use a contract whose creation was recorded on a different ledger.
+In the <a class="reference internal" href="#multiple-ledgers"><span class="std std-ref">above topology</span></a>, e.g., one transaction creates a contract <cite>c1</cite> with stakeholder Alice on Ledger 1 and another archives the contract on Ledger 2.
+Then the Participant Node <cite>P2</cite> outputs the <strong>Create</strong> action as a <code class="docutils literal notranslate"><span class="pre">CreatedEvent</span></code>, but not the <strong>Exercise</strong> in form of an <code class="docutils literal notranslate"><span class="pre">ArchiveEvent</span></code> on the transaction service
+because Ledger 2 can not notify <cite>P2</cite> as <cite>P2</cite> does not host Alice on Ledger 2.
+Conversely, when one transaction creates a contract <cite>c2</cite> with stakeholder Alice on Ledger 2 and another archives the contract on Ledger 1, then <cite>P2</cite> outputs the <code class="docutils literal notranslate"><span class="pre">ArchivedEvent</span></code>, but not the <code class="docutils literal notranslate"><span class="pre">CreatedEvent</span></code>.</p>
+<p>To keep the transaction stream consistent, <cite>P2</cite> additionally outputs a <strong>Leave</strong> <cite>c1</cite> action on Alice’s transaction stream.
+This action signals that the Participant Node no longer outputs events concerning this contract;
+in particular not when the contract is archived.
+The contract is accordingly no longer reported in the active contract service and cannot be used by command submissions.</p>
+<p>Conversely, <cite>P2</cite> outputs an <strong>Enter</strong> <cite>c2</cite> action some time before the <code class="docutils literal notranslate"><span class="pre">ArchivedEvent</span></code> on the transaction stream.
+This action signals that the Participant Node starts outputting events concerning this contract.
+The contract is reported in the Active Contract Service and can be used by command submission.</p>
+<p>The actions <strong>Enter</strong> and <strong>Leave</strong> are similar to a <strong>Create</strong> and a consuming <strong>Exercise</strong> action, respectively, except that <strong>Enter</strong> and <strong>Leave</strong> may occur several times for the same contract whereas
+there should be at most one <strong>Create</strong> action and at most one consuming <strong>Exercise</strong> action for each contract.</p>
+<p>These <strong>Enter</strong> and <strong>Leave</strong> events are generated by the underlying interoperability protocol.
+This may happen as part of command submission or for other reasons, e.g., load balancing.
+It is guaranteed that the <strong>Enter</strong> action precedes contract usage, subject to the trust assumptions of the underlying ledgers and the interoperability protocol.</p>
+<p>A contract may enter and leave the visibility of a Participant Node several times.
+For example, suppose that the painter submits the following commands and their commits end up on the given ledgers.</p>
+<ol class="arabic simple">
+<li>Create a contract <cite>c</cite> with signatories Alice and the painter on Ledger 2</li>
+<li>Exercise a non-consuming choice <cite>ch1</cite> on <cite>c</cite> on Ledger 1.</li>
+<li>Exercise a non-consuming choice <cite>ch2</cite> on <cite>c</cite> on Ledger 2.</li>
+<li>Exercise a consuming choice <cite>ch3</cite> on <cite>c</cite> on Ledger 1.</li>
+</ol>
+<p>Then, the transaction tree stream that <cite>P2</cite> provides for <cite>A</cite> contains five actions involving contract <cite>c</cite>: <strong>Enter</strong>, non-consuming <strong>Exercise</strong>, <strong>Leave</strong>, <strong>Enter</strong>, consuming <strong>Exercise</strong>.
+Importantly, <cite>P2</cite> must not omit the <strong>Leave</strong> action and the subsequent <strong>Enter</strong>, even though they seem to cancel out.
+This is because their presence indicates that <cite>P2</cite>’s event stream for Alice may miss some events in between; in this example, exercising the choice <cite>ch2</cite>.</p>
+<p>The flat transaction stream by <cite>P2</cite> omits the non-consuming exercise choices.
+It nevertheless contains the three actions <strong>Enter</strong>, <strong>Leave</strong>, <strong>Enter</strong> before the consuming <strong>Exercise</strong>.
+This is because the Participant Node cannot know at the <strong>Leave</strong> action that there will be another <strong>Enter</strong> action coming.</p>
+<p>In contrast, <cite>P1</cite> need not output the <strong>Enter</strong> and <strong>Leave</strong> actions at all in this example because <cite>P1</cite> hosts Alice on both ledgers.</p>
+</div>
+<div class="section" id="cross-ledger-transactions">
+<span id="cross-ledger-transaction"></span><h3>Cross-ledger transactions<a class="headerlink" href="#cross-ledger-transactions" title="Permalink to this headline">¶</a></h3>
+<p>With interoperability, a cross-ledger transaction can be committed on several interoperable Daml ledgers simultaneously.
+Such a cross-ledger transaction avoids some of the synchronization overhead of <strong>Enter</strong> and <strong>Leave</strong> actions.
+When a cross-ledger transaction uses contracts from several Daml ledgers,
+stakeholders may witness actions on their contracts that are actually not visible on the Participant Node.</p>
+<p>For example, suppose that the <a class="reference internal" href="local-ledger.html#split-counteroffer-ledger"><span class="std std-ref">split paint counteroffer workflow</span></a> from the causality examples is committed as follows:
+The actions on <cite>CounterOffer</cite> and <cite>PaintAgree</cite> contracts are committed on Ledger 1.
+All actions on <cite>Iou</cite>s are committed on Ledger 2, assuming that some Participant Node hosts the Bank on Ledger 2.
+The last transaction is a cross-ledger transaction because the archival of the <cite>CounterOffer</cite> and the creation of the <cite>PaintAgree</cite>ment commits on Ledger 1 simultaneously with the transfer of Alice’s <cite>Iou</cite> to the painter on Ledger 2.</p>
+<p>For the last transaction, Participant Node 1 notifies Alice of the transaction tree, the two archivals and the <cite>PaintAgree</cite> creation via the Transaction Service as usual.
+Participant Node 2 also output’s the whole transaction tree on Alice’s transaction tree stream, which contains the consuming <strong>Exercise</strong> of Alice’s <cite>Iou</cite>.
+However, it has not output the <strong>Create</strong> of Alice’s <cite>Iou</cite> because <cite>Iou</cite> actions commit on Ledger 2, on which Participant Node 2 does not host Alice.
+So Alice merely <em>witnesses</em> the archival even though she is an <a class="reference internal" href="ledger-model/ledger-privacy.html#def-informee"><span class="std std-ref">informee</span></a> of the exercise.
+The <strong>Exercise</strong> action is therefore marked as merely being witnessed on Participant Node 2’s transaction tree stream.</p>
+<p>In general, an action is marked as <strong>merely being witnessed</strong> when a party is an informee of the action, but the action is not committed on a ledger on which the Participant Node hosts the party.
+Unlike <strong>Enter</strong> and <strong>Leave</strong>, such witnessed actions do not affect causality from the participant’s point of view and therefore provide weaker ordering guarantees.
+Such witnessed actions show up neither in the flat transaction stream nor in the Active Contracts Service.</p>
+<p>For example, suppose that the <strong>Create</strong> <cite>PaintAgree</cite> action commits on Ledger 2 instead of Ledger 1, i.e., only the <cite>CounterOffer</cite> actions commit on Ledger 1.
+Then, Participant Node 2 marks the <strong>Create</strong> <cite>PaintAgree</cite> action also as merely being witnessed on the transaction tree stream.
+Accordingly, it does not report the contract as active nor can Alice use the contract in her submissions via Participant Node 2.</p>
+</div>
+</div>
+<div class="section" id="multi-ledger-causality-graphs">
+<span id="interop-causality-graph"></span><h2>Multi-ledger causality graphs<a class="headerlink" href="#multi-ledger-causality-graphs" title="Permalink to this headline">¶</a></h2>
+<p>This section generalizes <a class="reference internal" href="local-ledger.html#causality-graph"><span class="std std-ref">causality graphs</span></a> to the interoperability setting.</p>
+<p>Every active Daml contract resides on at most one Daml ledger.
+Any use of a contract must be committed on the Daml ledger where it resides.
+Initially, when the contract is created, it takes up residence on the Daml ledger on which the <strong>Create</strong> action is committed.
+To use contracts residing on different Daml ledgers, cross-ledger transactions are committed on several Daml ledgers.</p>
+<p>However, cross-ledger transactions incur overheads and if a contract is frequently used on a Daml ledger that is not its residence, the interoperability protocol can migrate the contract to the other Daml ledger.
+The process of the contract giving up residence on the origin Daml ledger and taking up residence on the target Daml ledger is called a <strong>contract transfer</strong>.
+The <strong>Enter</strong> and <strong>Leave</strong> events on the transaction stream originate from such contract transfers, as will be explained below.
+Moreover, contract transfers are synchronization points between the origin and target Daml ledgers and therefore affect the ordering guarantees.
+We therefore generalize causality graphs for interoperability.</p>
+<dl class="docutils">
+<dt>Definition »Transfer action«</dt>
+<dd>A <strong>transfer action</strong> on a contract <cite>c</cite> is written <strong>Transfer</strong> <cite>c</cite>.
+The <strong>informees</strong> of the transfer actions are the stakeholders of <cite>c</cite>.</dd>
+</dl>
+<p>In the following, the term <em>action</em> refers to transaction actions (<strong>Create</strong>, <strong>Exercise</strong>, <strong>Fetch</strong>, and <strong>NoSuchKey</strong>) as well as transfer actions.
+In particular, a transfer action on a contract <cite>c</cite> is an action on <cite>c</cite>.
+Transfer actions do not appear in transactions though.
+So a transaction action cannot have a transfer action as a consequence and transfer actions do not have consequences at all.</p>
+<dl class="docutils">
+<dt>Definition »Multi-Ledger causality graph«</dt>
+<dd><p class="first">A <strong>multi-ledger causality graph</strong> <cite>G</cite> for a set <cite>Y</cite> of Daml ledgers is a finite, transitively closed, directed acyclic graph.
+The vertices are either transactions or transfer actions.
+Every action is possibly annotated with an <strong>incoming ledger</strong> and an <strong>outgoing ledger</strong> from <cite>Y</cite> according to the following table:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="35%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Action</th>
+<th class="head">incoming ledger</th>
+<th class="head">outgoing ledger</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Create</strong></td>
+<td>no</td>
+<td>yes</td>
+</tr>
+<tr class="row-odd"><td>consuming
+<strong>Exercise</strong></td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr class="row-even"><td>non-consuming
+<strong>Exercise</strong></td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="row-odd"><td><strong>Fetch</strong></td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr class="row-even"><td><strong>NoSuchKey</strong></td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr class="row-odd"><td><strong>Transfer</strong></td>
+<td>maybe</td>
+<td>maybe</td>
+</tr>
+</tbody>
+</table>
+<p class="last">For non-consuming <strong>Exercise</strong> and <strong>Fetch</strong> actions, the incoming ledger must be the same as the outgoing ledger.
+<strong>Transfer</strong> actions must have at least one of them.
+A <strong>transfer</strong> action with both set represents a complete transfer.
+If only the incoming ledger is set, it represents the partial information of an <strong>Enter</strong> event;
+if only outgoing is set, it is the partial information of a <strong>Leave</strong> event.
+<strong>Transfer</strong> actions with missing incoming or outgoing ledger annotations referred to as <strong>Enter</strong> or <strong>Leave</strong> actions, respectively.</p>
+</dd>
+</dl>
+<p>The <a class="reference internal" href="local-ledger.html#def-action-order"><span class="std std-ref">action order</span></a> generalizes to multi-ledger causality graphs accordingly.</p>
+<p>In the <a class="reference internal" href="#enter-leave-event"><span class="std std-ref">example for Enter and Leave events</span></a> where the painter exercises three choices on contract <cite>c</cite> with signatories Alice and the painter, the four transactions yield the following multi-ledger causality graph.
+Incoming and outgoing ledgers are encoded as colors (green for Ledger 1 and yellow for Ledger 2).
+<strong>Transfer</strong> vertices are shown as circles, where the left half is colored with the incoming ledger and the right half with the outgoing ledger.</p>
+<div class="figure align-center" id="id2">
+<span id="interoperable-causality-graph-linear"></span><img alt="../_images/interoperable-causality-graph-linear.svg" src="../_images/interoperable-causality-graph-linear.svg" width="100%" /><p class="caption"><span class="caption-text">Multi-Ledger causality graph with transfer actions</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As for ordinary causality graphs, the diagrams for multi-ledger causality graphs omit transitive edges for readability.</p>
+</div>
+<p>As an example for a cross-domain transaction, consider the <a class="reference internal" href="#cross-ledger-transaction"><span class="std std-ref">split paint counteroffer workflow with the cross-domain transaction</span></a>.
+The corresponding multi-ledger causality graph is shown below.
+The last transaction <cite>tx4</cite> is a cross-ledger transaction because its actions have more than one color.</p>
+<div class="figure align-center" id="id3">
+<span id="counteroffer-interoperable-causality-graph"></span><img alt="../_images/counteroffer-interoperable-causality-graph.svg" src="../_images/counteroffer-interoperable-causality-graph.svg" width="100%" /><p class="caption"><span class="caption-text">Multi-Ledger causality graph for the split paint counteroffer workflow on two Daml ledgers</span></p>
+</div>
+<div class="section" id="consistency">
+<h3>Consistency<a class="headerlink" href="#consistency" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Definition »Ledger trace«</dt>
+<dd>A <strong>ledger trace</strong> is a finite list of pairs <cite>(a</cite><sub>i</sub><cite>, b</cite><sub>i</sub><cite>)</cite>
+such that <cite>b</cite><sub>i - 1</sub> = <cite>a</cite><sub>i</sub> for all <cite>i</cite> &gt; 0.
+Here <cite>a</cite><sub>i</sub> and <cite>b</cite><sub>i</sub> identify Daml ledgers or are the special value <cite>NONE</cite>,
+which is different from all Daml ledger identifiers.</dd>
+<dt>Definition »Multi-Ledger causal consistency for a contract«</dt>
+<dd><p class="first">Let <cite>G</cite> be a multi-ledger causality graph and <cite>X</cite> be a set of actions from <cite>G</cite> on a contract in <cite>c</cite>.
+The graph <cite>G</cite> is <strong>multi-ledger consistent for the contract</strong> <cite>c</cite> on <cite>X</cite> if all of the following hold:</p>
+<ol class="last arabic simple">
+<li>If <cite>X</cite> is not empty, then <cite>X</cite> contains a <strong>Create</strong> or <strong>Enter</strong> action.
+This action precedes all other actions in <cite>X</cite>.</li>
+<li><cite>X</cite> contains at most one <strong>Create</strong> action.
+If so, this action precedes all other actions in <cite>X</cite>.</li>
+<li>If <cite>X</cite> contains a consuming <strong>Exercise</strong> action <cite>act</cite>, then <cite>act</cite> follows all other actions in <cite>X</cite> in <cite>G</cite>’s action order.</li>
+<li>All <strong>Transfer</strong> actions in <cite>X</cite> are ordered with all other actions in <cite>X</cite>.</li>
+<li>For every maximal chain in <cite>X</cite> (i.e., maximal totally ordered subset of <cite>X</cite>), the sequence of <cite>(</cite>incoming ledger, outgoing ledger<cite>)</cite> pairs is a ledger trace, using <cite>NONE</cite> if the action does not have an incoming or outgoing ledger annotation.</li>
+</ol>
+</dd>
+</dl>
+<p>The first three conditions mimic the conditions of <a class="reference internal" href="local-ledger.html#def-causal-consistency-contract"><span class="std std-ref">causal consistency</span></a> for ordinary causality graphs.
+They ensure that <strong>Create</strong> actions come first and consuming <strong>Exercise</strong> actions last.
+An <strong>Enter</strong> action takes the role of a <strong>Create</strong> if there is no <strong>Create</strong>.
+The fourth condition ensures that all transfer actions are synchronization points for a contract.
+The last condition about ledger traces ensures that contracts reside on only one Daml ledger and all usages happen on the ledger of residence.
+In particular, the next contract action after a <strong>Leave</strong> must be an <strong>Enter</strong>.</p>
+<p>For example, the above <a class="reference internal" href="#interoperable-causality-graph-linear"><span class="std std-ref">multi-ledger causality graph with transfer actions</span></a> is multi-ledger consistent for <cite>c</cite>.
+In particular, there is only one maximal chain in the actions on <cite>c</cite>, namely</p>
+<blockquote>
+<div><strong>Create</strong> <cite>c</cite> -&gt; <cite>tf1</cite> -&gt; <strong>ExeN</strong> <cite>B</cite> <cite>c</cite> <cite>ch1</cite> -&gt; <cite>tf2</cite> -&gt; <strong>ExeN</strong> <cite>B</cite> <cite>c</cite> <cite>ch2</cite> -&gt; <cite>tf3</cite> -&gt; <strong>ExeN</strong> <cite>B</cite> <cite>c</cite> <cite>ch3</cite>,</div></blockquote>
+<p>and for each edge <cite>act</cite><sub>1</sub> -&gt; <cite>act</cite><sub>2</sub>, the outgoing ledger color of <cite>act</cite><sub>1</sub> is the same as the incoming ledger color of <cite>act</cite><sub>2</sub>.
+The restriction to maximal chains ensures that no node is skipped.
+For example, the (non-maximal) chain</p>
+<blockquote>
+<div><strong>Create</strong> <cite>c</cite> -&gt; <strong>ExeN</strong> <cite>B</cite> <cite>c</cite> <cite>ch1</cite> -&gt; <cite>tf2</cite> -&gt; <strong>ExeN</strong> <cite>B</cite> <cite>c</cite> <cite>ch2</cite> -&gt; <cite>tf3</cite> -&gt; <strong>Exe</strong> <cite>B</cite> <cite>c</cite> <cite>ch3</cite></div></blockquote>
+<p>is not a ledger trace because the outgoing ledger of the <strong>Create</strong> action (yellow) is not the same as the incoming ledger of the non-consuming <strong>Exercise</strong> action for <cite>ch1</cite> (green).
+Accordingly, the subgraph without the <cite>tf1</cite> vertex is not multi-ledger consistent for <cite>c</cite> even though it is a multi-ledger causality graph.</p>
+<dl class="docutils">
+<dt>Definition »Consistency for a multi-ledger causality graph«</dt>
+<dd>Let <cite>X</cite> be a subset of actions in a multi-ledger causality graph <cite>G</cite>.
+Then <cite>G</cite> is <strong>multi-ledger consistent</strong> for <cite>X</cite> (or <cite>X</cite>-<strong>multi-ledger consistent</strong>)
+if <cite>G</cite> is multi-ledger consistent for all contracts <cite>c</cite> on the set of actions on <cite>c</cite> in <cite>X</cite>.
+<cite>G</cite> is <strong>multi-ledger consistent</strong> if <cite>G</cite> is multi-ledger consistent on all the actions in <cite>G</cite>.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no multi-ledger consistency requirement for contract keys yet.
+So interoperability does not provide consistency guarantees beyond those that come from the contracts they reference.
+In particular, contract keys need not be unique and <strong>NoSuchKey</strong> actions do not check that the contract key is unassigned.</p>
+</div>
+<p>The <a class="reference internal" href="#counteroffer-interoperable-causality-graph"><span class="std std-ref">multi-ledger causality graph for the split paint counteroffer workflow</span></a> is multi-ledger consistent.
+In particular all maximal chains of actions on a contract are ledger traces:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">contract</th>
+<th class="head">maximal chains</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>Iou Bank A</cite></td>
+<td><strong>Create</strong> -&gt; <strong>Fetch</strong> -&gt; <strong>Exercise</strong></td>
+</tr>
+<tr class="row-odd"><td><cite>ShowIou A P Bank</cite></td>
+<td><strong>Create</strong> -&gt; <strong>Exercise</strong></td>
+</tr>
+<tr class="row-even"><td><cite>Counteroffer A P Bank</cite></td>
+<td><strong>Create</strong> -&gt; <strong>Exercise</strong></td>
+</tr>
+<tr class="row-odd"><td><cite>Iou Bank P</cite></td>
+<td><strong>Create</strong></td>
+</tr>
+<tr class="row-even"><td><cite>PaintAgree P A</cite></td>
+<td><strong>Create</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="minimality-and-reduction">
+<h3>Minimality and reduction<a class="headerlink" href="#minimality-and-reduction" title="Permalink to this headline">¶</a></h3>
+<p>When edges are added to an <cite>X</cite>-multi-ledger consistent causality graph such that it remains acyclic and transitively closed,
+the resulting graph is again <cite>X</cite>-multi-ledger consistent.
+The notions <a class="reference internal" href="local-ledger.html#minimal-consistent-causality-graph"><span class="std std-ref">minimally consistent</span></a> and <a class="reference internal" href="local-ledger.html#def-reduction-causality-graph"><span class="std std-ref">reduction</span></a> therefore generalize from ordinary causality graphs accordingly.</p>
+<dl class="docutils">
+<dt>Definition »Minimal multi-ledger-consistent causality graph«</dt>
+<dd>An <cite>X</cite>-multi-ledger consistent causality graph <cite>G</cite> is <cite>X</cite>-<strong>minimal</strong> if no strict subgraph of <cite>G</cite> (same vertices, fewer edges) is an <cite>X</cite>-multi-ledger consistent causality graph.
+If <cite>X</cite> is the set of all actions in <cite>G</cite>, then <cite>X</cite> is omitted.</dd>
+<dt>Definition »Reduction of a multi-ledger consistent causality graph«</dt>
+<dd>For an <cite>X</cite>-multi-ledger consistent causality graph <cite>G</cite>, there exists a unique minimal <cite>X</cite>-multi-ledger consistent causality graph <cite>reduce</cite><sub>X</sub><cite>(G)</cite> with the same vertices and the edges being a subset of <cite>G</cite>.
+<cite>reduce</cite><sub>X</sub><cite>(G)</cite> is called the <cite>X</cite>-<strong>reduction</strong> of <cite>G</cite>.
+As before, <cite>X</cite> is omitted if it contains all actions in <cite>G</cite>.</dd>
+</dl>
+<p>Since multi-ledger causality graphs are acyclic, their vertices can be sorted topologically and the resulting list is again a causality graph, where every vertex has an outgoing edge to all later vertices.
+If the original causality graph is <cite>X</cite>-consistent, then so is the topological sort, as topological sorting merely adds edges.</p>
+</div>
+<div class="section" id="from-multi-ledger-causality-graphs-to-ledgers">
+<h3>From multi-ledger causality graphs to ledgers<a class="headerlink" href="#from-multi-ledger-causality-graphs-to-ledgers" title="Permalink to this headline">¶</a></h3>
+<p>Multi-Ledger causality graphs <cite>G</cite> are linked to ledgers <cite>L</cite> in the Daml Ledger Model via topological sort and reduction.</p>
+<ul class="simple">
+<li>Given a multi-ledger causality graph <cite>G</cite>,
+drop the incoming and outgoing ledger annotations and all transfer vertices,
+topologically sort the transaction vertices,
+and extend the resulting list of transactions with the requesters to obtain a sequence of commits <cite>L</cite>.</li>
+<li>Given a sequence of commits <cite>L</cite>,
+use the transactions as vertices and add an edge from <cite>tx1</cite> to <cite>tx2</cite> whenever <cite>tx1</cite>’s commit precedes <cite>tx2</cite>’s commit in the sequence.
+Then add transfer vertices and incoming and outgoing ledger annotations as needed and connect them with edges to the transaction vertices.</li>
+</ul>
+<p>This link preserves consistency only to some extent.
+Namely, if a multi-ledger causality graph is multi-ledger consistent for a contract <cite>c</cite>, then the corresponding ledger is consistent for the contract <cite>c</cite>, too.
+However, a multi-ledger-consistent causality graph does not yield a consistent ledger because key consistency may be violated.
+Conversely, a consistent ledger does not talk about the incoming and outgoing ledger annotations and therefore cannot enforce that the annotations are consistent.</p>
+</div>
+</div>
+<div class="section" id="ledger-aware-projection">
+<span id="id1"></span><h2>Ledger-aware projection<a class="headerlink" href="#ledger-aware-projection" title="Permalink to this headline">¶</a></h2>
+<p>A Participant Node maintains a local ledger for each party it hosts and the Transaction Service outputs a topological sort of this local ledger.
+When the Participant Node hosts the party on several ledgers, this local ledger is an multi-ledger causality graph.
+This section defines the ledger-aware projection of an multi-ledger causality graph, which yields such a local ledger.</p>
+<dl class="docutils">
+<dt>Definition »Y-labelled action«</dt>
+<dd>An action with incoming and outgoing ledger annotations is <strong>Y-labelled</strong> for a set <cite>Y</cite>
+if its incoming or outgoing ledger annotation is an element of <cite>Y</cite>.</dd>
+<dt>Definition »Ledger-aware projection for transactions«</dt>
+<dd>Let <cite>Y</cite> be a set of Daml ledgers and <cite>tx</cite> a transaction whose actions are annotated with incoming and outgoing ledgers.
+Let <cite>Act</cite> be the set of <cite>Y</cite>-labelled subactions of <cite>tx</cite> that the party <cite>P</cite> is an informee of.
+The <strong>ledger-aware projection</strong> of <cite>tx</cite> for <cite>P</cite> on <cite>Y</cite> (<cite>P</cite>-<strong>projection on</strong> <cite>Y</cite>) consists of all the maximal elements of <cite>Act</cite> (w.r.t. the subaction relation) in execution order.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Every action contains all its subactions.
+So if <cite>act</cite> is included in the <cite>P</cite>-projection on <cite>Y</cite> of <cite>tx</cite>,
+then all subactions of <cite>act</cite> are also part of the projection.
+Such a subaction <cite>act’</cite> may not be <cite>Y</cite>-labelled itself though, i.e., belong to a different ledger.
+If <cite>P</cite> is an informee of <cite>act’</cite>, the Participant Node will mark <cite>act’</cite> as merely being witnessed on <cite>P</cite>’s transaction stream, as explained below.</p>
+</div>
+<p>The <a class="reference internal" href="#counteroffer-interoperable-causality-graph"><span class="std std-ref">cross-domain transaction in the split paint counteroffer workflow</span></a>, for example, has the following projections for Alice and the painter on the <cite>Iou</cite> ledger (yellow) and the painting ledger (green).
+Here, the projections on the green ledger include the actions of the yellow ledger because a projection includes the subactions.</p>
+<div align="center" class="align-center"><img alt="../_images/projecting-transactions-paint-offer-ledger-aware.svg" src="../_images/projecting-transactions-paint-offer-ledger-aware.svg" width="60%" /></div>
+<dl class="docutils">
+<dt>Definition »Projection for transfer actions«</dt>
+<dd><p class="first">Let <cite>act</cite> be a transfer action annotated with an incoming ledger and/or an outgoing ledger.
+The <strong>projection</strong> of <cite>act</cite> on a set of ledgers <cite>Y</cite>
+removes the annotations from <cite>act</cite> that are not in <cite>Y</cite>.
+If the projection removes all annotations, it is empty.</p>
+<p class="last">The <strong>projection</strong> of <cite>act</cite> to a party <cite>P</cite> on <cite>Y</cite> (<cite>P</cite>-<strong>projection</strong> on <cite>Y</cite>)
+is the projection of <cite>act</cite> on <cite>Y</cite> if <cite>P</cite> is a stakeholder of the contract, and empty otherwise.</p>
+</dd>
+<dt>Definition »Multi-Ledger consistency for a party«</dt>
+<dd>An multi-ledger causality graph <cite>G</cite> is <strong>consistent for a party</strong> <cite>P</cite> on a set of ledgers <cite>Y</cite> (<cite>P</cite>-<strong>consistent</strong> on <cite>Y</cite>)
+if <cite>G</cite> is multi-ledger consistent on the set of <cite>Y</cite>-labelled actions in <cite>G</cite> of which <cite>P</cite> is a stakeholder informee.</dd>
+</dl>
+<p>The notions of <cite>X</cite>-minimality and <cite>X</cite>-reduction extend to a party <cite>P</cite> on a set <cite>Y</cite> of ledgers accordingly.</p>
+<dl class="docutils">
+<dt>Definition »Ledger-aware projection for multi-ledger causality graphs«</dt>
+<dd><p class="first">Let <cite>G</cite> be a multi-ledger consistent causality graph and <cite>Y</cite> be a set of Daml ledgers.
+The <strong>projection</strong> of <cite>G</cite> to party <cite>P</cite> on <cite>Y</cite> (<cite>P</cite>-<strong>projection</strong> on <cite>Y</cite>) is the <cite>P</cite>-reduction on <cite>Y</cite> of the following causality graph <cite>G’</cite>, which is <cite>P</cite>-consistent on <cite>Y</cite>:</p>
+<ul class="last simple">
+<li>The vertices of <cite>G’</cite> are the vertices of <cite>G</cite> projected to <cite>P</cite> on <cite>Y</cite>, excluding empty projections.</li>
+<li>There is an edge between two vertices <cite>v</cite><sub>1</sub> and <cite>v</cite><sub>2</sub> in <cite>G’</cite> if there is an edge from the <cite>G</cite>-vertex corresponding to <cite>v</cite><sub>1</sub> to the <cite>G</cite>-vertex corresponding to <cite>v</cite><sub>2</sub>.</li>
+</ul>
+</dd>
+</dl>
+<p>If <cite>G</cite> is a multi-ledger consistent causality graph, then the <cite>P</cite>-projection on <cite>Y</cite> is <cite>P</cite>-consistent on <cite>Y</cite>, too.</p>
+<p>For example, the <a class="reference internal" href="#counteroffer-interoperable-causality-graph"><span class="std std-ref">multi-ledger causality graph for the split paint counteroffer workflow</span></a> is projected as follows.</p>
+<div align="center" class="align-center"><img alt="../_images/counteroffer-causality-ledgeraware-projection.svg" src="../_images/counteroffer-causality-ledgeraware-projection.svg" width="100%" /></div>
+<p>The following points are worth highlighting:</p>
+<ul class="simple">
+<li>In Alice’s projection on the green ledger, Alice witnesses the archival of her <cite>Iou</cite>.
+As explained in the <a class="reference internal" href="#interop-ordering-guarantees"><span class="std std-ref">Ledger API ordering guarantees</span></a> below,
+the <strong>Exercise</strong> action is marked as merely being witnessed
+in the transaction stream of a Participant Node that hosts Alice on the green ledger but not on the yellow ledger.
+Similarly, the Painter merely witnesses the <strong>Create</strong> of his <cite>Iou</cite> in the Painter’s projection on the green ledger.</li>
+<li>In the Painter’s projections, the <cite>ShowIou</cite> transaction <cite>tx3</cite> is unordered w.r.t. to the <cite>CounterOffer</cite> acceptance in <cite>tx4</cite>
+like in the <a class="reference internal" href="local-ledger.html#counteroffer-causality-projections"><span class="std std-ref">case of ordinary causality graphs</span></a>.
+The edge <cite>tx3</cite> -&gt; <cite>tx4</cite> is removed by the reduction step during projection.</li>
+</ul>
+<p>The projection of transfer actions can be illustrated with the <a class="reference internal" href="#interoperable-causality-graph-linear"><span class="std std-ref">Multi-Ledger causality graph with transfer actions</span></a>.
+The <cite>A</cite>-projections on the yellow and green ledger look as follows.
+The white color indicates that a transfer action has no incoming or outgoing ledger annotation.
+That is, a <strong>Leave</strong> action is white on the right hand side and an <strong>Enter</strong> action is white on the left hand side.</p>
+<div align="center" class="align-center"><img alt="../_images/transfer-projection.svg" src="../_images/transfer-projection.svg" width="100%" /></div>
+</div>
+<div class="section" id="ledger-api-ordering-guarantees">
+<span id="interop-ordering-guarantees"></span><h2>Ledger API ordering guarantees<a class="headerlink" href="#ledger-api-ordering-guarantees" title="Permalink to this headline">¶</a></h2>
+<p>The Transaction Service and the Active Contract Service are derived from the local ledger that the Participant Node maintains for the party.
+Let <cite>Y</cite> be the set of ledgers on which the Participant Node hosts a party.
+The transaction tree stream outputs a topological sort of the party’s local ledger on <cite>Y</cite>, with the following modifications:</p>
+<ol class="arabic simple">
+<li><strong>Transfer</strong> actions with either an incoming or an outgoing ledger annotation are output as <strong>Enter</strong> and <strong>Leave</strong> events.
+<strong>Transfer</strong> actions with both incoming and outgoing ledger annotations are omitted.</li>
+<li>The incoming and outgoing ledger annotations are not output.
+Transaction actions with an incoming or outgoing ledger annotation
+that is not in <cite>Y</cite> are marked as merely being witnessed if the
+party is an informee of the action.</li>
+<li><strong>Fetch</strong> nodes and <strong>NoSuchKey</strong> are omitted.</li>
+</ol>
+<p>The flat transaction stream contains precisely the <code class="docutils literal notranslate"><span class="pre">CreatedEvent</span></code>s, <code class="docutils literal notranslate"><span class="pre">ArchivedEvent</span></code>s, and the <strong>Enter</strong> and <strong>Leave</strong> actions that correspond to <strong>Create</strong>, consuming <strong>Exercise</strong>, <strong>Enter</strong> and <strong>Leave</strong> actions in transaction trees on the transaction tree stream where the party is a stakeholder of the affected contract and that are not marked as merely being witnessed.</p>
+<p>Similarly, the active contract service provides the set of contracts that are active at the returned offset according to the flat transaction stream.
+That is, the contract state changes of all events from the transaction event stream are taken into account in the provided set of contracts.</p>
+<p>The <a class="reference internal" href="local-ledger.html#ordering-guarantees"><span class="std std-ref">ordering guarantees</span></a> for single Daml ledgers extend accordingly.
+In particular, interoperability ensures that all local ledgers are projections of a virtual shared multi-ledger causality graph that connects to the Daml Ledger Model as described above.
+The ledger validity guarantees therefore extend via the local ledgers to the Ledger API.</p>
+</div>
+</div>
+
+
+              
+            </div>
+            
+            
+              <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tools/visual.html" class="da-btn da-btn-label btn-prev" title="Visualizing Daml Contracts" accesskey="p" rel="prev">Previous</a>
+      
+      
+        <a href="../tools/non-repudiation.html" class="da-btn da-btn-label btn-next" title="Non-repudiation" accesskey="n" rel="next">Next</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. Any unauthorized use, duplication or distribution is strictly prohibited. &#34;Digital Asset&#34; and &#34;Daml&#34; are Registered in the U.S. Patent and Trademark Office.
+
+    </p>
+  </div> 
+
+</footer>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Copyright (c) 2021 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+
+
+
+
+  <script type="text/javascript">
+    jQuery(function () {
+      SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+
+  
+    
+  
+  <div id="inpageContent"></div>
+  
+
+</body>
+</html>
