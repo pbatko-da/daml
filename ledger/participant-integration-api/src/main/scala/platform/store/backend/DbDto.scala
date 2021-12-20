@@ -150,4 +150,5 @@ object DbDto {
       template_id: String,
       party_id: String,
   ) extends DbDto
+
 }
