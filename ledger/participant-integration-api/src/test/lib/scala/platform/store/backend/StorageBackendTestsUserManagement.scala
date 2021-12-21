@@ -18,6 +18,8 @@ private[backend] trait StorageBackendTestsUserManagement
 
   behavior of "StorageBackend (user management)"
 
+  // TODO pbatko: test listUsers and other methods not test-covered
+
   it should "check if rights exist" in {
     val tested = backend.userManagement
     val user = User(
