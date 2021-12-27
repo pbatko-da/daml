@@ -83,6 +83,7 @@ object Tests {
       // TODO sandbox-classic removal: Remove
       new DeprecatedSandboxClassicMemoryContractKeysIT,
       new DeprecatedSandboxClassicMemoryExceptionsIT,
+      new UserManagementLimitsIT,
     )
 
   val retired: Vector[LedgerTestSuite] =

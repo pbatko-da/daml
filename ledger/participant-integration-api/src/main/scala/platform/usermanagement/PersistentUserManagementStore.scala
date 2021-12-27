@@ -41,7 +41,7 @@ class PersistentUserManagementStore(
     metrics: Metrics,
     // TODO pbatko
     createAdminUser: Boolean = true,
-    maxNumberOfUserRightsPerUser: Int = 1000,
+    maxNumberOfUserRightsPerUser: Int,
 ) extends UserManagementStore {
 
   private val backend: UserManagementStorageBackend = UserManagementStorageBackendTemplate
@@ -49,7 +49,7 @@ class PersistentUserManagementStore(
 
   implicit private val loggingContext: LoggingContext = LoggingContext.newLoggingContext(identity)
 
-  // TODO pbatko
+  // TODO pbatko: Find the correct place and time to create admin user
   if (createAdminUser)
     createUser(
       InMemoryUserManagementStore.AdminUser.user,

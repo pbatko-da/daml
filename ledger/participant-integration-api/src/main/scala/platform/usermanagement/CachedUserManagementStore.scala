@@ -43,6 +43,7 @@ class CachedUserManagementStore(
     builder = Caffeine
       .newBuilder()
       .expireAfterWrite(Duration.ofSeconds(expiryAfterWriteInSeconds.toLong))
+      // TODO pbatko: Adjust maximum Size
       .maximumSize(10000),
     // TODO pbatko: Use metrics
     metrics = None,
