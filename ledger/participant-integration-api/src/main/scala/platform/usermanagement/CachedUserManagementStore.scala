@@ -11,6 +11,7 @@ import com.daml.ledger.api.domain.{User, UserRight}
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore.{
   Result,
+  TooManyUserRights,
   UserExists,
   UserNotFound,
   Users,
@@ -78,14 +79,10 @@ class CachedUserManagementStore(
             usersCache.invalidate(userId)
             userRightsCache.invalidate(userId)
           case _: UserExists =>
-//          case _: UserNotFound =>
+          case _: TooManyUserRights =>
         }
     }
     r
-    //    map { v =>
-    //      f(v)
-    //      v
-    //    }
   }
 
   override def createUser(user: domain.User, rights: Set[domain.UserRight]): Future[Result[Unit]] =
@@ -97,8 +94,6 @@ class CachedUserManagementStore(
       })
 
   override def getUser(id: UserId): Future[Result[domain.User]] = {
-//    val userPromise = Promise[User]()
-//    usersCache.getOrAcquire(id, key => ???)
     usersCache
       .getIfPresent(id)
       .fold(
