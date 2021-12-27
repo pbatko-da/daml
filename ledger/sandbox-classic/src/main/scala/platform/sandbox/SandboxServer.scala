@@ -444,6 +444,7 @@ final class SandboxServer(
           ),
           ParticipantDeduplicationSupport.PARTICIPANT_DEDUPLICATION_SUPPORTED,
         ),
+        enableUserManagement = config.enableUserManagement,
       )(materializer, executionSequencerFactory, loggingContext)
         .map(_.withServices(List(resetService)))
       apiServer <- new LedgerApiServer(
