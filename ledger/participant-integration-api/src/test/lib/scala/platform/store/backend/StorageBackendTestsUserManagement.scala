@@ -6,7 +6,7 @@ package com.daml.platform.store.backend
 import java.sql.SQLException
 import java.util.UUID
 
-import com.daml.ledger.api.domain.User
+import com.daml.ledger.api.domain.{User, UserRight}
 import com.daml.ledger.api.domain.UserRight.{CanActAs, CanReadAs, ParticipantAdmin}
 import com.daml.lf.data.Ref
 import org.scalatest.flatspec.AnyFlatSpec
@@ -28,6 +28,72 @@ private[backend] trait StorageBackendTestsUserManagement
   private val right3 = CanReadAs(Ref.Party.assertFromString("party_read_as_1"))
 
   private def tested = backend.userManagement
+
+  it should "count number of user rights per user" in {
+    val tested = backend.userManagement
+    val user = User(
+      id = Ref.UserId.assertFromString("user_id_123"),
+      primaryParty = Some(Ref.Party.assertFromString("primary_party_123")),
+    )
+
+    for {
+      user1InternalId <- executeSql(tested.createUser(user, createdAt = 123))
+      res2 <- executeSql(tested.countUserRights(user1InternalId))
+      res3 <- executeSql(
+        tested.addUserRight(user1InternalId, UserRight.ParticipantAdmin, grantedAt = 123)
+      )
+      res4 <- executeSql(tested.countUserRights(user1InternalId))
+      _ <- executeSql(
+        tested.addUserRight(
+          user1InternalId,
+          UserRight.CanActAs(Ref.Party.assertFromString("act1")),
+          grantedAt = 123,
+        )
+      )
+      _ <- executeSql(
+        tested.addUserRight(
+          user1InternalId,
+          UserRight.CanActAs(Ref.Party.assertFromString("act2")),
+          grantedAt = 123,
+        )
+      )
+      _ <- executeSql(
+        tested.addUserRight(
+          user1InternalId,
+          UserRight.CanActAs(Ref.Party.assertFromString("act3")),
+          grantedAt = 123,
+        )
+      )
+      _ <- executeSql(
+        tested.addUserRight(
+          user1InternalId,
+          UserRight.CanReadAs(Ref.Party.assertFromString("read1")),
+          grantedAt = 123,
+        )
+      )
+      _ <- executeSql(
+        tested.addUserRight(
+          user1InternalId,
+          UserRight.CanReadAs(Ref.Party.assertFromString("read2")),
+          grantedAt = 123,
+        )
+      )
+      _ <- executeSql(
+        tested.addUserRight(
+          user1InternalId,
+          UserRight.CanReadAs(Ref.Party.assertFromString("read3")),
+          grantedAt = 123,
+        )
+      )
+      res5 <- executeSql(tested.countUserRights(user1InternalId))
+    } yield {
+      res2 shouldBe 0
+      res3 shouldBe true
+      res4 shouldBe 1
+      res5 shouldBe 7
+    }
+
+  }
 
   it should "use invalid party string to mark absence of party" in {
     intercept[IllegalArgumentException](

@@ -11,6 +11,13 @@ import com.daml.ledger.api.domain
 import com.daml.ledger.api.domain.User
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore.{Result, UserInfo, Users}
+import com.daml.ledger.participant.state.index.v2.UserManagementStore.{
+  Result,
+  TooManyUserRights,
+  UserExists,
+  UserNotFound,
+  Users,
+}
 import com.daml.lf.data.Ref
 import com.daml.lf.data.Ref.UserId
 import com.daml.metrics.Metrics
