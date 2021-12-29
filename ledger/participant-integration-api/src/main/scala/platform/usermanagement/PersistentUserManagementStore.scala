@@ -6,6 +6,11 @@ package com.daml.platform.usermanagement
 import java.sql.Connection
 import java.time.Instant
 
+import com.daml.ledger.api.auth.{
+  CachedUserManagementBasedAuthorizer,
+  UserManagementBasedAuthorizer,
+  UserManagementBasedAuthorizerImpl,
+}
 import com.daml.ledger.api.domain
 import com.daml.ledger.participant.state.index.impl.inmemory.InMemoryUserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
@@ -20,6 +25,7 @@ import com.daml.lf.data.Ref
 import com.daml.lf.data.Ref.UserId
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.metrics.Metrics
+import com.daml.platform.apiserver.services.ApiVersionService
 import com.daml.platform.store.appendonlydao.DbDispatcher
 import com.daml.platform.store.backend.UserManagementStorageBackend
 import com.daml.platform.store.backend.common.UserManagementStorageBackendTemplate
@@ -34,6 +40,33 @@ object PersistentUserManagementStore {
     */
   final case class TooManyUserRightsRuntimeException(userId: Ref.UserId) extends RuntimeException
 
+  def cached(dbDispatcher: DbDispatcher, metrics: Metrics)(implicit
+      executionContext: ExecutionContext
+  ): UserManagementStore = {
+    new CachedUserManagementStore(
+      delegate = new PersistentUserManagementStore(
+        dbDispatcher = dbDispatcher,
+        metrics = metrics,
+        maxNumberOfUserRightsPerUserLimit = ApiVersionService.MaxNumberOfUserRightsPerUser,
+      ),
+      expiryAfterWriteInSeconds = CachedUserManagementStore.ExpiryAfterWriteInSeconds,
+    )
+  }
+
+  def cachedAuthorizer(userManagementStore: UserManagementStore)(implicit
+      executionContext: ExecutionContext,
+      loggingContext: LoggingContext,
+  ): UserManagementBasedAuthorizer = {
+    new CachedUserManagementBasedAuthorizer(
+      delegate = new UserManagementBasedAuthorizerImpl(
+        userManagementStore = userManagementStore
+      )(
+        executionContext = executionContext,
+        loggingContext = loggingContext,
+      ),
+      expiryAfterWriteInSeconds = CachedUserManagementStore.ExpiryAfterWriteInSeconds,
+    )
+  }
 }
 
 class PersistentUserManagementStore(
@@ -41,7 +74,7 @@ class PersistentUserManagementStore(
     metrics: Metrics,
     // TODO pbatko
     createAdminUser: Boolean = true,
-    maxNumberOfUserRightsPerUser: Int,
+    maxNumberOfUserRightsPerUserLimit: Int,
 ) extends UserManagementStore {
 
   private val backend: UserManagementStorageBackend = UserManagementStorageBackendTemplate
@@ -68,7 +101,7 @@ class PersistentUserManagementStore(
       // T1 Attempts to add user1 and fails with a constrain violation exception.
       // Expected: Fail with UserNotFound exception or prevent the failure from occurring.
       withoutUser(user.id) {
-        if (rights.size > maxNumberOfUserRightsPerUser) {
+        if (rights.size > maxNumberOfUserRightsPerUserLimit) {
           throw TooManyUserRightsRuntimeException(user.id)
         } else {
           val nowMicros = epochMicroSeconds()
@@ -78,7 +111,7 @@ class PersistentUserManagementStore(
               connection
             )
           )
-          if (backend.countUserRights(internalId)(connection) > maxNumberOfUserRightsPerUser) {
+          if (backend.countUserRights(internalId)(connection) > maxNumberOfUserRightsPerUserLimit) {
             throw TooManyUserRightsRuntimeException(user.id)
           } else {
             ()
@@ -132,7 +165,7 @@ class PersistentUserManagementStore(
       // T1 Attempts to add user-right1 to user1 and fails on a unique constraint violation.
       // Expected: Requesting to grant a right that a user already posses should always succeed.
       withUser(id = id) { user =>
-        if (rights.size > maxNumberOfUserRightsPerUser) {
+        if (rights.size > maxNumberOfUserRightsPerUserLimit) {
           throw TooManyUserRightsRuntimeException(user.domainUser.id)
         } else {
           val addedRights = rights.filter { right =>
@@ -146,7 +179,9 @@ class PersistentUserManagementStore(
               false
             }
           }
-          if (backend.countUserRights(user.internalId)(connection) > maxNumberOfUserRightsPerUser) {
+          if (
+            backend.countUserRights(user.internalId)(connection) > maxNumberOfUserRightsPerUserLimit
+          ) {
             throw TooManyUserRightsRuntimeException(user.domainUser.id)
           } else {
             addedRights
