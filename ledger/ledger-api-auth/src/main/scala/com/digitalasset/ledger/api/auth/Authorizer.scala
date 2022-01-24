@@ -236,7 +236,7 @@ final class Authorizer(
   ) = new OngoingAuthorizationObserver[Res](
     observer = observer,
     originalClaims = claims,
-    nowF = now,
+    now = now,
     errorFactories = errorFactories,
     userManagementStore = userManagementStore,
     ec = ec,
