@@ -168,10 +168,19 @@ message ListUserRightsRequest {
     // If set to empty string (the default), then the rights for the authenticated user will be listed.
     string user_id = 1;
 
+    // Pagination token to determine the specific page to fetch.
+    string page_token = 2; // TODO:  url-safe base64 encoded protocol buffe
+
+    // Maximum number of results to be returned by the server.
+    int32 page_size = 3;
+
     // TODO (i12052): add pagination following https://cloud.google.com/apis/design/design_patterns#list_pagination
 }
 
 message ListUserRightsResponse {
     // All rights of the user.
     repeated Right rights = 1;
+
+    // Pagination token to retrieve the next page.
+    string next_page_token = 2;
 }
