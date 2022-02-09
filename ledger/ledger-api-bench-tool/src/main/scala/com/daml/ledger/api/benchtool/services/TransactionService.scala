@@ -4,6 +4,7 @@
 package com.daml.ledger.api.benchtool.services
 
 import com.daml.ledger.api.benchtool.config.WorkflowConfig
+import com.daml.ledger.api.benchtool.submission.CommandSubmitter
 import com.daml.ledger.api.benchtool.util.ObserverWithResult
 import com.daml.ledger.api.v1.ledger_offset.LedgerOffset
 import com.daml.ledger.api.v1.transaction_service.{
@@ -18,12 +19,13 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.Future
 
 final class TransactionService(
-    channel: Channel,
-    ledgerId: String,
+                                channel: Channel,
+                                ledgerId: String,
+                                authorizationToken: Option[String],
 ) {
   private val logger = LoggerFactory.getLogger(getClass)
   private val service: TransactionServiceGrpc.TransactionServiceStub =
-    TransactionServiceGrpc.stub(channel)
+    CommandSubmitter.authedService(authorizationToken)(TransactionServiceGrpc.stub(channel))
 
   def transactions[Result](
       config: WorkflowConfig.StreamConfig.TransactionsStreamConfig,

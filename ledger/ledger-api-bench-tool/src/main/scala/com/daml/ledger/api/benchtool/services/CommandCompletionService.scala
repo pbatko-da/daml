@@ -4,6 +4,7 @@
 package com.daml.ledger.api.benchtool.services
 
 import com.daml.ledger.api.benchtool.config.WorkflowConfig
+import com.daml.ledger.api.benchtool.submission.CommandSubmitter
 import com.daml.ledger.api.benchtool.util.ObserverWithResult
 import com.daml.ledger.api.v1.command_completion_service.{
   CommandCompletionServiceGrpc,
@@ -16,12 +17,14 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.Future
 
 class CommandCompletionService(
-    channel: Channel,
-    ledgerId: String,
+                                channel: Channel,
+                                ledgerId: String,
+                                userId: String,
+                                authorizationToken: Option[String]
 ) {
   private val logger = LoggerFactory.getLogger(getClass)
   private val service: CommandCompletionServiceGrpc.CommandCompletionServiceStub =
-    CommandCompletionServiceGrpc.stub(channel)
+    CommandSubmitter.authedService(authorizationToken)(CommandCompletionServiceGrpc.stub(channel))
 
   def completions[Result](
       config: WorkflowConfig.StreamConfig.CompletionsStreamConfig,

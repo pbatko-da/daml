@@ -198,3 +198,21 @@ server_conformance_test(
         "--exclude=ClosedWorldIT",
     ],
 )
+
+server_conformance_test(
+    name = "conformance-test-batko",
+    lf_versions = [
+        "default",
+        "preview",
+    ],
+    server_args = [
+        "--contract-id-seeding=testing-weak",
+    ],
+    servers = {"postgresql": SERVERS["postgresql"]},
+    test_tool_args = [
+        "--concurrent-test-runs=1",  # sandbox classic doesn't scale well with concurrent tests (almost no effect on overall run time)
+        "--timeout-scale-factor=2",  # sandbox classic is slow in general
+        "--open-world",
+        "--include=UserManagementServiceIT",
+    ],
+)

@@ -3,6 +3,7 @@
 
 package com.daml.ledger.api.benchtool.services
 
+import com.daml.ledger.api.benchtool.submission.CommandSubmitter
 import com.daml.ledger.api.v1.ledger_identity_service.{
   GetLedgerIdentityRequest,
   LedgerIdentityServiceGrpc,
@@ -14,11 +15,12 @@ import scala.annotation.nowarn
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-final class LedgerIdentityService(channel: Channel) {
+final class LedgerIdentityService(channel: Channel, token: Option[String]) {
   private val logger = LoggerFactory.getLogger(getClass)
-  private val service = LedgerIdentityServiceGrpc.stub(channel): @nowarn(
-    "cat=deprecation&origin=com\\.daml\\.ledger\\.api\\.v1\\.ledger_identity_service\\..*"
-  )
+  private val service =
+    CommandSubmitter.authedService(token)(LedgerIdentityServiceGrpc.stub(channel)): @nowarn(
+      "cat=deprecation&origin=com\\.daml\\.ledger\\.api\\.v1\\.ledger_identity_service\\..*"
+    )
 
   @nowarn("cat=deprecation&origin=com\\.daml\\.ledger\\.api\\.v1\\.ledger_identity_service\\..*")
   def fetchLedgerId()(implicit ec: ExecutionContext): Future[String] =

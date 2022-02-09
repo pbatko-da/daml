@@ -3,6 +3,7 @@
 
 package com.daml.ledger.api.benchtool.services
 
+import com.daml.ledger.api.benchtool.submission.CommandSubmitter
 import com.daml.ledger.api.v1.admin.party_management_service.{
   AllocatePartyRequest,
   PartyManagementServiceGrpc,
@@ -14,10 +15,10 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class PartyManagementService(channel: Channel) {
+class PartyManagementService(channel: Channel, authorizationToken: Option[String]) {
   private val logger: Logger = LoggerFactory.getLogger(getClass)
   private val service: PartyManagementServiceGrpc.PartyManagementServiceStub =
-    PartyManagementServiceGrpc.stub(channel)
+    CommandSubmitter.authedService(authorizationToken)(PartyManagementServiceGrpc.stub(channel))
 
   def allocateParty(hint: String)(implicit ec: ExecutionContext): Future[Party] =
     service

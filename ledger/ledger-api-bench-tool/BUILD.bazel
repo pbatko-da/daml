@@ -49,6 +49,9 @@ da_scala_library(
     deps = [
         "//language-support/scala/bindings",
         "//ledger-service/cli-opts",
+        "//ledger-service/jwt",
+        "//ledger/ledger-api-auth",
+        "//ledger/ledger-api-auth-client",
         "//ledger/ledger-api-common",
         "//ledger/ledger-resources",
         "//ledger/metrics",
