@@ -8,78 +8,30 @@ import java.time.{Clock, Instant}
 import com.daml.ledger.api.refinements.ApiTypes.TemplateId
 import com.daml.ledger.api.testtool.infrastructure.Eventually.eventually
 import com.daml.ledger.api.testtool.infrastructure.ProtobufConverters._
-import com.daml.ledger.api.testtool.infrastructure.time.{
-  DelayMechanism,
-  StaticTimeDelayMechanism,
-  TimeDelayMechanism,
-}
-import com.daml.ledger.api.testtool.infrastructure.{
-  Endpoint,
-  Identification,
-  LedgerServices,
-  PartyAllocationConfiguration,
-}
+import com.daml.ledger.api.testtool.infrastructure.time.{DelayMechanism, StaticTimeDelayMechanism, TimeDelayMechanism}
+import com.daml.ledger.api.testtool.infrastructure.{Endpoint, Identification, LedgerServices, PartyAllocationConfiguration}
 import com.daml.ledger.api.tls.TlsConfiguration
-import com.daml.ledger.api.v1.active_contracts_service.{
-  GetActiveContractsRequest,
-  GetActiveContractsResponse,
-}
-import com.daml.ledger.api.v1.admin.config_management_service.{
-  GetTimeModelRequest,
-  GetTimeModelResponse,
-  SetTimeModelRequest,
-  SetTimeModelResponse,
-  TimeModel,
-}
-import com.daml.ledger.api.v1.admin.package_management_service.{
-  ListKnownPackagesRequest,
-  PackageDetails,
-  UploadDarFileRequest,
-}
+import com.daml.ledger.api.v1.active_contracts_service.{GetActiveContractsRequest, GetActiveContractsResponse}
+import com.daml.ledger.api.v1.admin.config_management_service.{GetTimeModelRequest, GetTimeModelResponse, SetTimeModelRequest, SetTimeModelResponse, TimeModel}
+import com.daml.ledger.api.v1.admin.package_management_service.{ListKnownPackagesRequest, PackageDetails, UploadDarFileRequest}
 import com.daml.ledger.api.v1.admin.participant_pruning_service.{PruneRequest, PruneResponse}
-import com.daml.ledger.api.v1.admin.party_management_service.{
-  AllocatePartyRequest,
-  GetParticipantIdRequest,
-  GetPartiesRequest,
-  ListKnownPartiesRequest,
-  PartyDetails,
-}
+import com.daml.ledger.api.v1.admin.party_management_service.{AllocatePartyRequest, GetParticipantIdRequest, GetPartiesRequest, ListKnownPartiesRequest, PartyDetails}
+import com.daml.ledger.api.v1.admin.user_management_service.{CreateUserRequest, User}
 import com.daml.ledger.api.v1.admin.user_management_service.UserManagementServiceGrpc.UserManagementService
-import com.daml.ledger.api.v1.command_completion_service.{
-  Checkpoint,
-  CompletionEndRequest,
-  CompletionEndResponse,
-  CompletionStreamRequest,
-  CompletionStreamResponse,
-}
-import com.daml.ledger.api.v1.command_service.{
-  SubmitAndWaitForTransactionIdResponse,
-  SubmitAndWaitForTransactionResponse,
-  SubmitAndWaitForTransactionTreeResponse,
-  SubmitAndWaitRequest,
-}
+import com.daml.ledger.api.v1.command_completion_service.{Checkpoint, CompletionEndRequest, CompletionEndResponse, CompletionStreamRequest, CompletionStreamResponse}
+import com.daml.ledger.api.v1.command_service.{SubmitAndWaitForTransactionIdResponse, SubmitAndWaitForTransactionResponse, SubmitAndWaitForTransactionTreeResponse, SubmitAndWaitRequest}
 import com.daml.ledger.api.v1.command_submission_service.SubmitRequest
 import com.daml.ledger.api.v1.commands.{Command, Commands, ExerciseByKeyCommand}
 import com.daml.ledger.api.v1.completion.Completion
 import com.daml.ledger.api.v1.event.Event.Event.Created
 import com.daml.ledger.api.v1.event.{CreatedEvent, Event}
-import com.daml.ledger.api.v1.ledger_configuration_service.{
-  GetLedgerConfigurationRequest,
-  GetLedgerConfigurationResponse,
-  LedgerConfiguration,
-}
+import com.daml.ledger.api.v1.ledger_configuration_service.{GetLedgerConfigurationRequest, GetLedgerConfigurationResponse, LedgerConfiguration}
 import com.daml.ledger.api.v1.ledger_offset.LedgerOffset
 import com.daml.ledger.api.v1.package_service._
 import com.daml.ledger.api.v1.testing.time_service.{GetTimeRequest, GetTimeResponse, SetTimeRequest}
 import com.daml.ledger.api.v1.transaction.{Transaction, TransactionTree}
 import com.daml.ledger.api.v1.transaction_filter.{Filters, InclusiveFilters, TransactionFilter}
-import com.daml.ledger.api.v1.transaction_service.{
-  GetLedgerEndRequest,
-  GetTransactionByEventIdRequest,
-  GetTransactionByIdRequest,
-  GetTransactionsRequest,
-  GetTransactionsResponse,
-}
+import com.daml.ledger.api.v1.transaction_service.{GetLedgerEndRequest, GetTransactionByEventIdRequest, GetTransactionByIdRequest, GetTransactionsRequest, GetTransactionsResponse}
 import com.daml.ledger.api.v1.value.{Identifier, Value}
 import com.daml.ledger.client.binding.Primitive.Party
 import com.daml.ledger.client.binding.{Primitive, Template}
@@ -90,9 +42,11 @@ import com.daml.platform.testing.StreamConsumer
 import com.google.protobuf.ByteString
 import io.grpc.health.v1.health.{HealthCheckRequest, HealthCheckResponse}
 import io.grpc.stub.StreamObserver
+import org.graalvm.compiler.nodes.NamedLocationIdentity.mutable
 import scalaz.Tag
 import scalaz.syntax.tag._
 
+import scala.collection.mutable
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Failure
@@ -835,6 +789,19 @@ private[testtool] final class ParticipantTestContext private[participant] (
 
   def userManagement: UserManagementService =
     services.userManagement // TODO (i12059) perhaps remove and create granular accessors
+
+  val createdUsers = new mutable.ArrayBuffer[User]
+
+  def deleteCreateUsers(): Future[Unit] = {
+    ???
+  }
+
+  def createUser(createUserRequest: CreateUserRequest) = {
+    for {
+      response <- services.userManagement.createUser(createUserRequest)
+      _ = createdUsers.addOne(response.user)
+    } yield response
+  }
 
   private def reservePartyNames(n: Int): Future[Vector[Party]] =
     Future.successful(Vector.fill(n)(Party(nextPartyHintId())))

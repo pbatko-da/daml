@@ -8,31 +8,45 @@ import com.daml.ledger.api.testtool.infrastructure.participant.{Features, Partic
 import com.daml.lf.data.Ref
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 /** @param suite          To which collection of tests this case belongs to
-  * @param shortIdentifier A unique identifier used to generate party names, command identifiers, etc.
-  * @param description     A human-readable description of what this case tests
-  * @param timeoutScale    The factor applied to the default
-  * @param runConcurrently True if the test is safe be ran concurrently with other tests without affecting their results
-  * @param participants    What parties need to be allocated on what participants as a setup for the test case
-  * @param runTestCase     The body of the test to be executed
-  */
+ * @param shortIdentifier A unique identifier used to generate party names, command identifiers, etc.
+ * @param description     A human-readable description of what this case tests
+ * @param timeoutScale    The factor applied to the default
+ * @param runConcurrently True if the test is safe be ran concurrently with other tests without affecting their results
+ * @param participants    What parties need to be allocated on what participants as a setup for the test case
+ * @param runTestCase     The body of the test to be executed
+ */
 sealed class LedgerTestCase(
-    val suite: LedgerTestSuite,
-    val shortIdentifier: Ref.LedgerString,
-    val description: String,
-    val timeoutScale: Double,
-    val runConcurrently: Boolean,
-    val repeated: Int = 1,
-    enabled: Features => Boolean,
-    disabledReason: String,
-    participants: ParticipantAllocation,
-    runTestCase: ExecutionContext => Seq[ParticipantTestContext] => Participants => Future[Unit],
-) {
+                             val suite: LedgerTestSuite,
+                             val shortIdentifier: Ref.LedgerString,
+                             val description: String,
+                             val timeoutScale: Double,
+                             val runConcurrently: Boolean,
+                             val repeated: Int = 1,
+                             enabled: Features => Boolean,
+                             disabledReason: String,
+                             participants: ParticipantAllocation,
+                             runTestCase: ExecutionContext => Seq[ParticipantTestContext] => Participants => Future[Unit],
+                           ) {
   val name: String = s"${suite.name}:$shortIdentifier"
 
-  def apply(context: LedgerTestContext)(implicit ec: ExecutionContext): Future[Unit] =
-    context.allocate(participants).flatMap(p => runTestCase(ec)(context.configuredParticipants)(p))
+  def apply(context: LedgerTestContext)(implicit ec: ExecutionContext): Future[Unit] = {
+    for {
+      eventualParticipants: Participants <- context.allocate(participants)
+      result <- runTestCase(ec)(context.configuredParticipants)(eventualParticipants)
+        .transformWith { x =>
+          lazy val cleanUpF = Future.sequence(context.configuredParticipants.map(_.deleteCreateUsers())) //.map(_ => ())
+          x match {
+            case Success(v) => cleanUpF.map(_ => v)
+            case Failure(exception) => cleanUpF.transformWith(_ => Future.failed(exception))
+          }
+        }
+    } yield {
+      result
+    }
+  }
 
   def repetitions: Vector[LedgerTestCase.Repetition] =
     if (repeated == 1)
@@ -54,6 +68,7 @@ sealed class LedgerTestCase(
 }
 
 object LedgerTestCase {
+
   final class Repetition(val testCase: LedgerTestCase, val repetition: Option[(Int, Int)]) {
     def suite: LedgerTestSuite = testCase.suite
 
@@ -66,4 +81,5 @@ object LedgerTestCase {
     def apply(context: LedgerTestContext)(implicit ec: ExecutionContext): Future[Unit] =
       testCase(context)
   }
+
 }
