@@ -6,7 +6,7 @@ package com.daml.error.generator.app
 import java.nio.file.{Files, Paths, StandardOpenOption}
 
 import com.daml.error.ErrorCategory
-import com.daml.error.generator.ErrorCodeDocumentationGenerator
+import com.daml.error.generator.ErrorDefinitionsDocParser
 
 /** Generates error categories inventory as a reStructuredText
   */
@@ -24,7 +24,7 @@ object ErrorCategoryInventoryDocsGenApp {
 
   def collectErrorCodesAsReStructuredTextSubsections(): Seq[String] = {
     ErrorCategory.all.map { errorCategory: ErrorCategory =>
-      val annotations = ErrorCodeDocumentationGenerator.getErrorCategoryAnnotations(errorCategory)
+      val annotations = ErrorDefinitionsDocParser.getErrorCategoryItem(errorCategory)
 
       val categoryId: String = errorCategory.asInt.toString
       val grpcCode: String = errorCategory.grpcCode.fold("N/A")(_.toString)

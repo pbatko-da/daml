@@ -6,7 +6,7 @@ package com.daml.error.generator.app
 import java.nio.file.{Files, Paths, StandardOpenOption}
 
 import com.daml.error.{ErrorClass, Grouping}
-import com.daml.error.generator.{ErrorCodeDocumentationGenerator, ErrorDocItem, GroupDocItem}
+import com.daml.error.generator.{ErrorDefinitionsDocParser, ErrorCodeDocItem, ErrorGroupDocItem}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -17,24 +17,25 @@ object ErrorCodeInventoryDocsGenApp {
 
   def main(args: Array[String]): Unit = {
     val text = {
-      val (errorDocItems, groupDocItems): (Seq[ErrorDocItem], Seq[GroupDocItem]) =
-        new ErrorCodeDocumentationGenerator().getDocItems
+      val errorDocItems = ErrorDefinitionsDocParser.getErrorCodeItems()
+      val groupDocItems = ErrorDefinitionsDocParser.getErrorGroupItems()
 
       val groupSegmentsToExplanationMap: Map[List[Grouping], Option[String]] =
-        groupDocItems.map { groupDocItem: GroupDocItem =>
+        groupDocItems.map { groupDocItem: ErrorGroupDocItem =>
           groupDocItem.errorClass.groupings -> groupDocItem.explanation.map(_.explanation)
         }.toMap
 
-      val errorCodes: Seq[ErrorCodeValue] = errorDocItems.map { (errorDocItem: ErrorDocItem) =>
-        ErrorCodeValue(
-          category = errorDocItem.category,
-          errorGroupPath = errorDocItem.hierarchicalGrouping,
-          conveyance = errorDocItem.conveyance.getOrElse("").replace('\n', ' '),
-          code = errorDocItem.code,
-          deprecationO = errorDocItem.deprecation.map(_.deprecation.replace('\n', ' ')),
-          explanation = errorDocItem.explanation.fold("")(_.explanation).replace('\n', ' '),
-          resolution = errorDocItem.resolution.fold("")(_.resolution).replace('\n', ' '),
-        )
+      val errorCodes: Seq[ErrorCodeValue] = errorDocItems.map {
+        errorCodeDocItem: ErrorCodeDocItem =>
+          ErrorCodeValue(
+            category = errorCodeDocItem.category,
+            errorGroupPath = errorCodeDocItem.hierarchicalGrouping,
+            conveyance = newlineIntoSpace(errorCodeDocItem.conveyance.getOrElse("")),
+            code = errorCodeDocItem.code,
+            deprecationO = errorCodeDocItem.deprecation.map(v => newlineIntoSpace(v.message)),
+            explanation = newlineIntoSpace(errorCodeDocItem.explanation.fold("")(_.explanation)),
+            resolution = newlineIntoSpace(errorCodeDocItem.resolution.fold("")(_.resolution)),
+          )
       }
 
       val root = ErrorGroupTree.empty()
@@ -56,6 +57,10 @@ object ErrorCodeInventoryDocsGenApp {
       println(text)
     }
 
+  }
+
+  private def newlineIntoSpace(s: String): String = {
+    s.replace('\n', ' ')
   }
 
 }
