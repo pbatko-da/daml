@@ -23,7 +23,7 @@ object Main {
     )(i =>
       (
         i.docName,
-        i.fullClassName,
+        i.className,
       )
     )
 
@@ -39,7 +39,7 @@ object Main {
       "resolution",
     )(i =>
       (
-        i.className,
+        i.errorCodeClassName,
         i.category,
         i.hierarchicalGrouping.groupings,
         i.conveyance,

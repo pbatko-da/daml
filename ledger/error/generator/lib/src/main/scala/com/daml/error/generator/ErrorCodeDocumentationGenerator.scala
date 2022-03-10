@@ -53,16 +53,16 @@ class ErrorCodeDocumentationGenerator(prefixes: Array[String] = Array("com.daml"
       }
       .toSeq
 
-  private def convertToDocItem(error: ErrorCode): ErrorDocItem = {
+  private def convertToDocItem(errorCode: ErrorCode): ErrorDocItem = {
     val ErrorDocumentationAnnotations(deprecation, explanation, resolution) =
-      getErrorDocumentationAnnotations(error)
+      getErrorDocumentationAnnotations(errorCode)
 
     ErrorDocItem(
-      className = error.getClass.getName,
-      category = simpleClassName(error.category),
-      hierarchicalGrouping = error.parent,
-      conveyance = error.errorConveyanceDocString,
-      code = error.id,
+      errorCodeClassName = errorCode.getClass.getName,
+      category = simpleClassName(errorCode.category),
+      hierarchicalGrouping = errorCode.parent,
+      conveyance = errorCode.errorConveyanceDocString,
+      code = errorCode.id,
       deprecation = deprecation,
       explanation = explanation,
       resolution = resolution,

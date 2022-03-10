@@ -3,7 +3,6 @@
 
 package com.daml.error
 
-import com.daml.error.ErrorCode.formatContextAsString
 import com.daml.error.ContextualizedErrorLogger.loggingValueToString
 import com.daml.logging.entries.LoggingValue
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
@@ -20,6 +19,18 @@ trait ContextualizedErrorLogger {
   def warn(message: String, throwable: Throwable): Unit
   def error(message: String): Unit
   def error(message: String, throwable: Throwable): Unit
+
+  /** Formats the context as a string for logging */
+  protected[error] def formatContextAsString(contextMap: Map[String, String]): String = {
+    contextMap
+      .filter(_._2.nonEmpty)
+      .toSeq
+      .sortBy(_._1)
+      .map { case (k, v) =>
+        s"$k=$v"
+      }
+      .mkString(", ")
+  }
 }
 
 object DamlContextualizedErrorLogger {

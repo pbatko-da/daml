@@ -25,7 +25,7 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
 
     val expectedErrorDocItems = Seq(
       ErrorDocItem(
-        className = SeriousError.getClass.getTypeName,
+        errorCodeClassName = SeriousError.getClass.getTypeName,
         category = "SystemInternalAssumptionViolated",
         hierarchicalGrouping = ErrorClass(Nil),
         conveyance = Some(
@@ -38,7 +38,7 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
         resolution = Some(Resolution("Turn it off and on again.")),
       ),
       ErrorDocItem(
-        className = DeprecatedError.getClass.getTypeName,
+        errorCodeClassName = DeprecatedError.getClass.getTypeName,
         category = "SystemInternalAssumptionViolated",
         hierarchicalGrouping = ErrorClass(Nil),
         conveyance = Some(
@@ -51,7 +51,7 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
         resolution = Some(Resolution("Turn it off and on again.")),
       ),
       ErrorDocItem(
-        className = NotSoSeriousError.getClass.getTypeName,
+        errorCodeClassName = NotSoSeriousError.getClass.getTypeName,
         category = "TransientServerFailure",
         hierarchicalGrouping = ErrorClass(
           List(
@@ -77,7 +77,7 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
         errorClass = ErrorClass(
           Grouping(
             docName = "MildErrorsParent",
-            fullClassName = MildErrorsParent.getClass.getName,
+            className = MildErrorsParent.getClass.getName,
           ) :: Nil
         ),
       ),
@@ -87,11 +87,11 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
         errorClass = ErrorClass(
           Grouping(
             docName = "MildErrorsParent",
-            fullClassName = MildErrorsParent.getClass.getName,
+            className = MildErrorsParent.getClass.getName,
           ) ::
             Grouping(
               docName = "MildErrors",
-              fullClassName = MildErrorsParent.MildErrors.getClass.getName,
+              className = MildErrorsParent.MildErrors.getClass.getName,
             ) :: Nil
         ),
       ),

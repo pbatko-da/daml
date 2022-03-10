@@ -34,8 +34,6 @@ trait BaseError extends LocationMixin {
   def throwableO: Option[Throwable] = None
 
   /** The context (declared fields) of this error
-    *
-    * At the moment, we'll figure them out using reflection.
     */
   def context: Map[String, String] = Map()
 

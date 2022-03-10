@@ -6,11 +6,11 @@ package com.daml.error
 /** A component of [[ErrorClass]]
   *
   * @param docName The name that will appear in the generated documentation for the grouping.
-  * @param fullClassName Full class name of the corresponding [[ErrorGroup]].
+  * @param className Full class name of the corresponding [[ErrorGroup]].
   */
 case class Grouping(
     docName: String,
-    fullClassName: String,
+    className: String,
 ) {
   require(
     docName.trim.nonEmpty,

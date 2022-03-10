@@ -7,7 +7,7 @@ import com.daml.error.{DeprecatedDocs, ErrorClass, Explanation, Resolution}
 
 /** Contains error presentation data to be used for documentation rendering on the website.
   *
-  * @param className The error class name (see [[com.daml.error.ErrorCode]]).
+  * @param errorCodeClassName The error class name (see [[com.daml.error.ErrorCode]]).
   * @param category The error code category (see [[com.daml.error.ErrorCategory]]).
   * @param hierarchicalGrouping The hierarchical code grouping
   *                             (see [[com.daml.error.ErrorClass]] and [[com.daml.error.ErrorGroup]]).
@@ -17,7 +17,7 @@ import com.daml.error.{DeprecatedDocs, ErrorClass, Explanation, Resolution}
   * @param resolution The suggested error resolution.
   */
 case class ErrorDocItem(
-    className: String, // TODO error codes: Rename to `errorCodeName` or `errorCodeClassName` to prevent confusion
+    errorCodeClassName: String,
     category: String,
     hierarchicalGrouping: ErrorClass,
     conveyance: Option[String],
