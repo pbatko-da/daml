@@ -6,7 +6,7 @@ package com.daml.platform.server.api.services.grpc
 import akka.NotUsed
 import akka.stream.Materializer
 import akka.stream.scaladsl.Source
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.grpc.adapter.ExecutionSequencerFactory
 import com.daml.ledger.api.health.HealthChecks
 import com.daml.ledger.api.validation.ValidationErrors.invalidArgument

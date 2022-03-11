@@ -2,17 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 package com.daml.error.samples
-import scala.concurrent.duration._
+import com.daml.error.annotations
+import com.daml.error.annotations.ErrorCategoryRetry
 
-import com.daml.error.definitions.DamlError
+import scala.concurrent.duration._
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, DamlError}
 
 object DummmyServer {
 
   import com.daml.error.{
-    DamlContextualizedErrorLogger,
     ErrorCategory,
-    ErrorCategoryRetry,
-    ErrorClass,
+    ErrorGroupPath,
     ErrorCode,
     ErrorResource,
   }
@@ -20,7 +20,7 @@ object DummmyServer {
 
   object ErrorCodeFoo
       extends ErrorCode(id = "MY_ERROR_CODE_ID", ErrorCategory.ContentionOnSharedResources)(
-        ErrorClass.root()
+        ErrorGroupPath.root()
       ) {
 
     implicit val errorLogger: DamlContextualizedErrorLogger = new DamlContextualizedErrorLogger(
@@ -36,7 +36,7 @@ object DummmyServer {
       )
 
       override def retryable: Option[ErrorCategoryRetry] = Some(
-        ErrorCategoryRetry(123.second + 456.milliseconds)
+        annotations.ErrorCategoryRetry(123.second + 456.milliseconds)
       )
 
       override def context: Map[String, String] = Map("foo" -> "bar")

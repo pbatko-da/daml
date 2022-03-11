@@ -5,7 +5,7 @@ package com.daml.platform.server.api.services.grpc
 
 import java.time.{Duration, Instant}
 
-import com.daml.error.DamlContextualizedErrorLogger
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.ledger.api.SubmissionIdGenerator
 import com.daml.ledger.api.domain.LedgerId
 import com.daml.ledger.api.v1.command_service.CommandServiceGrpc.CommandService

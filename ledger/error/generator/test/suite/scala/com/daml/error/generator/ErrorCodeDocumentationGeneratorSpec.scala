@@ -9,6 +9,7 @@ import com.daml.error.utils.testpackage.subpackage.MildErrorsParent.MildErrors
 import com.daml.error.utils.testpackage.subpackage.MildErrorsParent.MildErrors.NotSoSeriousError
 import com.daml.error.utils.testpackage.{DeprecatedError, SeriousError}
 import com.daml.error._
+import com.daml.error.annotations.{DeprecatedDocs, Explanation, Resolution}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -27,7 +28,7 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
       ErrorDocItem(
         errorCodeClassName = SeriousError.getClass.getTypeName,
         category = "SystemInternalAssumptionViolated",
-        hierarchicalGrouping = ErrorClass(Nil),
+        hierarchicalGrouping = ErrorGroupPath(Nil),
         conveyance = Some(
           "This error is logged with log-level ERROR on the server side.\n" +
             "This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons"
@@ -40,7 +41,7 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
       ErrorDocItem(
         errorCodeClassName = DeprecatedError.getClass.getTypeName,
         category = "SystemInternalAssumptionViolated",
-        hierarchicalGrouping = ErrorClass(Nil),
+        hierarchicalGrouping = ErrorGroupPath(Nil),
         conveyance = Some(
           "This error is logged with log-level ERROR on the server side.\n" +
             "This error is exposed on the API with grpc-status INTERNAL without any details due to security reasons"
@@ -53,10 +54,10 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
       ErrorDocItem(
         errorCodeClassName = NotSoSeriousError.getClass.getTypeName,
         category = "TransientServerFailure",
-        hierarchicalGrouping = ErrorClass(
+        hierarchicalGrouping = ErrorGroupPath(
           List(
-            Grouping("MildErrorsParent", MildErrorsParent.getClass.getName),
-            Grouping("MildErrors", MildErrors.getClass.getName),
+            ErrorGroupPathSegment("MildErrorsParent", MildErrorsParent.getClass.getName),
+            ErrorGroupPathSegment("MildErrors", MildErrors.getClass.getName),
           )
         ),
         conveyance = Some(
@@ -74,8 +75,8 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
       GroupDocItem(
         className = MildErrorsParent.getClass.getName,
         explanation = Some(Explanation("Mild error parent explanation")),
-        errorClass = ErrorClass(
-          Grouping(
+        errorClass = ErrorGroupPath(
+          ErrorGroupPathSegment(
             docName = "MildErrorsParent",
             className = MildErrorsParent.getClass.getName,
           ) :: Nil
@@ -84,12 +85,12 @@ class ErrorCodeDocumentationGeneratorSpec extends AnyFlatSpec with Matchers {
       GroupDocItem(
         className = MildErrorsParent.MildErrors.getClass.getName,
         explanation = Some(Explanation("Groups mild errors together")),
-        errorClass = ErrorClass(
-          Grouping(
+        errorClass = ErrorGroupPath(
+          ErrorGroupPathSegment(
             docName = "MildErrorsParent",
             className = MildErrorsParent.getClass.getName,
           ) ::
-            Grouping(
+            ErrorGroupPathSegment(
               docName = "MildErrors",
               className = MildErrorsParent.MildErrors.getClass.getName,
             ) :: Nil

@@ -4,16 +4,13 @@
 package com.daml.ledger.sandbox.bridge.validate
 
 import com.codahale.metrics.MetricRegistry
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.ledger.api.DeduplicationPeriod
 import com.daml.ledger.configuration.{Configuration, LedgerTimeModel}
 import com.daml.ledger.participant.state.v2.{SubmitterInfo, TransactionMeta}
 import com.daml.ledger.sandbox.bridge.BridgeMetrics
 import com.daml.ledger.sandbox.bridge.validate.PrepareSubmissionSpec._
-import com.daml.ledger.sandbox.domain.Rejection.{
-  TransactionInternallyDuplicateKeys,
-  TransactionInternallyInconsistentKey,
-}
+import com.daml.ledger.sandbox.domain.Rejection.{TransactionInternallyDuplicateKeys, TransactionInternallyInconsistentKey}
 import com.daml.ledger.sandbox.domain.Submission
 import com.daml.lf.crypto.Hash
 import com.daml.lf.data.{Ref, Time}
@@ -26,8 +23,9 @@ import com.daml.metrics.Metrics
 import org.mockito.MockitoSugar.mock
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
-
 import java.time.Duration
+
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 
 class PrepareSubmissionSpec extends AsyncFlatSpec with Matchers {
   private implicit val loggingContext: LoggingContext = LoggingContext.ForTesting

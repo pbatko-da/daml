@@ -7,7 +7,7 @@ import java.util.UUID
 import java.util.concurrent.{CompletableFuture, CompletionStage}
 
 import com.daml.daml_lf_dev.DamlLf
-import com.daml.error.DamlContextualizedErrorLogger
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.ledger.api.health.HealthStatus
 import com.daml.ledger.configuration.Configuration
 import com.daml.ledger.offset.Offset

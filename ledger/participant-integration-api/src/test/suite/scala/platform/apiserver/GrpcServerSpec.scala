@@ -6,8 +6,7 @@ package com.daml.platform.apiserver
 import java.util.concurrent.Executors
 
 import com.codahale.metrics.MetricRegistry
-import com.daml.error.DamlContextualizedErrorLogger
-import com.daml.error.definitions.LedgerApiErrors
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
 import com.daml.grpc.sampleservice.implementations.HelloServiceReferenceImplementation
 import com.daml.ledger.client.GrpcChannel
 import com.daml.ledger.client.configuration.LedgerClientChannelConfiguration

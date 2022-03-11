@@ -3,10 +3,10 @@
 
 package com.daml.error
 
-abstract class ErrorGroup()(implicit parent: ErrorClass) {
+abstract class ErrorGroup()(implicit parent: ErrorGroupPath) {
   private val simpleClassName: String = getClass.getSimpleName.replace("$", "")
   val fullClassName: String = getClass.getName
 
-  implicit val errorClass: ErrorClass =
-    parent.extend(Grouping(docName = simpleClassName, className = fullClassName))
+  implicit val errorGroupPath: ErrorGroupPath =
+    parent.extend(ErrorGroupPathSegment(docName = simpleClassName, className = fullClassName))
 }

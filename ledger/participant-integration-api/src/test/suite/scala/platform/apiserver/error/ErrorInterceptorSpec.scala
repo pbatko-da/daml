@@ -9,17 +9,9 @@ import java.util.concurrent.TimeUnit
 import akka.NotUsed
 import akka.stream.Materializer
 import akka.stream.scaladsl.{Flow, Source}
-import com.daml.error.definitions.DamlError
-import com.daml.error.definitions.LedgerApiErrors
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, DamlError, LedgerApiErrors}
 import com.daml.error.utils.ErrorDetails
-import com.daml.error.{
-  ContextualizedErrorLogger,
-  DamlContextualizedErrorLogger,
-  ErrorCategory,
-  ErrorClass,
-  ErrorCode,
-  ErrorsAssertions,
-}
+import com.daml.error.{ContextualizedErrorLogger, ErrorCategory, ErrorCode, ErrorGroupPath, ErrorsAssertions}
 import com.daml.grpc.adapter.ExecutionSequencerFactory
 import com.daml.grpc.sampleservice.HelloServiceResponding
 import com.daml.ledger.api.testing.utils.AkkaBeforeAndAfterAll
@@ -256,7 +248,7 @@ object ErrorInterceptorSpec {
       extends ErrorCode(
         id = "FOO_MISSING_ERROR_CODE",
         ErrorCategory.InvalidGivenCurrentSystemStateResourceMissing,
-      )(ErrorClass.root()) {
+      )(ErrorGroupPath.root()) {
 
     case class Error(_msg: String)(implicit
         val loggingContext: ContextualizedErrorLogger

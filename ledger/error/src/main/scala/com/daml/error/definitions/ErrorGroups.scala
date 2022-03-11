@@ -3,18 +3,19 @@
 
 package com.daml.error.definitions
 
-import com.daml.error.{ErrorClass, ErrorGroup}
+import com.daml.error.{ErrorGroupPath, ErrorGroup}
 
 object ErrorGroups {
-  val rootErrorClass: ErrorClass = ErrorClass.root()
+  val rootErrorGroupPath: ErrorGroupPath = ErrorGroupPath.root()
 
-  object ParticipantErrorGroup extends ErrorGroup()(rootErrorClass) {
+  object ParticipantErrorGroup extends ErrorGroup()(rootErrorGroupPath) {
     abstract class IndexErrorGroup extends ErrorGroup() {
       abstract class DatabaseErrorGroup extends ErrorGroup()
     }
     abstract class LedgerApiErrorGroup extends ErrorGroup() {
       abstract class CommandExecutionErrorGroup extends ErrorGroup()
       abstract class PackageServiceErrorGroup extends ErrorGroup()
+      // TODO error codes: Move UM errors in the concrete subclassed object of the this group.
       abstract class UserManagementServiceErrorGroup extends ErrorGroup()
     }
   }

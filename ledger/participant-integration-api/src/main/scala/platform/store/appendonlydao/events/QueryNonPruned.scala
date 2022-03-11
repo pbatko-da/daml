@@ -3,10 +3,9 @@
 
 package com.daml.platform.store.appendonlydao.events
 
-import com.daml.error.DamlContextualizedErrorLogger
 import java.sql.Connection
 
-import com.daml.error.definitions.LedgerApiErrors
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
 import com.daml.ledger.offset.Offset
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.platform.store.backend.ParameterStorageBackend

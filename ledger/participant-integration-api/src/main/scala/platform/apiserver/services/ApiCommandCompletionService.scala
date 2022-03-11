@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong
 import akka.NotUsed
 import akka.stream.Materializer
 import akka.stream.scaladsl.Source
-import com.daml.error.DamlContextualizedErrorLogger
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.grpc.adapter.ExecutionSequencerFactory
 import com.daml.ledger.api.domain.{LedgerId, LedgerOffset}
 import com.daml.ledger.api.messages.command.completion.CompletionStreamRequest

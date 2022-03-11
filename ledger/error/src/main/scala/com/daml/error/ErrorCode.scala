@@ -12,7 +12,6 @@ import io.grpc.StatusRuntimeException
 import io.grpc.protobuf.StatusProto
 import org.slf4j.event.Level
 
-import scala.annotation.StaticAnnotation
 import scala.util.control.NoStackTrace
 import scala.util.matching.Regex
 import scala.jdk.CollectionConverters._
@@ -43,7 +42,7 @@ import scala.jdk.CollectionConverters._
   * }
   */
 abstract class ErrorCode(val id: String, val category: ErrorCategory)(implicit
-    val parent: ErrorClass
+    val parent: ErrorGroupPath
 ) {
 
   require(id.nonEmpty, "error-id must be non empty")
@@ -250,9 +249,8 @@ object ErrorCode {
 
 }
 
-// Use these annotations to add more information to the documentation for an error on the website
-case class Explanation(explanation: String) extends StaticAnnotation
-case class Resolution(resolution: String) extends StaticAnnotation
-case class Description(description: String) extends StaticAnnotation
-case class RetryStrategy(retryStrategy: String) extends StaticAnnotation
-case class DeprecatedDocs(deprecation: String) extends StaticAnnotation
+
+
+
+
+

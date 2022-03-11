@@ -4,31 +4,23 @@
 package com.daml.platform.store.appendonlydao.events
 
 import java.sql.Connection
+
 import akka.stream.OverflowStrategy
 import akka.stream.scaladsl.Source
 import akka.{Done, NotUsed}
-import com.daml.error.DamlContextualizedErrorLogger
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.ledger.api.TraceIdentifiers
 import com.daml.ledger.api.v1.active_contracts_service.GetActiveContractsResponse
 import com.daml.ledger.api.v1.event.Event
 import com.daml.ledger.api.v1.transaction.TreeEvent
-import com.daml.ledger.api.v1.transaction_service.{
-  GetFlatTransactionResponse,
-  GetTransactionResponse,
-  GetTransactionTreesResponse,
-  GetTransactionsResponse,
-}
+import com.daml.ledger.api.v1.transaction_service.{GetFlatTransactionResponse, GetTransactionResponse, GetTransactionTreesResponse, GetTransactionsResponse}
 import com.daml.ledger.offset.Offset
 import com.daml.lf.data.Ref
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.metrics._
 import com.daml.nameof.NameOf.qualifiedNameOfCurrentFunc
 import com.daml.platform.ApiOffset
-import com.daml.platform.store.appendonlydao.{
-  DbDispatcher,
-  LedgerDaoTransactionsReader,
-  PaginatingAsyncStream,
-}
+import com.daml.platform.store.appendonlydao.{DbDispatcher, LedgerDaoTransactionsReader, PaginatingAsyncStream}
 import com.daml.platform.store.backend.EventStorageBackend.{FilterParams, RangeParams}
 import com.daml.platform.store.backend.{ContractStorageBackend, EventStorageBackend}
 import com.daml.platform.store.interfaces.TransactionLogUpdate

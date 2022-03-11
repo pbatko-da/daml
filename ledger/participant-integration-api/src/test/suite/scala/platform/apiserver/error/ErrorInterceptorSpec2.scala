@@ -3,8 +3,8 @@
 
 package com.daml.platform.apiserver.error
 
-import com.daml.error.definitions.LedgerApiErrors
-import com.daml.error.{DamlContextualizedErrorLogger, ErrorsAssertions}
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
+import com.daml.error.ErrorsAssertions
 import com.daml.ledger.api.testing.utils.AkkaBeforeAndAfterAll
 import com.daml.ledger.resources.TestResourceContext
 import com.daml.platform.testing.LogCollectorAssertions

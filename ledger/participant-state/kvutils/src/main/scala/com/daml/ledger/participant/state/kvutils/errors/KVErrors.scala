@@ -4,21 +4,15 @@
 package com.daml.ledger.participant.state.kvutils.errors
 
 import com.daml.error.definitions.ErrorGroups
-
 import java.time.Instant
-import com.daml.error.{
-  ContextualizedErrorLogger,
-  ErrorCategory,
-  ErrorCode,
-  ErrorGroup,
-  Explanation,
-  Resolution,
-}
+
+import com.daml.error.annotations.{Explanation, Resolution}
+import com.daml.error.{ContextualizedErrorLogger, ErrorCategory, ErrorCode, ErrorGroup}
 
 @Explanation(
   "Errors that are specific to ledgers based on the KV architecture: Daml Sandbox and VMBC."
 )
-object KVErrors extends ErrorGroup()(ErrorGroups.rootErrorClass) {
+object KVErrors extends ErrorGroup()(ErrorGroups.rootErrorGroupPath) {
 
   @Explanation("Errors that highlight transaction consistency issues in the committer context.")
   object Consistency extends ErrorGroup() {

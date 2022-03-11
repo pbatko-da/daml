@@ -3,7 +3,8 @@
 
 package com.daml.ledger.client.services.commands.tracker
 
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.grpc.GrpcStatus
 import com.daml.ledger.api.v1.completion.Completion
 import com.daml.ledger.client.services.commands.tracker.CompletionResponse._

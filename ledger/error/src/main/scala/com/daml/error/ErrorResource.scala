@@ -15,7 +15,7 @@ trait ErrorResource {
 
 object ErrorResource {
 
-  val all = Seq(ContractId, ContractKey, DalfPackage, LedgerId, CommandId, TransactionId, Party)
+  val all = Seq(ContractId, ContractKey, DalfPackage, LedgerId, CommandId, TransactionId, Party, User)
 
   def fromString(str: String): Option[ErrorResource] = all.find(_.asString == str)
 

@@ -4,6 +4,8 @@
 package com.daml.error
 
 import ch.qos.logback.classic.Level
+import com.daml.error.annotations.ErrorCategoryRetry
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.error.utils.ErrorDetails
 import com.daml.error.utils.testpackage.SeriousError
 import com.daml.logging.LoggingContext
@@ -37,11 +39,11 @@ class ErrorCodeSpec
       extends ErrorCode(
         "FOO_ERROR_CODE_SECURITY_SENSITIVE",
         ErrorCategory.SystemInternalAssumptionViolated,
-      )(ErrorClass.root())
+      )(ErrorGroupPath.root())
 
   object FooErrorCode
       extends ErrorCode("FOO_ERROR_CODE", ErrorCategory.InvalidIndependentOfSystemState)(
-        ErrorClass.root()
+        ErrorGroupPath.root()
       )
 
   classOf[ErrorCode].getSimpleName - {
@@ -115,7 +117,7 @@ class ErrorCodeSpec
         override val cause: String = "cause123"
 
         override def retryable: Option[ErrorCategoryRetry] = Some(
-          ErrorCategoryRetry(duration = 123.seconds + 456.milliseconds)
+          annotations.ErrorCategoryRetry(duration = 123.seconds + 456.milliseconds)
         )
 
         override def resources: Seq[(ErrorResource, String)] =
@@ -280,7 +282,7 @@ class ErrorCodeSpec
           )
 
         override def retryable: Option[ErrorCategoryRetry] = Some(
-          ErrorCategoryRetry(duration = 123.seconds + 456.milliseconds)
+          annotations.ErrorCategoryRetry(duration = 123.seconds + 456.milliseconds)
         )
 
         override def resources: Seq[(ErrorResource, String)] =

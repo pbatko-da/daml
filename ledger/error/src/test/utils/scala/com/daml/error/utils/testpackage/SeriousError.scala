@@ -3,14 +3,14 @@
 
 package com.daml.error.utils.testpackage
 
-import com.daml.error.{Explanation, Resolution}
-import com.daml.error.{BaseError, ErrorCategory, ErrorClass, ErrorCode}
+import com.daml.error.annotations.{Explanation, Resolution}
+import com.daml.error.{BaseError, ErrorCategory, ErrorCode, ErrorGroupPath}
 
 @Explanation("Things happen.")
 @Resolution("Turn it off and on again.")
 case object SeriousError
     extends ErrorCode("BLUE_SCREEN", ErrorCategory.SystemInternalAssumptionViolated)(
-      ErrorClass.root()
+      ErrorGroupPath.root()
     ) {
   case class Error(
       cause: String,

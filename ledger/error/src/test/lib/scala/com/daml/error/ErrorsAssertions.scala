@@ -3,6 +3,7 @@
 
 package com.daml.error
 
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.error.utils.ErrorDetails
 import com.daml.error.utils.ErrorDetails.ErrorInfoDetail
 import com.daml.logging.{ContextualizedLogger, LoggingContext}

@@ -3,12 +3,12 @@
 
 package com.daml.error
 
-/** A component of [[ErrorClass]]
+/** A component of [[ErrorGroupPath]]
   *
   * @param docName The name that will appear in the generated documentation for the grouping.
   * @param className Full class name of the corresponding [[ErrorGroup]].
   */
-case class Grouping(
+case class ErrorGroupPathSegment(
     docName: String,
     className: String,
 ) {
@@ -20,11 +20,11 @@ case class Grouping(
 
 /** Used to hierarchically structure error codes in the official documentation.
   */
-case class ErrorClass(groupings: List[Grouping]) {
-  def extend(grouping: Grouping): ErrorClass =
-    ErrorClass(groupings :+ grouping)
+case class ErrorGroupPath(groupings: List[ErrorGroupPathSegment]) {
+  def extend(grouping: ErrorGroupPathSegment): ErrorGroupPath =
+    ErrorGroupPath(groupings :+ grouping)
 }
 
-object ErrorClass {
-  def root(): ErrorClass = ErrorClass(Nil)
+object ErrorGroupPath {
+  def root(): ErrorGroupPath = ErrorGroupPath(Nil)
 }

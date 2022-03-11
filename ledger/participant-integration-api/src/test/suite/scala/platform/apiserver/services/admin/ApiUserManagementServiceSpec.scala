@@ -6,8 +6,8 @@ package com.daml.platform.apiserver.services.admin
 import java.nio.charset.StandardCharsets
 import java.util.Base64
 
-import com.daml.error.definitions.LedgerApiErrors
-import com.daml.error.{DamlContextualizedErrorLogger, ErrorsAssertions}
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
+import com.daml.error.ErrorsAssertions
 import com.daml.platform.apiserver.page_tokens.ListUsersPageTokenPayload
 import com.daml.lf.data.Ref
 import org.scalatest.EitherValues

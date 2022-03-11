@@ -4,9 +4,10 @@
 package com.daml.error.utils.testpackage.subpackage
 
 import com.daml.error._
+import com.daml.error.annotations.{Explanation, Resolution}
 
 @Explanation("Mild error parent explanation")
-object MildErrorsParent extends ErrorGroup()(ErrorClass.root()) {
+object MildErrorsParent extends ErrorGroup()(ErrorGroupPath.root()) {
 
   @Explanation("Groups mild errors together")
   object MildErrors extends ErrorGroup() {

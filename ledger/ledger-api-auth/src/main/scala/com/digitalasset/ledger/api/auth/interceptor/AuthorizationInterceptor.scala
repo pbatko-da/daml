@@ -3,8 +3,7 @@
 
 package com.daml.ledger.api.auth.interceptor
 
-import com.daml.error.definitions.LedgerApiErrors
-import com.daml.error.DamlContextualizedErrorLogger
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
 import com.daml.ledger.api.auth._
 import com.daml.ledger.api.domain.UserRight
 import com.daml.ledger.api.validation.ValidationErrors

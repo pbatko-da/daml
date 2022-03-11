@@ -6,6 +6,7 @@ package com.daml.error.generator
 import java.lang.reflect.Modifier
 
 import com.daml.error._
+import com.daml.error.annotations.{DeprecatedDocs, Description, Explanation, Resolution, RetryStrategy}
 import org.reflections.Reflections
 
 import scala.jdk.CollectionConverters._
@@ -31,7 +32,7 @@ class ErrorCodeDocumentationGenerator(prefixes: Array[String] = Array("com.daml"
     }
 
     val groups = getInstances[ErrorGroup]
-    groups.view.map(_.errorClass).groupBy(identity).collect {
+    groups.view.map(_.errorGroupPath).groupBy(identity).collect {
       case (group, occurrences) if occurrences.size > 1 =>
         sys.error(
           s"There are ${occurrences.size} groups named $group but we require each group class name to be unique! " +
@@ -74,7 +75,7 @@ class ErrorCodeDocumentationGenerator(prefixes: Array[String] = Array("com.daml"
       getGroupDocumentationAnnotations(group)
 
     GroupDocItem(
-      errorClass = group.errorClass,
+      errorClass = group.errorGroupPath,
       className = group.fullClassName,
       explanation = explanation,
     )

@@ -3,7 +3,7 @@
 
 package com.daml.error.definitions
 
-import com.daml.error._
+import com.daml.error.{annotations, _}
 import com.daml.error.definitions.ErrorGroups.ParticipantErrorGroup.LedgerApiErrorGroup
 import com.daml.ledger.participant.state.v2.ChangeId
 import com.daml.lf.data.Ref
@@ -17,6 +17,8 @@ import com.daml.lf.value.Value
 import com.daml.lf.{VersionRange, language}
 import org.slf4j.event.Level
 import java.time.{Duration, Instant}
+
+import com.daml.error.annotations.{DeprecatedDocs, ErrorCategoryRetry, Explanation, Resolution}
 
 import scala.concurrent.duration._
 
@@ -345,7 +347,7 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
           loggingContext: ContextualizedErrorLogger
       ) extends DamlErrorWithDefiniteAnswer("Stale stream authorization. Retry quickly.") {
         override def retryable: Option[ErrorCategoryRetry] = Some(
-          ErrorCategoryRetry(duration = 0.seconds)
+          annotations.ErrorCategoryRetry(duration = 0.seconds)
         )
       }
 

@@ -5,7 +5,7 @@ package com.daml.platform.store.appendonlydao.events
 
 import com.codahale.metrics.Timer
 import com.daml.error.definitions.IndexErrors
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.metrics.{Metrics, Timed}
 import com.daml.platform.store.appendonlydao.DbDispatcher

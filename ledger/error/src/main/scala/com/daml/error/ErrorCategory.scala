@@ -3,6 +3,7 @@
 
 package com.daml.error
 
+import com.daml.error.annotations.{Description, ErrorCategoryRetry, Resolution, RetryStrategy}
 import io.grpc.Status.Code
 import org.slf4j.event.Level
 
@@ -77,7 +78,7 @@ object ErrorCategory {
       extends ErrorCategoryImpl(
         grpcCode = Some(Code.UNAVAILABLE),
         logLevel = Level.INFO,
-        retryable = Some(ErrorCategoryRetry(1.second)),
+        retryable = Some(annotations.ErrorCategoryRetry(1.second)),
         securitySensitive = false,
         asInt = 1,
         rank = 3,
@@ -99,7 +100,7 @@ object ErrorCategory {
       extends ErrorCategoryImpl(
         grpcCode = Some(Code.ABORTED),
         logLevel = Level.INFO,
-        retryable = Some(ErrorCategoryRetry(1.second)),
+        retryable = Some(annotations.ErrorCategoryRetry(1.second)),
         securitySensitive = false,
         asInt = 2,
         rank = 3,
@@ -125,7 +126,7 @@ object ErrorCategory {
       extends ErrorCategoryImpl(
         grpcCode = Some(Code.DEADLINE_EXCEEDED),
         logLevel = Level.INFO,
-        retryable = Some(ErrorCategoryRetry(1.second)),
+        retryable = Some(annotations.ErrorCategoryRetry(1.second)),
         securitySensitive = false,
         asInt = 3,
         rank = 3,
@@ -355,9 +356,4 @@ object ErrorCategory {
   implicit val orderingErrorType: Ordering[ErrorCategory] = Ordering.by[ErrorCategory, Int](_.rank)
 }
 
-/** Default retryability information
-  *
-  * Every error category has a default retryability classification.
-  * An error code may adjust the retry duration.
-  */
-case class ErrorCategoryRetry(duration: Duration)
+

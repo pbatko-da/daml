@@ -3,6 +3,7 @@
 
 package com.daml.error
 
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

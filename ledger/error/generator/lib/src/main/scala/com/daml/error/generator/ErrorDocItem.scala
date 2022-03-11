@@ -3,26 +3,27 @@
 
 package com.daml.error.generator
 
-import com.daml.error.{DeprecatedDocs, ErrorClass, Explanation, Resolution}
+import com.daml.error.annotations.{DeprecatedDocs, Explanation, Resolution}
+import com.daml.error.ErrorGroupPath
 
 /** Contains error presentation data to be used for documentation rendering on the website.
   *
   * @param errorCodeClassName The error class name (see [[com.daml.error.ErrorCode]]).
   * @param category The error code category (see [[com.daml.error.ErrorCategory]]).
   * @param hierarchicalGrouping The hierarchical code grouping
-  *                             (see [[com.daml.error.ErrorClass]] and [[com.daml.error.ErrorGroup]]).
+  *                             (see [[com.daml.error.ErrorGroupPath]] and [[com.daml.error.ErrorGroup]]).
   * @param conveyance Provides a statement about the form this error will be returned to the user.
   * @param code The error identifier.
   * @param explanation The detailed error explanation.
   * @param resolution The suggested error resolution.
   */
 case class ErrorDocItem(
-    errorCodeClassName: String,
-    category: String,
-    hierarchicalGrouping: ErrorClass,
-    conveyance: Option[String],
-    code: String,
-    deprecation: Option[DeprecatedDocs],
-    explanation: Option[Explanation],
-    resolution: Option[Resolution],
+                         errorCodeClassName: String,
+                         category: String,
+                         hierarchicalGrouping: ErrorGroupPath,
+                         conveyance: Option[String],
+                         code: String,
+                         deprecation: Option[DeprecatedDocs],
+                         explanation: Option[Explanation],
+                         resolution: Option[Resolution],
 )

@@ -3,7 +3,7 @@
 
 package com.daml.error.generator
 
-import com.daml.error.{ErrorClass, Grouping}
+import com.daml.error.{ErrorGroupPath, ErrorGroupPathSegment}
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -14,7 +14,7 @@ object ErrorCodeInventoryDocsGenerator {
     val (errorDocItems, groupDocItems): (Seq[ErrorDocItem], Seq[GroupDocItem]) =
       new ErrorCodeDocumentationGenerator().getDocItems
 
-    val groupSegmentsToExplanationMap: Map[List[Grouping], Option[String]] =
+    val groupSegmentsToExplanationMap: Map[List[ErrorGroupPathSegment], Option[String]] =
       groupDocItems.map { groupDocItem: GroupDocItem =>
         groupDocItem.errorClass.groupings -> groupDocItem.explanation.map(_.explanation)
       }.toMap
@@ -44,21 +44,21 @@ object ErrorCodeInventoryDocsGenerator {
 }
 
 case class ErrorCodeValue(
-    code: String,
-    errorGroupPath: ErrorClass,
-    category: String,
-    explanation: String,
-    resolution: String,
-    conveyance: String,
-    deprecationO: Option[String],
+                           code: String,
+                           errorGroupPath: ErrorGroupPath,
+                           category: String,
+                           explanation: String,
+                           resolution: String,
+                           conveyance: String,
+                           deprecationO: Option[String],
 )
 
 class ErrorGroupTree(
-    val name: String,
-    val explanation: Option[String] = None,
-    children: mutable.Map[Grouping, ErrorGroupTree] =
-      new mutable.HashMap[Grouping, ErrorGroupTree](),
-    errorCodes: mutable.Map[String, ErrorCodeValue] = new mutable.HashMap[String, ErrorCodeValue](),
+                      val name: String,
+                      val explanation: Option[String] = None,
+                      children: mutable.Map[ErrorGroupPathSegment, ErrorGroupTree] =
+      new mutable.HashMap[ErrorGroupPathSegment, ErrorGroupTree](),
+                      errorCodes: mutable.Map[String, ErrorCodeValue] = new mutable.HashMap[String, ErrorCodeValue](),
 ) {
 
   def sortedSubGroups(): List[ErrorGroupTree] = {
@@ -70,8 +70,8 @@ class ErrorGroupTree(
   }
 
   def insertErrorCode(
-      errorCode: ErrorCodeValue,
-      getExplanation: (List[Grouping]) => Option[String],
+                       errorCode: ErrorCodeValue,
+                       getExplanation: (List[ErrorGroupPathSegment]) => Option[String],
   ): Unit = {
     insert(
       remaining = errorCode.errorGroupPath.groupings,
@@ -82,10 +82,10 @@ class ErrorGroupTree(
   }
 
   private def insert(
-      remaining: List[Grouping],
-      errorCode: ErrorCodeValue,
-      path: List[Grouping],
-      getExplanation: (List[Grouping]) => Option[String],
+                      remaining: List[ErrorGroupPathSegment],
+                      errorCode: ErrorCodeValue,
+                      path: List[ErrorGroupPathSegment],
+                      getExplanation: (List[ErrorGroupPathSegment]) => Option[String],
   ): Unit = {
 
     remaining match {

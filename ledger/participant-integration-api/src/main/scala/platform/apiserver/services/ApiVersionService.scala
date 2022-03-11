@@ -4,7 +4,7 @@
 package com.daml.platform.apiserver.services
 
 import com.daml.error.definitions.LedgerApiErrors
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.ledger.api.v1.experimental_features.{
   ExperimentalFeatures,
   ExperimentalOptionalLedgerId,

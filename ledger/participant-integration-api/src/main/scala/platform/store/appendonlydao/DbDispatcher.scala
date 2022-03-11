@@ -4,7 +4,7 @@
 package com.daml.platform.store.appendonlydao
 
 import com.codahale.metrics.{InstrumentedExecutorService, Timer}
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.ledger.api.health.{HealthStatus, ReportsHealth}
 import com.daml.ledger.resources.ResourceOwner
 import com.daml.logging.LoggingContext.withEnrichedLoggingContext

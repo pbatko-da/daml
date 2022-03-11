@@ -5,6 +5,7 @@ package com.daml.error.definitions
 
 import com.daml.error.ErrorCode.LoggedApiException
 import com.daml.error._
+import com.daml.error.annotations.{Explanation, Resolution}
 import com.daml.error.definitions.ErrorGroups.ParticipantErrorGroup.IndexErrorGroup
 
 @Explanation("Errors raised by the Participant Index persistence layer.")

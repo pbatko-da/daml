@@ -3,7 +3,7 @@
 
 package com.daml.platform.apiserver.error
 
-import com.daml.error.{BaseError, DamlContextualizedErrorLogger}
+import com.daml.error.BaseError
 import com.daml.error.definitions.LedgerApiErrors
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import io.grpc.ForwardingServerCall.SimpleForwardingServerCall

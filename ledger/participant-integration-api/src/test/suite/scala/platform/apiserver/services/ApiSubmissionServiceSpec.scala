@@ -4,7 +4,6 @@
 package com.daml.platform.apiserver.services
 
 import com.codahale.metrics.MetricRegistry
-import com.daml.error.ErrorCause
 import com.daml.ledger.api.domain.{CommandId, Commands, LedgerId, PartyDetails}
 import com.daml.ledger.api.messages.command.submission.SubmitRequest
 import com.daml.ledger.api.{DeduplicationPeriod, DomainMocks}
@@ -39,6 +38,8 @@ import org.scalatest.Inside
 import java.time.Duration
 import java.util.concurrent.CompletableFuture.completedFuture
 import java.util.concurrent.atomic.AtomicInteger
+
+import com.daml.error.definitions.ErrorCause
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -227,6 +228,7 @@ class ApiSubmissionServiceSpec
     val mockCommandExecutor = mock[CommandExecutor]
     val tmplId = toIdentifier("M:T")
 
+    // TODO pbatko: test with CommandSubmissionRejectionErrorConverter separately
     val errorsToExpectedStatuses: Seq[(ErrorCause, Status)] = List(
       ErrorCause.DamlLf(
         LfError.Interpretation(

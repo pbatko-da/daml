@@ -3,16 +3,10 @@
 
 package com.daml.platform.server.api.services.grpc
 
-import com.daml.error.DamlContextualizedErrorLogger
 import com.daml.ledger.api.SubmissionIdGenerator
 import com.daml.ledger.api.domain.LedgerId
-import com.daml.ledger.api.v1.command_submission_service.CommandSubmissionServiceGrpc.{
-  CommandSubmissionService => ApiCommandSubmissionService
-}
-import com.daml.ledger.api.v1.command_submission_service.{
-  CommandSubmissionServiceGrpc,
-  SubmitRequest => ApiSubmitRequest,
-}
+import com.daml.ledger.api.v1.command_submission_service.CommandSubmissionServiceGrpc.{CommandSubmissionService => ApiCommandSubmissionService}
+import com.daml.ledger.api.v1.command_submission_service.{CommandSubmissionServiceGrpc, SubmitRequest => ApiSubmitRequest}
 import com.daml.ledger.api.validation.{CommandsValidator, SubmitRequestValidator}
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.metrics.{Metrics, Timed}
@@ -22,8 +16,10 @@ import com.daml.platform.server.api.{ProxyCloseable, ValidationLogger}
 import com.daml.telemetry.{DefaultTelemetry, SpanAttribute, TelemetryContext}
 import com.google.protobuf.empty.Empty
 import io.grpc.ServerServiceDefinition
-
 import java.time.{Duration, Instant}
+
+import com.daml.error.definitions.DamlContextualizedErrorLogger
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class GrpcCommandSubmissionService(

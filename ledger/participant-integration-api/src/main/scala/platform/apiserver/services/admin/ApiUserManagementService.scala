@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets
 import java.util.Base64
 
 import com.daml.error.definitions.LedgerApiErrors
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.ledger.api.SubmissionIdGenerator
 import com.daml.ledger.api.domain._
 import com.daml.ledger.api.v1.admin.user_management_service.{CreateUserResponse, GetUserResponse}

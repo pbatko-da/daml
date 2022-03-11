@@ -7,8 +7,7 @@ import java.time.Instant
 import java.util.concurrent.atomic.AtomicReference
 
 import akka.actor.Scheduler
-import com.daml.error.DamlContextualizedErrorLogger
-import com.daml.error.definitions.LedgerApiErrors
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import io.grpc.StatusRuntimeException

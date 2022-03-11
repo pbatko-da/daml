@@ -7,15 +7,12 @@ import java.util.concurrent.CompletionStage
 
 import akka.stream.Materializer
 import com.daml.daml_lf_dev.DamlLf
-import com.daml.error.DamlContextualizedErrorLogger
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 import com.daml.ledger.api.health.HealthStatus
 import com.daml.ledger.configuration.Configuration
 import com.daml.ledger.offset.Offset
 import com.daml.ledger.participant.state.index.v2.IndexCompletionsService
-import com.daml.ledger.participant.state.kvutils.deduplication.{
-  CompletionBasedDeduplicationPeriodConverter,
-  DeduplicationPeriodSupport,
-}
+import com.daml.ledger.participant.state.kvutils.deduplication.{CompletionBasedDeduplicationPeriodConverter, DeduplicationPeriodSupport}
 import com.daml.ledger.participant.state.v2._
 import com.daml.lf.data.Ref.{Party, SubmissionId}
 import com.daml.lf.data.Time

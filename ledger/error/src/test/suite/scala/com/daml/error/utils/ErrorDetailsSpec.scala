@@ -4,8 +4,8 @@
 package com.daml.error.utils
 
 import com.daml.error.ErrorCategory.BackgroundProcessDegradationWarning
-import com.daml.error.definitions.LedgerApiErrors
-import com.daml.error.{DamlContextualizedErrorLogger, ErrorClass, ErrorCode}
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
+import com.daml.error.{ErrorCode, ErrorGroupPath}
 import com.google.protobuf
 import io.grpc.{Status, StatusRuntimeException}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -44,7 +44,7 @@ class ErrorDetailsSpec extends AnyFlatSpec with Matchers {
         extends ErrorCode(
           id = "NON_GRPC_ERROR_CODE_123",
           BackgroundProcessDegradationWarning,
-        )(ErrorClass.root())
+        )(ErrorGroupPath.root())
     NonGrpcErrorCode.category.grpcCode shouldBe empty
     ErrorDetails.matches(
       new StatusRuntimeException(Status.ABORTED),

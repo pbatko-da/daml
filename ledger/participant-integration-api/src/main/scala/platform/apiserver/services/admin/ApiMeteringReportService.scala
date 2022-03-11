@@ -3,7 +3,7 @@
 
 package com.daml.platform.apiserver.services.admin
 
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.ledger.api.v1.admin.metering_report_service.MeteringReportServiceGrpc.MeteringReportService
 import com.daml.ledger.api.v1.admin.metering_report_service._
 import com.daml.ledger.participant.state.index.v2.MeteringStore

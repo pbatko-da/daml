@@ -3,7 +3,7 @@
 
 package com.daml.ledger
 
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 
 trait TestLoggers {

@@ -8,8 +8,7 @@ import java.util.concurrent.TimeUnit
 
 import akka.stream.Materializer
 import akka.stream.scaladsl.{Sink, Source}
-import com.daml.error.DamlContextualizedErrorLogger
-import com.daml.error.definitions.LedgerApiErrors
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
 import com.daml.ledger.api.domain.LedgerOffset
 import com.daml.ledger.participant.state.{v2 => state}
 import com.daml.lf.data.Ref

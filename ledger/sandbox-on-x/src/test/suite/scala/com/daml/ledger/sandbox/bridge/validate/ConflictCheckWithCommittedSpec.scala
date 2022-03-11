@@ -4,7 +4,7 @@
 package com.daml.ledger.sandbox.bridge.validate
 
 import com.codahale.metrics.MetricRegistry
-import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
+import com.daml.error.ContextualizedErrorLogger
 import com.daml.ledger.api.DeduplicationPeriod
 import com.daml.ledger.configuration.{Configuration, LedgerTimeModel}
 import com.daml.ledger.offset.Offset
@@ -28,6 +28,8 @@ import org.scalatest.FixtureContext
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 import java.time.Duration
+
+import com.daml.error.definitions.DamlContextualizedErrorLogger
 
 import scala.concurrent.Future
 

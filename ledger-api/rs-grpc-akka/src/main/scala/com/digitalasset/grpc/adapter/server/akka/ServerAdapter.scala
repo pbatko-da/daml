@@ -4,8 +4,7 @@
 package com.daml.grpc.adapter.server.akka
 
 import akka.stream.scaladsl.Sink
-import com.daml.error.DamlContextualizedErrorLogger
-import com.daml.error.definitions.LedgerApiErrors
+import com.daml.error.definitions.{DamlContextualizedErrorLogger, LedgerApiErrors}
 import com.daml.grpc.adapter.ExecutionSequencerFactory
 import com.daml.grpc.adapter.server.rs.ServerSubscriber
 import io.grpc.{StatusException, StatusRuntimeException}

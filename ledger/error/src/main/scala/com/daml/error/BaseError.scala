@@ -3,6 +3,7 @@
 
 package com.daml.error
 
+import com.daml.error.annotations.ErrorCategoryRetry
 import com.google.rpc.Status
 import io.grpc.StatusRuntimeException
 
