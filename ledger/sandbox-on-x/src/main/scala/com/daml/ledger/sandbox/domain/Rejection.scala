@@ -142,7 +142,7 @@ private[sandbox] object Rejection {
   ) extends Rejection {
     override def toStatus: Status =
       LedgerApiErrors.ConsistencyErrors.DuplicateCommand
-        .Reject(_definiteAnswer = false, None, Some(changeId))
+        .Reject(definiteAnswer = false, None, Some(changeId))
         .rpcStatus()
   }
 

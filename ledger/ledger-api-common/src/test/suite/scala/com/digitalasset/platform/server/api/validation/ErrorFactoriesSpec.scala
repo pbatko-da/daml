@@ -329,7 +329,7 @@ class ErrorFactoriesSpec
         s"DUPLICATE_COMMAND(10,$truncatedCorrelationId): A command with the given command id has already been successfully processed"
       assertError(
         LedgerApiErrors.ConsistencyErrors.DuplicateCommand
-          .Reject(_existingCommandSubmissionId = None)
+          .Reject(existingCommandSubmissionId = None)
       )(
         code = Code.ALREADY_EXISTS,
         message = msg,
@@ -391,9 +391,9 @@ class ErrorFactoriesSpec
       assertError(
         LedgerApiErrors.RequestValidation.NonHexOffset
           .Error(
-            _fieldName = "fieldName123",
-            _offsetValue = "offsetValue123",
-            _message = "message123",
+            fieldName = "fieldName123",
+            offsetValue = "offsetValue123",
+            message = "message123",
           )
           .asGrpcError
       )(

@@ -64,9 +64,9 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
     override def logLevel: Level = Level.WARN
 
     case class Rejection(reason: String)(implicit errorLogger: ContextualizedErrorLogger)
-        extends DamlErrorWithDefiniteAnswer(cause = s"The participant is overloaded: $reason") {
-      override def context: Map[String, String] =
-        super.context ++ Map("reason" -> reason)
+        extends DamlErrorWithDefiniteAnswer(cause = s"The participant is overloaded: $reason",
+          extraC) {
+      override def mixinContext = Map("reason" -> reason)
     }
   }
 
@@ -303,13 +303,12 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
         id = "SERVICE_NOT_RUNNING",
         ErrorCategory.TransientServerFailure,
       ) {
-    case class Reject(_serviceName: String)(implicit
-        loggingContext: ContextualizedErrorLogger
+    case class Reject(serviceName: String)(implicit
+                                           loggingContext: ContextualizedErrorLogger
     ) extends DamlErrorWithDefiniteAnswer(
-          cause = s"${_serviceName} has been shut down."
+          cause = s"${serviceName} has been shut down."
         ) {
-      override def context: Map[String, String] =
-        super.context ++ Map("service_name" -> _serviceName)
+      override def mixinContext = Map("service_name" -> serviceName)
     }
   }
 
@@ -495,12 +494,11 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
           id = "PARTICIPANT_PRUNED_DATA_ACCESSED",
           ErrorCategory.InvalidGivenCurrentSystemStateOther,
         ) {
-      case class Reject(override val cause: String, _earliestOffset: String)(implicit
-          loggingContext: ContextualizedErrorLogger
+      case class Reject(override val cause: String, earliestOffset: String)(implicit
+                                                                            loggingContext: ContextualizedErrorLogger
       ) extends DamlErrorWithDefiniteAnswer(cause = cause) {
 
-        override def context: Map[String, String] =
-          super.context + (EarliestOffsetMetadataKey -> _earliestOffset)
+        override def mixinContext: Map[String, String] = Map(EarliestOffsetMetadataKey -> earliestOffset)
       }
     }
 
@@ -565,8 +563,8 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
       ) extends DamlErrorWithDefiniteAnswer(
             cause = s"The submitted command is missing a mandatory field: ${_missingField}"
           ) {
-        override def context: Map[String, String] =
-          super.context ++ Map("field_name" -> _missingField)
+
+        override def mixinContext: Map[String, String] = Map("field_name" -> _missingField)
       }
     }
 
@@ -617,6 +615,7 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
       ) extends DamlErrorWithDefiniteAnswer(
             cause = s"The submitted command had an invalid deduplication period: ${_reason}"
           ) {
+
         override def context: Map[String, String] = {
           super.context ++ _maxDeduplicationDuration
             .map(ValidMaxDeduplicationFieldKey -> _.toString)
@@ -633,14 +632,14 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
           ErrorCategory.InvalidIndependentOfSystemState,
         ) {
       case class Error(
-          _fieldName: String,
-          _offsetValue: String,
-          _message: String,
+                        fieldName: String,
+                        offsetValue: String,
+                        message: String,
       )(implicit
           val loggingContext: ContextualizedErrorLogger
       ) extends DamlError(
             cause =
-              s"Offset in ${_fieldName} not specified in hexadecimal: ${_offsetValue}: ${_message}"
+              s"Offset in ${fieldName} not specified in hexadecimal: ${offsetValue}: ${message}"
           )
     }
   }
@@ -666,8 +665,7 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
     )(implicit
         loggingContext: ContextualizedErrorLogger
     ) extends DamlErrorWithDefiniteAnswer(cause = message) {
-      override def context: Map[String, String] =
-        super.context ++ Map("throwableO" -> throwableO.toString)
+      override def mixinContext = Map("throwableO" -> throwableO.toString)
     }
 
     case class PackageSelfConsistency(
@@ -830,19 +828,19 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
         ) {
 
       case class Reject(
-          _definiteAnswer: Boolean = false,
-          _existingCommandSubmissionId: Option[String],
-          _changeId: Option[ChangeId] = None,
+                         override val definiteAnswer: Boolean = false,
+                         existingCommandSubmissionId: Option[String],
+                         changeId: Option[ChangeId] = None,
       )(implicit
           loggingContext: ContextualizedErrorLogger
       ) extends DamlErrorWithDefiniteAnswer(
             cause = "A command with the given command id has already been successfully processed",
-            definiteAnswer = _definiteAnswer,
+            definiteAnswer = definiteAnswer,
           ) {
         override def context: Map[String, String] =
-          super.context ++ _existingCommandSubmissionId
+          super.context ++ existingCommandSubmissionId
             .map("existing_submission_id" -> _)
-            .toList ++ _changeId
+            .toList ++ changeId
             .map(changeId => Seq("changeId" -> changeId.toString))
             .getOrElse(Seq.empty)
       }
@@ -981,16 +979,16 @@ object LedgerApiErrors extends LedgerApiErrorGroup {
         ) {
 
       case class RejectEnriched(
-          override val cause: String,
-          ledger_time: Instant,
-          ledger_time_lower_bound: Instant,
-          ledger_time_upper_bound: Instant,
+                                 override val cause: String,
+                                 ledgerTime: Instant,
+                                 ledgerTimeLowerBound: Instant,
+                                 ledgerTimeUpperBound: Instant,
       )(implicit loggingContext: ContextualizedErrorLogger)
           extends DamlErrorWithDefiniteAnswer(cause = cause) {
         override def context: Map[String, String] = super.context ++ Map(
-          "ledger_time" -> ledger_time.toString,
-          "ledger_time_lower_bound" -> ledger_time_lower_bound.toString,
-          "ledger_time_upper_bound" -> ledger_time_upper_bound.toString,
+          "ledger_time" -> ledgerTime.toString,
+          "ledger_time_lower_bound" -> ledgerTimeLowerBound.toString,
+          "ledger_time_upper_bound" -> ledgerTimeUpperBound.toString,
         )
       }
 
