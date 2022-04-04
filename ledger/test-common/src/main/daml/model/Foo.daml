@@ -8,9 +8,25 @@ template Foo1
     signatory : Party
     observers : [Party]
     payload : Text
+    -- id: Int
   where
     signatory signatory
     observer observers
+
+
+    nonconsuming choice Foo1_NonconsumingChoice: ()
+      with
+        exercisePayload: Text
+      controller signatory
+      do
+        return ()
+
+    choice Foo1_ConsumingChoice: ()
+      with
+          exercisePayload: Text
+      controller signatory
+      do
+          return ()
 
 template Foo2
   with
@@ -21,6 +37,20 @@ template Foo2
     signatory signatory
     observer observers
 
+    nonconsuming choice Foo2_NonconsumingChoice: ()
+      with
+        exercisePayload: Text
+      controller signatory
+      do
+        return ()
+
+    choice Foo2_ConsumingChoice: ()
+      with
+         exercisePayload: Text
+      controller signatory
+      do
+         return ()
+
 template Foo3
   with
     signatory : Party
@@ -29,3 +59,17 @@ template Foo3
   where
     signatory signatory
     observer observers
+
+    nonconsuming choice Foo3_NonconsumingChoice: ()
+      with
+        exercisePayload: Text
+      controller signatory
+      do
+        return ()
+
+    choice Foo3_ConsumingChoice: ()
+      with
+          exercisePayload: Text
+      controller signatory
+      do
+          return ()

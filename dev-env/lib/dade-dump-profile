@@ -151,3 +151,7 @@ echo "export ORACLE_USERNAME=system"
 echo "export ORACLE_PWD=hunter2"
 echo "export ORACLE_PORT=1521"
 
+echo "export POSTGRESQL_HOST=localhost"
+echo "export POSTGRESQL_PORT=5432"
+echo "export POSTGRESQL_USERNAME=pbatko"
+echo "export POSTGRESQL_PASSWORD="

@@ -3,14 +3,14 @@
 
 package com.daml.ledger.api.benchtool.services
 
-import com.daml.ledger.api.benchtool.config.WorkflowConfig
+import com.daml.ledger.api.benchtool.config.BenchToolConfig
 import com.daml.ledger.api.v1.transaction_filter.{Filters, InclusiveFilters, TransactionFilter}
 import com.daml.ledger.api.v1.value.Identifier
 
 object StreamFilters {
 
   def transactionFilters(
-      filters: List[WorkflowConfig.StreamConfig.PartyFilter]
+      filters: List[BenchToolConfig.StreamConfig.PartyFilter]
   ): Either[String, TransactionFilter] =
     toEitherList(filters.map(toTransactionFilter))
       .map { byPartyFilters =>
@@ -18,7 +18,7 @@ object StreamFilters {
       }
 
   private def toTransactionFilter(
-      filter: WorkflowConfig.StreamConfig.PartyFilter
+      filter: BenchToolConfig.StreamConfig.PartyFilter
   ): Either[String, (String, Filters)] =
     (filter.templates match {
       case Nil =>

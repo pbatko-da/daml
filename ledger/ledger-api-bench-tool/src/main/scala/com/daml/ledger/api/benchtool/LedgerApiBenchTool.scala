@@ -5,7 +5,7 @@ package com.daml.ledger.api.benchtool
 
 import akka.actor.typed.{ActorSystem, SpawnProtocol}
 import com.codahale.metrics.MetricRegistry
-import com.daml.ledger.api.benchtool.config.{Config, ConfigMaker, WorkflowConfig}
+import com.daml.ledger.api.benchtool.config.{BenchToolConfig, Config, ConfigMaker}
 import com.daml.ledger.api.benchtool.metrics.MetricsManager.NoOpMetricsManager
 import com.daml.ledger.api.benchtool.metrics.{
   BenchmarkResult,
@@ -18,6 +18,7 @@ import com.daml.ledger.api.benchtool.submission.{CommandSubmitter, Names}
 import com.daml.ledger.api.benchtool.util.TypedActorSystemResourceOwner
 import com.daml.ledger.api.tls.TlsConfiguration
 import com.daml.ledger.client
+import com.daml.ledger.client.binding
 import com.daml.ledger.client.binding.Primitive
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.resources.{ResourceContext, ResourceOwner}
@@ -91,7 +92,7 @@ object LedgerApiBenchTool {
 
     def benchmarkStreams(
         regularUserServices: LedgerApiServices,
-        streamConfigs: List[WorkflowConfig.StreamConfig],
+        streamConfigs: List[BenchToolConfig.StreamConfig],
         metricRegistry: MetricRegistry,
         actorSystem: ActorSystem[SpawnProtocol.Command],
     ): Future[Either[String, Unit]] =
@@ -111,7 +112,7 @@ object LedgerApiBenchTool {
     def benchmarkLatency(
         regularUserServices: LedgerApiServices,
         adminServices: LedgerApiServices,
-        submissionConfigO: Option[WorkflowConfig.SubmissionConfig],
+        submissionConfigO: Option[BenchToolConfig.SubmissionConfig],
         metricRegistry: MetricRegistry,
         signatory: client.binding.Primitive.Party,
         actorSystem: ActorSystem[SpawnProtocol.Command],
@@ -161,7 +162,7 @@ object LedgerApiBenchTool {
     def submissionStep(
         regularUserServices: LedgerApiServices,
         adminServices: LedgerApiServices,
-        submissionConfig: Option[WorkflowConfig.SubmissionConfig],
+        submissionConfig: Option[BenchToolConfig.SubmissionConfig],
         metricRegistry: MetricRegistry,
     )(implicit ec: ExecutionContext): Future[
       Option[(Primitive.Party, CommandSubmitter.SubmissionSummary)]
@@ -171,6 +172,12 @@ object LedgerApiBenchTool {
           logger.info(s"No submission defined. Skipping.")
           Future.successful(None)
         case Some(submissionConfig) =>
+          if (submissionConfig.instanceDistribution.exists(_.archiveChance > 0)) {
+            assert(
+              submissionConfig.consumingExercises.forall(_.probability == 0),
+              "Specifying non-zero chance for both an archive action and a consuming choice is unsupported. One of them must be 0.",
+            )
+          }
           val submitter = CommandSubmitter(
             names = names,
             benchtoolUserServices = regularUserServices,
@@ -180,7 +187,7 @@ object LedgerApiBenchTool {
           )
           for {
             (signatory, observers) <- submitter.prepare(submissionConfig)
-            result <- submitter
+            result: CommandSubmitter.SubmissionSummary <- submitter
               .submit(
                 config = submissionConfig,
                 signatory = signatory,
@@ -207,7 +214,9 @@ object LedgerApiBenchTool {
 
       for {
         _ <- regularUserSetupStep(adminServices)
-        submissionStepProducts <- submissionStep(
+        submissionStepProducts: Option[
+          (binding.Primitive.Party, CommandSubmitter.SubmissionSummary)
+        ] <- submissionStep(
           regularUserServices = regularUserServices,
           adminServices = adminServices,
           submissionConfig = config.workflow.submission,

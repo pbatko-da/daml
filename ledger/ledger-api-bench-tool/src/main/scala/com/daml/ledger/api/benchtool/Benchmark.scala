@@ -5,7 +5,7 @@ package com.daml.ledger.api.benchtool
 
 import akka.actor.typed.{ActorSystem, SpawnProtocol}
 import com.codahale.metrics.MetricRegistry
-import com.daml.ledger.api.benchtool.config.WorkflowConfig.StreamConfig
+import com.daml.ledger.api.benchtool.config.BenchToolConfig.StreamConfig
 import com.daml.ledger.api.benchtool.metrics.{MetricsSet, StreamMetrics, BenchmarkResult}
 import com.daml.ledger.api.benchtool.services.LedgerApiServices
 import org.slf4j.LoggerFactory

@@ -17,6 +17,32 @@ bazel build //ledger/ledger-api-bench-tool:ledger-api-bench-tool_deploy.jar
 java -jar bazel-bin/ledger/ledger-api-bench-tool/ledger-api-bench-tool_deploy.jar --help
 ```
 
+
+bazel run //ledger/ledger-api-bench-tool:ledger-api-bench-tool -- --log-interval=5s --max-in-flight-commands=100 -w $HOME/DigitalAsset/daml/ledger/ledger-api-bench-tool/_configs/obs-1-100M.yaml
+
+
+## Configuration
+
+### Observer Parties
+
+You can specify the number of observer parties to create in the .yaml config as follows:
+```yaml
+submission:
+  num_observers: <NUMBER-OF-OBSERVERS>
+```
+This will tell the BenchTool to create `NUMBER-OF-OBSERVERS` parties.  
+The names of these parties will follow the pattern of `Obs-<INDEX>` where `0 <= INDEX < NUMBER-OF-OBSERVERS`
+and each party will have its own unique probability of `1 / 10^INDEX` for being selected as an observer of a contract.
+
+For example, when creating four observer parties they will be named `Obs-0`, `Obs-1`, `Obs-2`, `Obs-3`
+and their respective probabilities will be 100%, 10%, 1% and 0.1%.
+
+### Ledger Offset
+
+You can use any valid ledger offset.
+Additionally, you can use two special values `"ledger-begin"` and `"ledger-end"`
+
+
 ## Metrics
 
 ### `CountRateMetric`

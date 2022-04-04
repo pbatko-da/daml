@@ -79,7 +79,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
     }
 
     "parse stream type" in {
-      import WorkflowConfig.StreamConfig._
+      import BenchToolConfig.StreamConfig._
       val name = "streamname"
       val party = "dummy"
       val appId = "appid"
@@ -121,7 +121,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
     }
 
     "parse stream filters" in {
-      import WorkflowConfig.StreamConfig._
+      import BenchToolConfig.StreamConfig._
       val name = "streamname"
       val party1 = "alice"
       val party2 = "bob"
@@ -166,7 +166,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
     }
 
     "parse begin offset" in {
-      import WorkflowConfig.StreamConfig._
+      import BenchToolConfig.StreamConfig._
       val name = "streamname"
       val party = "dummy"
       val cases = Table(
@@ -198,7 +198,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
     }
 
     "parse end offset" in {
-      import WorkflowConfig.StreamConfig._
+      import BenchToolConfig.StreamConfig._
       val name = "streamname"
       val party = "dummy"
       val cases = Table(
@@ -230,7 +230,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
     }
 
     "parse transaction objectives" in {
-      import WorkflowConfig.StreamConfig._
+      import BenchToolConfig.StreamConfig._
       val name = "streamname"
       val party = "dummy"
       val cases = Table(
@@ -274,7 +274,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
     }
 
     "parse rate objectives" in {
-      import WorkflowConfig.StreamConfig._
+      import BenchToolConfig.StreamConfig._
       val name = "streamname"
       val party = "dummy"
       val cases = Table(

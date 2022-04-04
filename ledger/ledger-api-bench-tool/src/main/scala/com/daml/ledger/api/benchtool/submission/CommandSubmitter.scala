@@ -7,7 +7,7 @@ import akka.actor.ActorSystem
 import akka.stream.scaladsl.{Sink, Source}
 import akka.stream.{Materializer, OverflowStrategy}
 import com.codahale.metrics.{MetricRegistry, Timer}
-import com.daml.ledger.api.benchtool.config.WorkflowConfig.SubmissionConfig
+import com.daml.ledger.api.benchtool.config.BenchToolConfig.SubmissionConfig
 import com.daml.ledger.api.benchtool.infrastructure.TestDars
 import com.daml.ledger.api.benchtool.metrics.LatencyMetric.LatencyNanos
 import com.daml.ledger.api.benchtool.metrics.MetricsManager
@@ -16,11 +16,14 @@ import com.daml.ledger.api.v1.commands.{Command, Commands}
 import com.daml.ledger.client
 import com.daml.ledger.client.binding.Primitive
 import com.daml.ledger.resources.{ResourceContext, ResourceOwner}
+import com.daml.lf.engine.script.ledgerinteraction.ScriptLedgerClient
+import com.daml.lf.engine.script.ledgerinteraction.ScriptLedgerClient.CreateResult
 import org.slf4j.LoggerFactory
 import scalaz.syntax.tag._
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 import scala.util.chaining._
 import scala.util.control.NonFatal
 
@@ -116,10 +119,16 @@ case class CommandSubmitter(
       }
     } yield ()
 
-  private def submitAndWait(id: String, party: Primitive.Party, commands: List[Command])(implicit
+  private def submitAndWait(
+      id: String,
+      party: Primitive.Party,
+      commandsAndConts: Seq[CommandAndCont],
+  )(implicit
       ec: ExecutionContext
   ): Future[Unit] = {
-    val result = new Commands(
+    val commands = commandsAndConts.map(_.command)
+
+    def getCommands(commands: Seq[Command]) = new Commands(
       ledgerId = benchtoolUserServices.ledgerId,
       applicationId = names.benchtoolApplicationId,
       commandId = id,
@@ -127,7 +136,24 @@ case class CommandSubmitter(
       commands = commands,
       workflowId = names.workflowId,
     )
-    benchtoolUserServices.commandService.submitAndWait(result).map(_ => ())
+
+    val x: Future[Unit] =
+      benchtoolUserServices.commandService.submitAndWait(getCommands(commands)).flatMap {
+        (r: Seq[ScriptLedgerClient.CommandResult]) =>
+          val conts: Seq[Command] = r
+            .zip(commandsAndConts)
+            .collect { case (cr: CreateResult, commandAndCont) =>
+              commandAndCont.cont(cr.contractId)
+            }
+            .flatten
+          if (conts.nonEmpty) {
+            val commands1 = getCommands(conts).copy(commandId = id + "-ala123")
+            val aa = benchtoolUserServices.commandService.submitAndWait(commands1)
+            aa.map(_ => ())
+          } else
+            Future.successful(())
+      }
+    x
   }
 
   private def submitCommands(
@@ -143,7 +169,7 @@ case class CommandSubmitter(
 
     val numBatches: Int = config.numberOfInstances / submissionBatchSize
     val progressMeter = CommandSubmitter.ProgressMeter(config.numberOfInstances)
-    // Output a log line roughly once per 10% progress, or once every 500 submissions (whichever comes first)
+    // Output a log line roughly once per 10% progress, or once every 10000 submissions (whichever comes first)
     val progressLogInterval = math.min(config.numberOfInstances / 10 + 1, 10000)
     val progressLoggingSink = {
       var lastInterval = 0
@@ -173,19 +199,20 @@ case class CommandSubmitter(
             .fromIterator(() => (1 to config.numberOfInstances).iterator)
             .wireTap(i => if (i == 1) progressMeter.start())
             .mapAsync(8)(index =>
-              Future.fromTry(
-                generator.next().map(cmd => index -> cmd)
-              )
+              Future.fromTry {
+                val x: Try[(Int, CommandAndCont)] = generator.next().map(cmd => index -> cmd)
+                x
+              }
             )
             .groupedWithin(submissionBatchSize, 1.minute)
             .map(cmds => cmds.head._1 -> cmds.map(_._2).toList)
             .buffer(maxInFlightCommands, OverflowStrategy.backpressure)
-            .mapAsync(maxInFlightCommands) { case (index, commands) =>
+            .mapAsync(maxInFlightCommands) { case (index, commands: Seq[CommandAndCont]) =>
               timed(submitAndWaitTimer, metricsManager)(
                 submitAndWait(
                   id = names.commandId(index),
                   party = signatory,
-                  commands = commands,
+                  commandsAndConts = commands,
                 )
               )
                 .map(_ => index + commands.length - 1)

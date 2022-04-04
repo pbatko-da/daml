@@ -23,6 +23,12 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |      weight: 50
           |      payload_size_bytes: 60
           |      archive_probability: 0.9
+          |  nonconsuming_exercises:
+          |      probability: 0.9
+          |      payload_size_bytes: 100
+          |  consuming_exercises:
+          |      probability: 0.5
+          |      payload_size_bytes: 200
           |streams:
           |  - type: active-contracts
           |    name: stream-1
@@ -36,33 +42,45 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |      max_item_rate: 456""".stripMargin
 
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = Some(
-            WorkflowConfig.SubmissionConfig(
+            BenchToolConfig.SubmissionConfig(
               numberOfInstances = 500,
               numberOfObservers = 4,
               uniqueParties = true,
               instanceDistribution = List(
-                WorkflowConfig.SubmissionConfig.ContractDescription(
+                BenchToolConfig.SubmissionConfig.ContractDescription(
                   template = "Foo1",
                   weight = 50,
                   payloadSizeBytes = 60,
                   archiveChance = 0.9,
                 )
               ),
+              nonconsumingExercises = Some(
+                BenchToolConfig.SubmissionConfig.NonconsumingExercises(
+                  probability = 0.9,
+                  payloadSizeBytes = 100,
+                )
+              ),
+              consumingExercises = Some(
+                BenchToolConfig.SubmissionConfig.ConsumingExercises(
+                  probability = 0.5,
+                  payloadSizeBytes = 200,
+                )
+              ),
             )
           ),
           streams = List(
-            WorkflowConfig.StreamConfig.ActiveContractsStreamConfig(
+            BenchToolConfig.StreamConfig.ActiveContractsStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
               ),
               objectives = Some(
-                WorkflowConfig.StreamConfig.RateObjectives(
+                BenchToolConfig.StreamConfig.RateObjectives(
                   minItemRate = Some(123),
                   maxItemRate = Some(456),
                 )
@@ -94,32 +112,34 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
         |      archive_probability: 0.7""".stripMargin
 
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = Some(
-            WorkflowConfig.SubmissionConfig(
+            BenchToolConfig.SubmissionConfig(
               numberOfInstances = 500,
               numberOfObservers = 4,
               uniqueParties = true,
               instanceDistribution = List(
-                WorkflowConfig.SubmissionConfig.ContractDescription(
+                BenchToolConfig.SubmissionConfig.ContractDescription(
                   template = "Foo1",
                   weight = 50,
                   payloadSizeBytes = 60,
                   archiveChance = 0.9,
                 ),
-                WorkflowConfig.SubmissionConfig.ContractDescription(
+                BenchToolConfig.SubmissionConfig.ContractDescription(
                   template = "Foo2",
                   weight = 25,
                   payloadSizeBytes = 35,
                   archiveChance = 0.8,
                 ),
-                WorkflowConfig.SubmissionConfig.ContractDescription(
+                BenchToolConfig.SubmissionConfig.ContractDescription(
                   template = "Foo3",
                   weight = 10,
                   payloadSizeBytes = 25,
                   archiveChance = 0.7,
                 ),
               ),
+              nonconsumingExercises = None,
+              consumingExercises = None,
             )
           ),
           streams = Nil,
@@ -145,13 +165,13 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
         |      min_item_rate: 12
         |      max_item_rate: 34""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.TransactionsStreamConfig(
+            BenchToolConfig.StreamConfig.TransactionsStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
@@ -159,7 +179,7 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
               beginOffset = Some(offset("foo")),
               endOffset = Some(offset("bar")),
               objectives = Some(
-                WorkflowConfig.StreamConfig.TransactionObjectives(
+                BenchToolConfig.StreamConfig.TransactionObjectives(
                   maxDelaySeconds = Some(123),
                   minConsumptionSpeed = Some(2.34),
                   minItemRate = Some(12),
@@ -188,13 +208,13 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |      min_consumption_speed: 2.34
           |      min_item_rate: 12""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.TransactionsStreamConfig(
+            BenchToolConfig.StreamConfig.TransactionsStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
@@ -202,7 +222,7 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
               beginOffset = Some(offset("foo")),
               endOffset = Some(offset("bar")),
               objectives = Some(
-                WorkflowConfig.StreamConfig.TransactionObjectives(
+                BenchToolConfig.StreamConfig.TransactionObjectives(
                   maxDelaySeconds = None,
                   minConsumptionSpeed = Some(2.34),
                   minItemRate = Some(12),
@@ -228,13 +248,13 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |    begin_offset: foo
           |    end_offset: bar""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.TransactionsStreamConfig(
+            BenchToolConfig.StreamConfig.TransactionsStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
@@ -266,13 +286,13 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |      min_item_rate: 12
           |      max_item_rate: 34""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.TransactionTreesStreamConfig(
+            BenchToolConfig.StreamConfig.TransactionTreesStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
@@ -280,7 +300,7 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
               beginOffset = Some(offset("foo")),
               endOffset = Some(offset("bar")),
               objectives = Some(
-                WorkflowConfig.StreamConfig.TransactionObjectives(
+                BenchToolConfig.StreamConfig.TransactionObjectives(
                   maxDelaySeconds = Some(123),
                   minConsumptionSpeed = Some(2.34),
                   minItemRate = Some(12),
@@ -307,19 +327,19 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |      min_item_rate: 123
           |      max_item_rate: 4567""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.ActiveContractsStreamConfig(
+            BenchToolConfig.StreamConfig.ActiveContractsStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
               ),
               objectives = Some(
-                WorkflowConfig.StreamConfig.RateObjectives(
+                BenchToolConfig.StreamConfig.RateObjectives(
                   minItemRate = Some(123),
                   maxItemRate = Some(4567),
                 )
@@ -342,16 +362,16 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |      min_item_rate: 12
           |      max_item_rate: 345""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.CompletionsStreamConfig(
+            BenchToolConfig.StreamConfig.CompletionsStreamConfig(
               name = "stream-1",
               party = "Obs-2",
               beginOffset = Some(offset("foo")),
               applicationId = "foobar",
               objectives = Some(
-                WorkflowConfig.StreamConfig.RateObjectives(
+                BenchToolConfig.StreamConfig.RateObjectives(
                   minItemRate = Some(12),
                   maxItemRate = Some(345),
                 )
@@ -375,13 +395,13 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
           |    begin_offset: ledger-begin
           |    end_offset: ledger-end""".stripMargin
       parseYaml(yaml) shouldBe Right(
-        WorkflowConfig(
+        BenchToolConfig(
           submission = None,
           streams = List(
-            WorkflowConfig.StreamConfig.TransactionsStreamConfig(
+            BenchToolConfig.StreamConfig.TransactionsStreamConfig(
               name = "stream-1",
               filters = List(
-                WorkflowConfig.StreamConfig.PartyFilter(
+                BenchToolConfig.StreamConfig.PartyFilter(
                   party = "Obs-2",
                   templates = List("Foo1", "Foo3"),
                 )
@@ -396,7 +416,7 @@ class WorkflowConfigParserSpec extends AnyWordSpec with Matchers {
     }
   }
 
-  def parseYaml(yaml: String): Either[WorkflowConfigParser.ParserError, WorkflowConfig] =
+  def parseYaml(yaml: String): Either[WorkflowConfigParser.ParserError, BenchToolConfig] =
     WorkflowConfigParser.parse(new StringReader(yaml))
 
   def offset(str: String): LedgerOffset = LedgerOffset.defaultInstance.withAbsolute(str)

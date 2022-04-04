@@ -47,6 +47,9 @@ da_scala_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
+        "//daml-script/runner:script-runner-lib",
+        #                "//ledger-service/lf-value-json",
+        "//daml-lf/transaction",
         "//language-support/scala/bindings",
         "//ledger-service/cli-opts",
         "//ledger-service/jwt",
@@ -71,14 +74,50 @@ da_scala_library(
     ],
 )
 
+#da_scala_library(
+#    name = "ledger-api-bench-tool-test-lib",
+#    srcs = [],
+##    glob([
+##        "src/test/lib/scala/**/*.scala",
+##        "src/test/lib/{}/**/*.scala".format(scala_major_version),
+##    ]),
+#    scala_deps = [
+##        "@maven//:com_typesafe_akka_akka_actor",
+##        "@maven//:com_typesafe_akka_akka_stream",
+##        "@maven//:org_mockito_mockito_scala",
+##        "@maven//:org_scalacheck_scalacheck",
+##        "@maven//:org_scalactic_scalactic",
+##        "@maven//:org_scalatest_scalatest_core",
+##        "@maven//:org_scalatest_scalatest_matchers_core",
+##        "@maven//:org_scalatest_scalatest_shouldmatchers",
+##        "@maven//:org_scalatest_scalatest_wordspec",
+##        "@maven//:org_scalaz_scalaz_core",
+#    ],
+#    tags = ["maven_coordinates=com.daml:kvutils-tests-lib:__VERSION__"],
+#    visibility = [
+#        "//visibility:public",
+#    ],
+#    deps = [
+#                "//ledger/test-common:model-tests-%s.scala" % "1.14",  # TODO: make the LF version configurable
+#                "//ledger/test-common:dar-files-%s-lib" % "1.14",  # TODO: make the LF version configurable
+#        "//ledger/test-common:dar-files-default-lib",
+#    ],
+#)
+
 da_scala_test_suite(
     name = "ledger-api-bench-tool-tests",
     size = "medium",
     srcs = glob(
         ["src/test/suite/**/*.scala"],
     ),
+    data = [
+        "//daml-lf/encoder:testing-dars",
+        "//ledger/test-common:model-tests-default.dar",
+        "//ledger/test-common/test-certificates",
+    ],
     scala_deps = [
         "@maven//:com_typesafe_akka_akka_actor",
+        "@maven//:com_typesafe_akka_akka_stream",
         "@maven//:com_typesafe_akka_akka_actor_typed",
         "@maven//:com_typesafe_akka_akka_actor_testkit_typed",
         "@maven//:org_scalacheck_scalacheck",
@@ -92,6 +131,23 @@ da_scala_test_suite(
         "@maven//:ch_qos_logback_logback_classic",
     ],
     deps = [
+        "//ledger/test-common",
+        "//libs-scala/postgresql-testing",
+        "//ledger/test-common:model-tests-%s.scala" % "1.14",  # TODO: make the LF version configurable
+        "//ledger/test-common:dar-files-%s-lib" % "1.14",  # TODO: make the LF version configurable
+        "//ledger/test-common:dar-files-default-lib",
+        "//daml-script/runner:script-runner-lib",
+        #        ":ledger-api-bench-tool-test-lib",
+        "//ledger/sandbox-common",
+        "//libs-scala/ports",
+        "//ledger/ledger-api-auth",
+        "//ledger/ledger-resources",
+        "//libs-scala/resources",
+        "//ledger/ledger-api-domain",
+        "//ledger-api/testing-utils",
+        "//ledger/sandbox-on-x:sandbox-on-x-test-lib",
+        "//ledger/sandbox-common:sandbox-common-scala-tests-lib",
+        "//ledger-api/rs-grpc-bridge",
         ":ledger-api-bench-tool-lib",
         "//language-support/scala/bindings",
         "//ledger/ledger-api-common",

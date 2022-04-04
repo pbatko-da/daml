@@ -11,13 +11,13 @@ import cats.syntax.functor._
 import java.io.Reader
 
 object WorkflowConfigParser {
-  import WorkflowConfig._
+  import BenchToolConfig._
   import Decoders._
 
-  def parse(reader: Reader): Either[ParserError, WorkflowConfig] =
+  def parse(reader: Reader): Either[ParserError, BenchToolConfig] =
     parser
       .parse(reader)
-      .flatMap(_.as[WorkflowConfig])
+      .flatMap(_.as[BenchToolConfig])
       .left
       .map(error => ParserError(error.getLocalizedMessage))
 
@@ -105,23 +105,37 @@ object WorkflowConfigParser {
         "archive_probability",
       )(SubmissionConfig.ContractDescription.apply)
 
+    implicit val nonconsumingExercisesDecoder: Decoder[SubmissionConfig.NonconsumingExercises] =
+      Decoder.forProduct2(
+        "probability",
+        "payload_size_bytes",
+      )(SubmissionConfig.NonconsumingExercises.apply)
+
+    implicit val consumingExercisesDecoder: Decoder[SubmissionConfig.ConsumingExercises] =
+      Decoder.forProduct2(
+        "probability",
+        "payload_size_bytes",
+      )(SubmissionConfig.ConsumingExercises.apply)
+
     implicit val submissionConfigDecoder: Decoder[SubmissionConfig] =
-      Decoder.forProduct4(
+      Decoder.forProduct6(
         "num_instances",
         "num_observers",
         "unique_parties",
         "instance_distribution",
+        "nonconsuming_exercises",
+        "consuming_exercises",
       )(SubmissionConfig.apply)
 
-    implicit val workflowConfigDecoder: Decoder[WorkflowConfig] =
+    implicit val workflowConfigDecoder: Decoder[BenchToolConfig] =
       (c: HCursor) =>
         for {
           submission <- c.downField("submission").as[Option[SubmissionConfig]]
           streams <- c
             .downField("streams")
-            .as[Option[List[WorkflowConfig.StreamConfig]]]
+            .as[Option[List[BenchToolConfig.StreamConfig]]]
             .map(_.getOrElse(Nil))
-        } yield WorkflowConfig(submission, streams)
+        } yield BenchToolConfig(submission, streams)
   }
 
 }

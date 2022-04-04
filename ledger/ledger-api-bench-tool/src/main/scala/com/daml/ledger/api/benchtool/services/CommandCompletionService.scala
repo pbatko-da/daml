@@ -4,7 +4,7 @@
 package com.daml.ledger.api.benchtool.services
 
 import com.daml.ledger.api.benchtool.AuthorizationHelper
-import com.daml.ledger.api.benchtool.config.WorkflowConfig
+import com.daml.ledger.api.benchtool.config.BenchToolConfig
 import com.daml.ledger.api.benchtool.util.ObserverWithResult
 import com.daml.ledger.api.v1.command_completion_service.{
   CommandCompletionServiceGrpc,
@@ -29,7 +29,7 @@ class CommandCompletionService(
     )
 
   def completions[Result](
-      config: WorkflowConfig.StreamConfig.CompletionsStreamConfig,
+      config: BenchToolConfig.StreamConfig.CompletionsStreamConfig,
       observer: ObserverWithResult[CompletionStreamResponse, Result],
   ): Future[Result] = {
     val request = completionsRequest(ledgerId, config)
@@ -40,7 +40,7 @@ class CommandCompletionService(
 
   private def completionsRequest(
       ledgerId: String,
-      config: WorkflowConfig.StreamConfig.CompletionsStreamConfig,
+      config: BenchToolConfig.StreamConfig.CompletionsStreamConfig,
   ): CompletionStreamRequest = {
     if (authorizationToken.isDefined) {
       assert(

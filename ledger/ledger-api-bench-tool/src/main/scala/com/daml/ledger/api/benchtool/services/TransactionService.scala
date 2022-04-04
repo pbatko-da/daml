@@ -4,7 +4,7 @@
 package com.daml.ledger.api.benchtool.services
 
 import com.daml.ledger.api.benchtool.AuthorizationHelper
-import com.daml.ledger.api.benchtool.config.WorkflowConfig
+import com.daml.ledger.api.benchtool.config.BenchToolConfig
 import com.daml.ledger.api.benchtool.util.ObserverWithResult
 import com.daml.ledger.api.v1.ledger_offset.LedgerOffset
 import com.daml.ledger.api.v1.transaction_service.{
@@ -28,7 +28,7 @@ final class TransactionService(
     AuthorizationHelper.maybeAuthedService(authorizationToken)(TransactionServiceGrpc.stub(channel))
 
   def transactions[Result](
-      config: WorkflowConfig.StreamConfig.TransactionsStreamConfig,
+      config: BenchToolConfig.StreamConfig.TransactionsStreamConfig,
       observer: ObserverWithResult[GetTransactionsResponse, Result],
   ): Future[Result] =
     getTransactionsRequest(
@@ -46,7 +46,7 @@ final class TransactionService(
     }
 
   def transactionTrees[Result](
-      config: WorkflowConfig.StreamConfig.TransactionTreesStreamConfig,
+      config: BenchToolConfig.StreamConfig.TransactionTreesStreamConfig,
       observer: ObserverWithResult[
         GetTransactionTreesResponse,
         Result,
@@ -68,7 +68,7 @@ final class TransactionService(
 
   private def getTransactionsRequest(
       ledgerId: String,
-      filters: List[WorkflowConfig.StreamConfig.PartyFilter],
+      filters: List[BenchToolConfig.StreamConfig.PartyFilter],
       beginOffset: Option[LedgerOffset],
       endOffset: Option[LedgerOffset],
   ): Either[String, GetTransactionsRequest] =

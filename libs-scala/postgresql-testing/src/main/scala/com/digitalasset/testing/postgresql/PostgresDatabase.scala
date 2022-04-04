@@ -20,8 +20,14 @@ final case class PostgresDatabase private[postgresql] (
   def urlWithoutCredentials: String =
     s"jdbc:postgresql://$hostName:$port/$databaseName"
 
-  def url: String =
-    s"$urlWithoutCredentials?user=$userName&password=$password"
+  def url: String = {
+    val pass =
+      if (password.nonEmpty)
+        s"&password=$password"
+      else
+        ""
+    s"$urlWithoutCredentials?user=$userName$pass"
+  }
 
   override def toString: String = url
 }

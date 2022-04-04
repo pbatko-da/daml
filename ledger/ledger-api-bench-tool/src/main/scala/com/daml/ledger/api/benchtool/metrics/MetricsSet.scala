@@ -4,7 +4,7 @@
 package com.daml.ledger.api.benchtool.metrics
 
 import com.codahale.metrics.MetricRegistry
-import com.daml.ledger.api.benchtool.config.WorkflowConfig.StreamConfig._
+import com.daml.ledger.api.benchtool.config.BenchToolConfig.StreamConfig._
 import com.daml.ledger.api.v1.active_contracts_service.GetActiveContractsResponse
 import com.daml.ledger.api.v1.command_completion_service.CompletionStreamResponse
 import com.daml.ledger.api.v1.transaction_service.{

@@ -28,7 +28,7 @@ object Cli {
         config.copy(ledger = config.ledger.copy(hostname = hostname, port = port))
       }
 
-    opt[WorkflowConfig.StreamConfig]("consume-stream")
+    opt[BenchToolConfig.StreamConfig]("consume-stream")
       .abbr("s")
       .optional()
       .unbounded()
@@ -173,7 +173,7 @@ object Cli {
     parser.parse(args, Config.Default)
 
   private object Reads {
-    implicit val streamConfigRead: Read[WorkflowConfig.StreamConfig] =
+    implicit val streamConfigRead: Read[BenchToolConfig.StreamConfig] =
       Read.mapRead[String, String].map { m =>
         def stringField(fieldName: String): Either[String, String] =
           m.get(fieldName) match {
@@ -212,12 +212,12 @@ object Cli {
             minConsumptionSpeed: Option[Double],
             minItemRate: Option[Double],
             maxItemRate: Option[Double],
-        ): Option[WorkflowConfig.StreamConfig.TransactionObjectives] =
+        ): Option[BenchToolConfig.StreamConfig.TransactionObjectives] =
           (maxDelaySeconds, minConsumptionSpeed, minItemRate, maxItemRate) match {
             case (None, None, None, None) => None
             case _ =>
               Some(
-                WorkflowConfig.StreamConfig.TransactionObjectives(
+                BenchToolConfig.StreamConfig.TransactionObjectives(
                   maxDelaySeconds = maxDelaySeconds,
                   minConsumptionSpeed = minConsumptionSpeed,
                   minItemRate = minItemRate,
@@ -227,7 +227,7 @@ object Cli {
           }
 
         def transactionsConfig
-            : Either[String, WorkflowConfig.StreamConfig.TransactionsStreamConfig] = for {
+            : Either[String, BenchToolConfig.StreamConfig.TransactionsStreamConfig] = for {
           name <- stringField("name")
           filters <- stringField("filters").flatMap(filters)
           beginOffset <- optionalStringField("begin-offset").map(_.map(offset))
@@ -236,7 +236,7 @@ object Cli {
           minConsumptionSpeed <- optionalDoubleField("min-consumption-speed")
           minItemRate <- optionalDoubleField("min-item-rate")
           maxItemRate <- optionalDoubleField("max-item-rate")
-        } yield WorkflowConfig.StreamConfig.TransactionsStreamConfig(
+        } yield BenchToolConfig.StreamConfig.TransactionsStreamConfig(
           name = name,
           filters = filters,
           beginOffset = beginOffset,
@@ -246,7 +246,7 @@ object Cli {
         )
 
         def transactionTreesConfig
-            : Either[String, WorkflowConfig.StreamConfig.TransactionTreesStreamConfig] =
+            : Either[String, BenchToolConfig.StreamConfig.TransactionTreesStreamConfig] =
           for {
             name <- stringField("name")
             filters <- stringField("filters").flatMap(filters)
@@ -256,7 +256,7 @@ object Cli {
             minConsumptionSpeed <- optionalDoubleField("min-consumption-speed")
             minItemRate <- optionalDoubleField("min-item-rate")
             maxItemRate <- optionalDoubleField("max-item-rate")
-          } yield WorkflowConfig.StreamConfig.TransactionTreesStreamConfig(
+          } yield BenchToolConfig.StreamConfig.TransactionTreesStreamConfig(
             name = name,
             filters = filters,
             beginOffset = beginOffset,
@@ -268,12 +268,12 @@ object Cli {
         def rateObjectives(
             minItemRate: Option[Double],
             maxItemRate: Option[Double],
-        ): Option[WorkflowConfig.StreamConfig.RateObjectives] =
+        ): Option[BenchToolConfig.StreamConfig.RateObjectives] =
           (minItemRate, maxItemRate) match {
             case (None, None) => None
             case _ =>
               Some(
-                WorkflowConfig.StreamConfig.RateObjectives(
+                BenchToolConfig.StreamConfig.RateObjectives(
                   minItemRate = minItemRate,
                   maxItemRate = maxItemRate,
                 )
@@ -281,18 +281,19 @@ object Cli {
           }
 
         def activeContractsConfig
-            : Either[String, WorkflowConfig.StreamConfig.ActiveContractsStreamConfig] = for {
+            : Either[String, BenchToolConfig.StreamConfig.ActiveContractsStreamConfig] = for {
           name <- stringField("name")
           filters <- stringField("filters").flatMap(filters)
           minItemRate <- optionalDoubleField("min-item-rate")
           maxItemRate <- optionalDoubleField("max-item-rate")
-        } yield WorkflowConfig.StreamConfig.ActiveContractsStreamConfig(
+        } yield BenchToolConfig.StreamConfig.ActiveContractsStreamConfig(
           name = name,
           filters = filters,
           objectives = rateObjectives(minItemRate, maxItemRate),
         )
 
-        def completionsConfig: Either[String, WorkflowConfig.StreamConfig.CompletionsStreamConfig] =
+        def completionsConfig
+            : Either[String, BenchToolConfig.StreamConfig.CompletionsStreamConfig] =
           for {
             name <- stringField("name")
             party <- stringField("party")
@@ -300,7 +301,7 @@ object Cli {
             beginOffset <- optionalStringField("begin-offset").map(_.map(offset))
             minItemRate <- optionalDoubleField("min-item-rate")
             maxItemRate <- optionalDoubleField("max-item-rate")
-          } yield WorkflowConfig.StreamConfig.CompletionsStreamConfig(
+          } yield BenchToolConfig.StreamConfig.CompletionsStreamConfig(
             name = name,
             party = party,
             applicationId = applicationId,
@@ -308,7 +309,7 @@ object Cli {
             objectives = rateObjectives(minItemRate, maxItemRate),
           )
 
-        val config = stringField("stream-type").flatMap[String, WorkflowConfig.StreamConfig] {
+        val config = stringField("stream-type").flatMap[String, BenchToolConfig.StreamConfig] {
           case "transactions" => transactionsConfig
           case "transaction-trees" => transactionTreesConfig
           case "active-contracts" => activeContractsConfig
@@ -321,12 +322,12 @@ object Cli {
 
     private def filters(
         listOfIds: String
-    ): Either[String, List[WorkflowConfig.StreamConfig.PartyFilter]] =
+    ): Either[String, List[BenchToolConfig.StreamConfig.PartyFilter]] =
       listOfIds
         .split('+')
         .toList
         .map(filter)
-        .foldLeft[Either[String, List[WorkflowConfig.StreamConfig.PartyFilter]]](
+        .foldLeft[Either[String, List[BenchToolConfig.StreamConfig.PartyFilter]]](
           Right(List.empty)
         ) { case (acc, next) =>
           for {
@@ -337,12 +338,12 @@ object Cli {
 
     private def filter(
         filterString: String
-    ): Either[String, WorkflowConfig.StreamConfig.PartyFilter] = {
+    ): Either[String, BenchToolConfig.StreamConfig.PartyFilter] = {
       filterString
         .split('@')
         .toList match {
         case party :: templates =>
-          Right(WorkflowConfig.StreamConfig.PartyFilter(party, templates))
+          Right(BenchToolConfig.StreamConfig.PartyFilter(party, templates))
         case _ => Left("Filter cannot be empty")
       }
     }

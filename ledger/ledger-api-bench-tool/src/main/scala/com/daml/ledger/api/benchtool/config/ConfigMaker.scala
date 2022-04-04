@@ -17,7 +17,7 @@ object ConfigMaker {
         Right(config)
     }
 
-    def parseWorkflowConfig(workflowConfigFile: File): Either[ConfigurationError, WorkflowConfig] =
+    def parseWorkflowConfig(workflowConfigFile: File): Either[ConfigurationError, BenchToolConfig] =
       SimpleFileReader.readFile(workflowConfigFile)(WorkflowConfigParser.parse) match {
         case Failure(ex) =>
           Left(ConfigurationError(s"Workflow config reading error: ${ex.getLocalizedMessage}"))

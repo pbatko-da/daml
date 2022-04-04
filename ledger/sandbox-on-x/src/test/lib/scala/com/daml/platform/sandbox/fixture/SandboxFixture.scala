@@ -30,15 +30,16 @@ trait SandboxFixture extends AbstractSandboxFixture with SuiteResource[(Port, Ch
 
   override protected lazy val suiteResource: Resource[(Port, Channel)] = {
     implicit val resourceContext: ResourceContext = ResourceContext(system.dispatcher)
+    val owner: ResourceOwner[(Port, Channel)] = for {
+      jdbcUrl <- database
+        .fold[ResourceOwner[Option[String]]](ResourceOwner.successful(None))(
+          _.map(info => Some(info.jdbcUrl))
+        )
+      port <- SandboxServer.owner(config.copy(jdbcUrl = jdbcUrl))
+      channel <- GrpcClientResource.owner(port)
+    } yield (port, channel)
     new OwnedResource[ResourceContext, (Port, Channel)](
-      for {
-        jdbcUrl <- database
-          .fold[ResourceOwner[Option[String]]](ResourceOwner.successful(None))(
-            _.map(info => Some(info.jdbcUrl))
-          )
-        port <- SandboxServer.owner(config.copy(jdbcUrl = jdbcUrl))
-        channel <- GrpcClientResource.owner(port)
-      } yield (port, channel),
+      owner,
       acquisitionTimeout = 1.minute,
       releaseTimeout = 1.minute,
     )

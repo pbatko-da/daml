@@ -7,7 +7,7 @@ import java.io.StringWriter
 import java.net.InetAddress
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Path}
-import java.util.UUID
+//import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 import com.daml.ports.{LockedFreePort, Port}
@@ -26,14 +26,15 @@ trait PostgresAround {
   private val started: AtomicBoolean = new AtomicBoolean(false)
 
   protected def connectToPostgresqlServer(): Unit = {
-    (
+    val x = (
       sys.env.get("POSTGRESQL_HOST"),
       sys.env.get("POSTGRESQL_PORT").map(port => Port(port.toInt)),
       sys.env.get("POSTGRESQL_USERNAME"),
       sys.env.get("POSTGRESQL_PASSWORD"),
-    ) match {
-      case (Some(hostName), Some(port), Some(userName), Some(password)) =>
-        connectToSharedServer(hostName, port, userName, password)
+    )
+    x match {
+      case (Some(hostName), Some(port), Some(userName), password) =>
+        connectToSharedServer(hostName, port, userName, password.getOrElse(""))
       case _ =>
         startEphemeralServer()
     }
@@ -131,7 +132,7 @@ trait PostgresAround {
   }
 
   protected def createNewRandomDatabase(): PostgresDatabase =
-    createNewDatabase(UUID.randomUUID().toString)
+    createNewDatabase("random-database") // + UUID.randomUUID().toString)
 
   protected def createNewDatabase(name: String): PostgresDatabase = {
     val database = PostgresDatabase(server, name)

@@ -4,7 +4,7 @@
 package com.daml.ledger.api.benchtool.services
 
 import com.daml.ledger.api.benchtool.AuthorizationHelper
-import com.daml.ledger.api.benchtool.config.WorkflowConfig
+import com.daml.ledger.api.benchtool.config.BenchToolConfig
 import com.daml.ledger.api.benchtool.util.ObserverWithResult
 import com.daml.ledger.api.v1.active_contracts_service._
 import io.grpc.Channel
@@ -25,7 +25,7 @@ final class ActiveContractsService(
     )
 
   def getActiveContracts[Result](
-      config: WorkflowConfig.StreamConfig.ActiveContractsStreamConfig,
+      config: BenchToolConfig.StreamConfig.ActiveContractsStreamConfig,
       observer: ObserverWithResult[GetActiveContractsResponse, Result],
   ): Future[Result] = {
     getActiveContractsRequest(ledgerId, config) match {
@@ -40,7 +40,7 @@ final class ActiveContractsService(
 
   private def getActiveContractsRequest(
       ledgerId: String,
-      config: WorkflowConfig.StreamConfig.ActiveContractsStreamConfig,
+      config: BenchToolConfig.StreamConfig.ActiveContractsStreamConfig,
   ): Either[String, GetActiveContractsRequest] =
     StreamFilters.transactionFilters(config.filters).map { filters =>
       GetActiveContractsRequest.defaultInstance
