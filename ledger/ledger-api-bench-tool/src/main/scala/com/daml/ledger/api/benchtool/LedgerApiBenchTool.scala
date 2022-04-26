@@ -179,12 +179,13 @@ object LedgerApiBenchTool {
             metricsManager = NoOpMetricsManager(),
           )
           for {
-            (signatory, observers) <- submitter.prepare(submissionConfig)
+            (signatory, observers, divulgees) <- submitter.prepare(submissionConfig)
             result <- submitter
               .submit(
                 config = submissionConfig,
                 signatory = signatory,
                 observers = observers,
+                divulgees = divulgees,
                 maxInFlightCommands = config.maxInFlightCommands,
                 submissionBatchSize = config.submissionBatchSize,
               )

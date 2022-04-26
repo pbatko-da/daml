@@ -36,7 +36,7 @@ case class CommandSubmitter(
 
   def prepare(config: SubmissionConfig)(implicit
       ec: ExecutionContext
-  ): Future[(client.binding.Primitive.Party, List[client.binding.Primitive.Party])] = {
+  ): Future[(client.binding.Primitive.Party, List[client.binding.Primitive.Party], List[client.binding.Primitive.Party])] = {
     val observerPartyNames =
       names.observerPartyNames(config.numberOfObservers, config.uniqueParties)
 
@@ -63,17 +63,18 @@ case class CommandSubmitter(
       config: SubmissionConfig,
       signatory: client.binding.Primitive.Party,
       observers: List[client.binding.Primitive.Party],
+      divulgees: List[client.binding.Primitive.Party],
       maxInFlightCommands: Int,
       submissionBatchSize: Int,
   )(implicit ec: ExecutionContext): Future[CommandSubmitter.SubmissionSummary] = {
     logger.info("Generating contracts...")
     (for {
       _ <- submitCommands(
-        config,
-        signatory,
-        observers,
-        maxInFlightCommands,
-        submissionBatchSize,
+        config = config,
+        signatory = signatory,
+        observers = observers,
+        maxInFlightCommands = maxInFlightCommands,
+        submissionBatchSize = submissionBatchSize,
       )
     } yield {
       logger.info("Commands submitted successfully.")
@@ -169,6 +170,7 @@ case class CommandSubmitter(
       signatory = signatory,
       config = config,
       observers = observers,
+      divulgees = divulgees,
     )
 
     logger.info(

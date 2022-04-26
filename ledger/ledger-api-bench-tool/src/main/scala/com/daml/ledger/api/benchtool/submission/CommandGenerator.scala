@@ -40,6 +40,12 @@ object TemplateDescriptor {
     consumingChoiceName = "Foo3_ConsumingChoice",
     nonconsumingChoiceName = "Foo3_NonconsumingChoice",
   )
+
+  val DivulgenceRequest4Foo1: TemplateDescriptor = TemplateDescriptor(
+    templateId = com.daml.ledger.test.model.Foo.DivulgenceRequest4Foo1.id.asInstanceOf[Identifier],
+    consumingChoiceName = "DivulgeByKey",
+    nonconsumingChoiceName = "DivulgeByKey",
+  )
 }
 
 final class CommandGenerator(
@@ -47,23 +53,32 @@ final class CommandGenerator(
     config: SubmissionConfig,
     signatory: Primitive.Party,
     observers: List[Primitive.Party],
+    divulgees: List[Primitive.Party],
 ) {
   private val distribution = new Distribution(config.instanceDistribution.map(_.weight))
   private val descriptionMapping: Map[Int, SubmissionConfig.ContractDescription] =
     config.instanceDistribution.zipWithIndex
       .map(_.swap)
       .toMap
-  private val observersWithIndices: List[(Primitive.Party, Int)] = observers.zipWithIndex
-  private val nextCommandId = new AtomicLong(0)
+  private val observersWithUnlikelihood: List[(Primitive.Party, Int)] = observers.zipWithIndex.toMap.view.mapValues(unlikelihood).toList
+  private val divulgeesWithUnlikelihood: List[(Primitive.Party, Int)] = divulgees.zipWithIndex.toMap.view.mapValues(unlikelihood).toList
+
+  /**
+   * @return denaminator of a 1/(10**i) likelihood
+   */
+  private def unlikelihood(i: Int): Int = math.pow(10.0, i.toDouble).toInt
+
+  private val nextContractNumber = new AtomicLong(0)
 
   def next(): Try[Seq[Command]] =
     (for {
-      (description, observers) <- Try((pickDescription(), pickObservers()))
+      (description, observers, divulgees) <- Try((pickDescription(), pickObservers(), pickDivulgees()))
       createContractPayload <- Try(randomPayload(description.payloadSizeBytes))
       command = createContractCommand(
         templateName = description.template,
         signatory = signatory,
         observers = observers,
+        divulgees = divulgees,
         payload = createContractPayload,
       )
     } yield command).recoverWith { case NonFatal(ex) =>
@@ -79,20 +94,27 @@ final class CommandGenerator(
     descriptionMapping(distribution.index(randomnessProvider.randomDouble()))
 
   private def pickObservers(): List[Primitive.Party] =
-    observersWithIndices
-      .filter { case (_, index) => isObserverUsed(index) }
+    observersWithUnlikelihood
+      .filter { case (_, unlikelihood) => randomDraw(unlikelihood) }
       .map(_._1)
 
-  private def isObserverUsed(i: Int): Boolean =
-    randomnessProvider.randomNatural(math.pow(10.0, i.toDouble).toInt) == 0
+  private def pickDivulgees(): List[Primitive.Party] =
+    divulgeesWithUnlikelihood
+      .filter { case (_, unlikelihood) => randomDraw(unlikelihood) }
+      .map(_._1)
+
+  private def randomDraw(unlikelihood: Int): Boolean =
+    randomnessProvider.randomNatural(unlikelihood) == 0
 
   private def createContractCommand(
       templateName: String,
       signatory: Primitive.Party,
       observers: List[Primitive.Party],
+      divulgees: List[Primitive.Party],
       payload: String,
   ): Seq[Command] = {
-    val commandId = nextCommandId.getAndIncrement()
+    println(divulgees.toString().substring(0, 0))
+    val contractNumber = nextContractNumber.getAndIncrement()
     val consumingExercisePayload: Option[String] = config.consumingExercises
       .flatMap(c =>
         Option.when(randomnessProvider.randomDouble() <= c.probability)(c.payloadSizeBytes)
@@ -110,21 +132,28 @@ final class CommandGenerator(
       case "Foo1" =>
         (
           TemplateDescriptor.Foo1,
-          Foo1(signatory, observers, payload, id = commandId).create.command,
+          Foo1(signatory, observers, payload, id = contractNumber).create.command,
         )
       case "Foo2" =>
         (
           TemplateDescriptor.Foo2,
-          Foo2(signatory, observers, payload, id = commandId).create.command,
+          Foo2(signatory, observers, payload, id = contractNumber).create.command,
         )
       case "Foo3" =>
         (
           TemplateDescriptor.Foo3,
-          Foo3(signatory, observers, payload, id = commandId).create.command,
+          Foo3(signatory, observers, payload, id = contractNumber).create.command,
         )
       case invalid => sys.error(s"Invalid template: $invalid")
     }
 
+    if (divulgees.nonEmpty && templateDesc == "Foo1"){
+      val divulgee = divulgees.headOption.get
+      val createDivulgenceRequest = DivulgenceRequest4Foo1(divulgee = divulgee, divulger = signatory, fanciedItemKey =
+        com.daml.ledger.test.model.DA.Types.Tuple2(signatory, contractNumber))
+      // TODO: Divulgence request needs it's own key!!
+      ???
+    }
     val contractKey = Value(
       Value.Sum.Record(
         Record(
@@ -134,7 +163,7 @@ final class CommandGenerator(
               value = Some(Value(Value.Sum.Party(signatory.toString)))
             ),
             RecordField(
-              value = Some(Value(Value.Sum.Int64(commandId)))
+              value = Some(Value(Value.Sum.Int64(contractNumber)))
             ),
           ),
         )

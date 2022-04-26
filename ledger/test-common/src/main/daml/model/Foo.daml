@@ -29,6 +29,22 @@ template Foo1
       do
           return ()
 
+template DivulgenceRequest4Foo1
+  with
+    divulgee: Party -- One to whom something is divulged
+    divulger: Party -- One who divulges something
+    fanciedItemKey: (Party, Int)
+  where
+    signatory divulgee
+    observer divulger
+
+    nonconsuming choice DivulgeByKey: ()
+      controller divulger
+      do
+        _ <- fetchByKey @Foo1 fanciedItemKey
+        return ()
+
+
 template Foo2
   with
     signatory : Party

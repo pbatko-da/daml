@@ -19,6 +19,7 @@ object WorkflowConfig {
   case class SubmissionConfig(
       numberOfInstances: Int,
       numberOfObservers: Int,
+      numberOfDivulgees: Int,
       uniqueParties: Boolean,
       instanceDistribution: List[WorkflowConfig.SubmissionConfig.ContractDescription],
       nonConsumingExercises: Option[NonconsumingExercises],
