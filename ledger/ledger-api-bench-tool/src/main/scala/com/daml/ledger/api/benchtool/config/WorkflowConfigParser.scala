@@ -52,14 +52,14 @@ object WorkflowConfigParser {
         "templates",
       )(StreamConfig.PartyFilter.apply)
 
-    implicit val transactionStreamDecoder: Decoder[StreamConfig.TransactionsStreamConfig] =
+    implicit val transactionStreamDecoder: Decoder[StreamConfig.TransactionsFlatStreamConfig] =
       Decoder.forProduct5(
         "name",
         "filters",
         "begin_offset",
         "end_offset",
         "objectives",
-      )(StreamConfig.TransactionsStreamConfig.apply)
+      )(StreamConfig.TransactionsFlatStreamConfig.apply)
 
     implicit val transactionTreesStreamDecoder: Decoder[StreamConfig.TransactionTreesStreamConfig] =
       Decoder.forProduct5(
@@ -117,9 +117,10 @@ object WorkflowConfigParser {
       )(FooSubmissionConfig.ConsumingExercises.apply)
 
     implicit val fooSubmissionConfigDecoder: Decoder[FooSubmissionConfig] =
-      Decoder.forProduct6(
+      Decoder.forProduct7(
         "num_instances",
         "num_observers",
+        "num_divulgees",
         "unique_parties",
         "instance_distribution",
         "nonconsuming_exercises",

@@ -227,7 +227,7 @@ object Cli {
           }
 
         def transactionsConfig
-            : Either[String, WorkflowConfig.StreamConfig.TransactionsStreamConfig] = for {
+            : Either[String, WorkflowConfig.StreamConfig.TransactionsFlatStreamConfig] = for {
           name <- stringField("name")
           filters <- stringField("filters").flatMap(filters)
           beginOffset <- optionalStringField("begin-offset").map(_.map(offset))
@@ -236,7 +236,7 @@ object Cli {
           minConsumptionSpeed <- optionalDoubleField("min-consumption-speed")
           minItemRate <- optionalDoubleField("min-item-rate")
           maxItemRate <- optionalDoubleField("max-item-rate")
-        } yield WorkflowConfig.StreamConfig.TransactionsStreamConfig(
+        } yield WorkflowConfig.StreamConfig.TransactionsFlatStreamConfig(
           name = name,
           filters = filters,
           beginOffset = beginOffset,

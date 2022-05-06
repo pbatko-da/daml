@@ -85,7 +85,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
       val appId = "appid"
       val cases = Table(
         "cli argument" -> "stream config",
-        s"stream-type=transactions,name=$name,filters=$party" -> TransactionsStreamConfig(
+        s"stream-type=transactions,name=$name,filters=$party" -> TransactionsFlatStreamConfig(
           name = name,
           filters = List(PartyFilter(party, Nil)),
           beginOffset = None,
@@ -137,7 +137,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
       )
       val cases = Table(
         "cli argument" -> "stream config",
-        s"stream-type=transactions,name=$name,filters=$filters" -> TransactionsStreamConfig(
+        s"stream-type=transactions,name=$name,filters=$filters" -> TransactionsFlatStreamConfig(
           name = name,
           filters = filtersList,
           beginOffset = None,
@@ -180,7 +180,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
         ),
       )
       forAll(cases) { (argument, offset) =>
-        val streamConfig = TransactionsStreamConfig(
+        val streamConfig = TransactionsFlatStreamConfig(
           name = name,
           filters = List(PartyFilter(party, Nil)),
           beginOffset = Some(offset),
@@ -212,7 +212,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
         ),
       )
       forAll(cases) { (argument, offset) =>
-        val streamConfig = TransactionsStreamConfig(
+        val streamConfig = TransactionsFlatStreamConfig(
           name = name,
           filters = List(PartyFilter(party, Nil)),
           beginOffset = None,
@@ -256,7 +256,7 @@ class CliSpec extends AnyWordSpec with Matchers with OptionValues with TableDriv
         ),
       )
       forAll(cases) { (argument, objectives) =>
-        val streamConfig = TransactionsStreamConfig(
+        val streamConfig = TransactionsFlatStreamConfig(
           name = name,
           filters = List(PartyFilter(party, Nil)),
           beginOffset = None,

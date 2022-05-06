@@ -27,8 +27,8 @@ final class TransactionService(
   private val service: TransactionServiceGrpc.TransactionServiceStub =
     AuthorizationHelper.maybeAuthedService(authorizationToken)(TransactionServiceGrpc.stub(channel))
 
-  def transactions[Result](
-      config: WorkflowConfig.StreamConfig.TransactionsStreamConfig,
+  def transactionsFlat[Result](
+      config: WorkflowConfig.StreamConfig.TransactionsFlatStreamConfig,
       observer: ObserverWithResult[GetTransactionsResponse, Result],
   ): Future[Result] =
     getTransactionsRequest(

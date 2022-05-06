@@ -25,7 +25,7 @@ object Benchmark {
   )(implicit ec: ExecutionContext): Future[Either[String, Unit]] =
     Future
       .traverse(streamConfigs) {
-        case streamConfig: StreamConfig.TransactionsStreamConfig =>
+        case streamConfig: StreamConfig.TransactionsFlatStreamConfig =>
           StreamMetrics
             .observer(
               streamName = streamConfig.name,
@@ -38,7 +38,7 @@ object Benchmark {
               ),
             )(system, ec)
             .flatMap { observer =>
-              apiServices.transactionService.transactions(streamConfig, observer)
+              apiServices.transactionService.transactionsFlat(streamConfig, observer)
             }
         case streamConfig: StreamConfig.TransactionTreesStreamConfig =>
           StreamMetrics
