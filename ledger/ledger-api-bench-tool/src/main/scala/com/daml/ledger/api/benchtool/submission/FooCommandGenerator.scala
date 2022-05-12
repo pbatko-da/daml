@@ -22,36 +22,36 @@ import scala.util.{Failure, Try}
 final class FooCommandGenerator(
     randomnessProvider: RandomnessProvider,
     config: FooSubmissionConfig,
-    signatory: Primitive.Party,
-    allObservers: List[Primitive.Party],
-    allDivulgees: List[Primitive.Party],
+    allocatedParties: AllocatedParties,
     divulgeesToDivulgerKeyMap: Map[Set[Primitive.Party], Value],
+    names: Names,
 ) extends CommandGenerator {
-  private val distribution = new Distribution(config.instanceDistribution.map(_.weight))
-  private val descriptionMapping: Map[Int, FooSubmissionConfig.ContractDescription] =
-    config.instanceDistribution.zipWithIndex
-      .map(_.swap)
-      .toMap
-  private val observersWithUnlikelihood: List[(Primitive.Party, Int)] =
-    allObservers.zipWithIndex.toMap.view.mapValues(unlikelihood).toList
-  private val divulgeesWithUnlikelihood: List[(Primitive.Party, Int)] =
-    allDivulgees.zipWithIndex.toMap.view.mapValues(unlikelihood).toList.sortBy { case (party, _) =>
-      party.toString
-    }
+  private val templateDistribution = new Distribution[FooSubmissionConfig.ContractDescription](
+    weights = config.instanceDistribution.map(_.weight),
+    items = config.instanceDistribution.toIndexedSeq)
 
-  /** @return denominator of a 1/(10**i) likelihood
-    */
-  private def unlikelihood(i: Int): Int = math.pow(10.0, i.toDouble).toInt
+  private val applicationIdsDistributionO: Option[Distribution[FooSubmissionConfig.ApplicationId]] = Option.when(config.applicationIds.nonEmpty)(
+    new Distribution(
+      weights = config.applicationIds.map(_.weight),
+      items = config.applicationIds.toIndexedSeq)
+  )
+
+  private val observersWithUnlikelihood: List[(Primitive.Party, Int)] = unlikelihoods(allocatedParties.observers)
+  private val divulgeesWithUnlikelihood: List[(Primitive.Party, Int)] = unlikelihoods(allocatedParties.divulgees)
+  private val extraSubmittersWithUnlikelihood: List[(Primitive.Party, Int)] = unlikelihoods(allocatedParties.extraSubmitters)
 
   def next(): Try[Seq[Command]] =
     (for {
-      (description, observers, divulgees) <- Try(
-        (pickDescription(), pickObservers(), pickDivulgees())
+      (contractDescription, observers, divulgees) <- Try(
+        (pickContractDescriptor(),
+          pickParties(observersWithUnlikelihood),
+          pickParties(divulgeesWithUnlikelihood).toSet,
+        )
       )
-      createContractPayload <- Try(randomPayload(description.payloadSizeBytes))
+      createContractPayload <- Try(randomPayload(contractDescription.payloadSizeBytes))
       command = createCommands(
-        templateDescriptor = FooTemplateDescriptor.forName(description.template),
-        signatory = signatory,
+        templateDescriptor = FooTemplateDescriptor.forName(contractDescription.template),
+        signatory = allocatedParties.signatory,
         observers = observers,
         divulgerContractKeyO =
           if (divulgees.isEmpty) None else divulgeesToDivulgerKeyMap.get(divulgees),
@@ -66,18 +66,23 @@ final class FooCommandGenerator(
       )
     }
 
-  private def pickDescription(): FooSubmissionConfig.ContractDescription =
-    descriptionMapping(distribution.index(randomnessProvider.randomDouble()))
+  override def nextApplicationId(): String = {
+    applicationIdsDistributionO.fold(
+      names.benchtoolApplicationId
+    )( applicationIdsDistribution =>
+      applicationIdsDistribution.choose(randomnessProvider.randomDouble()).applicationId
+    )
+  }
 
-  private def pickObservers(): List[Primitive.Party] =
-    observersWithUnlikelihood
-      .filter { case (_, unlikelihood) => randomDraw(unlikelihood) }
-      .map(_._1)
+  override def nextExtraCommandSubmitters(): List[Primitive.Party] = {
+    pickParties(extraSubmittersWithUnlikelihood)
+  }
 
-  private def pickDivulgees(): Set[Primitive.Party] =
-    divulgeesWithUnlikelihood.view.collect {
-      case (party, unlikelihood) if randomDraw(unlikelihood) => party
-    }.toSet
+  private def pickContractDescriptor(): FooSubmissionConfig.ContractDescription = templateDistribution.choose(randomnessProvider.randomDouble())
+
+  private def pickParties(unlikelihoods: List[(Primitive.Party, Int)]): List[Primitive.Party] =
+    unlikelihoods
+      .collect { case (party, unlikelihood) if randomDraw(unlikelihood) => party }
 
   private def randomDraw(unlikelihood: Int): Boolean =
     randomnessProvider.randomNatural(unlikelihood) == 0
@@ -218,6 +223,12 @@ final class FooCommandGenerator(
   private def randomPayload(sizeBytes: Int): String =
     FooCommandGenerator.randomPayload(randomnessProvider, sizeBytes)
 
+  private def unlikelihoods(orderedParties: List[Primitive.Party]): List[(Primitive.Party, Int)] =
+    orderedParties.zipWithIndex.toMap.view.mapValues(unlikelihood).toList
+
+  /** @return denominator of a 1/(10**i) likelihood
+   */
+  private def unlikelihood(i: Int): Int = math.pow(10.0, i.toDouble).toInt
 }
 
 object FooCommandGenerator {

@@ -24,3 +24,20 @@ class MeteredStreamObserver[T](
   }
 
 }
+
+//class MeteredStreamObserver[ReqT, RespT](
+//                                          val streamName: String,
+//                                          logger: Logger,
+//                                          manager: MetricsManager[RespT],
+//                                        ) extends ObserverWithResult[ReqT, RespT, BenchmarkResult](logger) {
+//
+//  override def onNext(value: RespT): Unit = {
+//    manager.sendNewValue(value)
+//    super.onNext(value)
+//  }
+//
+//  override def completeWith(): Future[BenchmarkResult] = {
+//    manager.result()
+//  }
+//
+//}

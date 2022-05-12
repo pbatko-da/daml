@@ -24,6 +24,17 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.chaining._
 import scala.util.control.NonFatal
 
+case class AllocatedParties(
+    signatory: client.binding.Primitive.Party,
+    observers: List[client.binding.Primitive.Party],
+    divulgees: List[client.binding.Primitive.Party],
+    extraSubmitters: List[client.binding.Primitive.Party],
+) {
+  val allAllocatedParties: List[Primitive.Party] =
+    List(signatory) ++ observers ++ divulgees ++ extraSubmitters
+
+}
+
 case class CommandSubmitter(
     names: Names,
     benchtoolUserServices: LedgerApiServices,
@@ -36,17 +47,13 @@ case class CommandSubmitter(
 
   def prepare(config: SubmissionConfig)(implicit
       ec: ExecutionContext
-  ): Future[
-    (
-        client.binding.Primitive.Party,
-        List[client.binding.Primitive.Party],
-        List[client.binding.Primitive.Party],
-    )
-  ] = {
+  ): Future[AllocatedParties] = {
     val observerPartyNames =
       names.observerPartyNames(config.numberOfObservers, config.uniqueParties)
     val divulgeePartyNames =
       names.divulgeePartyNames(config.numberOfDivulgees, config.uniqueParties)
+    val extraSubmittersPartyNames =
+      names.extraSubmitterPartyNames(config.numberOfExtraSubmitters, config.uniqueParties)
 
     logger.info("Generating contracts...")
     logger.info(s"Identifier suffix: ${names.identifierSuffix}")
@@ -54,10 +61,16 @@ case class CommandSubmitter(
       signatory <- allocateSignatoryParty()
       observers <- allocateParties(observerPartyNames)
       divulgees <- allocateParties(divulgeePartyNames)
+      extraSubmitters <- allocateParties(extraSubmittersPartyNames)
       _ <- uploadTestDars()
     } yield {
       logger.info("Prepared command submission.")
-      (signatory, observers, divulgees)
+      AllocatedParties(
+        signatory = signatory,
+        observers = observers,
+        divulgees = divulgees,
+        extraSubmitters = extraSubmitters,
+      )
     })
       .recoverWith { case NonFatal(ex) =>
         logger.error(
@@ -79,13 +92,14 @@ case class CommandSubmitter(
       id = commandId,
       actAs = actAs,
       commands = commands,
+      applicationId = names.benchtoolApplicationId,
     )
   }
 
   def generateAndSubmit(
       generator: CommandGenerator,
       config: SubmissionConfig,
-      actAs: List[client.binding.Primitive.Party],
+      baseActAs: List[client.binding.Primitive.Party],
       maxInFlightCommands: Int,
       submissionBatchSize: Int,
   )(implicit ec: ExecutionContext): Future[Unit] = {
@@ -96,7 +110,7 @@ case class CommandSubmitter(
         config = config,
         maxInFlightCommands = maxInFlightCommands,
         submissionBatchSize = submissionBatchSize,
-        actAs = actAs,
+        baseActAs = baseActAs,
       )
     } yield {
       logger.info("Commands submitted successfully.")
@@ -142,12 +156,13 @@ case class CommandSubmitter(
       id: String,
       actAs: Seq[Primitive.Party],
       commands: Seq[Command],
+      applicationId: String,
   )(implicit
       ec: ExecutionContext
   ): Future[Unit] = {
     def makeCommands(commands: Seq[Command]) = new Commands(
       ledgerId = benchtoolUserServices.ledgerId,
-      applicationId = names.benchtoolApplicationId,
+      applicationId = applicationId,
       commandId = id,
       actAs = actAs.map(_.unwrap),
       commands = commands,
@@ -163,7 +178,7 @@ case class CommandSubmitter(
   private def submitCommands(
       generator: CommandGenerator,
       config: SubmissionConfig,
-      actAs: List[Primitive.Party],
+      baseActAs: List[Primitive.Party],
       maxInFlightCommands: Int,
       submissionBatchSize: Int,
   )(implicit
@@ -206,8 +221,9 @@ case class CommandSubmitter(
               timed(submitAndWaitTimer, metricsManager)(
                 submitAndWait(
                   id = names.commandId(index),
-                  actAs = actAs,
+                  actAs = baseActAs ++ generator.nextExtraCommandSubmitters(),
                   commands = commands.flatten,
+                  applicationId = generator.nextApplicationId(),
                 )
               )
                 .map(_ => index + commands.length - 1)
