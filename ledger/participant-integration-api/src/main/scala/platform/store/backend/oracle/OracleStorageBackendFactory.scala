@@ -47,7 +47,7 @@ object OracleStorageBackendFactory extends StorageBackendFactory with CommonStor
   override def createCompletionStorageBackend(
       stringInterning: StringInterning
   ): CompletionStorageBackend =
-    new CompletionStorageBackendTemplate(OracleQueryStrategy, stringInterning)
+    new CompletionStorageBackendTemplate(OracleQueryStrategy)
 
   override def createContractStorageBackend(
       ledgerEndCache: LedgerEndCache,

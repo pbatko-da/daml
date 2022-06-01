@@ -46,6 +46,7 @@ private class JdbcLedgerDao(
     acsIdFetchingParallelism: Int,
     acsContractFetchingParallelism: Int,
     acsGlobalParallelism: Int,
+    completionsPageSize: Int,
     metrics: Metrics,
     lfValueTranslationCache: LfValueTranslationCache.Cache,
     enricher: Option[ValueEnricher],
@@ -53,6 +54,7 @@ private class JdbcLedgerDao(
     participantId: Ref.ParticipantId,
     readStorageBackend: ReadStorageBackend,
     parameterStorageBackend: ParameterStorageBackend,
+    stringInterning: StringInterning,
 ) extends LedgerDao {
 
   import JdbcLedgerDao._
@@ -110,7 +112,7 @@ private class JdbcLedgerDao(
       startExclusive: Offset,
       endInclusive: Offset,
   )(implicit loggingContext: LoggingContext): Source[(Offset, ConfigurationEntry), NotUsed] =
-    PaginatingAsyncStream(PageSize) { queryOffset =>
+    PaginatingAsyncStream.streamFromOffsetLimitPagination(PageSize) { queryOffset =>
       withEnrichedLoggingContext("queryOffset" -> queryOffset) { implicit loggingContext =>
         dbDispatcher.executeSql(metrics.daml.index.db.loadConfigurationEntries) {
           readStorageBackend.configurationStorageBackend.configurationEntries(
@@ -200,7 +202,7 @@ private class JdbcLedgerDao(
       startExclusive: Offset,
       endInclusive: Offset,
   )(implicit loggingContext: LoggingContext): Source[(Offset, PartyLedgerEntry), NotUsed] = {
-    PaginatingAsyncStream(PageSize) { queryOffset =>
+    PaginatingAsyncStream.streamFromOffsetLimitPagination(PageSize) { queryOffset =>
       withEnrichedLoggingContext("queryOffset" -> queryOffset) { implicit loggingContext =>
         dbDispatcher.executeSql(metrics.daml.index.db.loadPartyEntries)(
           readStorageBackend.partyStorageBackend.partyEntries(
@@ -339,7 +341,7 @@ private class JdbcLedgerDao(
       startExclusive: Offset,
       endInclusive: Offset,
   )(implicit loggingContext: LoggingContext): Source[(Offset, PackageLedgerEntry), NotUsed] =
-    PaginatingAsyncStream(PageSize) { queryOffset =>
+    PaginatingAsyncStream.streamFromOffsetLimitPagination(PageSize) { queryOffset =>
       withEnrichedLoggingContext("queryOffset" -> queryOffset) { implicit loggingContext =>
         dbDispatcher.executeSql(metrics.daml.index.db.loadPackageEntries)(
           readStorageBackend.packageStorageBackend.packageEntries(
@@ -494,6 +496,8 @@ private class JdbcLedgerDao(
       readStorageBackend.completionStorageBackend,
       queryNonPruned,
       metrics,
+      pageSize = completionsPageSize,
+      stringInterning = stringInterning,
     )
 
   /** This is a combined store transaction method to support sandbox-classic and tests
@@ -571,6 +575,7 @@ private[platform] object JdbcLedgerDao {
       acsIdFetchingParallelism: Int,
       acsContractFetchingParallelism: Int,
       acsGlobalParallelism: Int,
+      completionsPageSize: Int,
       servicesExecutionContext: ExecutionContext,
       metrics: Metrics,
       lfValueTranslationCache: LfValueTranslationCache.Cache,
@@ -581,22 +586,25 @@ private[platform] object JdbcLedgerDao {
   ): LedgerReadDao =
     new MeteredLedgerReadDao(
       new JdbcLedgerDao(
-        dbSupport.dbDispatcher,
-        servicesExecutionContext,
-        eventsPageSize,
-        eventsProcessingParallelism,
-        acsIdPageSize,
-        acsIdPageBufferSize,
-        acsIdFetchingParallelism,
-        acsContractFetchingParallelism,
-        acsGlobalParallelism,
-        metrics,
-        lfValueTranslationCache,
-        enricher,
-        SequentialWriteDao.noop,
-        participantId,
-        dbSupport.storageBackendFactory.readStorageBackend(ledgerEndCache, stringInterning),
-        dbSupport.storageBackendFactory.createParameterStorageBackend,
+        dbDispatcher = dbSupport.dbDispatcher,
+        servicesExecutionContext = servicesExecutionContext,
+        eventsPageSize = eventsPageSize,
+        eventsProcessingParallelism = eventsProcessingParallelism,
+        acsIdPageSize = acsIdPageSize,
+        acsIdPageBufferSize = acsIdPageBufferSize,
+        acsIdFetchingParallelism = acsIdFetchingParallelism,
+        acsContractFetchingParallelism = acsContractFetchingParallelism,
+        acsGlobalParallelism = acsGlobalParallelism,
+        completionsPageSize = completionsPageSize,
+        metrics = metrics,
+        lfValueTranslationCache = lfValueTranslationCache,
+        enricher = enricher,
+        sequentialIndexer = SequentialWriteDao.noop,
+        participantId = participantId,
+        readStorageBackend =
+          dbSupport.storageBackendFactory.readStorageBackend(ledgerEndCache, stringInterning),
+        parameterStorageBackend = dbSupport.storageBackendFactory.createParameterStorageBackend,
+        stringInterning = stringInterning,
       ),
       metrics,
     )
@@ -611,6 +619,7 @@ private[platform] object JdbcLedgerDao {
       acsIdFetchingParallelism: Int,
       acsContractFetchingParallelism: Int,
       acsGlobalParallelism: Int,
+      completionsPageSize: Int,
       servicesExecutionContext: ExecutionContext,
       metrics: Metrics,
       lfValueTranslationCache: LfValueTranslationCache.Cache,
@@ -621,22 +630,25 @@ private[platform] object JdbcLedgerDao {
   ): LedgerDao =
     new MeteredLedgerDao(
       new JdbcLedgerDao(
-        dbSupport.dbDispatcher,
-        servicesExecutionContext,
-        eventsPageSize,
-        eventsProcessingParallelism,
-        acsIdPageSize,
-        acsIdPageBufferSize,
-        acsIdFetchingParallelism,
-        acsContractFetchingParallelism,
-        acsGlobalParallelism,
-        metrics,
-        lfValueTranslationCache,
-        enricher,
-        sequentialWriteDao,
-        participantId,
-        dbSupport.storageBackendFactory.readStorageBackend(ledgerEndCache, stringInterning),
-        dbSupport.storageBackendFactory.createParameterStorageBackend,
+        dbDispatcher = dbSupport.dbDispatcher,
+        servicesExecutionContext = servicesExecutionContext,
+        eventsPageSize = eventsPageSize,
+        eventsProcessingParallelism = eventsProcessingParallelism,
+        acsIdPageSize = acsIdPageSize,
+        acsIdPageBufferSize = acsIdPageBufferSize,
+        acsIdFetchingParallelism = acsIdFetchingParallelism,
+        acsContractFetchingParallelism = acsContractFetchingParallelism,
+        acsGlobalParallelism = acsGlobalParallelism,
+        completionsPageSize = completionsPageSize,
+        metrics = metrics,
+        lfValueTranslationCache = lfValueTranslationCache,
+        enricher = enricher,
+        sequentialIndexer = sequentialWriteDao,
+        participantId = participantId,
+        readStorageBackend =
+          dbSupport.storageBackendFactory.readStorageBackend(ledgerEndCache, stringInterning),
+        parameterStorageBackend = dbSupport.storageBackendFactory.createParameterStorageBackend,
+        stringInterning = stringInterning,
       ),
       metrics,
     )

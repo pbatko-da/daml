@@ -33,18 +33,45 @@ private[backend] trait StorageBackendTestsCompletions
     executeSql(backend.parameter.initializeParameters(someIdentityParams))
     executeSql(ingest(dtos, _))
     executeSql(updateLedgerEnd(offset(4), 3L))
+
+    val internedParties: Set[Int] = Set(backend.stringInterningSupport.party.internalize(party))
+
     val completions0to3 = executeSql(
       backend.completion
-        .commandCompletions(Offset.beforeBegin, offset(3), applicationId, Set(party))
+        .commandCompletions(
+          Offset.beforeBegin,
+          offset(3),
+          applicationId,
+          limit = 10,
+          internedParties = internedParties,
+        )
     )
     val completions1to3 = executeSql(
-      backend.completion.commandCompletions(offset(1), offset(3), applicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(1),
+        offset(3),
+        applicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
     val completions2to3 = executeSql(
-      backend.completion.commandCompletions(offset(2), offset(3), applicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(2),
+        offset(3),
+        applicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
     val completions1to9 = executeSql(
-      backend.completion.commandCompletions(offset(1), offset(9), applicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(1),
+        offset(9),
+        applicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
 
     completions0to3 should have length 2
@@ -66,8 +93,16 @@ private[backend] trait StorageBackendTestsCompletions
     executeSql(ingest(dtos, _))
     executeSql(updateLedgerEnd(offset(2), 1L))
 
+    val internedParties: Set[Int] = Set(backend.stringInterningSupport.party.internalize(party))
+
     val completions = executeSql(
-      backend.completion.commandCompletions(offset(1), offset(2), applicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(1),
+        offset(2),
+        applicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
 
     completions should have length 1
@@ -88,12 +123,21 @@ private[backend] trait StorageBackendTestsCompletions
     executeSql(backend.parameter.initializeParameters(someIdentityParams))
     executeSql(ingest(dtos, _))
     executeSql(updateLedgerEnd(offset(3), 2L))
+
+    val internedParties: Set[Int] = Set(backend.stringInterningSupport.party.internalize(party))
+
     val completions = executeSql(
-      backend.completion.commandCompletions(offset(1), offset(3), someApplicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(1),
+        offset(3),
+        someApplicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
 
     completions should have length 2
-    val List(completionWithSubmissionId, completionWithoutSubmissionId) = completions
+    val List(completionWithSubmissionId, completionWithoutSubmissionId) = completions.toList
     completionWithSubmissionId.completions should have length 1
     completionWithSubmissionId.completions.head.submissionId should be(someSubmissionId)
     completionWithoutSubmissionId.completions should have length 1
@@ -116,15 +160,23 @@ private[backend] trait StorageBackendTestsCompletions
 
     executeSql(backend.parameter.initializeParameters(someIdentityParams))
     executeSql(ingest(dtos, _))
-
     executeSql(updateLedgerEnd(offset(3), 2L))
+
+    val internedParties: Set[Int] = Set(backend.stringInterningSupport.party.internalize(party))
+
     val completions = executeSql(
-      backend.completion.commandCompletions(offset(1), offset(3), someApplicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(1),
+        offset(3),
+        someApplicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
 
     completions should have length 2
     val List(completionWithDeduplicationOffset, completionWithoutDeduplicationOffset) =
-      completions
+      completions.toList
     completionWithDeduplicationOffset.completions should have length 1
     completionWithDeduplicationOffset.completions.head.deduplicationPeriod.deduplicationOffset should be(
       Some(anOffsetHex)
@@ -157,15 +209,23 @@ private[backend] trait StorageBackendTestsCompletions
 
     executeSql(backend.parameter.initializeParameters(someIdentityParams))
     executeSql(ingest(dtos, _))
-
     executeSql(updateLedgerEnd(offset(3), 2L))
+
+    val internedParties: Set[Int] = Set(backend.stringInterningSupport.party.internalize(party))
+
     val completions = executeSql(
-      backend.completion.commandCompletions(offset(1), offset(3), someApplicationId, Set(party))
+      backend.completion.commandCompletions(
+        offset(1),
+        offset(3),
+        someApplicationId,
+        limit = 10,
+        internedParties = internedParties,
+      )
     )
 
     completions should have length 2
     val List(completionWithDeduplicationOffset, completionWithoutDeduplicationOffset) =
-      completions
+      completions.toList
     completionWithDeduplicationOffset.completions should have length 1
     completionWithDeduplicationOffset.completions.head.deduplicationPeriod.deduplicationDuration should be(
       Some(expectedDuration)
@@ -196,13 +256,17 @@ private[backend] trait StorageBackendTestsCompletions
     executeSql(backend.parameter.initializeParameters(someIdentityParams))
     executeSql(ingest(dtos1, _))
     executeSql(updateLedgerEnd(offset(2), 1L))
+
+    val internedParties: Set[Int] = Set(backend.stringInterningSupport.party.internalize(party))
+
     val caught = intercept[IllegalArgumentException](
       executeSql(
         backend.completion.commandCompletions(
           offset(1),
           offset(2),
           someApplicationId,
-          Set(party),
+          limit = 10,
+          internedParties = internedParties,
         )
       )
     )
@@ -226,7 +290,8 @@ private[backend] trait StorageBackendTestsCompletions
           offset(2),
           offset(3),
           someApplicationId,
-          Set(party),
+          limit = 10,
+          internedParties = internedParties,
         )
       )
     )

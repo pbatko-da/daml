@@ -4,6 +4,7 @@
 package com.daml.platform.store.dao.events
 
 import java.sql.Connection
+
 import akka.stream.scaladsl.Source
 import akka.{Done, NotUsed}
 import com.daml.error.DamlContextualizedErrorLogger
@@ -28,8 +29,9 @@ import com.daml.platform.store.dao.{
   DbDispatcher,
   LedgerDaoTransactionsReader,
   PaginatingAsyncStream,
+  QueryRange,
 }
-import com.daml.platform.store.backend.EventStorageBackend.{FilterParams, RangeParams}
+import com.daml.platform.store.backend.EventStorageBackend.FilterParams
 import com.daml.platform.store.backend.{ContractStorageBackend, EventStorageBackend}
 import com.daml.platform.store.dao.events.EventsTable.TransactionConversions
 import com.daml.platform.store.interfaces.TransactionLogUpdate
@@ -66,7 +68,7 @@ private[dao] final class TransactionsReader(
   private val eventSeqIdReader =
     new EventsRange.EventSeqIdReader(eventStorageBackend.maxEventSequentialIdOfAnObservableEvent)
   private val getTransactions =
-    new EventsTableFlatEventsRangeQueries.GetTransactions(eventStorageBackend)
+    new EventsTableFlatEventsRangeQueries(eventStorageBackend)
 
   private val logger = ContextualizedLogger.get(this.getClass)
 
@@ -104,16 +106,18 @@ private[dao] final class TransactionsReader(
 
     val requestedRangeF = getEventSeqIdRange(startExclusive, endInclusive)
 
-    val query = (range: EventsRange[(Offset, Long)]) => { implicit connection: Connection =>
+    val pruneSafeQuery = (range: QueryRange[(Offset, Long)]) => { implicit connection: Connection =>
       logger.debug(s"getFlatTransactions query($range)")
       queryNonPruned.executeSql(
-        getTransactions(
-          EventsRange(range.startExclusive._2, range.endInclusive._2),
-          filter,
-          pageSize,
-        )(connection),
-        range.startExclusive._1,
-        pruned =>
+        query = {
+          getTransactions.readFlatTransactions(
+            eventsRange = range.map[Long](_._2),
+            filter = filter,
+            pageSize = pageSize,
+          )(connection)
+        },
+        minOffsetExclusive = range.startExclusive._1,
+        error = pruned =>
           s"Transactions request from ${range.startExclusive._1.toHexString} to ${range.endInclusive._1.toHexString} precedes pruned offset ${pruned.toHexString}",
       )
     }
@@ -122,10 +126,9 @@ private[dao] final class TransactionsReader(
       Source
         .futureSource(requestedRangeF.map { requestedRange =>
           streamEvents(
-            verbose,
-            dbMetrics.getFlatTransactions,
-            query,
-            nextPageRange[Event](requestedRange.endInclusive),
+            verbose = verbose,
+            queryMetric = dbMetrics.getFlatTransactions,
+            rangedQuery = pruneSafeQuery,
           )(requestedRange)
         })
         .mapMaterializedValue(_ => NotUsed)
@@ -184,30 +187,31 @@ private[dao] final class TransactionsReader(
       s"getTransactionTrees($startExclusive, $endInclusive, $requestingParties, $verbose)"
     )
 
-    val requestedRangeF = getEventSeqIdRange(startExclusive, endInclusive)
+    val requestedRangeF: Future[QueryRange[(Offset, Long)]] =
+      getEventSeqIdRange(startExclusive, endInclusive)
 
-    val query = (range: EventsRange[(Offset, Long)]) => { implicit connection: Connection =>
+    val query = (range: QueryRange[(Offset, Long)]) => { implicit connection: Connection =>
       logger.debug(s"getTransactionTrees query($range)")
-      queryNonPruned.executeSql(
+      val query: Connection => Vector[EventStorageBackend.Entry[Raw.TreeEvent]] =
         EventsRange.readPage(
-          read = (range, limit, fetchSizeHint) =>
+          fetch = (range, limit, fetchSizeHint) =>
             eventStorageBackend.transactionTreeEvents(
-              rangeParams = RangeParams(
-                startExclusive = range.startExclusive,
-                endInclusive = range.endInclusive,
-                limit = limit,
-                fetchSizeHint = fetchSizeHint,
-              ),
+              startExclusive = range.startExclusive,
+              endInclusive = range.endInclusive,
+              limit = limit,
+              fetchSizeHint = fetchSizeHint,
               filterParams = FilterParams(
                 wildCardParties = requestingParties,
                 partiesAndTemplates = Set.empty,
               ),
             ),
-          range = EventsRange(range.startExclusive._2, range.endInclusive._2),
+          range = QueryRange(range.startExclusive._2, range.endInclusive._2),
           pageSize = pageSize,
-        )(connection),
-        range.startExclusive._1,
-        pruned =>
+        )
+      queryNonPruned.executeSql(
+        query = query(connection),
+        minOffsetExclusive = range.startExclusive._1,
+        error = pruned =>
           s"Transactions request from ${range.startExclusive._1.toHexString} to ${range.endInclusive._1.toHexString} precedes pruned offset ${pruned.toHexString}",
       )
     }
@@ -216,10 +220,9 @@ private[dao] final class TransactionsReader(
       Source
         .futureSource(requestedRangeF.map { requestedRange =>
           streamEvents(
-            verbose,
-            dbMetrics.getTransactionTrees,
-            query,
-            nextPageRange[TreeEvent](requestedRange.endInclusive),
+            verbose = verbose,
+            queryMetric = dbMetrics.getTransactionTrees,
+            rangedQuery = query,
           )(requestedRange)
         })
         .mapMaterializedValue(_ => NotUsed)
@@ -441,13 +444,16 @@ private[dao] final class TransactionsReader(
   }
 
   private def nextPageRange[E](endEventSeqId: (Offset, Long))(
-      a: EventStorageBackend.Entry[E]
-  ): EventsRange[(Offset, Long)] =
-    EventsRange(startExclusive = (a.eventOffset, a.eventSequentialId), endInclusive = endEventSeqId)
+      previousEntry: EventStorageBackend.Entry[E]
+  ): QueryRange[(Offset, Long)] =
+    QueryRange(
+      startExclusive = (previousEntry.eventOffset, previousEntry.eventSequentialId),
+      endInclusive = endEventSeqId,
+    )
 
   private def getAcsEventSeqIdRange(activeAt: Offset)(implicit
       loggingContext: LoggingContext
-  ): Future[EventsRange[(Offset, Long)]] =
+  ): Future[QueryRange[(Offset, Long)]] =
     dispatcher
       .executeSql(dbMetrics.getAcsEventSeqIdRange)(implicit connection =>
         queryNonPruned.executeSql(
@@ -458,7 +464,7 @@ private[dao] final class TransactionsReader(
         )
       )
       .map { x =>
-        EventsRange(
+        QueryRange(
           startExclusive = (Offset.beforeBegin, 0),
           endInclusive = (activeAt, x.endInclusive),
         )
@@ -467,11 +473,11 @@ private[dao] final class TransactionsReader(
   private def getEventSeqIdRange(
       startExclusive: Offset,
       endInclusive: Offset,
-  )(implicit loggingContext: LoggingContext): Future[EventsRange[(Offset, Long)]] =
+  )(implicit loggingContext: LoggingContext): Future[QueryRange[(Offset, Long)]] =
     dispatcher
       .executeSql(dbMetrics.getEventSeqIdRange)(implicit connection =>
         queryNonPruned.executeSql(
-          eventSeqIdReader.readEventSeqIdRange(EventsRange(startExclusive, endInclusive))(
+          eventSeqIdReader.readEventSeqIdRange(QueryRange(startExclusive, endInclusive))(
             connection
           ),
           startExclusive,
@@ -480,26 +486,30 @@ private[dao] final class TransactionsReader(
         )
       )
       .map(x =>
-        EventsRange(
+        QueryRange(
           startExclusive = (startExclusive, x.startExclusive),
           endInclusive = (endInclusive, x.endInclusive),
         )
       )
 
-  private def streamEvents[A: Ordering, E](
+  private def streamEvents[E](
       verbose: Boolean,
       queryMetric: DatabaseMetrics,
-      query: EventsRange[A] => Connection => Vector[EventStorageBackend.Entry[Raw[E]]],
-      getNextPageRange: EventStorageBackend.Entry[E] => EventsRange[A],
-  )(range: EventsRange[A])(implicit
+      rangedQuery: QueryRange[(Offset, Long)] => Connection => Vector[
+        EventStorageBackend.Entry[Raw[E]]
+      ],
+  )(initialRange: QueryRange[(Offset, Long)])(implicit
       loggingContext: LoggingContext
   ): Source[EventStorageBackend.Entry[E], NotUsed] =
-    PaginatingAsyncStream.streamFrom(range, getNextPageRange) { range1 =>
-      if (EventsRange.isEmpty(range1))
+    PaginatingAsyncStream.streamFromSeekPagination(
+      startFromOffset = initialRange,
+      getNextPageOffset = nextPageRange[E](initialRange.endInclusive),
+    ) { subRange: QueryRange[(Offset, Long)] =>
+      if (EventsRange.isEmpty(subRange))
         Future.successful(Vector.empty)
       else {
         val rawEvents: Future[Vector[EventStorageBackend.Entry[Raw[E]]]] =
-          dispatcher.executeSql(queryMetric)(query(range1))
+          dispatcher.executeSql(queryMetric)(rangedQuery(subRange))
         rawEvents.flatMap(es =>
           Timed.future(
             future = Future.traverse(es)(deserializeEntry(verbose)),
@@ -536,7 +546,7 @@ private[dao] object TransactionsReader {
       endInclusive: Long,
       numberOfChunks: Int,
       maxChunkSize: Int,
-  ): Vector[EventsRange[Long]] = {
+  ): Vector[QueryRange[Long]] = {
     require(
       maxChunkSize > 0,
       s"Maximum chunk size must be strictly positive, but was $maxChunkSize",
@@ -563,7 +573,7 @@ private[dao] object TransactionsReader {
         val effectiveNumberOfChunks = rangeSize / minChunkSize.toLong
 
         if (effectiveNumberOfChunks <= 1) {
-          Vector(EventsRange(startExclusive, endInclusive))
+          Vector(QueryRange(startExclusive, endInclusive))
         } else {
           splitRangeUnsafe(startExclusive, rangeSize, effectiveNumberOfChunks.toInt)
         }
@@ -582,22 +592,22 @@ private[dao] object TransactionsReader {
       startExclusive: Long,
       rangeSize: Long,
       numberOfChunks: Int,
-  ): Vector[EventsRange[Long]] = {
+  ): Vector[QueryRange[Long]] = {
     val minStep = rangeSize / numberOfChunks.toLong
 
     val remainder = rangeSize - minStep * numberOfChunks.toLong
 
     (0 until numberOfChunks)
       .foldLeft(
-        (startExclusive, remainder, Vector.empty[EventsRange[Long]])
+        (startExclusive, remainder, Vector.empty[QueryRange[Long]])
       ) {
         case ((lastStartExclusive, 0L, ranges), _) =>
           val endInclusiveChunk = lastStartExclusive + minStep
-          (endInclusiveChunk, 0L, ranges :+ EventsRange(lastStartExclusive, endInclusiveChunk))
+          (endInclusiveChunk, 0L, ranges :+ QueryRange(lastStartExclusive, endInclusiveChunk))
 
         case ((lastStartExclusive, remainder, ranges), _) =>
           val endInclusiveChunk = lastStartExclusive + minStep + 1L
-          val rangesResult = ranges :+ EventsRange(lastStartExclusive, endInclusiveChunk)
+          val rangesResult = ranges :+ QueryRange(lastStartExclusive, endInclusiveChunk)
           (endInclusiveChunk, remainder - 1L, rangesResult)
       }
       ._3

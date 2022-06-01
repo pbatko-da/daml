@@ -123,6 +123,11 @@ object DbDispatcher {
       executor <- ResourceOwner.forExecutorService(() =>
         new InstrumentedExecutorService(
           Executors.newFixedThreadPool(
+            // Note: We set the same size to:
+            // 1) the datasource connection pool
+            // 2) and the thread pool on which we execute the queries.
+            // This way we ensure the following property:
+            // a thread from the pool is available if only if a connection from the data source is available.
             connectionPoolSize,
             new ThreadFactoryBuilder()
               .setNameFormat(s"$threadPoolName-%d")

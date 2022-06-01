@@ -150,10 +150,10 @@ private[index] class IndexServiceImpl(
       parties: Set[Ref.Party],
   )(implicit loggingContext: LoggingContext): Source[CompletionStreamResponse, NotUsed] =
     convertOffset(startExclusive)
-      .flatMapConcat { beginOpt =>
+      .flatMapConcat { beginOffset: Offset =>
         dispatcher
           .startingAt(
-            beginOpt,
+            beginOffset,
             RangeSource(ledgerDao.completions.getCommandCompletions(_, _, applicationId, parties)),
             None,
           )
@@ -339,8 +339,6 @@ private[index] class IndexServiceImpl(
 
   private def ledgerEnd(): Offset = dispatcher.getHead()
 
-  // Returns a function that memoizes the current end
-  // Can be used directly or shared throughout a request processing
   private def convertOffset: LedgerOffset => Source[Offset, NotUsed] = {
     case LedgerOffset.LedgerBegin => Source.single(Offset.beforeBegin)
     case LedgerOffset.LedgerEnd => Source.single(ledgerEnd())

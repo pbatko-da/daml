@@ -29,7 +29,7 @@ object PostgresStorageBackendFactory
   override def createCompletionStorageBackend(
       stringInterning: StringInterning
   ): CompletionStorageBackend =
-    new CompletionStorageBackendTemplate(PostgresQueryStrategy, stringInterning)
+    new CompletionStorageBackendTemplate(PostgresQueryStrategy)
 
   override def createContractStorageBackend(
       ledgerEndCache: LedgerEndCache,

@@ -3,6 +3,7 @@
 
 package com.daml.platform.store.dao.events
 
+import com.daml.platform.store.dao.QueryRange
 import org.scalacheck.{Gen, Shrink}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -20,10 +21,10 @@ private[dao] class TransactionsReaderSpec
         numberOfChunks = 4,
         maxChunkSize = 100,
       ) shouldBe Vector(
-        EventsRange(100L, 125L),
-        EventsRange(125L, 150L),
-        EventsRange(150L, 175L),
-        EventsRange(175L, 200L),
+        QueryRange(100L, 125L),
+        QueryRange(125L, 150L),
+        QueryRange(150L, 175L),
+        QueryRange(175L, 200L),
       )
     }
 
@@ -34,12 +35,12 @@ private[dao] class TransactionsReaderSpec
         numberOfChunks = 6,
         maxChunkSize = 100,
       ) shouldBe Vector(
-        EventsRange(100L, 117L),
-        EventsRange(117L, 134L),
-        EventsRange(134L, 151L),
-        EventsRange(151L, 168L),
-        EventsRange(168L, 184L),
-        EventsRange(184L, 200L),
+        QueryRange(100L, 117L),
+        QueryRange(117L, 134L),
+        QueryRange(134L, 151L),
+        QueryRange(151L, 168L),
+        QueryRange(168L, 184L),
+        QueryRange(184L, 200L),
       )
     }
 
@@ -50,8 +51,8 @@ private[dao] class TransactionsReaderSpec
         numberOfChunks = 1,
         maxChunkSize = 50,
       ) shouldBe Vector(
-        EventsRange(100L, 150L),
-        EventsRange(150L, 200L),
+        QueryRange(100L, 150L),
+        QueryRange(150L, 200L),
       )
     }
 
@@ -62,7 +63,7 @@ private[dao] class TransactionsReaderSpec
         numberOfChunks = 3,
         maxChunkSize = 100,
       ) shouldBe Vector(
-        EventsRange(100L, 110L)
+        QueryRange(100L, 110L)
       )
     }
 
@@ -74,9 +75,9 @@ private[dao] class TransactionsReaderSpec
           numberOfChunks = 2,
           maxChunkSize = 1,
         ) shouldBe Vector(
-        EventsRange(0L, 1L),
-        EventsRange(1L, 2L),
-        EventsRange(2L, 3L),
+        QueryRange(0L, 1L),
+        QueryRange(1L, 2L),
+        QueryRange(2L, 3L),
       )
     }
 
@@ -88,9 +89,9 @@ private[dao] class TransactionsReaderSpec
           numberOfChunks = 6,
           maxChunkSize = 20,
         ) shouldBe Vector(
-        EventsRange(0L, 2L),
-        EventsRange(2L, 4L),
-        EventsRange(4L, 6L),
+        QueryRange(0L, 2L),
+        QueryRange(2L, 4L),
+        QueryRange(4L, 6L),
       )
     }
 
@@ -102,8 +103,8 @@ private[dao] class TransactionsReaderSpec
           numberOfChunks = 10,
           maxChunkSize = 1,
         ) shouldBe Vector(
-        EventsRange(5L, 6L),
-        EventsRange(6L, 7L),
+        QueryRange(5L, 6L),
+        QueryRange(6L, 7L),
       )
     }
 
@@ -114,7 +115,7 @@ private[dao] class TransactionsReaderSpec
           endInclusive = 11L,
           numberOfChunks = 100,
           maxChunkSize = 100,
-        ) shouldBe Vector.empty[EventsRange[Long]]
+        ) shouldBe Vector.empty[QueryRange[Long]]
     }
 
     "throw if numberOfChunks is below 1" in {
@@ -177,15 +178,14 @@ private[dao] class TransactionsReaderSpec
         ranges.size should be > 0
 
         /* Assert ranges are gap-less and non-overlapping */
-        ranges.foldLeft(0L) {
-          case (lastStartExclusive, EventsRange(startExclusive, endInclusive)) =>
-            startExclusive shouldBe lastStartExclusive
-            endInclusive
+        ranges.foldLeft(0L) { case (lastStartExclusive, QueryRange(startExclusive, endInclusive)) =>
+          startExclusive shouldBe lastStartExclusive
+          endInclusive
         }
 
         ranges.last.endInclusive shouldBe rangeSize
 
-        val subRangeSizes = ranges.map { case EventsRange(startExclusive, endInclusive) =>
+        val subRangeSizes = ranges.map { case QueryRange(startExclusive, endInclusive) =>
           endInclusive - startExclusive
         }
 

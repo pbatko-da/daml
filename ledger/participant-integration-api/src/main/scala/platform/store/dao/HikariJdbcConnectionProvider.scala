@@ -42,6 +42,12 @@ private[platform] object HikariDataSourceOwner {
     }
 }
 
+/** A connection provider which additionally:
+  * - measures query execution and transaction commit durations,
+  * - keeps track of its own health status by counting transient failures:
+  *   - as they occur when someone runs queries on a related connection,
+  *   - by means of periodically testing the underlying data source by requesting and immediately closing a connection.
+  */
 object DataSourceConnectionProvider {
   private val MaxTransientFailureCount: Int = 5
   private val HealthPollingSchedule: FiniteDuration = 1.second

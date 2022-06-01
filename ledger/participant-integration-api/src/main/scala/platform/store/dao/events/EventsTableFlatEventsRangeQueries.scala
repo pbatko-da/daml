@@ -4,31 +4,47 @@
 package com.daml.platform.store.dao.events
 
 import com.daml.platform.FilterRelation
-
 import java.sql.Connection
+
 import com.daml.platform.store.backend.EventStorageBackend
-import com.daml.platform.store.backend.EventStorageBackend.{FilterParams, RangeParams}
+import com.daml.platform.store.backend.EventStorageBackend.FilterParams
+import com.daml.platform.store.dao.QueryRange
 
-private[events] sealed abstract class EventsTableFlatEventsRangeQueries[Offset] {
+private[events] final class EventsTableFlatEventsRangeQueries(
+    storageBackend: EventStorageBackend
+) {
 
-  import EventsTableFlatEventsRangeQueries.QueryParts
-
-  protected def query(
-      offset: Offset,
-      filterParams: FilterParams,
-  ): QueryParts
-
-  protected def offsetRange(offset: Offset): EventsRange[Long]
-
-  final def apply(
-      offset: Offset,
+  def readFlatTransactions(
+      eventsRange: QueryRange[Long],
       filter: FilterRelation,
       pageSize: Int,
   ): Connection => Vector[EventStorageBackend.Entry[Raw.FlatEvent]] = {
     require(filter.nonEmpty, "The request must be issued by at least one party")
 
     // Route the request to the correct underlying query
-    val filterParams = if (filter.size == 1) {
+    val filterParams = convertToFilterParams(filter)
+
+    def read(eventsRange: QueryRange[Long], limit: Option[Int], fetchSizeHint: Option[Int])(
+        connection: Connection
+    ): Vector[EventStorageBackend.Entry[Raw.FlatEvent]] = {
+      storageBackend.transactionEvents(
+        startExclusive = eventsRange.startExclusive,
+        endInclusive = eventsRange.endInclusive,
+        limit = limit,
+        fetchSizeHint = fetchSizeHint,
+        filterParams = filterParams,
+      )(connection)
+    }
+
+    EventsRange.readPage(
+      fetch = read,
+      range = eventsRange,
+      pageSize = pageSize,
+    )
+  }
+
+  private def convertToFilterParams(filter: FilterRelation): FilterParams = {
+    if (filter.size == 1) {
       val (party, templateIds) = filter.iterator.next()
       if (templateIds.isEmpty) {
         // Single-party request, no specific template identifier
@@ -71,47 +87,5 @@ private[events] sealed abstract class EventsTableFlatEventsRangeQueries[Offset] 
         }
       }
     }
-
-    val parts = query(offset, filterParams)
-    EventsRange.readPage(
-      parts.read,
-      offsetRange(offset),
-      pageSize,
-    )
-  }
-}
-
-private[events] object EventsTableFlatEventsRangeQueries {
-
-  private[EventsTableFlatEventsRangeQueries] case class QueryParts(
-      read: (
-          EventsRange[Long],
-          Option[Int],
-          Option[Int],
-      ) => Connection => Vector[EventStorageBackend.Entry[Raw.FlatEvent]]
-  ) extends Product
-      with Serializable
-
-  final class GetTransactions(
-      storageBackend: EventStorageBackend
-  ) extends EventsTableFlatEventsRangeQueries[EventsRange[Long]] {
-
-    override protected def query(
-        offset: EventsRange[Long],
-        filterParams: FilterParams,
-    ): QueryParts =
-      QueryParts((range, limit, fetchSizeHint) =>
-        storageBackend.transactionEvents(
-          rangeParams = RangeParams(
-            startExclusive = range.startExclusive,
-            endInclusive = range.endInclusive,
-            limit = limit,
-            fetchSizeHint = fetchSizeHint,
-          ),
-          filterParams = filterParams,
-        )
-      )
-
-    override protected def offsetRange(offset: EventsRange[Long]) = offset
   }
 }

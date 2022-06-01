@@ -269,6 +269,7 @@ class RecoveringIndexerIntegrationSpec
           participantId = Ref.ParticipantId.assertFromString("RecoveringIndexerIntegrationSpec"),
           ledgerEndCache = mutableLedgerEndCache,
           stringInterning = stringInterning,
+          completionsPageSize = 100,
         ) -> mutableLedgerEndCache
       )
   }

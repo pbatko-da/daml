@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package com.daml.platform.store.dao.events
 
+import com.daml.platform.store.dao.QueryRange
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -19,9 +20,9 @@ class EventsRangeSpec extends AnyFlatSpec with Matchers with ScalaCheckPropertyC
     EventsRange.isEmpty(range) shouldBe expected
   }
 
-  private val eventsRangeGen: Gen[EventsRange[Int]] =
+  private val eventsRangeGen: Gen[QueryRange[Int]] =
     for {
       a <- Arbitrary.arbitrary[Int]
       b <- Arbitrary.arbitrary[Int]
-    } yield EventsRange(a, b)
+    } yield QueryRange(a, b)
 }

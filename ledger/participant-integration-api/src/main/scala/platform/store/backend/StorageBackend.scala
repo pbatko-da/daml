@@ -24,7 +24,7 @@ import com.daml.platform.{
 }
 import com.daml.platform.store.EventSequentialId
 import com.daml.platform.store.dao.events.Raw
-import com.daml.platform.store.backend.EventStorageBackend.{FilterParams, RangeParams}
+import com.daml.platform.store.backend.EventStorageBackend.FilterParams
 import com.daml.platform.store.backend.MeteringParameterStorageBackend.LedgerMeteringEnd
 import com.daml.platform.store.backend.postgresql.PostgresDataSourceConfig
 import com.daml.platform.store.entries.{ConfigurationEntry, PackageLedgerEntry, PartyLedgerEntry}
@@ -102,6 +102,8 @@ trait ParameterStorageBackend {
     */
   def updatePrunedUptoInclusive(prunedUpToInclusive: Offset)(connection: Connection): Unit
 
+  /** @return an offset up to which (inclusively) pruning was performed
+    */
   def prunedUpToInclusive(connection: Connection): Option[Offset]
 
   def updatePrunedAllDivulgedContractsUpToInclusive(
@@ -202,8 +204,9 @@ trait CompletionStorageBackend {
       startExclusive: Offset,
       endInclusive: Offset,
       applicationId: ApplicationId,
-      parties: Set[Party],
-  )(connection: Connection): List[CompletionStreamResponse]
+      limit: Int,
+      internedParties: Set[Int],
+  )(connection: Connection): Vector[CompletionStreamResponse]
 
   /** Part of pruning process, this needs to be in the same transaction as the other pruning related database operations
     */
@@ -275,10 +278,19 @@ trait EventStorageBackend {
       pruneAllDivulgedContracts: Boolean,
       connection: Connection,
   ): Boolean
+
+  /** Returns at most `limit`` results
+    * that fall into (`startExclusive`, `endInclusive`] range
+    * in ascending "event_sequential_id" order.
+    */
   def transactionEvents(
-      rangeParams: RangeParams,
+      startExclusive: Long,
+      endInclusive: Long,
+      limit: Option[Int],
+      fetchSizeHint: Option[Int],
       filterParams: FilterParams,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]]
+
   def activeContractEventIds(
       partyFilter: Party,
       templateIdFilter: Option[Identifier],
@@ -296,7 +308,10 @@ trait EventStorageBackend {
       filterParams: FilterParams,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]]
   def transactionTreeEvents(
-      rangeParams: RangeParams,
+      startExclusive: Long,
+      endInclusive: Long,
+      limit: Option[Int],
+      fetchSizeHint: Option[Int],
       filterParams: FilterParams,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.TreeEvent]]
   def transactionTree(
@@ -304,20 +319,17 @@ trait EventStorageBackend {
       filterParams: FilterParams,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.TreeEvent]]
 
-  /** Max event sequential id of observable (create, consuming and nonconsuming exercise) events. */
+  /** @return the largest event sequential id of the largest offset no larger than the given offset,
+    *         from among the offsets of observable (create, consuming and nonconsuming exercise) events.
+    */
   def maxEventSequentialIdOfAnObservableEvent(offset: Offset)(connection: Connection): Option[Long]
+
   def rawEvents(startExclusive: Long, endInclusive: Long)(
       connection: Connection
   ): Vector[EventStorageBackend.RawTransactionEvent]
 }
 
 object EventStorageBackend {
-  case class RangeParams(
-      startExclusive: Long,
-      endInclusive: Long,
-      limit: Option[Int],
-      fetchSizeHint: Option[Int],
-  )
 
   case class FilterParams(
       wildCardParties: Set[Party],

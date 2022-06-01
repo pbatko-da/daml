@@ -20,7 +20,7 @@ import com.daml.platform.store.backend.Conversions.{
 import com.daml.platform.store.backend.common.SimpleSqlAsVectorOf._
 import com.daml.platform.store.dao.events.Raw
 import com.daml.platform.store.backend.EventStorageBackend
-import com.daml.platform.store.backend.EventStorageBackend.{FilterParams, RangeParams}
+import com.daml.platform.store.backend.EventStorageBackend.FilterParams
 import com.daml.platform.store.backend.EventStorageBackend.RawTransactionEvent
 import com.daml.platform.store.backend.common.ComposableQuery.{CompositeSql, SqlStringInterpolation}
 import com.daml.platform.store.cache.LedgerEndCache
@@ -379,6 +379,8 @@ abstract class EventStorageBackendTemplate(
     "submitters",
   ).mkString(", ")
 
+  /** Returns at most `limit` items ordered by "event_sequential_id" column
+    */
   private def events[T](
       joinClause: CompositeSql,
       additionalAndClause: CompositeSql,
@@ -437,7 +439,6 @@ abstract class EventStorageBackendTemplate(
           #$selectColumns, #$witnessesColumn as event_witnesses, command_id
         FROM
           #$table $joinClause
-
         WHERE
           $additionalAndClause
           $witnessesWhereClause
@@ -459,26 +460,30 @@ abstract class EventStorageBackendTemplate(
   }
 
   override def transactionEvents(
-      rangeParams: RangeParams,
+      startExclusive: Long,
+      endInclusive: Long,
+      limit: Option[Int],
+      fetchSizeHint: Option[Int],
       filterParams: FilterParams,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]] = {
     events(
       joinClause = cSQL"",
       additionalAndClause = cSQL"""
-            event_sequential_id > ${rangeParams.startExclusive} AND
-            event_sequential_id <= ${rangeParams.endInclusive} AND""",
+            event_sequential_id > ${startExclusive} AND
+            event_sequential_id <= ${endInclusive} AND""",
       rowParser = rawFlatEventParser,
       witnessesColumn = "flat_event_witnesses",
       partitions = List(
         "participant_events_create" -> selectColumnsForFlatTransactionsCreate,
         "participant_events_consuming_exercise" -> selectColumnsForFlatTransactionsExercise,
-        "participant_events_non_consuming_exercise" -> selectColumnsForFlatTransactionsExercise,
+        // Note: non consuming events have empty flat witnesses
+        // "participant_events_non_consuming_exercise" -> selectColumnsForFlatTransactionsExercise,
         // Note: previously we used divulgence events, however they don't have flat event witnesses and were thus never included anyway
         // "participant_events_divulgence" -> selectColumnsForFlatTransactionsDivulgence,
       ),
     )(
-      limit = rangeParams.limit,
-      fetchSizeHint = rangeParams.fetchSizeHint,
+      limit = limit,
+      fetchSizeHint = fetchSizeHint,
       filterParams,
     )(connection)
   }
@@ -586,14 +591,17 @@ abstract class EventStorageBackendTemplate(
   }
 
   override def transactionTreeEvents(
-      rangeParams: RangeParams,
+      startExclusive: Long,
+      endInclusive: Long,
+      limit: Option[Int],
+      fetchSizeHint: Option[Int],
       filterParams: FilterParams,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.TreeEvent]] = {
     events(
       joinClause = cSQL"",
       additionalAndClause = cSQL"""
-            event_sequential_id > ${rangeParams.startExclusive} AND
-            event_sequential_id <= ${rangeParams.endInclusive} AND""",
+            event_sequential_id > ${startExclusive} AND
+            event_sequential_id <= ${endInclusive} AND""",
       rowParser = rawTreeEventParser,
       witnessesColumn = "tree_event_witnesses",
       partitions = List(
@@ -606,8 +614,8 @@ abstract class EventStorageBackendTemplate(
             .constBooleanSelect(false)} as exercise_consuming",
       ),
     )(
-      limit = rangeParams.limit,
-      fetchSizeHint = rangeParams.fetchSizeHint,
+      limit = limit,
+      fetchSizeHint = fetchSizeHint,
       filterParams,
     )(connection)
   }

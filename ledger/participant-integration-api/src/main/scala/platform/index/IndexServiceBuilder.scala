@@ -317,5 +317,6 @@ private[platform] case class IndexServiceBuilder(
       participantId = participantId,
       ledgerEndCache = ledgerEndCache,
       stringInterning = stringInterning,
+      completionsPageSize = config.completionsPageSize,
     )
 }

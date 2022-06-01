@@ -29,7 +29,9 @@ private[platform] object PaginatingAsyncStream {
     * @param queryPage takes the offset from which to start the next page and returns that page
     * @tparam T the type of the items returned in each call
     */
-  def apply[T](pageSize: Int)(queryPage: Long => Future[Vector[T]]): Source[T, NotUsed] = {
+  def streamFromOffsetLimitPagination[T](
+      pageSize: Int
+  )(queryPage: Long => Future[Vector[T]]): Source[T, NotUsed] = {
     Source
       .unfoldAsync(Option(0L)) {
         case None => Future.successful(None)
@@ -40,7 +42,7 @@ private[platform] object PaginatingAsyncStream {
             Some(newQueryOffset -> result)
           }(ExecutionContext.parasitic)
       }
-      .flatMapConcat(Source(_))
+      .mapConcat(identity)
   }
 
   /** Concatenates the results of multiple asynchronous calls into
@@ -55,25 +57,25 @@ private[platform] object PaginatingAsyncStream {
     * of keeping multiple, concurrent, long-running streams while serving
     * lookup calls.
     *
-    * @param startFromOffset initial offset
-    * @param getOffset       function that returns a position/offset from the element of type [[T]]
-    * @param query           a function that fetches results starting from provided offset
+    * @param startFromOffset initial offset (exclusive) to fetch from
+    * @param getNextPageOffset       a function that returns a position/offset from the element of type [[T]]
+    * @param fetchNextPage           a function that fetches results starting from provided offset (exclusive)
     * @tparam Off the type of the offset
     * @tparam T   the type of the items returned in each call
     */
-  def streamFrom[Off, T](startFromOffset: Off, getOffset: T => Off)(
-      query: Off => Future[Vector[T]]
+  def streamFromSeekPagination[Off, T](startFromOffset: Off, getNextPageOffset: T => Off)(
+      fetchNextPage: Off => Future[Vector[T]]
   ): Source[T, NotUsed] = {
     Source
       .unfoldAsync(Option(startFromOffset)) {
         case None =>
           Future.successful(None) // finished reading the whole thing
         case Some(offset) =>
-          query(offset).map { result =>
-            val nextPageOffset: Option[Off] = result.lastOption.map(getOffset)
+          fetchNextPage(offset).map { result =>
+            val nextPageOffset: Option[Off] = result.lastOption.map(getNextPageOffset)
             Some((nextPageOffset, result))
           }(ExecutionContext.parasitic)
       }
-      .flatMapConcat(Source(_))
+      .mapConcat(identity)
   }
 }
