@@ -360,6 +360,25 @@ trait EventStorageBackend {
       allFilterParties: Set[Party],
       endInclusive: Long,
   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]]
+
+
+  def fetchIdsFromTransactionMeta(
+                                   transactionId: Ref.TransactionId,
+                                 )(connection: Connection): Option[(Long, Long)]
+
+  def fetchFlatTransaction(
+                            firstEventSequentialId: Long,
+                            lastEventSequentialId: Long,
+                            requestingParties: Set[Party],
+                          )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]]
+
+  def fetchTreeTransaction(
+                            firstEventSequentialId: Long,
+                            lastEventSequentialId: Long,
+                            allFilterParties: Set[Party],
+                          )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]]
+
+
   def flatTransaction(
       transactionId: TransactionId,
       filterParams: FilterParams,

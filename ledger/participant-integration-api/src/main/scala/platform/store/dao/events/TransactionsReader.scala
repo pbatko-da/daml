@@ -44,6 +44,7 @@ import com.daml.platform.store.dao.events.FilterTableACSReader.{
   IdQueryConfiguration,
   statefulDeduplicate,
 }
+import com.daml.platform.store.dao.events.Raw.FlatEvent
 import io.opentelemetry.api.trace.Span
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -314,27 +315,72 @@ private[dao] final class TransactionsReader(
       .watchTermination()(endSpanOnTermination(span))
   }
 
+  // TODO pbatko
   override def lookupFlatTransactionById(
       transactionId: Ref.TransactionId,
       requestingParties: Set[Party],
-  )(implicit loggingContext: LoggingContext): Future[Option[GetFlatTransactionResponse]] =
-    dispatcher
-      .executeSql(dbMetrics.lookupFlatTransactionById)(
-        eventStorageBackend.flatTransaction(
-          transactionId,
-          FilterParams(
-            wildCardParties = requestingParties,
-            partiesAndTemplates = Set.empty,
-          ),
+  )(implicit loggingContext: LoggingContext): Future[Option[GetFlatTransactionResponse]] = {
+    // TODO pbatko: choose suitable metric
+    val idsFuture: Future[Option[(Long, Long)]] =
+      dispatcher.executeSql(dbMetrics.lookupFlatTransactionById)(
+        eventStorageBackend.fetchIdsFromTransactionMeta(
+          transactionId = transactionId
         )
       )
-      .flatMap(rawEvents =>
-        Timed.value(
-          timer = dbMetrics.lookupFlatTransactionById.translationTimer,
-          value = Future.traverse(rawEvents)(deserializeEntry(verbose = true)),
-        )
+
+    for {
+      idsO: Option[(Long, Long)] <- idsFuture
+    } yield {
+      idsO match {
+        case Some((fistId, lastId)) =>
+          val rawEventsFuture: Future[Vector[EventStorageBackend.Entry[Raw.FlatEvent]]] =
+            dispatcher.executeSql(
+              dbMetrics.lookupFlatTransactionById
+            )(
+              eventStorageBackend.fetchFlatTransaction(
+                firstEventSequentialId = fistId,
+                lastEventSequentialId = lastId,
+                requestingParties = requestingParties,
+              )
+            )
+          for {
+            rowEvents: Seq[EventStorageBackend.Entry[FlatEvent]] <- rawEventsFuture
+          } yield {
+            rowEvents.filter((event: EventStorageBackend.Entry[Raw.FlatEvent]) => {
+              val e: Raw.FlatEvent = event.event
+              e match {
+                case e1: FlatEvent.Created =>
+                  val parties: Seq[String] = e1.partial.witnessParties
+                  val b: Boolean = parties.iterator.exists(requestingParties.apply _)
+
+                case e2: FlatEvent.Archived =>
+//                e2.raw
+                  true
+              }
+            })
+          }
+        case None => Future.successful(None)
+      }
+    }
+
+  }
+  dispatcher
+    .executeSql(dbMetrics.lookupFlatTransactionById)(
+      eventStorageBackend.flatTransaction(
+        transactionId,
+        FilterParams(
+          wildCardParties = requestingParties,
+          partiesAndTemplates = Set.empty,
+        ),
       )
-      .map(TransactionConversions.toGetFlatTransactionResponse)
+    )
+    .flatMap(rawEvents =>
+      Timed.value(
+        timer = dbMetrics.lookupFlatTransactionById.translationTimer,
+        value = Future.traverse(rawEvents)(deserializeEntry(verbose = true)),
+      )
+    )
+    .map(TransactionConversions.toGetFlatTransactionResponse)
 
   override def getTransactionTrees(
       startExclusive: Offset,
@@ -677,6 +723,7 @@ private[dao] final class TransactionsReader(
       .watchTermination()(endSpanOnTermination(span))
   }
 
+  // TODO pbatko
   override def lookupTransactionTreeById(
       transactionId: Ref.TransactionId,
       requestingParties: Set[Party],

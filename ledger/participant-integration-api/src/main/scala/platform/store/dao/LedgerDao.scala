@@ -47,6 +47,7 @@ private[platform] trait LedgerDaoTransactionsReader {
       verbose: Boolean,
   )(implicit loggingContext: LoggingContext): Source[(Offset, GetTransactionsResponse), NotUsed]
 
+  // TODO pbatko
   def lookupFlatTransactionById(
       transactionId: TransactionId,
       requestingParties: Set[Party],
@@ -77,6 +78,7 @@ private[platform] trait LedgerDaoTransactionsReader {
       implicit loggingContext: LoggingContext
   ): Source[((Offset, Long), TransactionLogUpdate), NotUsed]
 
+  // TODO pbatko
   def lookupTransactionTreeById(
       transactionId: TransactionId,
       requestingParties: Set[Party],

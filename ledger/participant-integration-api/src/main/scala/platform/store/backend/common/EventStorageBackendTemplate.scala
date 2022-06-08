@@ -735,6 +735,84 @@ abstract class EventStorageBackendTemplate(
       .asVectorOf(rawFlatEventParser(allInternedFilterParties))(connection)
   }
 
+  private val EventSequentailIdFromTo: RowParser[(Long, Long)] =
+    long("event_sequential_id_from") ~ long("event_sequential_id_to") map {
+      case event_sequential_id_from ~ event_sequential_id_to  =>
+        (event_sequential_id_from, event_sequential_id_to)
+    }
+
+
+  def fetchIdsFromTransactionMeta(
+                                transactionId: Ref.TransactionId,
+                              )(connection: Connection): Option[(Long, Long)] = {
+    import com.daml.platform.store.backend.Conversions.ledgerStringToStatement
+    // TODO pbatko: event_offset vs. pruning
+    //              JOIN parameters ON (participant_pruned_up_to_inclusive is null or event_offset > participant_pruned_up_to_inclusive)
+    SQL"""
+         SELECT
+            event_sequential_id_from,
+            event_sequential_id_to
+         FROM
+            participant_transaction_meta
+         WHERE
+            transaction_id = $transactionId
+       """.as(EventSequentailIdFromTo.singleOpt)(connection)
+  }
+
+  override def fetchFlatTransaction(
+                                     firstEventSequentialId: Long,
+                                     lastEventSequentialId: Long,
+                                     requestingParties: Set[Party],
+                                   )(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]] = {
+    // TODO pbatko:
+    //      - fetchSizeHint
+    //      - limit
+    val allInternedFilterParties = requestingParties.iterator
+      .map(stringInterning.party.tryInternalize)
+      .flatMap(_.iterator)
+      .toSet
+    SQL"""
+        (
+         SELECT
+          #$selectColumnsForFlatTransactionsCreate, flat_event_witnesses as event_witnesses, command_id
+         FROM
+          participant_events_create
+         WHERE
+          event_sequential_id >= $firstEventSequentialId AND event_sequential_id >= lastEventSequentialId
+         ORDER BY
+          event_sequential_id
+        )
+        UNION ALL
+        (
+         SELECT
+          #$selectColumnsForFlatTransactionsExercise, flat_event_witnesses as event_witnesses, command_id
+         FROM
+          participant_events_consuming_exercise
+         WHERE
+          event_sequential_id >= $firstEventSequentialId AND event_sequential_id >= lastEventSequentialId
+         ORDER BY
+          event_sequential_id
+        )
+        UNION ALL
+        (
+         SELECT
+          #$selectColumnsForFlatTransactionsExercise, flat_event_witnesses as event_witnesses, command_id
+         FROM
+          participant_events_non_consuming_exercise
+         WHERE
+          event_sequential_id >= $firstEventSequentialId AND event_sequential_id >= lastEventSequentialId
+         ORDER BY
+          event_sequential_id
+        )
+        ORDER BY event_sequential_id
+     """.asVectorOf(rawFlatEventParser(allInternedFilterParties))(connection)
+
+  }
+
+
+  override def fetchTreeTransaction(firstEventSequentialId: Long, lastEventSequentialId: Long)(connection: Connection): Vector[EventStorageBackend.Entry[Raw.FlatEvent]] = ???
+
+  // TODO pbatko
   override def flatTransaction(
       transactionId: Ref.TransactionId,
       filterParams: FilterParams,
@@ -743,6 +821,14 @@ abstract class EventStorageBackendTemplate(
     import com.daml.platform.store.backend.Conversions.OffsetToStatement
     val ledgerEndOffset = ledgerEndCache()._1
     events(
+      // TODO pbatko: Race condition with pruning on read-committed isolation level?
+      // 0. DB state: Pruning has never been run.
+      // 1. This query starts and some rows pass the check: participant_pruned_up_to_inclusive is null or event_offset > participant_pruned_up_to_inclusive
+      //    and there are some more rows that would pass the check but in the meantime pruning starts.
+      // 2. Pruning starts, removes all the rows, and commits.
+      // 3. This query continues searching for rows and finds none.
+      //    (Or returns already deleted one!)
+
       joinClause = cSQL"""JOIN parameters ON
             (participant_pruned_up_to_inclusive is null or event_offset > participant_pruned_up_to_inclusive)
             AND event_offset <= $ledgerEndOffset""",
@@ -763,6 +849,7 @@ abstract class EventStorageBackendTemplate(
     )(connection)
   }
 
+  // TODO pbatko
   override def transactionTree(
       transactionId: Ref.TransactionId,
       filterParams: FilterParams,
@@ -903,6 +990,7 @@ abstract class EventStorageBackendTemplate(
             delete_events.event_offset <= $pruneUpToInclusive"""
     }(connection, loggingContext)
 
+    // TODO pbatko pruning non-consuming
     pruneWithLogging(queryDescription = "Exercise (non-consuming) events pruning") {
       SQL"""
           -- Exercise events (non-consuming)
@@ -1167,4 +1255,6 @@ trait EventStrategy {
   def pruneConsumingFilters_nonStakeholderInformees(pruneUpToInclusive: Offset): SimpleSql[Row]
 
   def pruneNonConsumingFilters_informees(pruneUpToInclusive: Offset): SimpleSql[Row]
+
+  def pruneTransactionMeta(pruneUpToInclusive: Offset): SimpleSql[Row]
 }
