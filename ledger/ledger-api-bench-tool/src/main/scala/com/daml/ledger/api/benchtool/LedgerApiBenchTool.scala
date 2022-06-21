@@ -129,8 +129,9 @@ class LedgerApiBenchTool(
           }
         }
 
+        desugaring = new ConfigDesugaring(submissionStepResultO)
         updatedStreamConfigs = config.workflow.streams.map(streamsConfig =>
-          ConfigEnricher.enrichStreamConfig(streamsConfig, submissionStepResultO)
+          desugaring.desugar(streamsConfig)
         )
 
         _ = logger.info(
@@ -222,12 +223,18 @@ class LedgerApiBenchTool(
   )(implicit ec: ExecutionContext): Future[Either[String, Unit]] =
     submissionConfigO match {
       case Some(submissionConfig: FooSubmissionConfig) =>
+        val randomnessProvider = RandomnessProvider.Default
         val generator: CommandGenerator = new FooCommandGenerator(
-          randomnessProvider = RandomnessProvider.Default,
+          defaultRandomnessProvider = randomnessProvider,
           config = submissionConfig,
           divulgeesToDivulgerKeyMap = Map.empty,
           names = names,
           allocatedParties = allocatedParties,
+          partySelecting = new FooRandomPartySelecting(
+            config = submissionConfig,
+            allocatedParties = allocatedParties,
+            randomnessProvider = randomnessProvider,
+          ),
         )
         for {
           metricsManager <- MetricsManager(

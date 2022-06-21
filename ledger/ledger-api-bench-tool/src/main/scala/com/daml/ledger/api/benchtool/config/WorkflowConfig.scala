@@ -23,6 +23,7 @@ object WorkflowConfig {
     def numberOfExtraSubmitters: Int
     def uniqueParties: Boolean
     def waitForSubmission: Boolean
+    def partySetO: Option[FooSubmissionConfig.PartySet]
   }
 
   final case class FibonacciSubmissionConfig(
@@ -34,24 +35,39 @@ object WorkflowConfig {
     override val numberOfObservers = 0
     override val numberOfDivulgees = 0
     override val numberOfExtraSubmitters = 0
+    override val partySetO: Option[FooSubmissionConfig.PartySet] = None
   }
 
   final case class FooSubmissionConfig(
       numberOfInstances: Int,
       numberOfObservers: Int,
-      numberOfDivulgees: Int,
-      numberOfExtraSubmitters: Int,
+      numberOfDivulgees: Int = 0,
+      numberOfExtraSubmitters: Int = 0,
       uniqueParties: Boolean,
       instanceDistribution: List[FooSubmissionConfig.ContractDescription],
-      nonConsumingExercises: Option[NonconsumingExercises],
-      consumingExercises: Option[ConsumingExercises],
-      applicationIds: List[FooSubmissionConfig.ApplicationId],
+      nonConsumingExercises: Option[NonconsumingExercises] = None,
+      consumingExercises: Option[ConsumingExercises] = None,
+      applicationIds: List[FooSubmissionConfig.ApplicationId] = List.empty,
       maybeWaitForSubmission: Option[Boolean] = None,
+      partySetO: Option[FooSubmissionConfig.PartySet] = None,
   ) extends SubmissionConfig {
     def waitForSubmission: Boolean = maybeWaitForSubmission.getOrElse(true)
   }
 
   object FooSubmissionConfig {
+
+    /** @param name name of this party set
+      * @param count number of parties to create
+      * @param visibility a fraction of contracts that each of the parties from this set should see
+      * @param partyNamePrefix name of each party from this wills start with this prefix
+      */
+    final case class PartySet(
+        name: String,
+        count: Int,
+        visibility: Double,
+        partyNamePrefix: String,
+    )
+
     case class ContractDescription(
         template: String,
         weight: Int,
@@ -88,32 +104,43 @@ object WorkflowConfig {
   }
 
   object StreamConfig {
+
+    final case class PartyFilter(party: String, templates: List[String] = List.empty)
+
+    final case class PartySetTemplatesFilter(
+        partySetName: String,
+        templates: List[String] = List.empty,
+    )
+
     final case class TransactionsStreamConfig(
         name: String,
         filters: List[PartyFilter],
-        beginOffset: Option[LedgerOffset],
-        endOffset: Option[LedgerOffset],
-        objectives: Option[StreamConfig.TransactionObjectives],
-        override val maxItemCount: Option[Long],
-        override val timeoutInSecondsO: Option[Long],
+        filterByPartySetO: Option[PartySetTemplatesFilter] = None,
+        beginOffset: Option[LedgerOffset] = None,
+        endOffset: Option[LedgerOffset] = None,
+        objectives: Option[StreamConfig.TransactionObjectives] = None,
+        override val maxItemCount: Option[Long] = None,
+        override val timeoutInSecondsO: Option[Long] = None,
     ) extends StreamConfig
 
     final case class TransactionTreesStreamConfig(
         name: String,
         filters: List[PartyFilter],
-        beginOffset: Option[LedgerOffset],
-        endOffset: Option[LedgerOffset],
-        objectives: Option[StreamConfig.TransactionObjectives],
-        override val maxItemCount: Option[Long],
-        override val timeoutInSecondsO: Option[Long],
+        filterByPartySetO: Option[PartySetTemplatesFilter] = None,
+        beginOffset: Option[LedgerOffset] = None,
+        endOffset: Option[LedgerOffset] = None,
+        objectives: Option[StreamConfig.TransactionObjectives] = None,
+        override val maxItemCount: Option[Long] = None,
+        override val timeoutInSecondsO: Option[Long] = None,
     ) extends StreamConfig
 
     final case class ActiveContractsStreamConfig(
         name: String,
         filters: List[PartyFilter],
-        objectives: Option[StreamConfig.RateObjectives],
-        override val maxItemCount: Option[Long],
-        override val timeoutInSecondsO: Option[Long],
+        filterByPartySetO: Option[PartySetTemplatesFilter] = None,
+        objectives: Option[StreamConfig.RateObjectives] = None,
+        override val maxItemCount: Option[Long] = None,
+        override val timeoutInSecondsO: Option[Long] = None,
     ) extends StreamConfig
 
     final case class CompletionsStreamConfig(
@@ -125,8 +152,6 @@ object WorkflowConfig {
         override val maxItemCount: Option[Long],
         override val timeoutInSecondsO: Option[Long],
     ) extends StreamConfig
-
-    final case class PartyFilter(party: String, templates: List[String])
 
     case class TransactionObjectives(
         maxDelaySeconds: Option[Long],

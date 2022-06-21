@@ -30,9 +30,10 @@ case class AllocatedParties(
     observers: List[client.binding.Primitive.Party],
     divulgees: List[client.binding.Primitive.Party],
     extraSubmitters: List[client.binding.Primitive.Party],
+    partySetParties: Map[String, List[client.binding.Primitive.Party]],
 ) {
   val allAllocatedParties: List[Primitive.Party] =
-    List(signatory) ++ observers ++ divulgees ++ extraSubmitters
+    List(signatory) ++ observers ++ divulgees ++ extraSubmitters ++ partySetParties.values.flatten
 }
 
 case class CommandSubmitter(
@@ -42,6 +43,7 @@ case class CommandSubmitter(
     metricRegistry: MetricRegistry,
     metricsManager: MetricsManager[LatencyNanos],
     waitForSubmission: Boolean,
+    commandGenerationParallelism: Int = 8,
 ) {
   private val logger = LoggerFactory.getLogger(getClass)
   private val submitLatencyTimer = if (waitForSubmission) {
@@ -53,31 +55,11 @@ case class CommandSubmitter(
   def prepare(config: SubmissionConfig)(implicit
       ec: ExecutionContext
   ): Future[AllocatedParties] = {
-    val observerPartyNames =
-      names.observerPartyNames(config.numberOfObservers, config.uniqueParties)
-    val divulgeePartyNames =
-      names.divulgeePartyNames(config.numberOfDivulgees, config.uniqueParties)
-    val extraSubmittersPartyNames =
-      names.extraSubmitterPartyNames(config.numberOfExtraSubmitters, config.uniqueParties)
-
-    logger.info("Generating contracts...")
     logger.info(s"Identifier suffix: ${names.identifierSuffix}")
     (for {
-      known <- lookupExistingParties()
-      signatory <- allocateSignatoryParty(known)
-      observers <- allocateParties(observerPartyNames, known)
-      divulgees <- allocateParties(divulgeePartyNames, known)
-      extraSubmitters <- allocateParties(extraSubmittersPartyNames, known)
+      allocatedParties <- allocateParties(config)
       _ <- uploadTestDars()
-    } yield {
-      logger.info("Prepared command submission.")
-      AllocatedParties(
-        signatory = signatory,
-        observers = observers,
-        divulgees = divulgees,
-        extraSubmitters = extraSubmitters,
-      )
-    })
+    } yield allocatedParties)
       .recoverWith { case NonFatal(ex) =>
         logger.error(
           s"Command submission preparation failed. Details: ${ex.getLocalizedMessage}",
@@ -129,6 +111,48 @@ case class CommandSubmitter(
       }
   }
 
+  private def allocateParties(config: SubmissionConfig)(implicit
+      ec: ExecutionContext
+  ): Future[AllocatedParties] = {
+    val observerPartyNames =
+      names.observerPartyNames(config.numberOfObservers, config.uniqueParties)
+    val divulgeePartyNames =
+      names.divulgeePartyNames(config.numberOfDivulgees, config.uniqueParties)
+    val extraSubmittersPartyNames =
+      names.extraSubmitterPartyNames(config.numberOfExtraSubmitters, config.uniqueParties)
+    val partySetNameToPartyNamesMap = {
+      config.partySetO.fold(
+        Map.empty[String, Seq[String]]
+      )(partySet =>
+        Map(
+          partySet.name -> names.partyNames(
+            prefix = partySet.partyNamePrefix,
+            numberOfParties = partySet.count,
+            uniqueParties = config.uniqueParties,
+          )
+        )
+      )
+    }
+    logger.info("Allocating parties...")
+    for {
+      known <- lookupExistingParties()
+      signatory <- allocateSignatoryParty(known)
+      observers <- allocateParties(observerPartyNames, known)
+      divulgees <- allocateParties(divulgeePartyNames, known)
+      extraSubmitters <- allocateParties(extraSubmittersPartyNames, known)
+      partySetParties <- partySetNameToPartyNamesMap.map{(name, parties) => name -> allocateParties(parties, known)}
+    } yield {
+      logger.info("Allocating parties completed")
+      AllocatedParties(
+        signatory = signatory,
+        observers = observers,
+        divulgees = divulgees,
+        extraSubmitters = extraSubmitters,
+        partySetParties = partySetParties,
+      )
+    }
+  }
+
   private def allocateSignatoryParty(known: Set[String])(implicit
       ec: ExecutionContext
   ): Future[Primitive.Party] =
@@ -162,7 +186,8 @@ case class CommandSubmitter(
       submissionId = submissionId,
     )
 
-  private def uploadTestDars()(implicit ec: ExecutionContext): Future[Unit] =
+  private def uploadTestDars()(implicit ec: ExecutionContext): Future[Unit] = {
+    logger.info("Uploading dars...")
     for {
       dars <- Future.fromTry(TestDars.readAll())
       _ <- Future.sequence {
@@ -171,7 +196,10 @@ case class CommandSubmitter(
             uploadDar(dar, names.darId(index))
           }
       }
-    } yield ()
+    } yield {
+      logger.info("Uplading dars completed")
+    }
+  }
 
   private def submit(
       id: String,
@@ -232,7 +260,7 @@ case class CommandSubmitter(
           _ <- Source
             .fromIterator(() => (1 to config.numberOfInstances).iterator)
             .wireTap(i => if (i == 1) progressMeter.start())
-            .mapAsync(8)(index =>
+            .mapAsync(commandGenerationParallelism)(index =>
               Future.fromTry(
                 generator.next().map(cmd => index -> cmd)
               )

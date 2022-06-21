@@ -14,6 +14,8 @@ class FooSubmission(
     submissionConfig: FooSubmissionConfig,
     allocatedParties: AllocatedParties,
     names: Names,
+    partySelectingRandomnessProviderOverride: Option[RandomnessProvider] = None,
+    consumingEventsRandomnessProviderOverride: Option[RandomnessProvider] = None,
 ) {
 
   def performSubmission()(implicit
@@ -24,7 +26,14 @@ class FooSubmission(
         divulgingParty = allocatedParties.signatory,
         allDivulgees = allocatedParties.divulgees,
       )
-
+    val defaultRandomnessProvider = RandomnessProvider.Default
+    val partySelecting =
+      new FooRandomPartySelecting(
+        config = submissionConfig,
+        allocatedParties = allocatedParties,
+        randomnessProvider =
+          partySelectingRandomnessProviderOverride.getOrElse(defaultRandomnessProvider),
+      )
     for {
       _ <-
         if (divulgerCmds.nonEmpty) {
@@ -41,11 +50,14 @@ class FooSubmission(
           Future.unit
         }
       generator: CommandGenerator = new FooCommandGenerator(
-        randomnessProvider = RandomnessProvider.Default,
+        defaultRandomnessProvider = defaultRandomnessProvider,
         config = submissionConfig,
         divulgeesToDivulgerKeyMap = divulgeesToDivulgerKeyMap,
         names = names,
         allocatedParties = allocatedParties,
+        partySelecting = partySelecting,
+        consumingEventsRandomnessProvider =
+          consumingEventsRandomnessProviderOverride.getOrElse(defaultRandomnessProvider),
       )
       _ <- submitter
         .generateAndSubmit(

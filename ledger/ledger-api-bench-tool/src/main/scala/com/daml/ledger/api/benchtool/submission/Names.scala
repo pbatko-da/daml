@@ -26,12 +26,12 @@ class Names {
 
   def darId(index: Int) = s"submission-dars-$index-$identifierSuffix"
 
-  private def partyNames(
-      baseName: String,
+  def partyNames(
+      prefix: String,
       numberOfParties: Int,
       uniqueParties: Boolean,
   ): Seq[String] =
-    (0 until numberOfParties).map(i => partyName(baseName, i, uniqueParties))
+    (0 until numberOfParties).map(i => partyName(prefix, i, uniqueParties))
 
   private def partyName(baseName: String, index: Int, uniqueParties: Boolean): String =
     s"$baseName-$index" + (if (uniqueParties) identifierSuffix else "")
