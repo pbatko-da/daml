@@ -1,12 +1,13 @@
 // Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-package com.daml.ledger.api.benchtool.metrics
-
-import com.daml.ledger.api.benchtool.util.TimeUtil
-import com.google.protobuf.timestamp.Timestamp
+package com.daml.ledger.api.benchtool.metrics.metrics
 
 import java.time.{Clock, Duration}
+
+import com.daml.ledger.api.benchtool.metrics.{Metric, MetricValue, ServiceLevelObjective}
+import com.daml.ledger.api.benchtool.util.TimeUtil
+import com.google.protobuf.timestamp.Timestamp
 
 final case class DelayMetric[T](
     recordTimeFunction: T => Seq[Timestamp],

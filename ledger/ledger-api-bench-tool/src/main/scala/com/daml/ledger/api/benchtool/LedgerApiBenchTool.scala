@@ -13,12 +13,8 @@ import com.daml.ledger.api.benchtool.config.WorkflowConfig.{
 }
 import com.daml.ledger.api.benchtool.config.{Config, ConfigMaker, WorkflowConfig}
 import com.daml.ledger.api.benchtool.metrics.MetricsManager.NoOpMetricsManager
-import com.daml.ledger.api.benchtool.metrics.{
-  BenchmarkResult,
-  LatencyMetric,
-  MetricRegistryOwner,
-  MetricsManager,
-}
+import com.daml.ledger.api.benchtool.metrics.{BenchmarkResult, MetricRegistryOwner, MetricsManager}
+import com.daml.ledger.api.benchtool.metrics.metrics._
 import com.daml.ledger.api.benchtool.services.LedgerApiServices
 import com.daml.ledger.api.benchtool.submission._
 import com.daml.ledger.api.benchtool.submission.foo.RandomPartySelecting

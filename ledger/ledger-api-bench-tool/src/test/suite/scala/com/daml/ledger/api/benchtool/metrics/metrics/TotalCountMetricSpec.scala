@@ -1,9 +1,9 @@
 // Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-package com.daml.ledger.api.benchtool.metrics
+package com.daml.ledger.api.benchtool.metrics.metrics
 
-import com.daml.ledger.api.benchtool.metrics.TotalCountMetric.Value
+import com.daml.ledger.api.benchtool.metrics.metrics.TotalCountMetric.Value
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -19,8 +19,8 @@ class TotalCountMetricSpec extends AnyWordSpec with Matchers {
       val (_, periodicValue) = metric.periodicValue(periodDuration)
       val finalValue = metric.finalValue(totalDuration)
 
-      periodicValue shouldBe Value(0)
-      finalValue shouldBe Value(0)
+      periodicValue shouldBe TotalCountMetric.Value(0)
+      finalValue shouldBe TotalCountMetric.Value(0)
     }
 
     "compute values after processing elements" in {

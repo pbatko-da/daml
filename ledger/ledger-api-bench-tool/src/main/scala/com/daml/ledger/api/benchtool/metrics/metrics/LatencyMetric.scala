@@ -1,11 +1,12 @@
 // Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-package com.daml.ledger.api.benchtool.metrics
-
-import com.daml.ledger.api.benchtool.metrics.LatencyMetric.{LatencyNanos, MaxLatency, Value}
+package com.daml.ledger.api.benchtool.metrics.metrics
 
 import java.time.Duration
+
+import com.daml.ledger.api.benchtool.metrics.{Metric, MetricValue, ServiceLevelObjective}
+import com.daml.ledger.api.benchtool.metrics.metrics.LatencyMetric.{LatencyNanos, MaxLatency, Value}
 
 case class LatencyMetric(totalNanos: LatencyNanos, numberObservations: Int, maxLatency: MaxLatency)
     extends Metric[LatencyNanos] {

@@ -15,6 +15,7 @@ import com.google.protobuf.timestamp.Timestamp
 
 import java.time.{Clock, Duration}
 import scala.concurrent.duration.FiniteDuration
+import com.daml.ledger.api.benchtool.metrics.metrics._
 
 object MetricsSet {
 

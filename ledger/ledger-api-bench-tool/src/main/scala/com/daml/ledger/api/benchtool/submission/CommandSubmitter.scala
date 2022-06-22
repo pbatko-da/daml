@@ -9,7 +9,7 @@ import akka.stream.{Materializer, OverflowStrategy}
 import com.codahale.metrics.{MetricRegistry, Timer}
 import com.daml.ledger.api.benchtool.config.WorkflowConfig.SubmissionConfig
 import com.daml.ledger.api.benchtool.infrastructure.TestDars
-import com.daml.ledger.api.benchtool.metrics.LatencyMetric.LatencyNanos
+import com.daml.ledger.api.benchtool.metrics.metrics.LatencyMetric.LatencyNanos
 import com.daml.ledger.api.benchtool.metrics.MetricsManager
 import com.daml.ledger.api.benchtool.services.LedgerApiServices
 import com.daml.ledger.api.v1.commands.{Command, Commands}

@@ -5,6 +5,7 @@ package com.daml.ledger.api.benchtool.util
 
 import com.daml.ledger.api.benchtool.metrics.MetricsCollector.Response.{FinalReport, PeriodicReport}
 import com.daml.ledger.api.benchtool.metrics._
+import com.daml.ledger.api.benchtool.metrics.metrics._
 
 object ReportFormatter {
   def formatPeriodicReport(streamName: String, periodicReport: PeriodicReport): String = {

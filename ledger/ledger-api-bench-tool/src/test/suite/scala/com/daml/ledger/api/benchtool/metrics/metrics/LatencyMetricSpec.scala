@@ -1,11 +1,12 @@
 // Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-package com.daml.ledger.api.benchtool.metrics
+package com.daml.ledger.api.benchtool.metrics.metrics
 
-import com.daml.ledger.api.benchtool.metrics.LatencyMetric.MaxLatency
+import com.daml.ledger.api.benchtool.metrics.metrics.LatencyMetric.MaxLatency
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+
 import scala.util.chaining._
 
 import java.time.Duration

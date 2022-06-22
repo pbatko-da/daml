@@ -1,9 +1,9 @@
 // Copyright (c) 2022 Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-package com.daml.ledger.api.benchtool.metrics
+package com.daml.ledger.api.benchtool.metrics.metrics
 
-import com.daml.ledger.api.benchtool.metrics.ConsumptionSpeedMetric._
+import com.daml.ledger.api.benchtool.metrics.metrics.ConsumptionSpeedMetric._
 import com.google.protobuf.timestamp.Timestamp
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
