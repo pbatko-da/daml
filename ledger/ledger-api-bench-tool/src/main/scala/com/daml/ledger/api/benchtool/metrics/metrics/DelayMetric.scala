@@ -20,9 +20,9 @@ final case class DelayMetric[T](
   override type V = Value
   override type Objective = MaxDelay
 
-  override def onNext(value: T): DelayMetric[T] = {
+  override def onNext(item: T): DelayMetric[T] = {
     val now = clock.instant()
-    val newDelays: List[Duration] = recordTimeFunction(value).toList
+    val newDelays: List[Duration] = recordTimeFunction(item).toList
       .map(TimeUtil.durationBetween(_, now))
     this.copy(delaysInCurrentInterval = delaysInCurrentInterval ::: newDelays)
   }

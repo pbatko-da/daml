@@ -22,8 +22,8 @@ final case class ConsumptionSpeedMetric[T](
   override type V = Value
   override type Objective = MinConsumptionSpeed
 
-  override def onNext(value: T): ConsumptionSpeedMetric[T] = {
-    val recordTimes = recordTimeFunction(value)
+  override def onNext(item: T): ConsumptionSpeedMetric[T] = {
+    val recordTimes = recordTimeFunction(item)
     val newPreviousLatest =
       previousLatest match {
         case None => recordTimes.headOption.map(TimeUtil.timestampToInstant)

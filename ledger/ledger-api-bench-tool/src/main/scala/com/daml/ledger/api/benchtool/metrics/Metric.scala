@@ -5,15 +5,15 @@ package com.daml.ledger.api.benchtool.metrics
 
 import java.time.Duration
 
-trait Metric[Elem] {
+trait Metric[Item] {
 
   type V <: MetricValue
 
   type Objective <: ServiceLevelObjective[V]
 
-  def onNext(value: Elem): Metric[Elem]
+  def onNext(item: Item): Metric[Item]
 
-  def periodicValue(periodDuration: Duration): (Metric[Elem], V)
+  def periodicValue(periodDuration: Duration): (Metric[Item], V)
 
   def finalValue(totalDuration: Duration): V
 

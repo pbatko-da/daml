@@ -16,8 +16,8 @@ final case class TotalCountMetric[T](
 
   override type V = Value
 
-  override def onNext(value: T): TotalCountMetric[T] =
-    this.copy(counter = counter + countingFunction(value))
+  override def onNext(item: T): TotalCountMetric[T] =
+    this.copy(counter = counter + countingFunction(item))
 
   override def periodicValue(periodDuration: Duration): (Metric[T], Value) =
     (this.copy(lastCount = counter), Value(counter))

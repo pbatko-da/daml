@@ -21,8 +21,8 @@ final case class CountRateMetric[T](
   override type V = Value
   override type Objective = RateObjective
 
-  override def onNext(value: T): CountRateMetric[T] =
-    this.copy(counter = counter + countingFunction(value))
+  override def onNext(item: T): CountRateMetric[T] =
+    this.copy(counter = counter + countingFunction(item))
 
   override def periodicValue(periodDuration: Duration): (Metric[T], Value) = {
     val value = Value(periodicRate(periodDuration))

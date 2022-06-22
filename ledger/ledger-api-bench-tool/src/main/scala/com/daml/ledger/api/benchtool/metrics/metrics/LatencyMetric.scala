@@ -13,9 +13,9 @@ case class LatencyMetric(totalNanos: LatencyNanos, numberObservations: Int, maxL
   override type V = LatencyMetric.Value
   override type Objective = MaxLatency
 
-  override def onNext(value: LatencyNanos): Metric[LatencyNanos] =
+  override def onNext(item: LatencyNanos): Metric[LatencyNanos] =
     copy(
-      totalNanos = totalNanos + value,
+      totalNanos = totalNanos + item,
       numberObservations = numberObservations + 1,
     )
 

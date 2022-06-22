@@ -213,8 +213,8 @@ class MetricsCollectorSpec extends ScalaTestWithActorTestKit with AnyWordSpecLik
 
     override def name: String = "Test Metric"
 
-    override def onNext(value: String): Metric[String] = {
-      this.copy(processedElems = processedElems :+ value)
+    override def onNext(item: String): Metric[String] = {
+      this.copy(processedElems = processedElems :+ item)
     }
 
     override def periodicValue(periodDuration: Duration): (Metric[String], TestMetricValue) = {
