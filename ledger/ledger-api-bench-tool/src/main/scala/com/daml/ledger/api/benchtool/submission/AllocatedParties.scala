@@ -10,9 +10,12 @@ case class AllocatedParties(
     observers: List[Primitive.Party],
     divulgees: List[Primitive.Party],
     extraSubmitters: List[Primitive.Party],
+    observerPartySetO: Option[AllocatedPartySet],
 ) {
   val allAllocatedParties: List[Primitive.Party] =
-    List(signatory) ++ observers ++ divulgees ++ extraSubmitters
+    List(signatory) ++ observers ++ divulgees ++ extraSubmitters ++ observerPartySetO.fold(
+      List.empty[Primitive.Party]
+    )(_.parties)
 }
 
 object AllocatedParties {
@@ -22,11 +25,30 @@ object AllocatedParties {
       .view
       .mapValues(_.map(Primitive.Party(_)))
       .toMap
+    val observerPartySetMap = partiesPrefixMap.removedAll(
+      List(
+        Names.SignatoryPrefix,
+        Names.ObserverPrefix,
+        Names.DivulgeePrefix,
+        Names.ExtraSubmitterPrefix,
+      )
+    )
+    require(
+      observerPartySetMap.size <= 1,
+      s"Found more than one observer party set! ${observerPartySetMap.keys}",
+    )
+    val observerPartySetO = observerPartySetMap.headOption.map { case (prefix, parties) =>
+      AllocatedPartySet(
+        partyNamePrefix = prefix,
+        parties = parties,
+      )
+    }
     AllocatedParties(
       signatory = partiesPrefixMap(Names.SignatoryPrefix).head,
       observers = partiesPrefixMap.getOrElse(Names.ObserverPrefix, List.empty),
       divulgees = partiesPrefixMap.getOrElse(Names.DivulgeePrefix, List.empty),
       extraSubmitters = partiesPrefixMap.getOrElse(Names.ExtraSubmitterPrefix, List.empty),
+      observerPartySetO = observerPartySetO,
     )
   }
 }
