@@ -7,6 +7,36 @@ import com.daml.ledger.api.benchtool.metrics.MetricsCollector.Response.{FinalRep
 import com.daml.ledger.api.benchtool.metrics._
 import com.daml.ledger.api.benchtool.metrics.metrics._
 
+
+/**
+ * object StreamPerformanceMonitor {
+  def parse(line: String): Option[Result] =
+    line.trim match {
+      case failureLine(streamName, label, unit, details) =>
+        Some(
+          Result.Failure(
+            groupName = streamName,
+            title = Result.TEST_FAILED,
+            details = label + " (" + unit + "): " + details,
+          )
+        )
+      case valueLine(streamName, label, unit, value) =>
+        Some(
+          Result.Value(
+            groupName = streamName,
+            metricName = Metric.name(label, unit),
+            label = label,
+            value = value,
+          )
+        )
+      case _ => None
+    }
+  private val valueLine: Regex =
+    """.*\[([a-zA-Z0-9\-]+)\]\[final-value\] (.+) \[(.*)\]: (.+)""".r
+
+  private val failureLine: Regex =
+    """.*\[([a-zA-Z0-9\-]+)\]\[failure\] (.+) \[(.+)\]: (.+)""".r
+ */
 object ReportFormatter {
   def formatPeriodicReport(streamName: String, periodicReport: PeriodicReport): String = {
     val values = periodicReport.values.map(shortMetricReport).mkString(", ")
@@ -60,7 +90,7 @@ object ReportFormatter {
     case _: DelayMetric.Value => "Mean delay [s]"
     case _: SizeMetric.Value => "Size rate [MB/s]"
     case _: TotalCountMetric.Value => "Total item count [item]"
-    case _: LatencyMetric.Value => "Average latency (millis)"
+    case _: LatencyMetric.Value => "Command submission average latency [ms]"
   }
 
   private def shortMetricReport(value: MetricValue): String =
@@ -72,7 +102,7 @@ object ReportFormatter {
     case _: DelayMetric.Value => "delay [s]"
     case _: SizeMetric.Value => "rate [MB/s]"
     case _: TotalCountMetric.Value => "count [item]"
-    case _: LatencyMetric.Value => "Average latency (millis)"
+    case _: LatencyMetric.Value => "Submit avg latency [ms]"
   }
 
   private def formattedValue(value: MetricValue): String = value match {
@@ -101,7 +131,7 @@ object ReportFormatter {
       case _: CountRateMetric.RateObjective.MaxRate =>
         s"Maximum item rate [item/s]"
       case _: LatencyMetric.MaxLatency =>
-        "Maximum latency (millis)"
+        "Maximum average command submission latency [ms]"
     }
 
   private def formattedObjectiveValue(objective: ServiceLevelObjective[_]): String =
