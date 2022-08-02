@@ -47,6 +47,11 @@ final class UserManagementServiceImpl extends UserManagementService with FakeAut
 
   override def listUserRights(request: ListUserRightsRequest): Future[ListUserRightsResponse] =
     record(request)(ListUserRightsResponse.defaultInstance)
+
+  override def updateUser(request: UpdateUserRequest): Future[UpdateUserResponse] = {
+    // TODO: um-for-hub
+    ???
+  }
 }
 
 object UserManagementServiceImpl {

@@ -7,6 +7,7 @@ import java.sql.Connection
 
 import com.daml.api.util.TimeProvider
 import com.daml.ledger.api.domain
+import com.daml.ledger.api.domain.User
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore.{
   Result,
@@ -23,6 +24,7 @@ import com.daml.metrics.{DatabaseMetrics, Metrics}
 import com.daml.platform.store.DbSupport
 import com.daml.platform.store.backend.UserManagementStorageBackend
 import com.daml.platform.usermanagement.PersistentUserManagementStore.TooManyUserRightsRuntimeException
+import com.google.protobuf.field_mask.FieldMask
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -93,13 +95,33 @@ class PersistentUserManagementStore(
 
   private val logger = ContextualizedLogger.get(getClass)
 
+  private def toDomainUser(
+      dbUser: UserManagementStorageBackend.DbUser,
+      annotations: Map[String, String],
+  ): domain.User = {
+    domain.User(
+      id = dbUser.id,
+      primaryParty = dbUser.primaryParty,
+      isDeactivated = dbUser.isDeactivated,
+      metadata = domain.ObjectMeta(
+        resourceVersionO = Some(dbUser.resourceVersion),
+        annotations = annotations,
+      ),
+    )
+  }
+
   override def getUserInfo(id: UserId)(implicit
       loggingContext: LoggingContext
   ): Future[Result[UserInfo]] = {
     inTransaction(_.getUserInfo) { implicit connection =>
       withUser(id) { dbUser =>
         val rights = backend.getUserRights(internalId = dbUser.internalId)(connection)
-        UserInfo(dbUser.domainUser, rights.map(_.domainRight))
+        val annotations = backend.getUserAnnotations(internalId = dbUser.internalId)(connection)
+        val domainUser = toDomainUser(
+          dbUser,
+          annotations,
+        )
+        UserInfo(domainUser, rights.map(_.domainRight))
       }
     }
   }
@@ -111,7 +133,25 @@ class PersistentUserManagementStore(
     inTransaction(_.createUser) { implicit connection: Connection =>
       withoutUser(user.id) {
         val now = epochMicroseconds()
-        val internalId = backend.createUser(user, createdAt = now)(connection)
+        val internalId = backend.createUser(user =
+          UserManagementStorageBackend.NewDbUser(
+            id = user.id,
+            primaryParty = user.primaryParty,
+            isDeactivated = user.isDeactivated,
+            // TODO: um-for-hub
+            resourceVersion = "this-should-be-uuid-like",
+            createdAt = now,
+          )
+        )(connection)
+        // TODO: um-for-hub - implement limits for annotations
+        user.metadata.annotations.foreach { case (key, value) =>
+          backend.addUserAnnotation(
+            internalId = internalId,
+            key = key,
+            value = value,
+            updatedAt = now,
+          )(connection)
+        }
         rights.foreach(right =>
           backend.addUserRight(internalId = internalId, right = right, grantedAt = now)(
             connection
@@ -129,6 +169,43 @@ class PersistentUserManagementStore(
         s"Created new user: ${user} with ${rights.size} rights: ${rightsDigestText(rights)}"
       )
     })(scala.concurrent.ExecutionContext.parasitic)
+  }
+
+  override def updateUser(user: User, fieldMask: FieldMask)(implicit
+      loggingContext: LoggingContext
+  ): Future[Result[User]] = {
+    // TODO: um-for-hub handle field mask
+    // TODO: um-for-hub - implement optimistic locking for concurrent change control
+    // TODO: um-for-hub - implement limits for annotations
+    inTransaction(_.updateUser) { implicit connection =>
+      for {
+        _ <- withUser(id = user.id) { dbUser =>
+          val now = epochMicroseconds()
+          backend.deleteUserAnnotations(internalId = dbUser.internalId)(connection)
+          user.metadata.annotations.iterator.foreach { case (key, value) =>
+            backend.addUserAnnotation(
+              internalId = dbUser.internalId,
+              key = key,
+              value = value,
+              updatedAt = now,
+            )(connection)
+          }
+          backend.updateUserIsDeactivated(
+            internalId = dbUser.internalId,
+            isDeactivated = user.isDeactivated,
+          )(connection)
+          backend.updateUserPrimaryParty(
+            internalId = dbUser.internalId,
+            primaryParty = user.primaryParty,
+          )(connection)
+        }
+        domainUser <- withUser(id = user.id) { dbUserAfterUpdates =>
+          val annotations =
+            backend.getUserAnnotations(internalId = dbUserAfterUpdates.internalId)(connection)
+          toDomainUser(dbUserAfterUpdates, annotations)
+        }
+      } yield domainUser
+    }
   }
 
   override def deleteUser(
@@ -165,7 +242,7 @@ class PersistentUserManagementStore(
           }
         }
         if (backend.countUserRights(user.internalId)(connection) > maxRightsPerUser) {
-          throw TooManyUserRightsRuntimeException(user.domainUser.id)
+          throw TooManyUserRightsRuntimeException(user.id)
         } else {
           addedRights
         }
@@ -203,9 +280,15 @@ class PersistentUserManagementStore(
       loggingContext: LoggingContext
   ): Future[Result[UsersPage]] = {
     inTransaction(_.listUsers) { connection =>
-      val users: Seq[domain.User] = fromExcl match {
-        case None => backend.getUsersOrderedById(None, maxResults)(connection)
-        case Some(fromExcl) => backend.getUsersOrderedById(Some(fromExcl), maxResults)(connection)
+      val dbUsers = fromExcl match {
+        case None =>
+          backend.getUsersOrderedById(None, maxResults)(connection)
+        case Some(fromExcl) =>
+          backend.getUsersOrderedById(Some(fromExcl), maxResults)(connection)
+      }
+      val users: Seq[domain.User] = dbUsers.map { dbUser =>
+        val annotations = backend.getUserAnnotations(dbUser.internalId)(connection)
+        toDomainUser(dbUser = dbUser, annotations = annotations)
       }
       Right(UsersPage(users = users))
     }
@@ -234,7 +317,7 @@ class PersistentUserManagementStore(
       id: Ref.UserId
   )(t: => T)(implicit connection: Connection): Result[T] = {
     backend.getUser(id = id)(connection) match {
-      case Some(user) => Left(UserExists(userId = user.domainUser.id))
+      case Some(user) => Left(UserExists(userId = user.id))
       case None => Right(t)
     }
   }

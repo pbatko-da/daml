@@ -36,8 +36,14 @@ private[daml] final class PartyManagementServiceAuthorization(
   override def allocateParty(request: AllocatePartyRequest): Future[AllocatePartyResponse] =
     authorizer.requireAdminClaims(service.allocateParty)(request)
 
+  override def updateLocalPartyMetadata(
+      request: UpdatePartyMetadataRequest
+  ): Future[UpdatePartyMetadataResponse] =
+    authorizer.requireAdminClaims(service.updateLocalPartyMetadata)(request)
+
   override def bindService(): ServerServiceDefinition =
     PartyManagementServiceGrpc.bindService(this, executionContext)
 
   override def close(): Unit = service.close()
+
 }

@@ -3,12 +3,13 @@
 
 package com.daml.ledger.participant.state.index.impl.inmemory
 
-import com.daml.ledger.api.domain.{User, UserRight}
+import com.daml.ledger.api.domain.{ObjectMeta, User, UserRight}
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore._
 import com.daml.lf.data.Ref
 import com.daml.lf.data.Ref.UserId
 import com.daml.logging.LoggingContext
+import com.google.protobuf.field_mask.FieldMask
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -36,6 +37,13 @@ class InMemoryUserManagementStore(createAdmin: Boolean = true) extends UserManag
     withoutUser(user.id) {
       state.update(user.id, UserInfo(user, rights))
     }
+
+  override def updateUser(user: User, fieldMask: FieldMask)(implicit
+      loggingContext: LoggingContext
+  ): Future[Result[User]] = {
+    // TODO: um-for-hub
+    ???
+  }
 
   override def deleteUser(
       id: Ref.UserId
@@ -127,8 +135,13 @@ class InMemoryUserManagementStore(createAdmin: Boolean = true) extends UserManag
 object InMemoryUserManagementStore {
 
   private val AdminUser = UserInfo(
-    user =
-      User(Ref.UserId.assertFromString(UserManagementStore.DefaultParticipantAdminUserId), None),
+    user = User(
+      id = Ref.UserId.assertFromString(UserManagementStore.DefaultParticipantAdminUserId),
+      primaryParty = None,
+      isDeactivated = false,
+      // TODO: um-for-hub
+      metadata = ObjectMeta.empty,
+    ),
     rights = Set(UserRight.ParticipantAdmin),
   )
 }

@@ -6,7 +6,7 @@ package test
 
 import java.nio.file.Paths
 
-import com.daml.ledger.api.domain.{User, UserRight}
+//import com.daml.ledger.api.domain.{User, UserRight}
 import com.daml.ledger.api.refinements.ApiTypes.Party
 import com.daml.ledger.api.testing.utils.SuiteResourceManagementAroundAll
 import com.daml.ledger.client.LedgerClient
@@ -42,8 +42,8 @@ class ConfigSpec
 
   private implicit def toParty(s: String): Party =
     Party(s)
-  private implicit def toRefParty(s: String): Ref.Party =
-    Ref.Party.assertFromString(s)
+//  private implicit def toRefParty(s: String): Ref.Party =
+//    Ref.Party.assertFromString(s)
   private implicit def toUserId(s: String): UserId =
     UserId.assertFromString(s)
 
@@ -95,21 +95,21 @@ class ConfigSpec
   }
 
   "resolveClaims" should {
-    "succeed for user with primary party & actAs and readAs claims" in {
-      for {
-        client <- LedgerClient(channel, clientConfig)
-        userId = randomUserId()
-        _ <- client.userManagementClient.createUser(
-          User(userId, Some("primary")),
-          Seq(
-            UserRight.CanActAs("primary"),
-            UserRight.CanActAs("alice"),
-            UserRight.CanReadAs("bob"),
-          ),
-        )
-        r <- UserSpecification(userId).resolveClaims(client)
-      } yield r shouldBe TriggerParties("primary", Set("alice", "bob"))
-    }
+//    "succeed for user with primary party & actAs and readAs claims" in {
+//      for {
+//        client <- LedgerClient(channel, clientConfig)
+//        userId = randomUserId()
+//        _ <- client.userManagementClient.createUser(
+//          User(userId, Some("primary")),
+//          Seq(
+//            UserRight.CanActAs("primary"),
+//            UserRight.CanActAs("alice"),
+//            UserRight.CanReadAs("bob"),
+//          ),
+//        )
+//        r <- UserSpecification(userId).resolveClaims(client)
+//      } yield r shouldBe TriggerParties("primary", Set("alice", "bob"))
+//    }
     "fail for non-existent user" in {
       for {
         client <- LedgerClient(channel, clientConfig)
@@ -118,25 +118,25 @@ class ConfigSpec
         )
       } yield ex.getStatus.getCode shouldBe Code.NOT_FOUND
     }
-    "fail for user with no primary party" in {
-      for {
-        client <- LedgerClient(channel, clientConfig)
-        userId = randomUserId()
-        _ <- client.userManagementClient.createUser(User(userId, None), Seq.empty)
-        ex <- recoverToExceptionIf[IllegalArgumentException](
-          UserSpecification(userId).resolveClaims(client)
-        )
-      } yield ex.getMessage should include("has no primary party")
-    }
-    "fail for user with no actAs claims for primary party" in {
-      for {
-        client <- LedgerClient(channel, clientConfig)
-        userId = randomUserId()
-        _ <- client.userManagementClient.createUser(User(userId, Some("primary")), Seq.empty)
-        ex <- recoverToExceptionIf[IllegalArgumentException](
-          UserSpecification(userId).resolveClaims(client)
-        )
-      } yield ex.getMessage should include("no actAs claims")
-    }
+//    "fail for user with no primary party" in {
+//      for {
+//        client <- LedgerClient(channel, clientConfig)
+//        userId = randomUserId()
+//        _ <- client.userManagementClient.createUser(User(userId, None), Seq.empty)
+//        ex <- recoverToExceptionIf[IllegalArgumentException](
+//          UserSpecification(userId).resolveClaims(client)
+//        )
+//      } yield ex.getMessage should include("has no primary party")
+//    }
+//    "fail for user with no actAs claims for primary party" in {
+//      for {
+//        client <- LedgerClient(channel, clientConfig)
+//        userId = randomUserId()
+//        _ <- client.userManagementClient.createUser(User(userId, Some("primary")), Seq.empty)
+//        ex <- recoverToExceptionIf[IllegalArgumentException](
+//          UserSpecification(userId).resolveClaims(client)
+//        )
+//      } yield ex.getMessage should include("no actAs claims")
+//    }
   }
 }

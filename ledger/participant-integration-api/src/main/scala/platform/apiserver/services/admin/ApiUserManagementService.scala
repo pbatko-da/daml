@@ -10,8 +10,14 @@ import com.daml.error.definitions.LedgerApiErrors
 import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
 import com.daml.ledger.api.SubmissionIdGenerator
 import com.daml.ledger.api.domain._
-import com.daml.ledger.api.v1.admin.user_management_service.{CreateUserResponse, GetUserResponse}
+import com.daml.ledger.api.v1.admin.user_management_service.{
+  CreateUserResponse,
+  GetUserResponse,
+  UpdateUserRequest,
+  UpdateUserResponse,
+}
 import com.daml.ledger.api.v1.admin.{user_management_service => proto}
+import com.daml.ledger.api.v1.{admin => proto_admin}
 import com.daml.platform.apiserver.page_tokens.ListUsersPageTokenPayload
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.lf.data.Ref
@@ -57,9 +63,21 @@ private[apiserver] final class ApiUserManagementService(
         for {
           pUser <- requirePresence(request.user, "user")
           pUserId <- requireUserId(pUser.id, "id")
+          pMetadata <- requirePresence(pUser.metadata, "user.metadata")
           pOptPrimaryParty <- optionalString(pUser.primaryParty)(requireParty)
           pRights <- fromProtoRights(request.rights)
-        } yield (User(pUserId, pOptPrimaryParty), pRights)
+        } yield (
+          User(
+            id = pUserId,
+            primaryParty = pOptPrimaryParty,
+            isDeactivated = pUser.isDeactivated,
+            metadata = ObjectMeta(
+              resourceVersionO = None,
+              annotations = pMetadata.annotations,
+            ),
+          ),
+          pRights,
+        )
       } { case (user, pRights) =>
         userManagementStore
           .createUser(
@@ -70,6 +88,45 @@ private[apiserver] final class ApiUserManagementService(
           .map(_ => CreateUserResponse(Some(request.user.get)))
       }
     }
+
+  override def updateUser(request: UpdateUserRequest): Future[UpdateUserResponse] = {
+    withSubmissionId { implicit loggingContext =>
+      withValidation {
+        for {
+          pUser <- requirePresence(request.user, "user")
+          pUserId <- requireUserId(pUser.id, "id")
+          pMetadata <- requirePresence(pUser.metadata, "user.metadata")
+          pFieldMask <- requirePresence(request.updateMask, "update_mask")
+          pOptPrimaryParty <- optionalString(pUser.primaryParty)(requireParty)
+          pObjectMetaResourceVersion <- optionalString(pMetadata.resourceVersion)(Right(_))
+
+        } yield (
+          User(
+            id = pUserId,
+            primaryParty = pOptPrimaryParty,
+            isDeactivated = pUser.isDeactivated,
+            metadata = ObjectMeta(
+              resourceVersionO = pObjectMetaResourceVersion,
+              annotations = pMetadata.annotations,
+            ),
+          ),
+          pFieldMask,
+        )
+      } { case (user, fieldMask) =>
+        userManagementStore
+          .updateUser(
+            user = user,
+            fieldMask = fieldMask,
+          )
+          .flatMap(handleResult("updating user"))
+          .map { u =>
+            UpdateUserResponse(user = Some(toProtoUser(u)))
+          }
+
+      }
+
+    }
+  }
 
   override def getUser(request: proto.GetUserRequest): Future[GetUserResponse] =
     withValidation(
@@ -245,6 +302,19 @@ object ApiUserManagementService {
     proto.User(
       id = user.id.toString,
       primaryParty = user.primaryParty.getOrElse(""),
+      isDeactivated = user.isDeactivated,
+      metadata = Some(
+        com.daml.ledger.api.v1.admin.object_meta.ObjectMeta(
+          resourceVersion = user.metadata.resourceVersionO.getOrElse(""),
+          annotations = user.metadata.annotations,
+        )
+      ),
+    )
+
+  def toProtoObjectMeta(meta: ObjectMeta): proto_admin.object_meta.ObjectMeta =
+    proto_admin.object_meta.ObjectMeta(
+      resourceVersion = meta.resourceVersionO.getOrElse(""),
+      annotations = meta.annotations,
     )
 
   private val toProtoRight: UserRight => proto.Right = {

@@ -390,9 +390,23 @@ object domain {
       value => value.unwrap
   }
 
+  final case class ObjectMeta(
+      resourceVersionO: Option[String],
+      annotations: Map[String, String],
+  )
+
+  object ObjectMeta {
+    def empty: ObjectMeta = ObjectMeta(
+      resourceVersionO = None,
+      annotations = Map.empty,
+    )
+  }
+
   final case class User(
       id: Ref.UserId,
       primaryParty: Option[Ref.Party],
+      isDeactivated: Boolean,
+      metadata: ObjectMeta,
   )
 
   sealed abstract class UserRight extends Product with Serializable

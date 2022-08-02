@@ -104,8 +104,12 @@ final class UserManagementClient(service: UserManagementServiceStub)(implicit
 object UserManagementClient {
   private def fromProtoUser(user: proto.User): User =
     User(
-      Ref.UserId.assertFromString(user.id),
-      Option.unless(user.primaryParty.isEmpty)(Party.assertFromString(user.primaryParty)),
+      id = Ref.UserId.assertFromString(user.id),
+      primaryParty =
+        Option.unless(user.primaryParty.isEmpty)(Party.assertFromString(user.primaryParty)),
+      isDeactivated = user.isDeactivated,
+      // TODO: um-for-hub
+      metadata = domain.ObjectMeta.empty,
     )
 
   private def toProtoUser(user: User): proto.User =

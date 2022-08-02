@@ -59,6 +59,10 @@ private[daml] final class UserManagementServiceAuthorization(
       case Success(None) => authorizer.requireAdminClaims(service.listUserRights)(request)
     }
 
+  override def updateUser(request: UpdateUserRequest): Future[UpdateUserResponse] = {
+    authorizer.requireAdminClaims(service.updateUser)(request)
+  }
+
   override def bindService(): ServerServiceDefinition =
     UserManagementServiceGrpc.bindService(this, executionContext)
 
@@ -80,4 +84,5 @@ private[daml] final class UserManagementServiceAuthorization(
         )
       case _ => Success(None)
     }
+
 }

@@ -67,10 +67,10 @@ da_scala_test(
     ),
     visibility = ["//visibility:public"],
     deps = [
-        ":script-runner-lib",
-        "//daml-lf/data",
-        "//language-support/scala/bindings",
-        "//language-support/scala/bindings-akka",
+        #        ":script-runner-lib",
+        #        "//daml-lf/data",
+        #        "//language-support/scala/bindings",
+        #        "//language-support/scala/bindings-akka",
     ],
 )
 

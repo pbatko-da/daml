@@ -5,7 +5,7 @@ package com.daml.platform.store.backend.common
 
 import java.sql.Connection
 
-import anorm.SqlParser.{int, long, str}
+import anorm.SqlParser.{bool, int, long, str}
 import anorm.{RowParser, SqlParser, SqlStringInterpolation, ~}
 import com.daml.ledger.api.domain
 import com.daml.ledger.api.domain.UserRight
@@ -19,16 +19,22 @@ import scala.util.Try
 
 object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
 
-  private val ParticipantUserParser: RowParser[(Int, String, Option[String], Long)] =
-    int("internal_id") ~ str("user_id") ~ str("primary_party").? ~ long("created_at") map {
-      case internalId ~ userId ~ primaryParty ~ createdAt =>
-        (internalId, userId, primaryParty, createdAt)
-    }
+  private val ParticipantUserParser
+      : RowParser[(Int, String, Option[String], Boolean, String, Long)] =
+    int("internal_id") ~
+      str("user_id") ~
+      str("primary_party").? ~
+      bool("is_deactivated") ~
+      str("resource_version") ~
+      long("created_at") map {
+        case internalId ~ userId ~ primaryParty ~ isDeactivated ~ resourceVersion ~ createdAt =>
+          (internalId, userId, primaryParty, isDeactivated, resourceVersion, createdAt)
+      }
 
-  private val ParticipantUserParser2: RowParser[(String, Option[String])] =
-    str("user_id") ~ str("primary_party").? map { case userId ~ primaryParty =>
-      (userId, primaryParty)
-    }
+//  private val ParticipantUserParser2: RowParser[(String, Option[String])] =
+//    str("user_id") ~ str("primary_party").? map { case userId ~ primaryParty =>
+//      (userId, primaryParty)
+//    }
 
   private val UserRightParser: RowParser[(Int, Option[String], Long)] =
     int("user_right") ~ str("for_party").? ~ long("granted_at") map {
@@ -36,57 +42,112 @@ object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
         (userRight, forParty, grantedAt)
     }
 
+  private val UserAnnotationParser: RowParser[(String, String, Long)] =
+    str("key") ~ str("value") ~ long("updated_at") map { case key ~ value ~ updateAt =>
+      (key, value, updateAt)
+    }
+
   private val IntParser0: RowParser[Int] =
     int("dummy") map { i => i }
 
-  override def createUser(user: domain.User, createdAt: Long)(
-      connection: Connection
-  ): Int = {
+  override def createUser(
+      user: UserManagementStorageBackend.NewDbUser
+  )(connection: Connection): Int = {
+    val id = user.id: String
+    val primaryParty = user.primaryParty: Option[String]
+    val isDeactivated = user.isDeactivated
+    val resourceVersion = user.resourceVersion
+    val createdAt = user.createdAt
     val internalId: Try[Int] =
       SQL"""
-         INSERT INTO participant_users (user_id, primary_party, created_at)
-         VALUES (${user.id: String}, ${user.primaryParty: Option[String]}, $createdAt)
+         INSERT INTO participant_users (user_id, primary_party, is_deactivated, resource_version, created_at)
+         VALUES ($id, $primaryParty, $isDeactivated, $resourceVersion, $createdAt)
        """.executeInsert1("internal_id")(SqlParser.scalar[Int].single)(connection)
     internalId.get
+  }
+
+  override def addUserAnnotation(internalId: Int, key: String, value: String, updatedAt: Long)(
+      connection: Connection
+  ): Unit = {
+    val _ =
+      SQL"""
+         INSERT INTO participant_user_annotations (user_internal_id, key, value, updated_at)
+         VALUES (
+            $internalId,
+            $key,
+            $value,
+            $updatedAt
+         )
+         """.executeUpdate()(connection)
+  }
+
+  override def deleteUserAnnotations(internalId: Int)(connection: Connection): Unit = {
+    val _ = SQL"""
+         DELETE FROM participant_user_annotations pua
+         WHERE
+          pua.user_internal_id = $internalId
+       """.executeUpdate()(connection)
+  }
+
+  override def getUserAnnotations(internalId: Int)(connection: Connection): Map[String, String] = {
+    SQL"""
+         SELECT key, value, updated_at
+         FROM participant_user_annotations
+         WHERE
+          user_internal_id = $internalId
+       """
+      .asVectorOf(UserAnnotationParser)(connection)
+      .iterator
+      .map { case (key, value, _) => key -> value }
+      .toMap
   }
 
   override def getUser(
       id: UserId
   )(connection: Connection): Option[UserManagementStorageBackend.DbUser] = {
     SQL"""
-       SELECT internal_id, user_id, primary_party, created_at
+       SELECT internal_id, user_id, primary_party, is_deactivated, resource_version, created_at
        FROM participant_users
        WHERE user_id = ${id: String}
        """
       .as(ParticipantUserParser.singleOpt)(connection)
-      .map { case (internalId, userId, primaryPartyRaw, createdAt) =>
-        UserManagementStorageBackend.DbUser(
-          internalId = internalId,
-          domainUser = domain.User(
+      .map {
+        case (internalId, userId, primaryPartyRaw, isDeactivated, resourceVersion, createdAt) =>
+          UserManagementStorageBackend.DbUser(
+            internalId = internalId,
             id = UserId.assertFromString(userId),
             primaryParty = dbStringToPartyString(primaryPartyRaw),
-          ),
-          createdAt = createdAt,
-        )
+            isDeactivated = isDeactivated,
+            resourceVersion = resourceVersion,
+            createdAt = createdAt,
+          )
       }
   }
 
   override def getUsersOrderedById(fromExcl: Option[UserId], maxResults: Int)(
       connection: Connection
-  ): Vector[domain.User] = {
+  ): Vector[UserManagementStorageBackend.DbUser] = {
     import com.daml.platform.store.backend.common.ComposableQuery.SqlStringInterpolation
     val whereClause = fromExcl match {
       case None => cSQL""
       case Some(id: String) => cSQL"WHERE user_id > ${id}"
     }
-    SQL"""SELECT user_id, primary_party
+    SQL"""SELECT internal_id, user_id, primary_party, is_deactivated, resource_version, created_at
           FROM participant_users
           $whereClause
           ORDER BY user_id
           ${QueryStrategy.limitClause(Some(maxResults))}"""
-      .asVectorOf(ParticipantUserParser2)(connection)
-      .map { case (userId, primaryPartyRaw) =>
-        toDomainUser(userId, dbStringToPartyString(primaryPartyRaw))
+      .asVectorOf(ParticipantUserParser)(connection)
+      .map {
+        case (internalId, userId, primaryPartyRaw, isDeactivated, resourceVersion, createdAt) =>
+          UserManagementStorageBackend.DbUser(
+            internalId = internalId,
+            id = UserId.assertFromString(userId),
+            primaryParty = dbStringToPartyString(primaryPartyRaw),
+            isDeactivated = isDeactivated,
+            resourceVersion = resourceVersion,
+            createdAt = createdAt,
+          )
       }
   }
 
@@ -209,11 +270,27 @@ object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
     }
   }
 
-  private def toDomainUser(userId: String, primaryParty: Option[String]): domain.User = {
-    domain.User(
-      UserId.assertFromString(userId),
-      primaryParty.map(Party.assertFromString),
-    )
+  override def updateUserPrimaryParty(internalId: Int, primaryParty: Option[Party])(
+      connection: Connection
+  ): Boolean = {
+    val rowsUpdated = SQL"""
+         UPDATE participant_users
+         SET primary_party  = ${primaryParty: Option[String]}
+         WHERE
+          user_internal_id = ${internalId}
+       """.executeUpdate()(connection)
+    rowsUpdated == 1
   }
 
+  override def updateUserIsDeactivated(internalId: Int, isDeactivated: Boolean)(
+      connection: Connection
+  ): Boolean = {
+    val rowsUpdated = SQL"""
+         UPDATE participant_users
+         SET is_deactivated  = $isDeactivated
+         WHERE
+          user_internal_id = ${internalId}
+       """.executeUpdate()(connection)
+    rowsUpdated == 1
+  }
 }

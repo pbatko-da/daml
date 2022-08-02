@@ -6,6 +6,7 @@ package com.daml.ledger.participant.state.index.v2
 import com.daml.ledger.api.domain.{User, UserRight}
 import com.daml.lf.data.Ref
 import com.daml.logging.LoggingContext
+import com.google.protobuf.field_mask.FieldMask
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -31,6 +32,10 @@ trait UserManagementStore {
   def createUser(user: User, rights: Set[UserRight])(implicit
       loggingContext: LoggingContext
   ): Future[Result[Unit]]
+
+  def updateUser(user: User, fieldMask: FieldMask)(implicit
+      loggingContext: LoggingContext
+  ): Future[Result[User]]
 
   def deleteUser(id: Ref.UserId)(implicit loggingContext: LoggingContext): Future[Result[Unit]]
 

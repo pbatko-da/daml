@@ -6,9 +6,10 @@ package com.daml.http
 import akka.http.scaladsl.model.Uri
 import akka.http.scaladsl.model.headers.Authorization
 import com.daml.http.HttpServiceTestFixture.{authorizationHeader, postRequest}
+import com.daml.http.domain.ObjectMeta
 import com.daml.http.util.ClientUtil.uniqueId
 import com.daml.jwt.JwtSigner
-import com.daml.jwt.domain.{Jwt, DecodedJwt}
+import com.daml.jwt.domain.{DecodedJwt, Jwt}
 import com.daml.ledger.api.testing.utils.AkkaBeforeAndAfterAll
 import com.daml.platform.sandbox.SandboxRequiringAuthorizationFuns
 import com.daml.scalautil.ImplicitPreference
@@ -18,6 +19,7 @@ import scalaz.syntax.tag._
 
 import scala.concurrent.{ExecutionContext, Future}
 
+// TOOD pbatko fix me
 trait HttpServiceUserFixture extends AkkaBeforeAndAfterAll { this: Suite =>
   protected def testId: String
 
@@ -83,9 +85,14 @@ object HttpServiceUserFixture {
     ): Future[Jwt] = {
       val username = getUniqueUserName("test")
       val createUserRequest = domain.CreateUserRequest(
-        username,
-        None,
-        Some(
+        userId = username,
+        primaryParty = None,
+        isDeactivated = false,
+        metadata = ObjectMeta(
+          resourceVersionO = None,
+          annotations = Map.empty,
+        ),
+        rights = Some(
           Option
             .when(admin)(domain.ParticipantAdmin)
             .toList ++

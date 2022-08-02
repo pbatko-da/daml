@@ -17,6 +17,7 @@ import com.daml.logging.LoggingContext
 import com.daml.metrics.Metrics
 import com.github.benmanes.caffeine.cache.AsyncCacheLoader
 import com.github.benmanes.caffeine.{cache => caffeine}
+import com.google.protobuf.field_mask.FieldMask
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
@@ -65,6 +66,13 @@ class CachedUserManagementStore(
     delegate
       .createUser(user, rights)
       .andThen(invalidateOnSuccess(user.id))
+
+  override def updateUser(user: User, fieldMask: FieldMask)(implicit
+      loggingContext: LoggingContext
+  ): Future[Result[User]] = {
+    // TODO: um-for-hub
+    ???
+  }
 
   override def deleteUser(
       id: UserId

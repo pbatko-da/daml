@@ -3,7 +3,7 @@
 
 package com.daml.platform.store.backend
 
-import com.daml.ledger.api.domain.{LedgerId, ParticipantId, PartyDetails, User, UserRight}
+import com.daml.ledger.api.domain.{LedgerId, ParticipantId, PartyDetails, UserRight}
 import com.daml.ledger.api.v1.command_completion_service.CompletionStreamResponse
 import com.daml.ledger.configuration.Configuration
 import com.daml.ledger.offset.Offset
@@ -31,9 +31,11 @@ import com.daml.platform.store.entries.{ConfigurationEntry, PackageLedgerEntry, 
 import com.daml.platform.store.interfaces.LedgerDaoContractsReader.KeyState
 import com.daml.platform.store.interning.StringInterning
 import com.daml.scalautil.NeverEqualsOverride
-
 import java.sql.Connection
 import javax.sql.DataSource
+
+import com.daml.lf.data.Ref
+
 import scala.annotation.unused
 
 /** Encapsulates the interface which hides database technology specific implementations.
@@ -434,7 +436,15 @@ trait StringInterningStorageBackend {
 
 trait UserManagementStorageBackend {
 
-  def createUser(user: User, createdAt: Long)(connection: Connection): Int
+  def createUser(user: UserManagementStorageBackend.NewDbUser)(connection: Connection): Int
+
+  def addUserAnnotation(internalId: Int, key: String, value: String, updatedAt: Long)(
+      connection: Connection
+  ): Unit
+
+  def deleteUserAnnotations(internalId: Int)(connection: Connection): Unit
+
+  def getUserAnnotations(internalId: Int)(connection: Connection): Map[String, String]
 
   def deleteUser(id: UserId)(connection: Connection): Boolean
 
@@ -442,7 +452,7 @@ trait UserManagementStorageBackend {
 
   def getUsersOrderedById(fromExcl: Option[UserId] = None, maxResults: Int)(
       connection: Connection
-  ): Vector[User]
+  ): Vector[UserManagementStorageBackend.DbUser]
 
   def addUserRight(internalId: Int, right: UserRight, grantedAt: Long)(
       connection: Connection
@@ -460,10 +470,33 @@ trait UserManagementStorageBackend {
 
   def countUserRights(internalId: Int)(connection: Connection): Int
 
+  def updateUserPrimaryParty(internalId: Int, primaryParty: Option[Ref.Party])(
+      connection: Connection
+  ): Boolean
+
+  def updateUserIsDeactivated(internalId: Int, isDeactivated: Boolean)(
+      connection: Connection
+  ): Boolean
+
 }
 
 object UserManagementStorageBackend {
-  case class DbUser(internalId: Int, domainUser: User, createdAt: Long)
+  case class NewDbUser(
+      id: Ref.UserId,
+      primaryParty: Option[Ref.Party],
+      isDeactivated: Boolean,
+      resourceVersion: String,
+      createdAt: Long,
+  )
+
+  case class DbUser(
+      internalId: Int,
+      id: Ref.UserId,
+      primaryParty: Option[Ref.Party],
+      isDeactivated: Boolean,
+      resourceVersion: String,
+      createdAt: Long,
+  )
   case class DbUserRight(domainRight: UserRight, grantedAt: Long)
 }
 

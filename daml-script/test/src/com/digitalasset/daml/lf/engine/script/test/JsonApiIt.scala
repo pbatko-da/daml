@@ -23,7 +23,7 @@ import com.daml.ledger.api.auth.{
   StandardJWTPayload,
   StandardJWTTokenFormat,
 }
-import com.daml.ledger.api.domain.{User, UserRight}
+//import com.daml.ledger.api.domain.{User, UserRight}
 import com.daml.ledger.api.refinements.ApiTypes.ApplicationId
 import com.daml.ledger.api.testing.utils.{
   OwnedResource,
@@ -32,12 +32,12 @@ import com.daml.ledger.api.testing.utils.{
   Resource => TestResource,
 }
 import com.daml.ledger.api.tls.TlsConfiguration
-import com.daml.ledger.client.LedgerClient
-import com.daml.ledger.client.configuration.{
-  CommandClientConfiguration,
-  LedgerClientConfiguration,
-  LedgerIdRequirement,
-}
+//import com.daml.ledger.client.LedgerClient
+//import com.daml.ledger.client.configuration.{
+//  CommandClientConfiguration,
+//  LedgerClientConfiguration,
+//  LedgerIdRequirement,
+//}
 import com.daml.ledger.resources.{Resource, ResourceContext, ResourceOwner}
 import com.daml.ledger.sandbox.SandboxOnXForTest.{
   ApiServerConfig,
@@ -292,22 +292,22 @@ final class JsonApiIt
     Runner.jsonClients(participantParams, envIface)
   }
 
-  private def getUserClients(
-      user: UserId,
-      envIface: EnvironmentInterface = envIface,
-  ) = {
-    // We give the default participant some nonsense party so the checks for party mismatch fail
-    // due to the mismatch and not because the token does not allow inferring a party
-    val defaultParticipant =
-      ApiParameters(
-        "http://localhost",
-        httpPort,
-        Some(getUserToken(user)),
-        None,
-      )
-    val participantParams = Participants(Some(defaultParticipant), Map.empty, Map.empty)
-    Runner.jsonClients(participantParams, envIface)
-  }
+//  private def getUserClients(
+//      user: UserId,
+//      envIface: EnvironmentInterface = envIface,
+//  ) = {
+//    // We give the default participant some nonsense party so the checks for party mismatch fail
+//    // due to the mismatch and not because the token does not allow inferring a party
+//    val defaultParticipant =
+//      ApiParameters(
+//        "http://localhost",
+//        httpPort,
+//        Some(getUserToken(user)),
+//        None,
+//      )
+//    val participantParams = Participants(Some(defaultParticipant), Map.empty, Map.empty)
+//    Runner.jsonClients(participantParams, envIface)
+//  }
 
   private val party = "Alice"
 
@@ -593,31 +593,31 @@ final class JsonApiIt
         r shouldBe SUnit
       }
     }
-    "user tokens" in {
-      for {
-        grpcClient <- LedgerClient(
-          channel,
-          LedgerClientConfiguration(
-            applicationId = "appid",
-            ledgerIdRequirement = LedgerIdRequirement.none,
-            commandClient = CommandClientConfiguration.default,
-            token = Some(getUserToken(UserId.assertFromString("participant_admin"))),
-          ),
-        )
-        p1 <- grpcClient.partyManagementClient.allocateParty(None, None).map(_.party)
-        p2 <- grpcClient.partyManagementClient.allocateParty(None, None).map(_.party)
-        u <- grpcClient.userManagementClient.createUser(
-          User(UserId.assertFromString("u"), None),
-          Seq(UserRight.CanActAs(p1), UserRight.CanActAs(p2)),
-        )
-        clients <- getUserClients(u.id)
-        r <- run(
-          clients,
-          QualifiedName.assertFromString("ScriptTest:jsonMultiPartyPartySets"),
-          inputValue = Some(JsArray(JsString(p1), JsString(p2))),
-        )
-      } yield r shouldBe SUnit
-    }
+//    "user tokens" in {
+//      for {
+//        grpcClient <- LedgerClient(
+//          channel,
+//          LedgerClientConfiguration(
+//            applicationId = "appid",
+//            ledgerIdRequirement = LedgerIdRequirement.none,
+//            commandClient = CommandClientConfiguration.default,
+//            token = Some(getUserToken(UserId.assertFromString("participant_admin"))),
+//          ),
+//        )
+//        p1 <- grpcClient.partyManagementClient.allocateParty(None, None).map(_.party)
+//        p2 <- grpcClient.partyManagementClient.allocateParty(None, None).map(_.party)
+//        u <- grpcClient.userManagementClient.createUser(
+//          User(UserId.assertFromString("u"), None),
+//          Seq(UserRight.CanActAs(p1), UserRight.CanActAs(p2)),
+//        )
+//        clients <- getUserClients(u.id)
+//        r <- run(
+//          clients,
+//          QualifiedName.assertFromString("ScriptTest:jsonMultiPartyPartySets"),
+//          inputValue = Some(JsArray(JsString(p1), JsString(p2))),
+//        )
+//      } yield r shouldBe SUnit
+//    }
     "invalid response" in {
       def withServer[A](f: ServerBinding => Future[A]) = {
         val bindingF: Future[ServerBinding] = Http().newServerAt("localhost", 0).bind(reject)

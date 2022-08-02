@@ -145,6 +145,10 @@ private[apiserver] final class ApiPartyManagementService private (
       displayName = details.displayName.getOrElse(""),
       isLocal = details.isLocal,
     )
+
+  override def updateLocalPartyMetadata(
+      request: UpdatePartyMetadataRequest
+  ): Future[UpdatePartyMetadataResponse] = ???
 }
 
 private[apiserver] object ApiPartyManagementService {

@@ -360,6 +360,7 @@ final class Metrics(val registry: MetricRegistry) {
       val getUserInfo: DatabaseMetrics = createDbMetrics("get_user_info")
       val createUser: DatabaseMetrics = createDbMetrics("create_user")
       val deleteUser: DatabaseMetrics = createDbMetrics("delete_user")
+      val updateUser: DatabaseMetrics = createDbMetrics("update_user")
       val grantRights: DatabaseMetrics = createDbMetrics("grant_rights")
       val revokeRights: DatabaseMetrics = createDbMetrics("revoke_rights")
       val listUsers: DatabaseMetrics = createDbMetrics("list_users")
