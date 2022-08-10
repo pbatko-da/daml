@@ -4,7 +4,7 @@
 package com.daml.platform.usermanagement
 
 import com.codahale.metrics.MetricRegistry
-import com.daml.ledger.api.domain.{User, UserRight}
+import com.daml.ledger.api.domain.{ObjectMeta, User, UserRight}
 import com.daml.ledger.participant.state.index.impl.inmemory.InMemoryUserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore.{
@@ -35,6 +35,8 @@ class CachedUserManagementStoreSpec
   private val user = User(
     id = Ref.UserId.assertFromString("user_id1"),
     primaryParty = Some(Ref.Party.assertFromString("primary_party1")),
+    false,
+    ObjectMeta.empty,
   )
   private val right1 = UserRight.CanActAs(Ref.Party.assertFromString("party_id1"))
   private val right2 = UserRight.ParticipantAdmin

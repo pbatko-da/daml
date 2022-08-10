@@ -7,7 +7,7 @@ import java.sql.SQLException
 import java.util.UUID
 
 import com.daml.ledger.api.domain.UserRight.{CanActAs, CanReadAs, ParticipantAdmin}
-import com.daml.ledger.api.domain.{User, UserRight}
+import com.daml.ledger.api.domain.{UserRight}
 import com.daml.lf.data.Ref
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -30,19 +30,110 @@ private[backend] trait StorageBackendTestsUserManagement
 
   private def tested = backend.userManagement
 
+  it should "compare and swap resource version" in {
+    val user = newDbUser(createdAt = 123, resourceVersion = Some("resourceVersion0"))
+    val internalId = executeSql(tested.createUser(user))
+    val dbUser = executeSql(tested.getUser(id = user.id)).value
+    dbUser.payload.resourceVersion shouldBe "resourceVersion0"
+    executeSql(
+      tested.compareAndSwapResourceVersion(
+        internalId = internalId,
+        newResourceVersion = "resourceVersion1",
+        expectedResourceVersion = "resourceVersion0",
+      )
+    ) shouldBe true
+    executeSql(
+      tested.compareAndSwapResourceVersion(
+        internalId = internalId,
+        newResourceVersion = "resourceVersion2",
+        expectedResourceVersion = "dummy",
+      )
+    ) shouldBe false
+    executeSql(
+      tested.compareAndSwapResourceVersion(
+        internalId = internalId,
+        newResourceVersion = "resourceVersion2",
+        expectedResourceVersion = "resourceVersion1",
+      )
+    ) shouldBe true
+    executeSql(
+      tested.getUser(id = user.id)
+    ).value.payload.resourceVersion shouldBe "resourceVersion2"
+  }
+
+  it should "update existing user's isDeactivated attribute" in {
+    val user = newDbUser(createdAt = 123, isDeactivated = false)
+    val internalId = executeSql(tested.createUser(user))
+    // Change false -> true
+    executeSql(tested.updateUserIsDeactivated(internalId, isDeactivated = true)) shouldBe true
+    executeSql((tested.getUser(user.id))).value.payload.isDeactivated shouldBe true
+    // Change false -> true
+    executeSql(tested.updateUserIsDeactivated(internalId, isDeactivated = false)) shouldBe true
+    executeSql((tested.getUser(user.id))).value.payload.isDeactivated shouldBe false
+    // Repeated change false -> true
+    executeSql(tested.updateUserIsDeactivated(internalId, isDeactivated = false)) shouldBe true
+    executeSql((tested.getUser(user.id))).value.payload.isDeactivated shouldBe false
+  }
+
+  it should "update existing user's primaryParty attribute" in {
+    val user = newDbUser(createdAt = 123, primaryPartyOverride = Some(None))
+    val internalId = executeSql(tested.createUser(user))
+    val party1 = newParty
+    // Change None -> party1
+    executeSql(
+      tested.updateUserPrimaryParty(internalId, primaryPartyO = Some(party1))
+    ) shouldBe true
+    executeSql((tested.getUser(user.id))).value.payload.primaryPartyO shouldBe Some(party1)
+    // Change party1 -> None
+    executeSql(tested.updateUserPrimaryParty(internalId, primaryPartyO = None)) shouldBe true
+    executeSql((tested.getUser(user.id))).value.payload.primaryPartyO shouldBe None
+    // Repeated change party1 -> None
+    executeSql(tested.updateUserPrimaryParty(internalId, primaryPartyO = None)) shouldBe true
+    executeSql((tested.getUser(user.id))).value.payload.primaryPartyO shouldBe None
+  }
+
+  // TODO pbatko: conf test - test annotations size limit
+  it should "get, add and delete user's annotations" in {
+    val user = newDbUser(createdAt = 123, primaryPartyOverride = Some(None))
+    val internalId = executeSql(tested.createUser(user))
+    executeSql(tested.getUserAnnotations(internalId)) shouldBe Map.empty
+    // Add key1
+    executeSql(
+      tested.addUserAnnotation(internalId, key = "key1", value = "value1", updatedAt = 123)
+    )
+    executeSql(tested.getUserAnnotations(internalId)) shouldBe Map("key1" -> "value1")
+    // Add key2
+    executeSql(
+      tested.addUserAnnotation(internalId, key = "key2", value = "value2", updatedAt = 123)
+    )
+    executeSql(tested.getUserAnnotations(internalId)) shouldBe Map(
+      "key1" -> "value1",
+      "key2" -> "value2",
+    )
+    // Duplicated key2
+    assertThrows[SQLException](
+      executeSql(
+        tested.addUserAnnotation(internalId, key = "key2", value = "value2b", updatedAt = 123)
+      )
+    )
+    // Delete
+    executeSql(tested.deleteUserAnnotations(internalId))
+    executeSql(tested.getUserAnnotations(internalId)) shouldBe Map.empty
+  }
+
   it should "handle created_at and granted_at attributes correctly" in {
-    val user = newUniqueUser()
-    val internalId = executeSql(tested.createUser(user, createdAt = 123))
+    val user = newDbUser(createdAt = 123)
+    val internalId = executeSql(tested.createUser(user))
     executeSql(tested.addUserRight(internalId, right1, grantedAt = 234))
-    executeSql(tested.getUser(user.id)).map(_.createdAt) shouldBe Some(123)
+    executeSql(tested.getUser(user.id)).map(_.payload.createdAt) shouldBe Some(123)
     executeSql(tested.getUserRights(internalId)).headOption.map(_.grantedAt) shouldBe Some(234)
   }
 
   it should "count number of user rights per user" in {
-    val userA = newUniqueUser()
-    val userB = newUniqueUser()
-    val idA: Int = executeSql(tested.createUser(userA, createdAt = zeroMicros))
-    val idB: Int = executeSql(tested.createUser(userB, createdAt = zeroMicros))
+    val userA = newDbUser()
+    val userB = newDbUser()
+    val idA: Int = executeSql(tested.createUser(userA))
+    val idB: Int = executeSql(tested.createUser(userB))
 
     def countA: Int = executeSql(tested.countUserRights(idA))
 
@@ -118,27 +209,27 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "create user (createUser)" in {
-    val user1 = newUniqueUser()
-    val user2 = newUniqueUser()
-    val internalId1 = executeSql(tested.createUser(user1, createdAt = zeroMicros))
+    val user1 = newDbUser()
+    val user2 = newDbUser()
+    val internalId1 = executeSql(tested.createUser(user1))
     // Attempting to add a duplicate user
-    assertThrows[SQLException](executeSql(tested.createUser(user1, createdAt = zeroMicros)))
-    val internalId2 = executeSql(tested.createUser(user2, createdAt = zeroMicros))
+    assertThrows[SQLException](executeSql(tested.createUser(user1)))
+    val internalId2 = executeSql(tested.createUser(user2))
     val _ =
-      executeSql(tested.createUser(newUniqueUser(emptyPrimaryParty = true), createdAt = zeroMicros))
+      executeSql(tested.createUser(newDbUser(primaryPartyOverride = Some(None))))
     internalId1 should not equal internalId2
   }
 
   it should "handle user ops (getUser, deleteUser)" in {
-    val user1 = newUniqueUser()
-    val user2 = newUniqueUser()
-    val _ = executeSql(tested.createUser(user1, createdAt = zeroMicros))
+    val user1 = newDbUser()
+    val user2 = newDbUser()
+    val _ = executeSql(tested.createUser(user1))
     val getExisting = executeSql(tested.getUser(user1.id))
     val deleteExisting = executeSql(tested.deleteUser(user1.id))
     val deleteNonexistent = executeSql(tested.deleteUser(user2.id))
     val getDeleted = executeSql(tested.getUser(user1.id))
     val getNonexistent = executeSql(tested.getUser(user2.id))
-    getExisting.value.domainUser shouldBe user1
+    getExisting.value.payload shouldBe user1
     deleteExisting shouldBe true
     deleteNonexistent shouldBe false
     getDeleted shouldBe None
@@ -146,18 +237,20 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "get all users (getUsers) ordered by id" in {
-    val user1 = newUniqueUser(userId = "user_id_1")
-    val user2 = newUniqueUser(userId = "user_id_2")
-    val user3 = newUniqueUser(userId = "user_id_3")
+    val user1 = newDbUser(userId = "user_id_1")
+    val user2 = newDbUser(userId = "user_id_2")
+    val user3 = newDbUser(userId = "user_id_3")
     executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10)) shouldBe empty
-    val _ = executeSql(tested.createUser(user3, createdAt = zeroMicros))
-    val _ = executeSql(tested.createUser(user1, createdAt = zeroMicros))
-    executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10)) shouldBe Seq(
+    val _ = executeSql(tested.createUser(user3))
+    val _ = executeSql(tested.createUser(user1))
+    executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10))
+      .map(_.payload) shouldBe Seq(
       user1,
       user3,
     )
-    val _ = executeSql(tested.createUser(user2, createdAt = zeroMicros))
-    executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10)) shouldBe Seq(
+    val _ = executeSql(tested.createUser(user2))
+    executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10))
+      .map(_.payload) shouldBe Seq(
       user1,
       user2,
       user3,
@@ -165,41 +258,43 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "get all users (getUsers) ordered by id using binary collation" in {
-    val user1 = newUniqueUser(userId = "a")
-    val user2 = newUniqueUser(userId = "a!")
-    val user3 = newUniqueUser(userId = "b")
-    val user4 = newUniqueUser(userId = "a_")
-    val user5 = newUniqueUser(userId = "!a")
-    val user6 = newUniqueUser(userId = "_a")
+    val user1 = newDbUser(userId = "a")
+    val user2 = newDbUser(userId = "a!")
+    val user3 = newDbUser(userId = "b")
+    val user4 = newDbUser(userId = "a_")
+    val user5 = newDbUser(userId = "!a")
+    val user6 = newDbUser(userId = "_a")
     val users = Seq(user1, user2, user3, user4, user5, user6)
-    users.foreach(user => executeSql(tested.createUser(user, createdAt = zeroMicros)))
+    users.foreach(user => executeSql(tested.createUser(user)))
     executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10))
-      .map(_.id) shouldBe Seq("!a", "_a", "a", "a!", "a_", "b")
+      .map(_.payload.id) shouldBe Seq("!a", "_a", "a", "a!", "a_", "b")
   }
 
   it should "get a page of users (getUsers) ordered by id" in {
-    val user1 = newUniqueUser(userId = "user_id_1")
-    val user2 = newUniqueUser(userId = "user_id_2")
-    val user3 = newUniqueUser(userId = "user_id_3")
+    val user1 = newDbUser(userId = "user_id_1")
+    val user2 = newDbUser(userId = "user_id_2")
+    val user3 = newDbUser(userId = "user_id_3")
     // Note: user4 doesn't exist and won't be created
-    val user5 = newUniqueUser(userId = "user_id_5")
-    val user6 = newUniqueUser(userId = "user_id_6")
-    val user7 = newUniqueUser(userId = "user_id_7")
+    val user5 = newDbUser(userId = "user_id_5")
+    val user6 = newDbUser(userId = "user_id_6")
+    val user7 = newDbUser(userId = "user_id_7")
     executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 10)) shouldBe empty
     // Creating users in a random order
-    val _ = executeSql(tested.createUser(user5, createdAt = zeroMicros))
-    val _ = executeSql(tested.createUser(user1, createdAt = zeroMicros))
-    val _ = executeSql(tested.createUser(user7, createdAt = zeroMicros))
-    val _ = executeSql(tested.createUser(user3, createdAt = zeroMicros))
-    val _ = executeSql(tested.createUser(user6, createdAt = zeroMicros))
-    val _ = executeSql(tested.createUser(user2, createdAt = zeroMicros))
+    val _ = executeSql(tested.createUser(user5))
+    val _ = executeSql(tested.createUser(user1))
+    val _ = executeSql(tested.createUser(user7))
+    val _ = executeSql(tested.createUser(user3))
+    val _ = executeSql(tested.createUser(user6))
+    val _ = executeSql(tested.createUser(user2))
     // Get first 2 elements
-    executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 2)) shouldBe Seq(
+    executeSql(tested.getUsersOrderedById(fromExcl = None, maxResults = 2))
+      .map(_.payload) shouldBe Seq(
       user1,
       user2,
     )
     // Get 3 users after user1
-    executeSql(tested.getUsersOrderedById(maxResults = 3, fromExcl = Some(user1.id))) shouldBe Seq(
+    executeSql(tested.getUsersOrderedById(maxResults = 3, fromExcl = Some(user1.id)))
+      .map(_.payload) shouldBe Seq(
       user2,
       user3,
       user5,
@@ -207,7 +302,7 @@ private[backend] trait StorageBackendTestsUserManagement
     // Get up to 10000 users after user1
     executeSql(
       tested.getUsersOrderedById(maxResults = 10000, fromExcl = Some(user1.id))
-    ) shouldBe Seq(
+    ) map (_.payload) shouldBe Seq(
       user2,
       user3,
       user5,
@@ -220,7 +315,7 @@ private[backend] trait StorageBackendTestsUserManagement
         maxResults = 2,
         fromExcl = Some(Ref.UserId.assertFromString("user_id_4")),
       )
-    ) shouldBe Seq(user5, user6)
+    ).map(_.payload) shouldBe Seq(user5, user6)
     // Get no users when requesting with after set the last existing user
     executeSql(tested.getUsersOrderedById(maxResults = 2, fromExcl = Some(user7.id))) shouldBe empty
     // Get no users when requesting with after set beyond the last existing user
@@ -241,11 +336,11 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "handle adding duplicate rights" in {
-    val user1 = newUniqueUser()
+    val user1 = newDbUser()
     val adminRight = ParticipantAdmin
     val readAsRight = CanReadAs(Ref.Party.assertFromString("party_read_as_1"))
     val actAsRight = CanActAs(Ref.Party.assertFromString("party_act_as_1"))
-    val internalId = executeSql(tested.createUser(user = user1, createdAt = zeroMicros))
+    val internalId = executeSql(tested.createUser(user = user1))
     executeSql(tested.addUserRight(internalId, adminRight, grantedAt = zeroMicros))
     // Attempting to add a duplicate user admin right
     assertThrows[SQLException](
@@ -264,8 +359,8 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "handle removing absent rights" in {
-    val user1 = newUniqueUser()
-    val internalId = executeSql(tested.createUser(user1, createdAt = zeroMicros))
+    val user1 = newDbUser()
+    val internalId = executeSql(tested.createUser(user1))
     val delete1 = executeSql(tested.deleteUserRight(internalId, right1))
     val delete2 = executeSql(tested.deleteUserRight(internalId, right2))
     val delete3 = executeSql(tested.deleteUserRight(internalId, right3))
@@ -275,8 +370,8 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "handle multiple rights (getUserRights, addUserRight, deleteUserRight)" in {
-    val user1 = newUniqueUser()
-    val internalId = executeSql(tested.createUser(user1, createdAt = zeroMicros))
+    val user1 = newDbUser()
+    val internalId = executeSql(tested.createUser(user1))
     val rights1 = executeSql(tested.getUserRights(internalId))
     executeSql(tested.addUserRight(internalId, right1, grantedAt = zeroMicros))
     executeSql(tested.addUserRight(internalId, right2, grantedAt = zeroMicros))
@@ -295,8 +390,8 @@ private[backend] trait StorageBackendTestsUserManagement
   }
 
   it should "add and delete a single right (userRightExists, addUserRight, deleteUserRight, getUserRights)" in {
-    val user1 = newUniqueUser()
-    val internalId = executeSql(tested.createUser(user1, createdAt = zeroMicros))
+    val user1 = newDbUser()
+    val internalId = executeSql(tested.createUser(user1))
     // no rights
     val rightExists0 = executeSql(tested.userRightExists(internalId, right1))
     val rights0 = executeSql(tested.getUserRights(internalId))
@@ -319,21 +414,28 @@ private[backend] trait StorageBackendTestsUserManagement
     rights2 shouldBe empty
   }
 
-  private def newUniqueUser(
-      emptyPrimaryParty: Boolean = false,
+  private def newDbUser(
       userId: String = "",
-  ): User = {
+      isDeactivated: Boolean = false,
+      primaryPartyOverride: Option[Option[Ref.Party]] = None,
+      resourceVersion: Option[String] = None,
+      createdAt: Long = zeroMicros,
+  ): UserManagementStorageBackend.DbUserPayload = {
     val uuid = UUID.randomUUID.toString
-    val primaryParty =
-      if (emptyPrimaryParty)
-        None
-      else
-        Some(Ref.Party.assertFromString(s"primary_party_${uuid}"))
+    val primaryParty = primaryPartyOverride.getOrElse(
+      Some(Ref.Party.assertFromString(s"primary_party_${uuid}"))
+    )
     val userIdStr = if (userId != "") userId else s"user_id_${uuid}"
-    User(
+    UserManagementStorageBackend.DbUserPayload(
       id = Ref.UserId.assertFromString(userIdStr),
-      primaryParty = primaryParty,
+      primaryPartyO = primaryParty,
+      isDeactivated = isDeactivated,
+      resourceVersion = resourceVersion.getOrElse(s"resource_version_${uuid}"),
+      createdAt = createdAt,
     )
   }
+
+  private def newParty: Ref.Party =
+    Ref.Party.assertFromString(s"party_${UUID.randomUUID.toString}")
 
 }

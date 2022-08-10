@@ -10,16 +10,31 @@ import com.daml.error.definitions.LedgerApiErrors
 import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
 import com.daml.ledger.api.SubmissionIdGenerator
 import com.daml.ledger.api.domain._
-import com.daml.ledger.api.v1.admin.user_management_service.{CreateUserResponse, GetUserResponse}
+import com.daml.ledger.api.v1.admin.user_management_service.{
+  CreateUserResponse,
+  GetUserResponse,
+  UpdateUserRequest,
+  UpdateUserResponse,
+}
 import com.daml.ledger.api.v1.admin.{user_management_service => proto}
+import com.daml.ledger.api.v1.{admin => proto_admin}
+import com.daml.ledger.participant.state.index.v2.MyFieldMaskUtils.fieldNameForNumber
 import com.daml.platform.apiserver.page_tokens.ListUsersPageTokenPayload
-import com.daml.ledger.participant.state.index.v2.UserManagementStore
+import com.daml.ledger.participant.state.index.v2.{
+  UpdateMaskTrie_mut,
+  ObjectMetaUpdate,
+  UserManagementStore,
+  UserUpdate,
+}
 import com.daml.lf.data.Ref
 import com.daml.logging.LoggingContext.withEnrichedLoggingContext
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.platform.api.grpc.GrpcApiService
 import com.daml.platform.server.api.validation.FieldValidations
 import com.google.protobuf.InvalidProtocolBufferException
+import com.google.protobuf.field_mask.FieldMask
+import scalapb.FieldMaskUtil
+
 import io.grpc.{ServerServiceDefinition, StatusRuntimeException}
 import scalaz.std.either._
 import scalaz.syntax.traverse._
@@ -28,6 +43,72 @@ import scalaz.std.list._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
+// TODO pbatko: Cleanup the code
+// TODO pbatko: Map from api.User directly?
+// TODO pbatko: Consider doing 'merge' update of annotations map by default, with an option to do a 'replace-all'.
+// TODO         It is what FieldMask's doc suggest.
+object UpdateMapper {
+
+  /** A field (e.g 'foo.bar.baz') is set to be updated if in the update mask:
+    * - its exact path is specified (e.g. 'foo.bar.baz'),
+    * - a prefix of its exact path is specified (e.g. 'foo.bar' or 'foo') and it's new value is non-default.
+    *
+    * Corollary: To delete a field (i.e. set it to a default value) you need to specify its exact path.
+    */
+  def toUserUpdate(user: User, updateMask: FieldMask): UserUpdate = {
+    val trie = UpdateMaskTrie_mut.fromPaths(updateMask.paths.map(_.split('.').toSeq))
+    val userSubTrieO: Option[UpdateMaskTrie_mut] =
+      trie.subtree(Seq(fieldNameForNumber[UpdateUserRequest](UpdateUserRequest.USER_FIELD_NUMBER)))
+
+    if (userSubTrieO.isEmpty) {
+      // TODO pbatko: This is an empty (no-op) update so consider modeling it as None
+      UserUpdate(
+        id = user.id,
+        primaryPartyUpdate = None,
+        isDeactivatedUpdate = None,
+        metadataUpdate = ObjectMetaUpdate(
+          resourceVersionO = user.metadata.resourceVersionO,
+          annotationsUpdate = None,
+        ),
+      )
+    } else {
+      val userSubTrie = userSubTrieO.get
+      UserUpdate(
+        id = user.id,
+        primaryPartyUpdate = userSubTrie.determineUpdate(
+          Seq(
+            fieldNameForNumber[proto.User](proto.User.PRIMARY_PARTY_FIELD_NUMBER)
+          )
+        )(
+          newValueCandidate = user.primaryParty,
+          defaultValue = None,
+        ),
+        isDeactivatedUpdate = userSubTrie.determineUpdate(
+          Seq(
+            fieldNameForNumber[proto.User](proto.User.IS_DEACTIVATED_FIELD_NUMBER)
+          )
+        )(
+          newValueCandidate = user.isDeactivated,
+          defaultValue = false,
+        ),
+        metadataUpdate = ObjectMetaUpdate(
+          resourceVersionO = user.metadata.resourceVersionO,
+          annotationsUpdate = userSubTrie.determineUpdate(
+            Seq(
+              fieldNameForNumber[proto.User](proto.User.METADATA_FIELD_NUMBER),
+              fieldNameForNumber[proto_admin.object_meta.ObjectMeta](
+                proto_admin.object_meta.ObjectMeta.ANNOTATIONS_FIELD_NUMBER
+              ),
+            )
+          )(
+            newValueCandidate = user.metadata.annotations,
+            defaultValue = Map.empty,
+          ),
+        ),
+      )
+    }
+  }
+}
 private[apiserver] final class ApiUserManagementService(
     userManagementStore: UserManagementStore,
     maxUsersPageSize: Int,
@@ -57,9 +138,26 @@ private[apiserver] final class ApiUserManagementService(
         for {
           pUser <- requirePresence(request.user, "user")
           pUserId <- requireUserId(pUser.id, "id")
+          pMetadata <- requirePresence(pUser.metadata, "user.metadata")
+          _ <- requireEmptyString(pMetadata.resourceVersion, "user.metadata.resource_version")
+          pAnnotations <- verifyMetadataAnnotations(
+            pMetadata.annotations,
+            "user.metadata.annotations",
+          )
           pOptPrimaryParty <- optionalString(pUser.primaryParty)(requireParty)
           pRights <- fromProtoRights(request.rights)
-        } yield (User(pUserId, pOptPrimaryParty), pRights)
+        } yield (
+          User(
+            id = pUserId,
+            primaryParty = pOptPrimaryParty,
+            isDeactivated = pUser.isDeactivated,
+            metadata = ObjectMeta(
+              resourceVersionO = None,
+              annotations = pAnnotations,
+            ),
+          ),
+          pRights,
+        )
       } { case (user, pRights) =>
         userManagementStore
           .createUser(
@@ -67,9 +165,49 @@ private[apiserver] final class ApiUserManagementService(
             rights = pRights,
           )
           .flatMap(handleResult("creating user"))
-          .map(_ => CreateUserResponse(Some(request.user.get)))
+          .map(createdUser => CreateUserResponse(Some(toProtoUser(createdUser))))
       }
     }
+
+  override def updateUser(request: UpdateUserRequest): Future[UpdateUserResponse] = {
+    withSubmissionId { implicit loggingContext =>
+      withValidation {
+        for {
+          pUser <- requirePresence(request.user, "user")
+          pUserId <- requireUserId(pUser.id, "id")
+          pMetadata <- requirePresence(pUser.metadata, "user.metadata")
+          pFieldMask <- requirePresence(request.updateMask, "update_mask")
+          pOptPrimaryParty <- optionalString(pUser.primaryParty)(requireParty)
+          pObjectMetaResourceVersion <- optionalString(pMetadata.resourceVersion)(Right(_))
+          pAnnotations <- verifyMetadataAnnotations(
+            pMetadata.annotations,
+            "user.metadata.annotations",
+          )
+        } yield (
+          User(
+            id = pUserId,
+            primaryParty = pOptPrimaryParty,
+            isDeactivated = pUser.isDeactivated,
+            metadata = ObjectMeta(
+              resourceVersionO = pObjectMetaResourceVersion,
+              annotations = pAnnotations,
+            ),
+          ),
+          pFieldMask,
+        )
+      } { case (user, fieldMask) =>
+        // TODO pbatko: Validate field mask using an error code
+        require(FieldMaskUtil.isValid[UpdateUserRequest](fieldMask), "todo")
+        val userUpdate = UpdateMapper.toUserUpdate(user, fieldMask)
+        userManagementStore
+          .updateUser(userUpdate = userUpdate)
+          .flatMap(handleResult("updating user"))
+          .map { u =>
+            UpdateUserResponse(user = Some(toProtoUser(u)))
+          }
+      }
+    }
+  }
 
   override def getUser(request: proto.GetUserRequest): Future[GetUserResponse] =
     withValidation(
@@ -200,6 +338,13 @@ private[apiserver] final class ApiUserManagementService(
             .asGrpcError
         )
 
+      case Left(UserManagementStore.ConcurrentUserUpdateDetected(id)) =>
+        Future.failed(
+          LedgerApiErrors.Admin.UserManagement.ConcurrentUserUpdateDetected
+            .Reject(userId = id: String)
+            .asGrpcError
+        )
+
       case scala.util.Right(t) =>
         Future.successful(t)
     }
@@ -243,8 +388,16 @@ private[apiserver] final class ApiUserManagementService(
 object ApiUserManagementService {
   private def toProtoUser(user: User): proto.User =
     proto.User(
-      id = user.id.toString,
+      id = user.id,
       primaryParty = user.primaryParty.getOrElse(""),
+      isDeactivated = user.isDeactivated,
+      metadata = Some(toProtoObjectMeta(user.metadata)),
+    )
+
+  private def toProtoObjectMeta(meta: ObjectMeta): proto_admin.object_meta.ObjectMeta =
+    proto_admin.object_meta.ObjectMeta(
+      resourceVersion = meta.resourceVersionO.getOrElse(""),
+      annotations = meta.annotations,
     )
 
   private val toProtoRight: UserRight => proto.Right = {

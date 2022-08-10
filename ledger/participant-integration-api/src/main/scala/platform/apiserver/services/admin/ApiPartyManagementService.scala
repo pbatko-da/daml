@@ -145,6 +145,11 @@ private[apiserver] final class ApiPartyManagementService private (
       displayName = details.displayName.getOrElse(""),
       isLocal = details.isLocal,
     )
+
+  // TODO pbatko
+  override def updatePartyDetails(
+      request: UpdatePartyDetailsRequest
+  ): Future[UpdatePartyDetailsResponse] = ???
 }
 
 private[apiserver] object ApiPartyManagementService {

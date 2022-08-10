@@ -3,8 +3,12 @@
 
 package com.daml.ledger.participant.state.index.impl.inmemory
 
-import com.daml.ledger.api.domain.{User, UserRight}
-import com.daml.ledger.participant.state.index.v2.UserManagementStore
+import com.daml.ledger.api.domain.{ObjectMeta, User, UserRight}
+import com.daml.ledger.participant.state.index.v2.{
+  ObjectMetaUpdate,
+  UserManagementStore,
+  UserUpdate,
+}
 import com.daml.ledger.participant.state.index.v2.UserManagementStore._
 import com.daml.lf.data.Ref
 import com.daml.lf.data.Ref.UserId
@@ -30,12 +34,35 @@ class InMemoryUserManagementStore(createAdmin: Boolean = true) extends UserManag
   ): Future[Result[UserManagementStore.UserInfo]] =
     withUser(id)(identity)
 
+  // TODO pbatko: Handle resource versions
   override def createUser(user: User, rights: Set[UserRight])(implicit
       loggingContext: LoggingContext
-  ): Future[Result[Unit]] =
+  ): Future[Result[User]] =
     withoutUser(user.id) {
       state.update(user.id, UserInfo(user, rights))
+      user
     }
+
+  // TODO pbatko: Handle resource versions
+  override def updateUser(
+      userUpdate: UserUpdate
+  )(implicit loggingContext: LoggingContext): Future[Result[User]] = {
+    withUser(userUpdate.id) { userInfo =>
+      val updatedPrimaryParty = userUpdate.primaryPartyUpdate.getOrElse(userInfo.user.primaryParty)
+      val updateMetadata = updateUserMetadata(
+        currentMetadata = userInfo.user.metadata,
+        metadataUpdate = userUpdate.metadataUpdate,
+      )
+      val updatedUserInfo = userInfo.copy(
+        user = userInfo.user.copy(
+          primaryParty = updatedPrimaryParty,
+          metadata = updateMetadata,
+        )
+      )
+      state.update(userUpdate.id, updatedUserInfo)
+      updatedUserInfo.user
+    }
+  }
 
   override def deleteUser(
       id: Ref.UserId
@@ -122,13 +149,29 @@ class InMemoryUserManagementStore(createAdmin: Boolean = true) extends UserManag
     }
   }
 
+  private def updateUserMetadata(
+      currentMetadata: ObjectMeta,
+      metadataUpdate: ObjectMetaUpdate,
+  ): ObjectMeta = {
+    val newAnnotations = metadataUpdate.annotationsUpdate.getOrElse(currentMetadata.annotations)
+    val newObjectMeta = currentMetadata.copy(
+      annotations = newAnnotations
+    )
+    newObjectMeta
+  }
+
 }
 
 object InMemoryUserManagementStore {
 
   private val AdminUser = UserInfo(
-    user =
-      User(Ref.UserId.assertFromString(UserManagementStore.DefaultParticipantAdminUserId), None),
+    user = User(
+      id = Ref.UserId.assertFromString(UserManagementStore.DefaultParticipantAdminUserId),
+      primaryParty = None,
+      isDeactivated = false,
+      // TODO pbatko: Add resource version
+      metadata = ObjectMeta.empty,
+    ),
     rights = Set(UserRight.ParticipantAdmin),
   )
 }
