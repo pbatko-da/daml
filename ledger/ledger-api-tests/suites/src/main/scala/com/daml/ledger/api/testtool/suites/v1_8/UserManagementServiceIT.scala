@@ -201,6 +201,66 @@ final class UserManagementServiceIT extends LedgerTestSuite {
       )
     } yield ()
   })
+
+  // TODO pbatko: This test is currently impossible as a conformance tests since conformance use com.daml.ledger.api.auth.AuthServiceWildcard
+//  userManagementTest(
+//    "TestUserCannotDeactivateItself",
+//    "A use cannot deactivate itself",
+//  )(implicit ec => { implicit ledger =>
+//    val userId1 = ledger.nextUserId()
+//    val user1a = User(
+//      id = userId1,
+//      isDeactivated = false,
+//    )
+//    // TODO pbatko: Copied from com.daml.platform.sandbox.SandboxRequiringAuthorizationFuns.standardToken
+//    def standardToken(
+//                                 userId: String,
+//                                 expiresIn: Option[Duration] = None,
+//                                 participantId: Option[String] = None,
+//                               ): StandardJWTPayload =
+//      StandardJWTPayload(
+//        participantId = participantId,
+//        userId = userId,
+//        exp = expiresIn.map(delta => Instant.now().plusNanos(delta.toNanos)),
+//        format = StandardJWTTokenFormat.Scope,
+//      )
+//
+//    // TODO pbatko: Copied from com.daml.platform.sandbox.SandboxRequiringAuthorizationFuns.toHeader
+//    val jwtHeader = """{"alg": "HS256", "typ": "JWT"}"""
+//    val jwtSecret = "secret"
+//    def toHeader(payload: AuthServiceJWTPayload, secret: String = jwtSecret): String =
+//      signed(payload, secret)
+//    def signed(payload: AuthServiceJWTPayload, secret: String): String =
+//      JwtSigner.HMAC256
+//        .sign(DecodedJwt(jwtHeader, AuthServiceJWTCodec.compactPrint(payload)), secret)
+//        .getOrElse(sys.error("Failed to generate token"))
+//        .value
+//
+//    LedgerCallCredentials.authenticatingStub(ledger.userManagement,  "")
+//    for {
+//      _: CreateUserResponse <- ledger.createUser(
+//        CreateUserRequest(Some(user1a), Nil)
+//      )
+////      _ = assertEquals(resetResourceVersion(res1), CreateUserResponse(Some(user1a)))
+//      user1b = User(
+//        id = userId1,
+//        isDeactivated = true,
+//      )
+//      // Update with concurrent change detection disabled
+//      err <- ledger.userManagement.updateUser(
+//        UpdateUserRequest(
+//          user = Some(user1b),
+//          updateMask = Some(FieldMask(paths = Seq("user"))),
+//        )
+//      ).mustFail("a user cannot deactivate itself")
+//      _ = assertGrpcError(
+//        t = err,
+//        errorCode = LedgerApiErrors.RequestValidation.InvalidArgument,
+//        exceptionMessageSubstring = None,
+//      )
+//    } yield ()
+//  })
+
   userManagementTest(
     "TestUpdateUser",
     "Exercise UpdateUser rpc",

@@ -9,6 +9,8 @@ import java.util.Base64
 import com.daml.error.definitions.LedgerApiErrors
 import com.daml.error.{ContextualizedErrorLogger, DamlContextualizedErrorLogger}
 import com.daml.ledger.api.SubmissionIdGenerator
+import com.daml.ledger.api.auth.ClaimSet.Claims
+import com.daml.ledger.api.auth.interceptor.AuthorizationInterceptor
 import com.daml.ledger.api.domain._
 import com.daml.ledger.api.v1.admin.user_management_service.{
   CreateUserResponse,
@@ -21,8 +23,8 @@ import com.daml.ledger.api.v1.{admin => proto_admin}
 import com.daml.ledger.participant.state.index.v2.MyFieldMaskUtils.fieldNameForNumber
 import com.daml.platform.apiserver.page_tokens.ListUsersPageTokenPayload
 import com.daml.ledger.participant.state.index.v2.{
-  UpdateMaskTrie_mut,
   ObjectMetaUpdate,
+  UpdateMaskTrie_mut,
   UserManagementStore,
   UserUpdate,
 }
@@ -34,7 +36,6 @@ import com.daml.platform.server.api.validation.FieldValidations
 import com.google.protobuf.InvalidProtocolBufferException
 import com.google.protobuf.field_mask.FieldMask
 import scalapb.FieldMaskUtil
-
 import io.grpc.{ServerServiceDefinition, StatusRuntimeException}
 import scalaz.std.either._
 import scalaz.syntax.traverse._
@@ -138,7 +139,9 @@ private[apiserver] final class ApiUserManagementService(
         for {
           pUser <- requirePresence(request.user, "user")
           pUserId <- requireUserId(pUser.id, "id")
-          pMetadata <- requirePresence(pUser.metadata, "user.metadata")
+          pMetadata = pUser.metadata.getOrElse(
+            com.daml.ledger.api.v1.admin.object_meta.ObjectMeta()
+          )
           _ <- requireEmptyString(pMetadata.resourceVersion, "user.metadata.resource_version")
           pAnnotations <- verifyMetadataAnnotations(
             pMetadata.annotations,
@@ -171,11 +174,40 @@ private[apiserver] final class ApiUserManagementService(
 
   override def updateUser(request: UpdateUserRequest): Future[UpdateUserResponse] = {
     withSubmissionId { implicit loggingContext =>
+      if (this.toString.nonEmpty) {
+        logger.error(s"${AuthorizationInterceptor
+            .extractClaimSetFromContext()}")
+      }
+      // Retrieve the authenticated user from the context
+      val authorizedUserIdFO: Future[Option[String]] = AuthorizationInterceptor
+        .extractClaimSetFromContext()
+        .fold(
+          fa = error =>
+            Future.failed(
+              LedgerApiErrors.InternalError
+                .Generic("Could not extract claim set from context", throwableO = Some(error))
+                .asGrpcError
+            ),
+          fb = {
+            case claims: Claims if claims.resolvedFromUser =>
+              Future.successful(claims.applicationId)
+            case claims: Claims if !claims.resolvedFromUser => Future.successful(None)
+            case claimsSet =>
+              Future.failed(
+                LedgerApiErrors.InternalError
+                  .Generic(s"Unexpected claims: $claimsSet")
+                  .asGrpcError
+              )
+          },
+        )
+
       withValidation {
         for {
           pUser <- requirePresence(request.user, "user")
           pUserId <- requireUserId(pUser.id, "id")
-          pMetadata <- requirePresence(pUser.metadata, "user.metadata")
+          pMetadata = pUser.metadata.getOrElse(
+            com.daml.ledger.api.v1.admin.object_meta.ObjectMeta()
+          )
           pFieldMask <- requirePresence(request.updateMask, "update_mask")
           pOptPrimaryParty <- optionalString(pUser.primaryParty)(requireParty)
           pObjectMetaResourceVersion <- optionalString(pMetadata.resourceVersion)(Right(_))
@@ -199,12 +231,31 @@ private[apiserver] final class ApiUserManagementService(
         // TODO pbatko: Validate field mask using an error code
         require(FieldMaskUtil.isValid[UpdateUserRequest](fieldMask), "todo")
         val userUpdate = UpdateMapper.toUserUpdate(user, fieldMask)
-        userManagementStore
-          .updateUser(userUpdate = userUpdate)
-          .flatMap(handleResult("updating user"))
-          .map { u =>
-            UpdateUserResponse(user = Some(toProtoUser(u)))
-          }
+
+        for {
+          authorizedUserIdO <- authorizedUserIdFO
+          _ <-
+            if (
+              authorizedUserIdO
+                .contains(userUpdate.id) && userUpdate.isDeactivatedUpdate.contains(true)
+            ) {
+              Future.failed(
+                LedgerApiErrors.RequestValidation.InvalidArgument
+                  .Reject(
+                    "Requesting user cannot deactivate itself"
+                  )
+                  .asGrpcError
+              )
+            } else {
+              Future.unit
+            }
+          resp <- userManagementStore
+            .updateUser(userUpdate = userUpdate)
+            .flatMap(handleResult("updating user"))
+            .map { u =>
+              UpdateUserResponse(user = Some(toProtoUser(u)))
+            }
+        } yield resp
       }
     }
   }

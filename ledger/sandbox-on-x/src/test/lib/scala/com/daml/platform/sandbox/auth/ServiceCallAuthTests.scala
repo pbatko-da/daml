@@ -196,4 +196,12 @@ trait ServiceCallAuthTests
       .createUser(req)
       .map(res => (res.user.get, userToken))
   }
+
+  protected def updateUser(
+      accessToken: String,
+      req: proto.UpdateUserRequest,
+  ): Future[proto.UpdateUserResponse] = {
+    stub(proto.UserManagementServiceGrpc.stub(channel), Some(accessToken))
+      .updateUser(req)
+  }
 }
