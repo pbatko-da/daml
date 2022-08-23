@@ -3,7 +3,7 @@
 
 package com.daml.platform.store.platform.usermanagement
 
-import com.daml.ledger.api.domain.{User, UserRight}
+import com.daml.ledger.api.domain.{ObjectMeta, User, UserRight}
 import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.ledger.participant.state.index.v2.UserManagementStore.{
   UserExists,
@@ -17,8 +17,8 @@ import com.daml.logging.LoggingContext
 import org.scalatest.freespec.AsyncFreeSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.{Assertion, EitherValues}
-import scala.language.implicitConversions
 
+import scala.language.implicitConversions
 import scala.concurrent.Future
 
 /** Common tests for implementations of [[UserManagementStore]]
@@ -36,27 +36,38 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
 
   def testIt(f: UserManagementStore => Future[Assertion]): Future[Assertion]
 
+  def newUser(name: String): User = User(name, None, false, ObjectMeta.empty)
+  def createdUser(name: String): User = User(name, None, false, ObjectMeta(
+    resourceVersionO = Some("0"),
+    annotations = Map.empty,
+  ))
+
+//  def clearResourceVersion(user: User): User = {
+//    user.copy(metadata = user.metadata.copy(resourceVersionO = None))
+//  }
+
   "user management" - {
+
     "allow creating a fresh user" in {
       testIt { tested =>
         for {
-          res1 <- tested.createUser(User(s"user1", None), Set.empty)
-          res2 <- tested.createUser(User("user2", None), Set.empty)
+          res1 <- tested.createUser(newUser(s"user1"), Set.empty)
+          res2 <- tested.createUser(newUser("user2"), Set.empty)
         } yield {
-          res1 shouldBe Right(())
-          res2 shouldBe Right(())
+          res1 shouldBe Right(createdUser("user1"))
+          res2 shouldBe Right(createdUser("user2"))
         }
       }
     }
 
     "disallow re-creating an existing user" in {
       testIt { tested =>
-        val user = User("user1", None)
+        val user = newUser("user1")
         for {
           res1 <- tested.createUser(user, Set.empty)
           res2 <- tested.createUser(user, Set.empty)
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(createdUser("user1"))
           res2 shouldBe Left(UserExists(user.id))
         }
       }
@@ -64,13 +75,13 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
 
     "find a freshly created user" in {
       testIt { tested =>
-        val user = User("user1", None)
+        val user = newUser("user1")
         for {
           res1 <- tested.createUser(user, Set.empty)
           user1 <- tested.getUser(user.id)
         } yield {
-          res1 shouldBe Right(())
-          user1 shouldBe Right(user)
+          res1 shouldBe Right(createdUser("user1"))
+          user1 shouldBe res1
         }
       }
     }
@@ -87,15 +98,15 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
     }
     "not find a deleted user" in {
       testIt { tested =>
-        val user = User("user1", None)
+        val user = newUser("user1")
         for {
           res1 <- tested.createUser(user, Set.empty)
           user1 <- tested.getUser("user1")
           res2 <- tested.deleteUser("user1")
           user2 <- tested.getUser("user1")
         } yield {
-          res1 shouldBe Right(())
-          user1 shouldBe Right(user)
+          res1 shouldBe Right(createdUser("user1"))
+          user1 shouldBe res1
           res2 shouldBe Right(())
           user2 shouldBe Left(UserNotFound("user1"))
         }
@@ -103,15 +114,15 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
     }
     "allow recreating a deleted user" in {
       testIt { tested =>
-        val user = User("user1", None)
+        val user = newUser("user1")
         for {
           res1 <- tested.createUser(user, Set.empty)
           res2 <- tested.deleteUser(user.id)
           res3 <- tested.createUser(user, Set.empty)
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(createdUser("user1"))
           res2 shouldBe Right(())
-          res3 shouldBe Right(())
+          res3 shouldBe Right(createdUser("user1"))
         }
 
       }
@@ -125,22 +136,31 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
         }
       }
     }
+
+
+
     "list created users" in {
       testIt { tested =>
         for {
-          _ <- tested.createUser(User("user1", None), Set.empty)
-          _ <- tested.createUser(User("user2", None), Set.empty)
-          _ <- tested.createUser(User("user3", None), Set.empty)
-          _ <- tested.createUser(User("user4", None), Set.empty)
+          _ <- tested.createUser(newUser("user1"), Set.empty)
+          _ <- tested.createUser(newUser("user2"), Set.empty)
+          _ <- tested.createUser(newUser("user3"), Set.empty)
+          _ <- tested.createUser(newUser("user4"), Set.empty)
           list1 <- tested.listUsers(fromExcl = None, maxResults = 3)
           _ = list1 shouldBe Right(
-            UsersPage(Seq(User("user1", None), User("user2", None), User("user3", None)))
+            UsersPage(
+              Seq(
+                createdUser("user1"),
+                createdUser("user2"),
+                createdUser("user3"),
+              )
+            )
           )
           list2 <- tested.listUsers(
             fromExcl = list1.getOrElse(fail("Expecting a Right()")).lastUserIdOption,
             maxResults = 4,
           )
-          _ = list2 shouldBe Right(UsersPage(Seq(User("user4", None))))
+          _ = list2 shouldBe Right(UsersPage(Seq(createdUser("user4"))))
         } yield {
           succeed
         }
@@ -149,17 +169,25 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
     "not list deleted users" in {
       testIt { tested =>
         for {
-          res1 <- tested.createUser(User("user1", None), Set.empty)
-          res2 <- tested.createUser(User("user2", None), Set.empty)
+          res1 <- tested.createUser(newUser("user1"), Set.empty)
+          res2 <- tested.createUser(newUser("user2"), Set.empty)
           users1 <- tested.listUsers(fromExcl = None, maxResults = 10000)
           res3 <- tested.deleteUser("user1")
           users2 <- tested.listUsers(fromExcl = None, maxResults = 10000)
         } yield {
-          res1 shouldBe Right(())
-          res2 shouldBe Right(())
-          users1 shouldBe Right(UsersPage(Seq(User("user1", None), User("user2", None))))
+          res1 shouldBe Right(createdUser("user1"))
+          res2 shouldBe Right(createdUser("user2"))
+          users1 shouldBe Right(
+            UsersPage(
+              Seq(
+                createdUser("user1"),
+                createdUser("user2"),
+              )
+            )
+          )
           res3 shouldBe Right(())
-          users2 shouldBe Right(UsersPage(Seq(User("user2", None))))
+          // TODO pbatko
+          users2 shouldBe Right(UsersPage(Seq(createdUser("user2"))))
 
         }
       }
@@ -171,17 +199,17 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
     "listUserRights should find the rights of a freshly created user" in {
       testIt { tested =>
         for {
-          res1 <- tested.createUser(User("user1", None), Set.empty)
+          res1 <- tested.createUser(newUser("user1"), Set.empty)
           rights1 <- tested.listUserRights("user1")
           user2 <- tested.createUser(
-            User("user2", None),
+            newUser("user2"),
             Set(ParticipantAdmin, CanActAs("party1"), CanReadAs("party2")),
           )
           rights2 <- tested.listUserRights("user2")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(createdUser("user1"))
           rights1 shouldBe Right(Set.empty)
-          user2 shouldBe Right(())
+          user2 shouldBe Right(createdUser("user2"))
           rights2 shouldBe Right(
             Set(ParticipantAdmin, CanActAs("party1"), CanReadAs("party2"))
           )
@@ -200,13 +228,13 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
     "grantUserRights should add new rights" in {
       testIt { tested =>
         for {
-          res1 <- tested.createUser(User("user1", None), Set.empty)
+          res1 <- tested.createUser(newUser("user1"), Set.empty)
           rights1 <- tested.grantRights("user1", Set(ParticipantAdmin))
           rights2 <- tested.grantRights("user1", Set(ParticipantAdmin))
           rights3 <- tested.grantRights("user1", Set(CanActAs("party1"), CanReadAs("party2")))
           rights4 <- tested.listUserRights("user1")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(createdUser("user1"))
           rights1 shouldBe Right(Set(ParticipantAdmin))
           rights2 shouldBe Right(Set.empty)
           rights3 shouldBe Right(
@@ -232,7 +260,7 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
       testIt { tested =>
         for {
           res1 <- tested.createUser(
-            User("user1", None),
+            newUser("user1"),
             Set(ParticipantAdmin, CanActAs("party1"), CanReadAs("party2")),
           )
           rights1 <- tested.listUserRights("user1")
@@ -242,7 +270,7 @@ trait UserManagementStoreTests extends TestResourceContext with Matchers with Ei
           rights5 <- tested.revokeRights("user1", Set(CanActAs("party1"), CanReadAs("party2")))
           rights6 <- tested.listUserRights("user1")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(createdUser("user1"))
           rights1 shouldBe Right(
             Set(ParticipantAdmin, CanActAs("party1"), CanReadAs("party2"))
           )

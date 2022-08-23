@@ -66,7 +66,7 @@ raisePartyDetails = \case
         party <- raiseParty partyDetailsParty
         let displayName = partyDetailsDisplayName
         let isLocal = partyDetailsIsLocal
-        let metadata = partyDetailsMetadata
+        let metadata = partyDetailsLocalMetadata
         return $ PartyDetails {..}
 
 data AllocatePartyRequest = AllocatePartyRequest
@@ -93,5 +93,5 @@ allocateParty request =
         lowerRequest AllocatePartyRequest{..} = do
             let allocatePartyRequestPartyIdHint = partyIdHint
             let allocatePartyRequestDisplayName = displayName
-            let allocatePartyRequestMetadata = metadata
+            let allocatePartyRequestLocalMetadata = metadata
             LL.AllocatePartyRequest {..}

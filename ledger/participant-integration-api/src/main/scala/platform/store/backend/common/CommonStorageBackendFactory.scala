@@ -32,4 +32,7 @@ trait CommonStorageBackendFactory extends StorageBackendFactory {
     MeteringStorageBackendWriteTemplate
   }
 
+  override def createParticipantPartyStorageBackend: ParticipantPartyStorageBackend =
+    new ParticipantPartyStorageBackendTemplate()
+
 }

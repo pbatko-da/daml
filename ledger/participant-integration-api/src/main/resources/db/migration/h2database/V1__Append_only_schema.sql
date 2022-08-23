@@ -43,6 +43,8 @@ CREATE TABLE participant_users (
     internal_id         INTEGER             GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id             VARCHAR(256)        NOT NULL UNIQUE,
     primary_party       VARCHAR(512),
+    is_deactivated      BOOLEAN,
+    resource_version    VARCHAR(256)        NOT NULL,
     created_at          BIGINT              NOT NULL
 );
 
@@ -59,7 +61,20 @@ CREATE TABLE participant_user_rights (
     UNIQUE (user_internal_id, user_right, for_party2)
 );
 
-INSERT INTO participant_users(user_id, primary_party, created_at) VALUES ('participant_admin', NULL, 0);
+CREATE TABLE participant_user_annotations (
+    user_internal_id    INTEGER         NOT NULL REFERENCES participant_users (internal_id) ON DELETE CASCADE,
+    name                VARCHAR(512)                NOT NULL,
+    -- 256*1024 = 262144
+    val                 VARCHAR(262144),
+    updated_at          BIGINT                      NOT NULL,
+    UNIQUE (user_internal_id, name)
+);
+
+);
+
+
+INSERT INTO participant_users(user_id, primary_party, is_deactivated, resource_version, created_at)
+    VALUES ('participant_admin', NULL, false, 'this-should-be-uuid-like',  0);
 INSERT INTO participant_user_rights(user_internal_id, user_right, for_party, granted_at)
     SELECT internal_id, 1, NULL, 0
     FROM participant_users
@@ -112,12 +127,22 @@ CREATE TABLE party_entries (
     rejection_reason VARCHAR,
     is_local BOOLEAN,
     party_id INTEGER,
-
+    -- TODO pbatko: implement resource version for parties.
+--    resource_version    VARCHAR(256)        NOT NULL,
     CONSTRAINT check_party_entry_type
         CHECK (
           (typ = 'accept' AND rejection_reason IS NULL) OR
           (typ = 'reject' AND rejection_reason IS NOT NULL)
         )
+);
+
+CREATE TABLE participant_party_annotations (
+    party_ledger_offset        VARCHAR             NOT NULL REFERENCES party_entries (ledger_offset) ON DELETE CASCADE,
+    name                        VARCHAR(512)                NOT NULL,
+    -- 256*1024 = 262144
+    val                      VARCHAR(262144),
+    updated_at                 BIGINT                      NOT NULL,
+    UNIQUE (party_ledger_offset, name)
 );
 
 CREATE INDEX idx_party_entries ON party_entries (submission_id);

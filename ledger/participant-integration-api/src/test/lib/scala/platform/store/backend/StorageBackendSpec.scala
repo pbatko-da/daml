@@ -18,10 +18,12 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Try, Using}
 
-private[backend] trait StorageBackendSpec
+//private[backend]
+trait StorageBackendSpec
     extends StorageBackendProvider
     with BeforeAndAfterEach
-    with BeforeAndAfterAll { this: TestSuite =>
+    with BeforeAndAfterAll {
+  this: TestSuite =>
 
   protected val logger: ContextualizedLogger = ContextualizedLogger.get(getClass)
   implicit protected val loggingContext: LoggingContext = LoggingContext.ForTesting
