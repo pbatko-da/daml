@@ -4,7 +4,6 @@
 package com.daml.platform.usermanagement
 
 import java.sql.Connection
-import java.util.UUID
 
 import com.daml.api.util.TimeProvider
 import com.daml.ledger.api.domain
@@ -126,7 +125,7 @@ class PersistentUserManagementStore(
           id = user.id,
           primaryPartyO = user.primaryParty,
           isDeactivated = user.isDeactivated,
-          resourceVersion = genNewResourceVersion,
+          resourceVersion = 0,
           createdAt = now,
         )
         val internalId = backend.createUser(user = dbUser)(connection)
@@ -165,7 +164,7 @@ class PersistentUserManagementStore(
       for {
         _ <- withUser(id = userUpdate.id) { dbUser =>
           val now = epochMicroseconds()
-          // TODO pbatko: Consider implementing 'merge' and 'replace-all' strategies.
+          // TODO pbatko: Implement 'merge' and 'replace-all' strategies.
           //              'Merge' would be consistent with FieldMask docs
           //              'Replace-all' would be available by 'replace_annotations' request attribute
 
@@ -196,21 +195,21 @@ class PersistentUserManagementStore(
             )(connection)
           }
           // update resource version
+          // TODO implement resource version as a bigint attribute in participant_users table
           if (userUpdate.metadataUpdate.resourceVersionO.isDefined) {
-            val expectedResourceVersion = userUpdate.metadataUpdate.resourceVersionO.get
+            // TODO pbatko: Parse resource version toLong error handling
+            val expectedResourceVersion = userUpdate.metadataUpdate.resourceVersionO.get.toLong
             if (
-              !backend.compareAndSwapResourceVersion(
+              !backend.compareAndIncreaseResourceVersion(
                 internalId = dbUser.internalId,
-                newResourceVersion = genNewResourceVersion,
                 expectedResourceVersion = expectedResourceVersion,
               )(connection)
             ) {
               throw ConcurrentUserUpdateDetectedRuntimeException(userUpdate.id)
             }
           } else {
-            backend.updateResourceVersion(
-              internalId = dbUser.internalId,
-              newResourceVersion = genNewResourceVersion,
+            backend.increaseResourceVersion(
+              internalId = dbUser.internalId
             )(connection)
           }
           ()
@@ -348,14 +347,11 @@ class PersistentUserManagementStore(
       primaryParty = payload.primaryPartyO,
       isDeactivated = payload.isDeactivated,
       metadata = domain.ObjectMeta(
-        resourceVersionO = Some(payload.resourceVersion),
+        resourceVersionO = Some(payload.resourceVersion.toString),
         annotations = annotations,
       ),
     )
   }
-
-  // TODO pbatko: Determine which type of UUID (1,2,3,4) is suitable. Determine if UUID is suitable at all, or if there are better choices.
-  private def genNewResourceVersion: String = UUID.randomUUID().toString
 
   private def withUser[T](
       id: Ref.UserId

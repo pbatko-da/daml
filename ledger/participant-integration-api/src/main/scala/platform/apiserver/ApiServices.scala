@@ -70,6 +70,7 @@ private[daml] object ApiServices {
       optWriteService: Option[state.WriteService],
       indexService: IndexService,
       userManagementStore: UserManagementStore,
+      participantPartyRecordStore: ParticipantPartyStore,
       authorizer: Authorizer,
       engine: Engine,
       timeProvider: TimeProvider,
@@ -292,6 +293,7 @@ private[daml] object ApiServices {
 
         val apiPartyManagementService = ApiPartyManagementService.createApiService(
           partyManagementService,
+          participantPartyRecordStore,
           transactionsService,
           writeService,
           managementServiceTimeout,

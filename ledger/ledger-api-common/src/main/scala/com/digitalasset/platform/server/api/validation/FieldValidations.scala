@@ -240,6 +240,17 @@ object FieldValidations {
       Left(missingField(fieldName))
     )(Right(_))
 
+  def requirePresence2[A, B](s: Option[A], fieldName: String)(
+      someValidation: A => Either[StatusRuntimeException, B]
+  )(implicit
+      contextualizedErrorLogger: ContextualizedErrorLogger
+  ): Either[StatusRuntimeException, B] = {
+    s match {
+      case None => Left(missingField(fieldName))
+      case Some(v) => someValidation(v)
+    }
+  }
+
   def validateIdentifier(identifier: Identifier)(implicit
       contextualizedErrorLogger: ContextualizedErrorLogger
   ): Either[StatusRuntimeException, Ref.Identifier] =
@@ -254,4 +265,5 @@ object FieldValidations {
   ): Either[StatusRuntimeException, Option[T]] =
     if (s.isEmpty) Right(None)
     else someValidation(s).map(Option(_))
+
 }

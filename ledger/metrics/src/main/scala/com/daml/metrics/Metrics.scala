@@ -317,6 +317,19 @@ final class Metrics(val registry: MetricRegistry) {
       val revokeRights: DatabaseMetrics = createDbMetrics("revoke_rights")
       val listUsers: DatabaseMetrics = createDbMetrics("list_users")
     }
+
+    object participantPartyManagement {
+      private val Prefix = daml.Prefix :+ "participant_party_management"
+
+      val cache = new CacheMetrics(registry, Prefix :+ "cache")
+
+      private def createDbMetrics(name: String): DatabaseMetrics =
+        new DatabaseMetrics(registry, Prefix, name)
+      val getPartyRecord: DatabaseMetrics = createDbMetrics("get_party_record")
+      val createPartyRecord: DatabaseMetrics = createDbMetrics("create_party_record")
+      val updatePartyRecord: DatabaseMetrics = createDbMetrics("update_party_record")
+    }
+
     object index {
       private val Prefix = daml.Prefix :+ "index"
 

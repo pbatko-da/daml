@@ -24,6 +24,7 @@ import com.daml.platform.config.ParticipantConfig
 import com.daml.platform.configuration.{IndexServiceConfig, ServerRole}
 import com.daml.platform.index.{InMemoryStateUpdater, IndexServiceOwner}
 import com.daml.platform.indexer.IndexerServiceOwner
+import com.daml.platform.partymanagement.PersistentParticipantPartyStore
 import com.daml.platform.store.DbSupport.ParticipantDataSourceConfig
 import com.daml.platform.store.{DbSupport, LfValueTranslationCache}
 import com.daml.platform.usermanagement.{PersistentUserManagementStore, UserManagementConfig}
@@ -158,6 +159,11 @@ class LedgerApiServer(
         maxRightsPerUser = UserManagementConfig.MaxRightsPerUser,
         timeProvider = TimeProvider.UTC,
       )(servicesExecutionContext, loggingContext),
+      participantPartyRecordStore = new PersistentParticipantPartyStore(
+        dbSupport = dbSupport,
+        metrics = metrics,
+        timeProvider = TimeProvider.UTC,
+      ),
       ledgerFeatures = ledgerFeatures,
       participantId = participantId,
       authService = authService,

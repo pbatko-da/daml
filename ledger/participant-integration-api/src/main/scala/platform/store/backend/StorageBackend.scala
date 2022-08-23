@@ -186,6 +186,62 @@ trait PartyStorageBackend {
   def knownParties(connection: Connection): List[PartyDetails]
 }
 
+trait ParticipantPartyStorageBackend {
+
+  def getPartyRecord(party: Ref.Party)(
+      connection: Connection
+  ): Option[ParticipantPartyStorageBackend.DbPartyWithId]
+
+  def createPartyRecord(partyRecord: ParticipantPartyStorageBackend.DbPartyPayload)(
+      connection: Connection
+  ): Int
+
+  def getPartyAnnotations(internalId: Int)(connection: Connection): Map[String, String]
+
+  def addPartyAnnotation(internalId: Int, key: String, value: String, updatedAt: Long)(
+      connection: Connection
+  ): Unit
+
+  def deletePartyAnnotations(internalId: Int)(connection: Connection): Unit
+
+  def compareAndIncreaseResourceVersion(
+      internalId: Int,
+      expectedResourceVersion: Long,
+  )(connection: Connection): Boolean
+
+  def increaseResourceVersion(
+      internalId: Int
+  )(connection: Connection): Boolean
+
+}
+
+object ParticipantPartyStorageBackend {
+  case class DbPartyPayload(
+      party: Ref.Party,
+      resourceVersion: Long,
+      createdAt: Long,
+  )
+
+  case class DbPartyWithId(
+      internalId: Int,
+      payload: DbPartyPayload,
+  )
+
+//  case class DbUserPayload(
+//                            id: Ref.UserId,
+//                            primaryPartyO: Option[Ref.Party],
+//                            isDeactivated: Boolean,
+//                            resourceVersion: String,
+//                            createdAt: Long,
+//                          )
+//
+//  case class DbUserWithId(
+//                           internalId: Int,
+//                           payload: DbUserPayload,
+//                         )
+//  case class DbUserRight(domainRight: UserRight, grantedAt: Long)
+}
+
 trait PackageStorageBackend {
   def lfPackages(connection: Connection): Map[PackageId, PackageDetails]
 
@@ -474,15 +530,13 @@ trait UserManagementStorageBackend {
       connection: Connection
   ): Boolean
 
-  def compareAndSwapResourceVersion(
+  def compareAndIncreaseResourceVersion(
       internalId: Int,
-      newResourceVersion: String,
-      expectedResourceVersion: String,
+      expectedResourceVersion: Long,
   )(connection: Connection): Boolean
 
-  def updateResourceVersion(
-      internalId: Int,
-      newResourceVersion: String,
+  def increaseResourceVersion(
+      internalId: Int
   )(connection: Connection): Boolean
 
   def updateUserIsDeactivated(
@@ -497,7 +551,7 @@ object UserManagementStorageBackend {
       id: Ref.UserId,
       primaryPartyO: Option[Ref.Party],
       isDeactivated: Boolean,
-      resourceVersion: String,
+      resourceVersion: Long,
       createdAt: Long,
   )
 

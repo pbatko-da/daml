@@ -19,13 +19,12 @@ import scala.util.Try
 
 object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
 
-  private val ParticipantUserParser
-      : RowParser[(Int, String, Option[String], Boolean, String, Long)] =
+  private val ParticipantUserParser: RowParser[(Int, String, Option[String], Boolean, Long, Long)] =
     int("internal_id") ~
       str("user_id") ~
       str("primary_party").? ~
       bool("is_deactivated") ~
-      str("resource_version") ~
+      long("resource_version") ~
       long("created_at") map {
         case internalId ~ userId ~ primaryParty ~ isDeactivated ~ resourceVersion ~ createdAt =>
           (internalId, userId, primaryParty, isDeactivated, resourceVersion, createdAt)
@@ -35,11 +34,6 @@ object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
     int("user_right") ~ str("for_party").? ~ long("granted_at") map {
       case userRight ~ forParty ~ grantedAt =>
         (userRight, forParty, grantedAt)
-    }
-
-  private val UserAnnotationParser: RowParser[(String, String, Long)] =
-    str("name") ~ str("val") ~ long("updated_at") map { case key ~ value ~ updateAt =>
-      (key, value, updateAt)
     }
 
   private val IntParser0: RowParser[Int] =
@@ -64,37 +58,40 @@ object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
   override def addUserAnnotation(internalId: Int, key: String, value: String, updatedAt: Long)(
       connection: Connection
   ): Unit = {
-    val _ =
-      SQL"""
-         INSERT INTO participant_user_annotations (user_internal_id, name, val, updated_at)
-         VALUES (
-            $internalId,
-            $key,
-            $value,
-            $updatedAt
-         )
-         """.executeUpdate()(connection)
+    ParticipantMetadataBackend.addAnnotation("participant_user_annotations")(
+      internalId,
+      key,
+      value,
+      updatedAt,
+    )(connection)
   }
 
   override def deleteUserAnnotations(internalId: Int)(connection: Connection): Unit = {
-    val _ = SQL"""
-         DELETE FROM participant_user_annotations pua
-         WHERE
-          pua.user_internal_id = $internalId
-       """.executeUpdate()(connection)
+    ParticipantMetadataBackend.deleteAnnotations("participant_user_annotations")(internalId)(
+      connection
+    )
   }
 
   override def getUserAnnotations(internalId: Int)(connection: Connection): Map[String, String] = {
-    SQL"""
-         SELECT name, val, updated_at
-         FROM participant_user_annotations
-         WHERE
-          user_internal_id = $internalId
-       """
-      .asVectorOf(UserAnnotationParser)(connection)
-      .iterator
-      .map { case (key, value, _) => key -> value }
-      .toMap
+    ParticipantMetadataBackend.getAnnotations("participant_user_annotations")(internalId)(
+      connection
+    )
+  }
+
+  override def compareAndIncreaseResourceVersion(
+      internalId: Int,
+      expectedResourceVersion: Long,
+  )(connection: Connection): Boolean = {
+    ParticipantMetadataBackend.compareAndIncraseResourceVersion("participant_users")(
+      internalId,
+      expectedResourceVersion,
+    )(connection)
+  }
+
+  override def increaseResourceVersion(internalId: Int)(
+      connection: Connection
+  ): Boolean = {
+    ParticipantMetadataBackend.increaseResourceVersion("participant_users")(internalId)(connection)
   }
 
   override def getUser(
@@ -293,32 +290,4 @@ object UserManagementStorageBackendImpl extends UserManagementStorageBackend {
     rowsUpdated == 1
   }
 
-  override def compareAndSwapResourceVersion(
-      internalId: Int,
-      newResourceVersion: String,
-      expectedResourceVersion: String,
-  )(connection: Connection): Boolean = {
-    val rowsUpdated = SQL"""
-         UPDATE participant_users
-         SET resource_version  = $newResourceVersion
-         WHERE
-             internal_id = ${internalId}
-             AND
-             resource_version = ${expectedResourceVersion}
-       """.executeUpdate()(connection)
-    rowsUpdated == 1
-  }
-
-  override def updateResourceVersion(internalId: Int, newResourceVersion: String)(
-      connection: Connection
-  ): Boolean = {
-    val rowsUpdated = SQL"""
-         UPDATE participant_users
-         SET resource_version  = $newResourceVersion
-         WHERE
-             internal_id = ${internalId}
-       """.executeUpdate()(connection)
-    rowsUpdated == 1
-
-  }
 }

@@ -21,6 +21,47 @@ import org.scalatest.{Assertion, EitherValues}
 import scala.language.implicitConversions
 import scala.concurrent.Future
 
+trait UserManagementStoreSpecBaseBasic extends TestResourceContext with Matchers with EitherValues {
+  self: AsyncFreeSpec =>
+
+  implicit val lc: LoggingContext = LoggingContext.ForTesting
+
+  private implicit def toUserId(s: String): UserId =
+    UserId.assertFromString(s)
+
+  def testIt(f: UserManagementStore => Future[Assertion]): Future[Assertion]
+
+  "user management" - {
+
+    "allow creating a fresh user" in {
+      testIt { tested =>
+        for {
+          res1 <- tested.createUser(User(s"user1", None, false, ObjectMeta.empty), Set.empty)
+          res2 <- tested.createUser(User("user2", None, false, ObjectMeta.empty), Set.empty)
+        } yield {
+          res1 shouldBe Right(User("user1",None,false,ObjectMeta(Some("0"),Map())))
+          res2 shouldBe Right(User("user2", None, false, ObjectMeta(Some("0"),Map())))
+        }
+      }
+    }
+
+    "disallow re-creating an existing user" in {
+      testIt { tested =>
+        val user = User("user1", None, false, ObjectMeta.empty)
+        for {
+          res1 <- tested.createUser(user, Set.empty)
+          res2 <- tested.createUser(user, Set.empty)
+        } yield {
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
+          res2 shouldBe Left(UserExists(user.id))
+        }
+      }
+    }
+
+
+
+  }
+}
 /** Common tests for implementations of [[UserManagementStore]]
   */
 trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with EitherValues {
@@ -44,8 +85,8 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           res1 <- tested.createUser(User(s"user1", None, false, ObjectMeta.empty), Set.empty)
           res2 <- tested.createUser(User("user2", None, false, ObjectMeta.empty), Set.empty)
         } yield {
-          res1 shouldBe Right(())
-          res2 shouldBe Right(())
+          res1 shouldBe Right(User("user1",None,false,ObjectMeta(Some("0"),Map())))
+          res2 shouldBe Right(User("user2", None, false, ObjectMeta(Some("0"),Map())))
         }
       }
     }
@@ -57,7 +98,7 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           res1 <- tested.createUser(user, Set.empty)
           res2 <- tested.createUser(user, Set.empty)
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           res2 shouldBe Left(UserExists(user.id))
         }
       }
@@ -70,7 +111,7 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           res1 <- tested.createUser(user, Set.empty)
           user1 <- tested.getUser(user.id)
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           user1 shouldBe Right(user)
         }
       }
@@ -95,7 +136,7 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           res2 <- tested.deleteUser("user1")
           user2 <- tested.getUser("user1")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           user1 shouldBe Right(user)
           res2 shouldBe Right(())
           user2 shouldBe Left(UserNotFound("user1"))
@@ -110,9 +151,9 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           res2 <- tested.deleteUser(user.id)
           res3 <- tested.createUser(user, Set.empty)
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           res2 shouldBe Right(())
-          res3 shouldBe Right(())
+          res3 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
         }
 
       }
@@ -162,8 +203,8 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           res3 <- tested.deleteUser("user1")
           users2 <- tested.listUsers(fromExcl = None, maxResults = 10000)
         } yield {
-          res1 shouldBe Right(())
-          res2 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
+          res2 shouldBe Right(User("user2", None, false, ObjectMeta(Some("0"),Map())))
           users1 shouldBe Right(
             UsersPage(
               Seq(
@@ -173,6 +214,7 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
             )
           )
           res3 shouldBe Right(())
+          // TODO pbatko
           users2 shouldBe Right(UsersPage(Seq(User("user2", None, false, ObjectMeta.empty))))
 
         }
@@ -193,9 +235,9 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           )
           rights2 <- tested.listUserRights("user2")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           rights1 shouldBe Right(Set.empty)
-          user2 shouldBe Right(())
+          user2 shouldBe Right(User("user2", None, false, ObjectMeta(Some("0"),Map())))
           rights2 shouldBe Right(
             Set(ParticipantAdmin, CanActAs("party1"), CanReadAs("party2"))
           )
@@ -220,7 +262,7 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           rights3 <- tested.grantRights("user1", Set(CanActAs("party1"), CanReadAs("party2")))
           rights4 <- tested.listUserRights("user1")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           rights1 shouldBe Right(Set(ParticipantAdmin))
           rights2 shouldBe Right(Set.empty)
           rights3 shouldBe Right(
@@ -256,7 +298,7 @@ trait UserManagementStoreSpecBase extends TestResourceContext with Matchers with
           rights5 <- tested.revokeRights("user1", Set(CanActAs("party1"), CanReadAs("party2")))
           rights6 <- tested.listUserRights("user1")
         } yield {
-          res1 shouldBe Right(())
+          res1 shouldBe Right(User("user1", None, false, ObjectMeta(Some("0"),Map())))
           rights1 shouldBe Right(
             Set(ParticipantAdmin, CanActAs("party1"), CanReadAs("party2"))
           )

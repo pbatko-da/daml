@@ -3,6 +3,23 @@
 
 package com.daml.ledger.participant.state.index.v2
 
+sealed trait UpdateModifier {
+  def isMerge: Boolean
+  def isReplace: Boolean
+}
+object UpdateModifier {
+  object Merge extends UpdateModifier {
+    override def isMerge: Boolean = true
+    override def isReplace: Boolean = false
+  }
+  object Replace extends UpdateModifier {
+    override def isMerge: Boolean = false
+    override def isReplace: Boolean = true
+  }
+}
+
+case class UpdatePath(path: Seq[String], updateSemantics: UpdateModifier) {}
+
 // TODO pbatko: Clean-up impl
 /** @param exists set if there is a path ending in this node
   */
@@ -33,11 +50,6 @@ case class UpdateMaskTrie_mut(
     }
   }
 
-  /** @return Some(newValue), indicating an update operation should be performed, if either:
-    *          - one of the known paths is equal to the update path,
-    *          - or one of the known paths is a prefix of the update path and new value candidate is different that the default value,
-    *         None, indicating no update should be performed, otherwise.
-    */
   def determineUpdate[A](
       updatePath: Seq[String]
   )(newValueCandidate: A, defaultValue: A): Option[A] = {
@@ -74,13 +86,20 @@ case class UpdateMaskTrie_mut(
 }
 
 object UpdateMaskTrie_mut {
-  private def newEmpty: UpdateMaskTrie_mut =
-    new UpdateMaskTrie_mut(nodes = collection.mutable.SortedMap.empty, exists = false)
+  def newEmpty: UpdateMaskTrie_mut =
+    new UpdateMaskTrie_mut(
+      nodes = collection.mutable.SortedMap.empty,
+      exists = false,
+    )
 
   def fromPaths(paths: Seq[Seq[String]]): UpdateMaskTrie_mut = {
     val trie = newEmpty
     if (paths.nonEmpty) {
-      paths.foreach(trie.insert)
+      paths.foreach(path =>
+        trie.insert(
+          path = path
+        )
+      )
     }
     trie
   }

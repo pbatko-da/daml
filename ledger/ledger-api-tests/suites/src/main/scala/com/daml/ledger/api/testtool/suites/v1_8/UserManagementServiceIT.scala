@@ -126,7 +126,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
         CreateUserRequest(Some(user2_annotationsSizeJustRight))
       )
       _ = assertEquals(
-        resetResourceVersion(create2),
+        unsetResourceVersion(create2),
         CreateUserResponse(Some(user2_annotationsSizeJustRight)),
       )
       err2 <- ledger.userManagement
@@ -159,7 +159,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
         CreateUserRequest(Some(user3_validKey))
       )
       _ = assertEquals(
-        resetResourceVersion(create3),
+        unsetResourceVersion(create3),
         CreateUserResponse(Some(user3_validKey)),
       )
       err3 <- ledger.userManagement
@@ -276,7 +276,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
       res1: CreateUserResponse <- ledger.createUser(
         CreateUserRequest(Some(user1a), Nil)
       )
-      _ = assertEquals(resetResourceVersion(res1), CreateUserResponse(Some(user1a)))
+      _ = assertEquals(unsetResourceVersion(res1), CreateUserResponse(Some(user1a)))
       user1b = User(
         id = userId1,
         primaryParty = "primaryParty1",
@@ -298,7 +298,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
           updateMask = Some(FieldMask(paths = Seq("user"))),
         )
       )
-      _ = assertEquals(resetResourceVersion(res2), UpdateUserResponse(Some(user1b)))
+      _ = assertEquals(unsetResourceVersion(res2), UpdateUserResponse(Some(user1b)))
 
       user1aResourceVersion = res1.user.get.metadata.get.resourceVersion
       _ = assertValidResourceVersionString(user1aResourceVersion, "newly created user")
@@ -343,15 +343,15 @@ final class UserManagementServiceIT extends LedgerTestSuite {
         "updated user with concurrent change control enabled",
       )
     } yield {
-      assertEquals(resetResourceVersion(res1), CreateUserResponse(Some(user1a)))
+      assertEquals(unsetResourceVersion(res1), CreateUserResponse(Some(user1a)))
       assertEquals(
-        resetResourceVersion(res2),
-        UpdateUserResponse(Some(resetResourceVersion(user1b))),
+        unsetResourceVersion(res2),
+        UpdateUserResponse(Some(unsetResourceVersion(user1b))),
       )
       assertConcurrentUserUpdateDetectedError(res3)
       assertEquals(
-        resetResourceVersion(res4),
-        UpdateUserResponse(Some(resetResourceVersion(user1d))),
+        unsetResourceVersion(res4),
+        UpdateUserResponse(Some(unsetResourceVersion(user1d))),
       )
     }
   })
@@ -413,11 +413,11 @@ final class UserManagementServiceIT extends LedgerTestSuite {
       create3 <- ledger.createUser(CreateUserRequest(Some(user2), permissionsMax))
     } yield {
       assertTooManyUserRightsError(create1)
-      assertEquals(resetResourceVersion(create2), CreateUserResponse(Some(user1)))
+      assertEquals(unsetResourceVersion(create2), CreateUserResponse(Some(user1)))
       assertTooManyUserRightsError(grant1)
       assertEquals(rights1.rights.size, permissionsMaxAndOne.tail.size)
       assertSameElements(rights1.rights, permissionsMaxAndOne.tail)
-      assertEquals(resetResourceVersion(create3), CreateUserResponse(Some(user2)))
+      assertEquals(unsetResourceVersion(create3), CreateUserResponse(Some(user2)))
     }
   })
 
@@ -751,17 +751,13 @@ final class UserManagementServiceIT extends LedgerTestSuite {
           "creating user with non empty resource version"
         )
     } yield {
-      assertEquals(resetResourceVersion(res1), CreateUserResponse(Some(user1)))
+      assertEquals(unsetResourceVersion(res1), CreateUserResponse(Some(user1)))
       val resourceVersion1 = res1.user.get.metadata.get.resourceVersion
       assert(resourceVersion1.nonEmpty, "New user's resource version should be non empty")
       assertUserAlreadyExists(res2)
-      assertEquals(resetResourceVersion(res3), CreateUserResponse(Some(user2)))
+      assertEquals(unsetResourceVersion(res3), CreateUserResponse(Some(user2)))
       val resourceVersion2 = res3.user.get.metadata.get.resourceVersion
       assert(resourceVersion2.nonEmpty, "New user's resource version should be non empty")
-      assert(
-        resourceVersion1 != resourceVersion2,
-        s"One user's resource version: ${resourceVersion1} must be different from other user's resource version: ${resourceVersion2}",
-      )
       assertEquals(res4, DeleteUserResponse())
       assertGrpcError(
         res5,
@@ -795,7 +791,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
         .mustFail("retrieving non-existent user")
     } yield {
       assertUserNotFound(res2)
-      assert(resetResourceVersion(res1) == GetUserResponse(Some(user1)))
+      assert(unsetResourceVersion(res1) == GetUserResponse(Some(user1)))
     }
   })
 
@@ -830,11 +826,11 @@ final class UserManagementServiceIT extends LedgerTestSuite {
     runConcurrently = false,
   )(implicit ec => { implicit ledger =>
     def assertUserPresentIn(user: User, list: ListUsersResponse, msg: String): Unit = {
-      assert(list.users.map(resetResourceVersion).contains(user), msg)
+      assert(list.users.map(unsetResourceVersion).contains(user), msg)
     }
 
     def assertUserAbsentIn(user: User, list: ListUsersResponse, msg: String): Unit = {
-      assert(!list.users.map(resetResourceVersion).contains(user), msg)
+      assert(!list.users.map(unsetResourceVersion).contains(user), msg)
     }
 
     for {
@@ -1146,7 +1142,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
       res6 <- ledger.userManagement
         .listUserRights(ListUserRightsRequest(userId1))
     } yield {
-      assertEquals(resetResourceVersion(res1), CreateUserResponse(Some(user1)))
+      assertEquals(unsetResourceVersion(res1), CreateUserResponse(Some(user1)))
       assertEquals(res2, ListUserRightsResponse(Seq.empty))
       assertSameElements(
         res3.newlyGrantedRights.toSet,
@@ -1208,7 +1204,7 @@ final class UserManagementServiceIT extends LedgerTestSuite {
     )
   }
 
-  private def resetResourceVersion[T](t: T): T = {
+  private def unsetResourceVersion[T](t: T): T = {
     val t2: T = t match {
       case u: User => u.update(_.metadata.resourceVersion := "").asInstanceOf[T]
       case u: CreateUserResponse => u.update(_.user.metadata.resourceVersion := "").asInstanceOf[T]

@@ -31,34 +31,31 @@ private[backend] trait StorageBackendTestsUserManagement
   private def tested = backend.userManagement
 
   it should "compare and swap resource version" in {
-    val user = newDbUser(createdAt = 123, resourceVersion = Some("resourceVersion0"))
+    val user = newDbUser(createdAt = 123)
     val internalId = executeSql(tested.createUser(user))
     val dbUser = executeSql(tested.getUser(id = user.id)).value
-    dbUser.payload.resourceVersion shouldBe "resourceVersion0"
+    dbUser.payload.resourceVersion shouldBe 0
     executeSql(
-      tested.compareAndSwapResourceVersion(
+      tested.compareAndIncreaseResourceVersion(
         internalId = internalId,
-        newResourceVersion = "resourceVersion1",
-        expectedResourceVersion = "resourceVersion0",
+        expectedResourceVersion = 0,
       )
     ) shouldBe true
     executeSql(
-      tested.compareAndSwapResourceVersion(
+      tested.compareAndIncreaseResourceVersion(
         internalId = internalId,
-        newResourceVersion = "resourceVersion2",
-        expectedResourceVersion = "dummy",
+        expectedResourceVersion = 404,
       )
     ) shouldBe false
     executeSql(
-      tested.compareAndSwapResourceVersion(
+      tested.compareAndIncreaseResourceVersion(
         internalId = internalId,
-        newResourceVersion = "resourceVersion2",
-        expectedResourceVersion = "resourceVersion1",
+        expectedResourceVersion = 1,
       )
     ) shouldBe true
     executeSql(
       tested.getUser(id = user.id)
-    ).value.payload.resourceVersion shouldBe "resourceVersion2"
+    ).value.payload.resourceVersion shouldBe 2
   }
 
   it should "update existing user's isDeactivated attribute" in {
@@ -418,7 +415,7 @@ private[backend] trait StorageBackendTestsUserManagement
       userId: String = "",
       isDeactivated: Boolean = false,
       primaryPartyOverride: Option[Option[Ref.Party]] = None,
-      resourceVersion: Option[String] = None,
+      resourceVersion: Long = 0,
       createdAt: Long = zeroMicros,
   ): UserManagementStorageBackend.DbUserPayload = {
     val uuid = UUID.randomUUID.toString
@@ -430,7 +427,7 @@ private[backend] trait StorageBackendTestsUserManagement
       id = Ref.UserId.assertFromString(userIdStr),
       primaryPartyO = primaryParty,
       isDeactivated = isDeactivated,
-      resourceVersion = resourceVersion.getOrElse(s"resource_version_${uuid}"),
+      resourceVersion = resourceVersion,
       createdAt = createdAt,
     )
   }

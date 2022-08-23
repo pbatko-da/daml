@@ -20,96 +20,24 @@ import com.daml.ledger.api.v1.admin.user_management_service.{
 }
 import com.daml.ledger.api.v1.admin.{user_management_service => proto}
 import com.daml.ledger.api.v1.{admin => proto_admin}
-import com.daml.ledger.participant.state.index.v2.MyFieldMaskUtils.fieldNameForNumber
-import com.daml.platform.apiserver.page_tokens.ListUsersPageTokenPayload
-import com.daml.ledger.participant.state.index.v2.{
-  ObjectMetaUpdate,
-  UpdateMaskTrie_mut,
-  UserManagementStore,
-  UserUpdate,
-}
+import com.daml.ledger.participant.state.index.v2.UserManagementStore
 import com.daml.lf.data.Ref
 import com.daml.logging.LoggingContext.withEnrichedLoggingContext
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
 import com.daml.platform.api.grpc.GrpcApiService
+import com.daml.platform.apiserver.page_tokens.ListUsersPageTokenPayload
 import com.daml.platform.server.api.validation.FieldValidations
 import com.google.protobuf.InvalidProtocolBufferException
-import com.google.protobuf.field_mask.FieldMask
-import scalapb.FieldMaskUtil
 import io.grpc.{ServerServiceDefinition, StatusRuntimeException}
+import scalapb.FieldMaskUtil
 import scalaz.std.either._
-import scalaz.syntax.traverse._
+//import scalaz.syntax.traverse._
 import scalaz.std.list._
+import scalaz.syntax.traverse._
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 
-// TODO pbatko: Cleanup the code
-// TODO pbatko: Map from api.User directly?
-// TODO pbatko: Consider doing 'merge' update of annotations map by default, with an option to do a 'replace-all'.
-// TODO         It is what FieldMask's doc suggest.
-object UpdateMapper {
-
-  /** A field (e.g 'foo.bar.baz') is set to be updated if in the update mask:
-    * - its exact path is specified (e.g. 'foo.bar.baz'),
-    * - a prefix of its exact path is specified (e.g. 'foo.bar' or 'foo') and it's new value is non-default.
-    *
-    * Corollary: To delete a field (i.e. set it to a default value) you need to specify its exact path.
-    */
-  def toUserUpdate(user: User, updateMask: FieldMask): UserUpdate = {
-    val trie = UpdateMaskTrie_mut.fromPaths(updateMask.paths.map(_.split('.').toSeq))
-    val userSubTrieO: Option[UpdateMaskTrie_mut] =
-      trie.subtree(Seq(fieldNameForNumber[UpdateUserRequest](UpdateUserRequest.USER_FIELD_NUMBER)))
-
-    if (userSubTrieO.isEmpty) {
-      // TODO pbatko: This is an empty (no-op) update so consider modeling it as None
-      UserUpdate(
-        id = user.id,
-        primaryPartyUpdate = None,
-        isDeactivatedUpdate = None,
-        metadataUpdate = ObjectMetaUpdate(
-          resourceVersionO = user.metadata.resourceVersionO,
-          annotationsUpdate = None,
-        ),
-      )
-    } else {
-      val userSubTrie = userSubTrieO.get
-      UserUpdate(
-        id = user.id,
-        primaryPartyUpdate = userSubTrie.determineUpdate(
-          Seq(
-            fieldNameForNumber[proto.User](proto.User.PRIMARY_PARTY_FIELD_NUMBER)
-          )
-        )(
-          newValueCandidate = user.primaryParty,
-          defaultValue = None,
-        ),
-        isDeactivatedUpdate = userSubTrie.determineUpdate(
-          Seq(
-            fieldNameForNumber[proto.User](proto.User.IS_DEACTIVATED_FIELD_NUMBER)
-          )
-        )(
-          newValueCandidate = user.isDeactivated,
-          defaultValue = false,
-        ),
-        metadataUpdate = ObjectMetaUpdate(
-          resourceVersionO = user.metadata.resourceVersionO,
-          annotationsUpdate = userSubTrie.determineUpdate(
-            Seq(
-              fieldNameForNumber[proto.User](proto.User.METADATA_FIELD_NUMBER),
-              fieldNameForNumber[proto_admin.object_meta.ObjectMeta](
-                proto_admin.object_meta.ObjectMeta.ANNOTATIONS_FIELD_NUMBER
-              ),
-            )
-          )(
-            newValueCandidate = user.metadata.annotations,
-            defaultValue = Map.empty,
-          ),
-        ),
-      )
-    }
-  }
-}
 private[apiserver] final class ApiUserManagementService(
     userManagementStore: UserManagementStore,
     maxUsersPageSize: Int,
@@ -445,7 +373,7 @@ object ApiUserManagementService {
       metadata = Some(toProtoObjectMeta(user.metadata)),
     )
 
-  private def toProtoObjectMeta(meta: ObjectMeta): proto_admin.object_meta.ObjectMeta =
+  def toProtoObjectMeta(meta: ObjectMeta): proto_admin.object_meta.ObjectMeta =
     proto_admin.object_meta.ObjectMeta(
       resourceVersion = meta.resourceVersionO.getOrElse(""),
       annotations = meta.annotations,

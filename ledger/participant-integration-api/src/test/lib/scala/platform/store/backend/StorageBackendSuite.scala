@@ -19,6 +19,7 @@ trait StorageBackendSuite
     with StorageBackendTestsTimestamps
     with StorageBackendTestsStringInterning
     with StorageBackendTestsUserManagement
+    with StorageBackendTestsParticipantParty
     with StorageBackendTestsMeteringParameters
     with StorageBackendTestsWriteMetering
     with StorageBackendTestsReadMetering {

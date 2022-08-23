@@ -91,6 +91,7 @@ case class TestBackend(
     ledgerEndCache: MutableLedgerEndCache,
     stringInterningSupport: MockStringInterning,
     userManagement: UserManagementStorageBackend,
+    participantPartyStorageBackend: ParticipantPartyStorageBackend,
     metering: TestMeteringBackend,
 )
 
@@ -130,6 +131,7 @@ object TestBackend {
       ledgerEndCache = ledgerEndCache,
       stringInterningSupport = stringInterning,
       userManagement = storageBackendFactory.createUserManagementStorageBackend,
+      participantPartyStorageBackend = storageBackendFactory.createParticipantPartyStorageBackend,
       metering = createTestMeteringBackend,
     )
   }

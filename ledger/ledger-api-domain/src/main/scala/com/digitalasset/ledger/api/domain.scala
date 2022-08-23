@@ -418,6 +418,15 @@ object domain {
       metadata: ObjectMeta,
   )
 
+  object ParticipantParty {
+
+    final case class PartyRecord(
+        party: Ref.Party,
+        metadata: ObjectMeta,
+    )
+
+  }
+
   sealed abstract class UserRight extends Product with Serializable
   object UserRight {
     final case object ParticipantAdmin extends UserRight

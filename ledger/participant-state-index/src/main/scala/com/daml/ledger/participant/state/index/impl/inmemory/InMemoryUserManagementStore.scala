@@ -40,7 +40,7 @@ class InMemoryUserManagementStore(createAdmin: Boolean = true) extends UserManag
   ): Future[Result[User]] =
     withoutUser(user.id) {
       state.update(user.id, UserInfo(user, rights))
-      user
+      user.copy(metadata = user.metadata.copy(resourceVersionO = Some("0")))
     }
 
   // TODO pbatko: Handle resource versions

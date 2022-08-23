@@ -216,6 +216,7 @@ class ApiUserManagementServiceSpec
             "a" -> "b"
           )
         ),
+        replaceAnnotations = true,
       ),
     )
     actual_individualFields shouldBe actual_mergeMetadata
@@ -242,6 +243,7 @@ class ApiUserManagementServiceSpec
             "a" -> "b"
           )
         ),
+        replaceAnnotations = true,
       ),
     )
   }
@@ -280,6 +282,7 @@ class ApiUserManagementServiceSpec
             "a" -> "b"
           )
         ),
+        replaceAnnotations = true,
       ),
     )
 
@@ -352,6 +355,7 @@ class ApiUserManagementServiceSpec
       metadataUpdate = ObjectMetaUpdate(
         resourceVersionO = None,
         annotationsUpdate = None,
+        replaceAnnotations = true,
       ),
     )
     actual2 shouldBe actual1
