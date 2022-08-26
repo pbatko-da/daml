@@ -186,7 +186,38 @@ trait PartyStorageBackend {
   def knownParties(connection: Connection): List[PartyDetails]
 }
 
-object ParticipantPartyStorageBackend {
+// TODO um-for-hub: Extract from StorageBackend hierarchy
+trait ParticipantPartyRecordStorageBackend {
+
+  def getPartyRecord(party: Ref.Party)(
+      connection: Connection
+  ): Option[ParticipantPartyRecordStorageBackend.DbPartyRecord]
+
+  def createPartyRecord(partyRecord: ParticipantPartyRecordStorageBackend.DbPartyRecordPayload)(
+      connection: Connection
+  ): Int
+
+  def getPartyAnnotations(internalId: Int)(connection: Connection): Map[String, String]
+
+  // TODO um-for-hub: Consider using validated string types (like Ref.Party) for annotation keys and values
+  def addPartyAnnotation(internalId: Int, key: String, value: String, updatedAt: Long)(
+      connection: Connection
+  ): Unit
+
+  def deletePartyAnnotations(internalId: Int)(connection: Connection): Unit
+
+  def compareAndIncreaseResourceVersion(
+      internalId: Int,
+      expectedResourceVersion: Long,
+  )(connection: Connection): Boolean
+
+  def increaseResourceVersion(
+      internalId: Int
+  )(connection: Connection): Boolean
+
+}
+
+object ParticipantPartyRecordStorageBackend {
   case class DbPartyRecordPayload(
       party: Ref.Party,
       resourceVersion: Long,
@@ -197,6 +228,7 @@ object ParticipantPartyStorageBackend {
       internalId: Int,
       payload: DbPartyRecordPayload,
   )
+
 }
 
 trait PackageStorageBackend {
@@ -448,6 +480,14 @@ trait UserManagementStorageBackend {
 
   def createUser(user: UserManagementStorageBackend.DbUserPayload)(connection: Connection): Int
 
+  def addUserAnnotation(internalId: Int, key: String, value: String, updatedAt: Long)(
+      connection: Connection
+  ): Unit
+
+  def deleteUserAnnotations(internalId: Int)(connection: Connection): Unit
+
+  def getUserAnnotations(internalId: Int)(connection: Connection): Map[String, String]
+
   def deleteUser(id: UserId)(connection: Connection): Boolean
 
   def getUser(id: UserId)(connection: Connection): Option[UserManagementStorageBackend.DbUserWithId]
@@ -472,12 +512,32 @@ trait UserManagementStorageBackend {
 
   def countUserRights(internalId: Int)(connection: Connection): Int
 
+  def updateUserPrimaryParty(internalId: Int, primaryPartyO: Option[Ref.Party])(
+      connection: Connection
+  ): Boolean
+
+  def compareAndIncreaseResourceVersion(
+      internalId: Int,
+      expectedResourceVersion: Long,
+  )(connection: Connection): Boolean
+
+  def increaseResourceVersion(
+      internalId: Int
+  )(connection: Connection): Boolean
+
+  def updateUserIsDeactivated(
+      internalId: Int,
+      isDeactivated: Boolean,
+  )(connection: Connection): Boolean
+
 }
 
 object UserManagementStorageBackend {
   case class DbUserPayload(
       id: Ref.UserId,
       primaryPartyO: Option[Ref.Party],
+      isDeactivated: Boolean,
+      resourceVersion: Long,
       createdAt: Long,
   )
 

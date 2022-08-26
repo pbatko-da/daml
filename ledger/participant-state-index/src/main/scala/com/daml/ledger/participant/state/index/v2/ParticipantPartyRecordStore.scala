@@ -36,6 +36,9 @@ trait ParticipantPartyRecordStore {
 object ParticipantPartyRecordStore {
   type Result[T] = Either[Error, T]
 
+  /** Represents an edge case where a participant server submits a party allocation requests
+    * but dies before it creating the corresponding party record upon the successful party allocation.
+    */
   final case object PartyRecordNotFoundOnUpdateException extends RuntimeException
 
   sealed trait Error extends RuntimeException

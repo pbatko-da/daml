@@ -72,6 +72,9 @@ object DataSourceConnectionProvider {
         override def runSQL[T](databaseMetrics: DatabaseMetrics)(block: Connection => T): T = {
           val conn = dataSource.getConnection()
           conn.setAutoCommit(false)
+          println(
+            s"ALA123 ${conn.getTransactionIsolation} NONE: ${Connection.TRANSACTION_NONE}, READ_COMMITTED: ${Connection.TRANSACTION_READ_COMMITTED}"
+          )
           try {
             val res = Timed.value(
               databaseMetrics.queryTimer,

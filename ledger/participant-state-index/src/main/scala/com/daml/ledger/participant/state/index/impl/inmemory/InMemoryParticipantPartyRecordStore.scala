@@ -27,7 +27,7 @@ import scala.concurrent.{ExecutionContext, Future}
 object InMemoryParticipantPartyRecordStore {
   case class PartyRecordInfo(
       party: Ref.Party,
-      resourceVersion: Int,
+      resourceVersion: Long,
       annotations: Map[String, String],
   )
 
@@ -35,7 +35,7 @@ object InMemoryParticipantPartyRecordStore {
     ParticipantParty.PartyRecord(
       party = info.party,
       metadata = ObjectMeta(
-        resourceVersionO = Some(info.resourceVersion.toString),
+        resourceVersionO = Some(info.resourceVersion),
         annotations = info.annotations,
       ),
     )
@@ -66,6 +66,7 @@ class InMemoryParticipantPartyRecordStore(executionContext: ExecutionContext)
     })
   }
 
+  // TODO um-for-hub: Add a conformance test exercising a race conditions: multiple update on the same non-existing party-record (which exists on the ledger and is indexed by this participant) calls
   override def updatePartyRecord(
       partyRecordUpdate: PartyRecordUpdate,
       ledgerPartyExists: LedgerPartyExists,

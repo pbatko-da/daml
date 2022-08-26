@@ -7,20 +7,22 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 trait StorageBackendSuite
     extends StorageBackendTestsInitialization
-    with StorageBackendTestsInitializeIngestion
-    with StorageBackendTestsIngestion
-    with StorageBackendTestsEvents
-    with StorageBackendTestsCompletions
-    with StorageBackendTestsContracts
-    with StorageBackendTestsReset
-    with StorageBackendTestsPruning
-    with StorageBackendTestsDBLockForSuite
-    with StorageBackendTestsIntegrity
-    with StorageBackendTestsTimestamps
-    with StorageBackendTestsStringInterning
+//    with StorageBackendTestsInitializeIngestion
+//    with StorageBackendTestsIngestion
+//    with StorageBackendTestsEvents
+//    with StorageBackendTestsCompletions
+//    with StorageBackendTestsContracts
+//    with StorageBackendTestsReset
+//    with StorageBackendTestsPruning
+//    with StorageBackendTestsDBLockForSuite
+//    with StorageBackendTestsIntegrity
+//    with StorageBackendTestsTimestamps
+//    with StorageBackendTestsStringInterning
     with StorageBackendTestsUserManagement
-    with StorageBackendTestsMeteringParameters
-    with StorageBackendTestsWriteMetering
-    with StorageBackendTestsReadMetering {
+    with StorageBackendTestsParticipantPartyRecord
+//    with StorageBackendTestsMeteringParameters
+//    with StorageBackendTestsWriteMetering
+//    with StorageBackendTestsReadMetering
+    {
   this: AnyFlatSpec =>
 }
