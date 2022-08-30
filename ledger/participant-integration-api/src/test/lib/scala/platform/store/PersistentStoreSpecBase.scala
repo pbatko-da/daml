@@ -96,6 +96,7 @@ trait PersistentStoreSpecBase extends BeforeAndAfterEach with BeforeAndAfterAll 
       _ <- new FlywayMigrations(jdbcUrl).migrate()
       _ = logger.warn(s"$thisSimpleName Completed Flyway migrations")
     } yield dbSupport
+    // TODO pbatko: Increase timeout
     dbSupport = Await.result(initializeDbAndGetDbSupportFuture, 10.seconds)
   }
 
