@@ -47,14 +47,18 @@ class ResourceAnnotationValidationsSpec extends AnyFlatSpec with Matchers with E
     validateAnnotations(Map("00.11.AA-bBb.ccc2/a" -> "")) shouldBe Right(())
     validateAnnotations(Map("aa--aa/a" -> "")) shouldBe Right(())
 
-    validateAnnotations(Map(".user.management.daml/foo_" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
+    validateAnnotations(Map(".user.management.daml/foo_" -> "")).left.value shouldBe a[
+      InvalidAnnotationsKeyError
+    ]
     validateAnnotations(Map("aaa./a" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
     validateAnnotations(Map(".aaa/a" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
     validateAnnotations(Map("-aaa/a" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
     validateAnnotations(Map("aaa-/a" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
     validateAnnotations(Map("aa..aa/a" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
 
-    validateAnnotations(Map(s"${"a" * 254}/a" -> "")).left.value shouldBe a[InvalidAnnotationsKeyError]
+    validateAnnotations(Map(s"${"a" * 254}/a" -> "")).left.value shouldBe a[
+      InvalidAnnotationsKeyError
+    ]
     validateAnnotations(Map(s"${"a" * 253}/a" -> "")) shouldBe Right(())
   }
 
