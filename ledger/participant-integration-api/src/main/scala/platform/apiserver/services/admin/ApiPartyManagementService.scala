@@ -158,6 +158,7 @@ private[apiserver] final class ApiPartyManagementService private (
             metadata.resourceVersion,
             "party_details.local_metadata.resource_version",
           )
+          // TODO um-for-hub: Consider validation annotations if and only if the received request updates the annotations
           annotations <- verifyMetadataAnnotations(
             metadata.annotations,
             allowEmptyValues = false,

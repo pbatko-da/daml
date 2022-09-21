@@ -16,30 +16,6 @@ trait UserManagementServiceUpdateRpcTests {
   self: UserManagementServiceIT =>
 
   userManagementTestWithFreshUser(
-    "AllowSpecifyingNonModifiableFieldsIfTheyAreNotAnUpdate",
-    "Allow to specify non modifiable fields in the update mask",
-  )()(implicit ec => { (ledger, user) =>
-    ledger.userManagement
-      .updateUser(
-        updateRequest(
-          id = user.id,
-          updatePaths = Seq("id", "metadata.resource_version"),
-        )
-      )
-      .map { updateResp =>
-        assertEquals(
-          "updating a user",
-          unsetResourceVersion(updateResp),
-          UpdateUserResponse(
-            Some(unsetResourceVersion(user))
-          ),
-        )
-
-      }
-
-  })
-
-  userManagementTestWithFreshUser(
     "UpdateAllUpdatableFields",
     "Update all updatable fields",
   )(

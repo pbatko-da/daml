@@ -69,6 +69,7 @@ trait UserManagementServiceITUtils { self: UserManagementServiceIT =>
       id: String,
       isDeactivated: Boolean = false,
       primaryParty: String = "",
+      resourceVersion: String = "",
       annotations: Map[String, String] = Map.empty,
       updatePaths: Seq[String],
   ): UpdateUserRequest =
@@ -78,7 +79,7 @@ trait UserManagementServiceITUtils { self: UserManagementServiceIT =>
           id = id,
           isDeactivated = isDeactivated,
           primaryParty = primaryParty,
-          metadata = Some(ObjectMeta(resourceVersion = "", annotations = annotations)),
+          metadata = Some(ObjectMeta(resourceVersion = resourceVersion, annotations = annotations)),
         )
       ),
       updateMask = Some(
@@ -90,6 +91,9 @@ trait UserManagementServiceITUtils { self: UserManagementServiceIT =>
     updateResp.user.get.primaryParty
 
   def extractUpdatedAnnotations(updateResp: UpdateUserResponse): Map[String, String] =
+    updateResp.user.get.metadata.get.annotations
+
+  def extractAnnotations(updateResp: CreateUserResponse): Map[String, String] =
     updateResp.user.get.metadata.get.annotations
 
   def unsetResourceVersion[T](t: T): T = {
@@ -167,20 +171,6 @@ trait UserManagementServiceITUtils { self: UserManagementServiceIT =>
       errorCode = LedgerApiErrors.Admin.UserManagement.UserAlreadyExists,
       exceptionMessageSubstring = None,
     )
-  }
-
-  def assertConcurrentUserUpdateDetectedError(
-      t: Throwable
-  ): Unit = {
-    assertGrpcError(
-      t = t,
-      errorCode = LedgerApiErrors.Admin.UserManagement.ConcurrentUserUpdateDetected,
-      exceptionMessageSubstring = None,
-    )
-  }
-
-  def assertValidResourceVersionString(v: String, sourceMsg: String): Unit = {
-    assert(v.nonEmpty, s"resource version (from $sourceMsg) must be non empty")
   }
 
 }
