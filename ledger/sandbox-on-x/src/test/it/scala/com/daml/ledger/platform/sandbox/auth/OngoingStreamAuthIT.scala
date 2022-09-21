@@ -243,7 +243,7 @@ final class OngoingStreamAuthIT
           ),
           updateMask = Some(
             FieldMask(
-              paths = Seq("user.is_deactivated")
+              paths = Seq("is_deactivated")
             )
           ),
         )
