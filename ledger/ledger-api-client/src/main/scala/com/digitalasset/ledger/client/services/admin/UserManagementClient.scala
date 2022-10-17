@@ -116,6 +116,7 @@ object UserManagementClient {
       metadata: com.daml.ledger.api.v1.admin.object_meta.ObjectMeta
   ): domain.ObjectMeta = {
     domain.ObjectMeta(
+      // TODO pbatko
       // TODO um-for-hub: Ledger-api-client shouldn't need to know how to parse resourceVersion. (ledger-api-domain probably shouldn't be used here)
       resourceVersionO =
         Option.when(metadata.resourceVersion.nonEmpty)(metadata.resourceVersion).map(_.toLong),
@@ -133,6 +134,7 @@ object UserManagementClient {
 
   private def toProtoObjectMeta(meta: ObjectMeta): admin_proto.object_meta.ObjectMeta =
     admin_proto.object_meta.ObjectMeta(
+      // TODO pbatko
       // TODO um-for-hub: Ledger-api-client shouldn't need to know how to serialize resourceVersion. (ledger-api-domain probably shouldn't be used here)
       resourceVersion = meta.resourceVersionO.map(_.toString).getOrElse(""),
       annotations = meta.annotations,

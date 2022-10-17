@@ -401,7 +401,7 @@ object domain {
   }
 
   final case class ObjectMeta(
-      resourceVersionO: Option[Long],
+      resourceVersionO: Option[String],
       annotations: Map[String, String],
   )
 
