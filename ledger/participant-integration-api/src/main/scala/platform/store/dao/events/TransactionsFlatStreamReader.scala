@@ -138,7 +138,7 @@ class TransactionsFlatStreamReader(
             fetchPage = (state: IdPaginationState) => {
               maxParallelIdQueriesLimiter.execute {
                 dbDispatcher.executeSql(metric) { connection =>
-                  eventStorageBackend.streamingTransactionQueries.fetchEventIdsForStakeholder(
+                  eventStorageBackend.transactionStreamingQueries.fetchEventIdsForStakeholder(
                     target = target
                   )(
                     stakeholder = filter.party,
@@ -180,7 +180,7 @@ class TransactionsFlatStreamReader(
             .execute(
               dbDispatcher.executeSql(dbMetric) { implicit connection =>
                 queryNonPruned.executeSql(
-                  query = eventStorageBackend.streamingTransactionQueries
+                  query = eventStorageBackend.transactionStreamingQueries
                     .fetchEventPayloadsFlat(target = target)(
                       eventSequentialIds = ids,
                       allFilterParties = filteringConstraints.allFilterParties,

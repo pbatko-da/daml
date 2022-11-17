@@ -16,7 +16,6 @@ import com.daml.platform.index.index.StatusDetails
 import com.daml.platform.store.dao.JdbcLedgerDao
 import com.daml.platform.store.dao.events._
 import com.daml.platform._
-
 import java.util.UUID
 
 object UpdateToDbDto {
@@ -150,11 +149,10 @@ object UpdateToDbDto {
             case (nodeId, create: Create) =>
               val eventId = EventId(u.transactionId, nodeId)
               val templateId = create.templateId.toString
-              val stakeholders: Set[String] = create.stakeholders.map(_.toString)
+              val stakeholders = create.stakeholders.map(_.toString)
               val (createArgument, createKeyValue) = translation.serialize(eventId, create)
-              val informees: Set[String] =
-                blinding.disclosure.getOrElse(nodeId, Set.empty).map(_.toString)
-              val nonStakeholderInformees: Set[String] = informees.diff(stakeholders)
+              val informees = blinding.disclosure.getOrElse(nodeId, Set.empty).map(_.toString)
+              val nonStakeholderInformees = informees.diff(stakeholders)
               Iterator(
                 DbDto.EventCreate(
                   event_offset = Some(offset.toHexString),
@@ -192,13 +190,13 @@ object UpdateToDbDto {
                     u.contractMetadata.get(create.coid).map(_.toByteArray),
                 )
               ) ++ stakeholders.iterator.map(
-                DbDto.FilterCreateStakeholder(
+                DbDto.IdFilterCreateStakeholder(
                   event_sequential_id = 0, // this is filled later
                   template_id = templateId,
                   _,
                 )
               ) ++ nonStakeholderInformees.iterator.map(
-                DbDto.FilterCreateNonStakeholderInformee(
+                DbDto.IdFilterCreateNonStakeholderInformee(
                   event_sequential_id = 0, // this is filled later
                   _,
                 )
@@ -208,11 +206,10 @@ object UpdateToDbDto {
               val eventId = EventId(u.transactionId, nodeId)
               val (exerciseArgument, exerciseResult, createKeyValue) =
                 translation.serialize(eventId, exercise)
-              val stakeholders: Set[String] = exercise.stakeholders.map(_.toString)
-              val informees: Set[String] =
-                blinding.disclosure.getOrElse(nodeId, Set.empty).map(_.toString)
+              val stakeholders = exercise.stakeholders.map(_.toString)
+              val informees = blinding.disclosure.getOrElse(nodeId, Set.empty).map(_.toString)
               val flatWitnesses = if (exercise.consuming) stakeholders else Set.empty[String]
-              val nonStakeholderInformees: Set[String] = informees.diff(stakeholders)
+              val nonStakeholderInformees = informees.diff(stakeholders)
               val templateId = exercise.templateId.toString
               Iterator(
                 DbDto.EventExercise(
@@ -252,20 +249,20 @@ object UpdateToDbDto {
               ) ++ {
                 if (exercise.consuming) {
                   stakeholders.iterator.map(stakeholder =>
-                    DbDto.FilterConsumingStakeholder(
+                    DbDto.IdFilterConsumingStakeholder(
                       event_sequential_id = 0, // this is filled later
                       template_id = templateId,
                       party_id = stakeholder,
                     )
                   ) ++ nonStakeholderInformees.iterator.map(stakeholder =>
-                    DbDto.FilterConsumingNonStakeholderInformee(
+                    DbDto.IdFilterConsumingNonStakeholderInformee(
                       event_sequential_id = 0, // this is filled later
                       party_id = stakeholder,
                     )
                   )
                 } else {
                   informees.iterator.map(stakeholder =>
-                    DbDto.FilterNonConsumingInformee(
+                    DbDto.IdFilterNonConsumingInformee(
                       event_sequential_id = 0, // this is filled later
                       party_id = stakeholder,
                     )
@@ -306,8 +303,10 @@ object UpdateToDbDto {
             commandCompletion(offset, u.recordTime, Some(u.transactionId), _)
           )
 
-        // transactionMeta must come last because in a later stage events will be assigned consecutive event sequantial ids
-        // and transaction meta needs to know event sequential ids of its events
+        // TransactionMeta DTO must come last in this sequence
+        // because in a later stage the preceding events
+        // will be assigned consecutive event sequential ids
+        // and transaction meta is assigned sequential ids of its first and last event
         events ++ divulgences ++ completions ++ Seq(transactionMeta)
     }
   }

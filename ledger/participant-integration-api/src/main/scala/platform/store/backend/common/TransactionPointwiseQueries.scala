@@ -56,7 +56,7 @@ class TransactionPointwiseQueries(
        """.as(EventSequentailIdFromTo.singleOpt)(connection)
   }
 
-  def fetchFlatTransaction(
+  def fetchFlatTransactionEvents(
       firstEventSequentialId: Long,
       lastEventSequentialId: Long,
       requestingParties: Set[Party],
@@ -80,7 +80,7 @@ class TransactionPointwiseQueries(
     )(connection)
   }
 
-  def fetchTreeTransaction(
+  def fetchTreeTransactionEvents(
       firstEventSequentialId: Long,
       lastEventSequentialId: Long,
       requestingParties: Set[Party],

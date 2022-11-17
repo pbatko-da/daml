@@ -205,17 +205,16 @@ object ParallelIndexerSubscription {
             eventSeqId += 1
             dbDto.copy(event_sequential_id = eventSeqId)
 
-          case dbDto: DbDto.FilterCreateStakeholder =>
+          case dbDto: DbDto.IdFilterCreateStakeholder =>
             // we do not increase the event_seq_id here, because all the CreateFilter DbDto-s must have the same eventSeqId as the preceding EventCreate
             dbDto.copy(event_sequential_id = eventSeqId)
-          case dbDto: DbDto.FilterCreateNonStakeholderInformee =>
+          case dbDto: DbDto.IdFilterCreateNonStakeholderInformee =>
             dbDto.copy(event_sequential_id = eventSeqId)
-
-          case dbDto: DbDto.FilterConsumingStakeholder =>
+          case dbDto: DbDto.IdFilterConsumingStakeholder =>
             dbDto.copy(event_sequential_id = eventSeqId)
-          case dbDto: DbDto.FilterConsumingNonStakeholderInformee =>
+          case dbDto: DbDto.IdFilterConsumingNonStakeholderInformee =>
             dbDto.copy(event_sequential_id = eventSeqId)
-          case dbDto: DbDto.FilterNonConsumingInformee =>
+          case dbDto: DbDto.IdFilterNonConsumingInformee =>
             dbDto.copy(event_sequential_id = eventSeqId)
           case dbDto: DbDto.TransactionMeta =>
             dbDto

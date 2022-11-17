@@ -350,8 +350,8 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
         event_sequential_id_last = 0,
       )
       Set(dtos(1), dtos(2)) should contain theSameElementsAs Set(
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
       )
       dtos.size shouldEqual 5
     }
@@ -423,12 +423,12 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
           exercise_result_compression = compressionAlgorithmId,
           event_sequential_id = 0,
         ),
-        DbDto.FilterConsumingStakeholder(
+        DbDto.IdFilterConsumingStakeholder(
           event_sequential_id = 0,
           template_id = exerciseNode.templateId.toString,
           party_id = "signatory",
         ),
-        DbDto.FilterConsumingStakeholder(
+        DbDto.IdFilterConsumingStakeholder(
           event_sequential_id = 0,
           template_id = exerciseNode.templateId.toString,
           party_id = "observer",
@@ -525,7 +525,7 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
           exercise_result_compression = compressionAlgorithmId,
           event_sequential_id = 0,
         ),
-        DbDto.FilterNonConsumingInformee(
+        DbDto.IdFilterNonConsumingInformee(
           event_sequential_id = 0,
           party_id = "signatory",
         ),
@@ -652,7 +652,7 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
           exercise_result_compression = compressionAlgorithmId,
           event_sequential_id = 0,
         ),
-        DbDto.FilterNonConsumingInformee(
+        DbDto.IdFilterNonConsumingInformee(
           event_sequential_id = 0,
           party_id = "signatory",
         ),
@@ -682,7 +682,7 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
           exercise_result_compression = compressionAlgorithmId,
           event_sequential_id = 0,
         ),
-        DbDto.FilterNonConsumingInformee(
+        DbDto.IdFilterNonConsumingInformee(
           event_sequential_id = 0,
           party_id = "signatory",
         ),
@@ -712,7 +712,7 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
           exercise_result_compression = compressionAlgorithmId,
           event_sequential_id = 0,
         ),
-        DbDto.FilterNonConsumingInformee(
+        DbDto.IdFilterNonConsumingInformee(
           event_sequential_id = 0,
           party_id = "signatory",
         ),
@@ -885,17 +885,17 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
           exercise_result_compression = compressionAlgorithmId,
           event_sequential_id = 0,
         ),
-        DbDto.FilterConsumingStakeholder(
+        DbDto.IdFilterConsumingStakeholder(
           event_sequential_id = 0,
           template_id = exerciseNode.templateId.toString,
           party_id = "signatory",
         ),
-        DbDto.FilterConsumingStakeholder(
+        DbDto.IdFilterConsumingStakeholder(
           event_sequential_id = 0,
           template_id = exerciseNode.templateId.toString,
           party_id = "observer",
         ),
-        DbDto.FilterConsumingNonStakeholderInformee(
+        DbDto.IdFilterConsumingNonStakeholderInformee(
           event_sequential_id = 0,
           party_id = "divulgee",
         ),
@@ -1009,8 +1009,8 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
         driver_metadata = Some(someContractDriverMetadata.toByteArray),
       )
       Set(dtos(1), dtos(2)) should contain theSameElementsAs Set(
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
       )
       dtos(3) shouldEqual DbDto.EventExercise(
         consuming = true,
@@ -1038,17 +1038,17 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
         exercise_result_compression = compressionAlgorithmId,
         event_sequential_id = 0,
       )
-      dtos(4) shouldEqual DbDto.FilterConsumingStakeholder(
+      dtos(4) shouldEqual DbDto.IdFilterConsumingStakeholder(
         event_sequential_id = 0,
         template_id = exerciseNode.templateId.toString,
         party_id = "signatory",
       )
-      dtos(5) shouldEqual DbDto.FilterConsumingStakeholder(
+      dtos(5) shouldEqual DbDto.IdFilterConsumingStakeholder(
         event_sequential_id = 0,
         template_id = exerciseNode.templateId.toString,
         party_id = "observer",
       )
-      dtos(6) shouldEqual DbDto.FilterConsumingNonStakeholderInformee(
+      dtos(6) shouldEqual DbDto.IdFilterConsumingNonStakeholderInformee(
         event_sequential_id = 0,
         party_id = "divulgee",
       )
@@ -1162,17 +1162,17 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
         exercise_result_compression = compressionAlgorithmId,
         event_sequential_id = 0,
       )
-      dtos(1) shouldEqual DbDto.FilterConsumingStakeholder(
+      dtos(1) shouldEqual DbDto.IdFilterConsumingStakeholder(
         event_sequential_id = 0,
         template_id = exerciseNode.templateId.toString,
         party_id = "signatory",
       )
-      dtos(2) shouldEqual DbDto.FilterConsumingStakeholder(
+      dtos(2) shouldEqual DbDto.IdFilterConsumingStakeholder(
         event_sequential_id = 0,
         template_id = exerciseNode.templateId.toString,
         party_id = "observer",
       )
-      dtos(3) shouldEqual DbDto.FilterConsumingNonStakeholderInformee(
+      dtos(3) shouldEqual DbDto.IdFilterConsumingNonStakeholderInformee(
         event_sequential_id = 0,
         party_id = "disclosee",
       )
@@ -1359,8 +1359,8 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
         driver_metadata = Some(someContractDriverMetadata.toByteArray),
       )
       Set(dtos(1), dtos(2)) should contain theSameElementsAs Set(
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
       )
       dtos.size shouldEqual 4
     }
@@ -1428,8 +1428,8 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
         event_sequential_id_last = 0,
       )
       Set(dtos(1), dtos(2)) should contain theSameElementsAs Set(
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
-        DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
+        DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
       )
       dtos.size shouldEqual 4
     }
@@ -1559,8 +1559,8 @@ class UpdateToDbDtoSpec extends AnyWordSpec with Matchers {
             driver_metadata = Some(someContractDriverMetadata.toByteArray),
           )
           Set(dtos(1), dtos(2)) should contain theSameElementsAs Set(
-            DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
-            DbDto.FilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
+            DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "signatory"),
+            DbDto.IdFilterCreateStakeholder(0L, createNode.templateId.toString, "observer"),
           )
           dtos(3) shouldEqual DbDto.CommandCompletion(
             completion_offset = someOffset.toHexString,

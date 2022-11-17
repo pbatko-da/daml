@@ -281,7 +281,7 @@ private[backend] object AppendOnlySchema {
         "external_string" -> fieldStrategy.string(_ => _.externalString),
       )
 
-    val createFilter_stakeholder: Table[DbDto.FilterCreateStakeholder] =
+    val createFilter_stakeholder: Table[DbDto.IdFilterCreateStakeholder] =
       fieldStrategy.insert("participant_events_create_filter")(
         "event_sequential_id" -> fieldStrategy.bigint(_ => _.event_sequential_id),
         "template_id" -> fieldStrategy.int(stringInterning =>
@@ -292,7 +292,7 @@ private[backend] object AppendOnlySchema {
         ),
       )
 
-    val createFilter_nsi: Table[DbDto.FilterCreateNonStakeholderInformee] =
+    val createFilter_nsi: Table[DbDto.IdFilterCreateNonStakeholderInformee] =
       fieldStrategy.insert("pe_create_filter_nonstakeholder_informees")(
         "event_sequential_id" -> fieldStrategy.bigint(_ => _.event_sequential_id),
         "party_id" -> fieldStrategy.int(stringInterning =>
@@ -300,7 +300,7 @@ private[backend] object AppendOnlySchema {
         ),
       )
 
-    val consumingFilter_stakeholder: Table[DbDto.FilterConsumingStakeholder] =
+    val consumingFilter_stakeholder: Table[DbDto.IdFilterConsumingStakeholder] =
       fieldStrategy.insert("pe_consuming_exercise_filter_stakeholders")(
         "event_sequential_id" -> fieldStrategy.bigint(_ => _.event_sequential_id),
         "template_id" -> fieldStrategy.int(stringInterning =>
@@ -311,7 +311,7 @@ private[backend] object AppendOnlySchema {
         ),
       )
 
-    val consumingFilter_nsi: Table[DbDto.FilterConsumingNonStakeholderInformee] =
+    val consumingFilter_nsi: Table[DbDto.IdFilterConsumingNonStakeholderInformee] =
       fieldStrategy.insert("pe_consuming_exercise_filter_nonstakeholder_informees")(
         "event_sequential_id" -> fieldStrategy.bigint(_ => _.event_sequential_id),
         "party_id" -> fieldStrategy.int(stringInterning =>
@@ -319,7 +319,7 @@ private[backend] object AppendOnlySchema {
         ),
       )
 
-    val nonConsumingFilter_i: Table[DbDto.FilterNonConsumingInformee] =
+    val nonConsumingFilter_i: Table[DbDto.IdFilterNonConsumingInformee] =
       fieldStrategy.insert("pe_non_consuming_exercise_filter_informees")(
         "event_sequential_id" -> fieldStrategy.bigint(_ => _.event_sequential_id),
         "party_id" -> fieldStrategy.int(stringInterning =>
@@ -385,14 +385,14 @@ private[backend] object AppendOnlySchema {
           partyEntries.prepareData(collect[PartyEntry], stringInterning),
           commandCompletions.prepareData(collect[CommandCompletion], stringInterning),
           stringInterningTable.prepareData(collect[StringInterningDto], stringInterning),
-          createFilter_stakeholder.prepareData(collect[FilterCreateStakeholder], stringInterning),
+          createFilter_stakeholder.prepareData(collect[IdFilterCreateStakeholder], stringInterning),
           createFilter_nsi
-            .prepareData(collect[FilterCreateNonStakeholderInformee], stringInterning),
+            .prepareData(collect[IdFilterCreateNonStakeholderInformee], stringInterning),
           consumingFilter_stakeholder
-            .prepareData(collect[FilterConsumingStakeholder], stringInterning),
+            .prepareData(collect[IdFilterConsumingStakeholder], stringInterning),
           consumingFilter_nsi
-            .prepareData(collect[FilterConsumingNonStakeholderInformee], stringInterning),
-          nonConsumingFilter_i.prepareData(collect[FilterNonConsumingInformee], stringInterning),
+            .prepareData(collect[IdFilterConsumingNonStakeholderInformee], stringInterning),
+          nonConsumingFilter_i.prepareData(collect[IdFilterNonConsumingInformee], stringInterning),
           transactionMeta.prepareData(collect[TransactionMeta], stringInterning),
           transactionMetering.prepareData(collect[TransactionMetering], stringInterning),
         )

@@ -150,7 +150,7 @@ class TransactionsTreeStreamReader(
         fetchPage = (state: IdPaginationState) => {
           maxParallelIdQueriesLimiter.execute {
             dbDispatcher.executeSql(metric) { connection =>
-              eventStorageBackend.streamingTransactionQueries.fetchEventIdsForInformees(
+              eventStorageBackend.transactionStreamingQueries.fetchEventIdsForInformees(
                 target = target
               )(
                 informee = filter.party,
@@ -180,7 +180,7 @@ class TransactionsTreeStreamReader(
             .execute(
               dbDispatcher.executeSql(metric) { implicit connection =>
                 queryNonPruned.executeSql(
-                  query = eventStorageBackend.streamingTransactionQueries.fetchEventPayloadsTree(
+                  query = eventStorageBackend.transactionStreamingQueries.fetchEventPayloadsTree(
                     target = target
                   )(
                     eventSequentialIds = ids,

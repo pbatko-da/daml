@@ -100,15 +100,15 @@ private[dao] case class SequentialWriteDaoImpl[DB_BATCH](
       case e: DbDto.EventCreate => e.copy(event_sequential_id = nextEventSeqId)
       case e: DbDto.EventDivulgence => e.copy(event_sequential_id = nextEventSeqId)
       case e: DbDto.EventExercise => e.copy(event_sequential_id = nextEventSeqId)
-      case e: DbDto.FilterCreateStakeholder =>
+      case e: DbDto.IdFilterCreateStakeholder =>
         e.copy(event_sequential_id = lastEventSeqId)
-      case e: DbDto.FilterCreateNonStakeholderInformee =>
+      case e: DbDto.IdFilterCreateNonStakeholderInformee =>
         e.copy(event_sequential_id = lastEventSeqId)
-      case e: DbDto.FilterConsumingStakeholder =>
+      case e: DbDto.IdFilterConsumingStakeholder =>
         e.copy(event_sequential_id = lastEventSeqId)
-      case e: DbDto.FilterConsumingNonStakeholderInformee =>
+      case e: DbDto.IdFilterConsumingNonStakeholderInformee =>
         e.copy(event_sequential_id = lastEventSeqId)
-      case e: DbDto.FilterNonConsumingInformee =>
+      case e: DbDto.IdFilterNonConsumingInformee =>
         e.copy(event_sequential_id = lastEventSeqId)
       case e: DbDto.TransactionMeta =>
         val dto = e.copy(

@@ -168,16 +168,16 @@ class TransactionStreamingQueries(
   }
 
   def fetchIdsOfCreateEventsForStakeholders(
-      partyFilter: Ref.Party,
-      templateIdFilter: Option[Ref.Identifier],
+      stakeholder: Ref.Party,
+      templateIdO: Option[Ref.Identifier],
       startExclusive: Long,
       endInclusive: Long,
       limit: Int,
   )(connection: Connection): Vector[Long] = {
     fetchEventIds(
       tableName = "participant_events_create_filter",
-      witness = partyFilter,
-      templateIdO = templateIdFilter,
+      witness = stakeholder,
+      templateIdO = templateIdO,
       startExclusive = startExclusive,
       endInclusive = endInclusive,
       limit = limit,

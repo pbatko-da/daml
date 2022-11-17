@@ -259,7 +259,7 @@ object ContractStorageBackend {
 trait EventStorageBackend {
 
   def transactionPointwiseQueries: TransactionPointwiseQueries
-  def streamingTransactionQueries: TransactionStreamingQueries
+  def transactionStreamingQueries: TransactionStreamingQueries
 
   /** Part of pruning process, this needs to be in the same transaction as the other pruning related database operations
     */
@@ -281,6 +281,8 @@ trait EventStorageBackend {
 
   /** Max event sequential id of observable (create, consuming and nonconsuming exercise) events. */
   def maxEventSequentialIdOfAnObservableEvent(offset: Offset)(connection: Connection): Option[Long]
+
+  // Used only in testing
   def rawEvents(startExclusive: Long, endInclusive: Long)(
       connection: Connection
   ): Vector[EventStorageBackend.RawTransactionEvent]
