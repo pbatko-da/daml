@@ -3,6 +3,8 @@
 
 package com.daml.platform.store.backend.postgresql
 
+import anorm.RowParser
+import anorm.SqlParser.array
 import com.daml.platform.store.backend.common.ComposableQuery.CompositeSql
 import com.daml.platform.store.backend.common.ComposableQuery.SqlStringInterpolation
 import com.daml.platform.store.backend.common.QueryStrategy
@@ -33,4 +35,7 @@ object PostgresQueryStrategy extends QueryStrategy {
       longs.view.map(Long.box).toArray
     cSQL"= ANY($longArray::bigint[])"
   }
+
+  override def arrayOfIntsParsers(columnName: String): RowParser[Array[Int]] =
+    array[Int](columnName)
 }

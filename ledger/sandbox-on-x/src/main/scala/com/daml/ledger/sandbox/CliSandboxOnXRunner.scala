@@ -27,7 +27,7 @@ object CliSandboxOnXRunner {
       manipulateConfig: CliConfig[BridgeConfig] => CliConfig[BridgeConfig] = identity,
   ): Unit = {
     val explicitDisclosureEnabled = args.contains(ExplicitDisclosureEnabledArg)
-    val config = CliConfig
+    val config: CliConfig[BridgeConfig] = CliConfig
       .parse(
         RunnerName,
         BridgeConfig.Parser,
@@ -49,7 +49,7 @@ object CliSandboxOnXRunner {
           .loadFromConfig(config.configFiles, config.configMap)
           .fold(
             System.err.println,
-            { sandboxOnXConfig =>
+            { sandboxOnXConfig: SandboxOnXConfig =>
               program(
                 sox(new BridgeConfigAdaptor, sandboxOnXConfig, explicitDisclosureUnsafeEnabled)
               )

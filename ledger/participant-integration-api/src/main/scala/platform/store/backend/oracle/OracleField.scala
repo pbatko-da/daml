@@ -27,7 +27,7 @@ private[oracle] case class OracleStringArrayOptional[FROM](
 private[oracle] case class OracleIntArray[FROM](
     extract: StringInterning => FROM => Iterable[Int]
 ) extends Field[FROM, Iterable[Int], String] {
-  override def convert: Iterable[Int] => String = _.toList.toJson.compactPrint
+  override def convert: Iterable[Int] => String = (x: Iterable[Int]) => x.toList.toJson.compactPrint
   override def prepareDataTemplate(
       preparedStatement: PreparedStatement,
       index: Int,

@@ -3,6 +3,7 @@
 
 package com.daml.platform.store.backend.common
 
+import anorm.RowParser
 import com.daml.ledger.offset.Offset
 import com.daml.platform.store.backend.common.ComposableQuery.{CompositeSql, SqlStringInterpolation}
 
@@ -127,4 +128,6 @@ trait QueryStrategy {
       cSQL"(#$nonNullableColumn > $startExclusive and #$nonNullableColumn <= $endInclusive)"
     }
   }
+
+  def arrayOfIntsParsers(columnName: String): RowParser[Array[Int]]
 }

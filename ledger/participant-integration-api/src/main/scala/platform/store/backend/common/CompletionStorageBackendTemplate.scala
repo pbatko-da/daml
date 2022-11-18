@@ -5,7 +5,8 @@ package com.daml.platform.store.backend.common
 
 import java.sql.Connection
 
-import anorm.SqlParser.{array, byteArray, int, long, str}
+//import anorm.SqlParser.{array, byteArray, int, long, str}
+import anorm.SqlParser.{byteArray, int, long, str}
 import anorm.{Row, RowParser, SimpleSql, ~}
 import com.daml.ledger.api.v1.command_completion_service.CompletionStreamResponse
 import com.daml.ledger.offset.Offset
@@ -79,7 +80,7 @@ class CompletionStorageBackendTemplate(
 
   private val sharedColumns
       : RowParser[Array[Int] ~ Offset ~ Timestamp ~ String ~ String ~ Option[String]] = {
-    array[Int]("submitters") ~
+    queryStrategy.arrayOfIntsParsers("submitters") ~
       offset("completion_offset") ~
       timestampFromMicros("record_time") ~
       str("command_id") ~

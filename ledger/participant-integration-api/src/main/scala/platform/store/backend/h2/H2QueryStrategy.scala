@@ -3,6 +3,8 @@
 
 package com.daml.platform.store.backend.h2
 
+import anorm.RowParser
+import anorm.SqlParser.array
 import com.daml.platform.store.backend.common.ComposableQuery.{CompositeSql, SqlStringInterpolation}
 import com.daml.platform.store.backend.common.QueryStrategy
 
@@ -26,4 +28,8 @@ object H2QueryStrategy extends QueryStrategy {
   override def constBooleanSelect(value: Boolean): String = if (value) "true" else "false"
 
   override def constBooleanWhere(value: Boolean): String = if (value) "true" else "false"
+
+  // TODO pbatko: Check
+  override def arrayOfIntsParsers(columnName: String): RowParser[Array[Int]] =
+    array[Int](columnName)
 }

@@ -323,6 +323,7 @@ da_scala_library(
 da_scala_binary(
     name = "app",
     main_class = "com.daml.ledger.sandbox.Main",
+    max_heap_size = "5g",
     tags = [
         "fat_jar",
         "maven_coordinates=com.daml:sandbox-on-x-app-jar:__VERSION__",

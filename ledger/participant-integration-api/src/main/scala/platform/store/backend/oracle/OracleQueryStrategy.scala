@@ -3,6 +3,8 @@
 
 package com.daml.platform.store.backend.oracle
 
+import anorm.RowParser
+import anorm.SqlParser.str
 import com.daml.platform.store.backend.common.ComposableQuery.{CompositeSql, SqlStringInterpolation}
 import com.daml.platform.store.backend.common.QueryStrategy
 
@@ -35,5 +37,11 @@ object OracleQueryStrategy extends QueryStrategy {
     val longArray: Vector[java.lang.Long] =
       longs.view.map(Long.box).toVector
     cSQL"= ANY($longArray)"
+  }
+
+  override def arrayOfIntsParsers(columnName: String): RowParser[Array[Int]] = str(columnName).map {
+    (x: String) =>
+      val arr: Array[Int] = x.replace("[", "").replace("]", "").split(',').map(_.toInt)
+      arr
   }
 }
