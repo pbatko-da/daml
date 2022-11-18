@@ -261,10 +261,10 @@ object UpdateToDbDto {
                     )
                   )
                 } else {
-                  informees.iterator.map(stakeholder =>
+                  informees.iterator.map(informee =>
                     DbDto.IdFilterNonConsumingInformee(
                       event_sequential_id = 0, // this is filled later
-                      party_id = stakeholder,
+                      party_id = informee,
                     )
                   )
                 }

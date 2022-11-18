@@ -12,7 +12,6 @@ import com.daml.lf.crypto.Hash
 import com.daml.lf.data.Ref
 import com.daml.lf.data.Time.Timestamp
 import com.daml.logging.{ContextualizedLogger, LoggingContext}
-import com.daml.platform.{Identifier, Party}
 import com.daml.platform.store.backend.Conversions.{
   contractId,
   eventId,
