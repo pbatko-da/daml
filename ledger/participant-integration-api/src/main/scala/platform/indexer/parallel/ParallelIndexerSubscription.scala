@@ -110,6 +110,8 @@ object ParallelIndexerSubscription {
   private val logger = ContextualizedLogger.get(this.getClass)
 
   /** Batch wraps around a T-typed batch, enriching it with processing relevant information.
+    * Contains events from one or more transactions.
+    * If it contains an event from a transaction then it contains all the events from that transaction.
     *
     * @param lastOffset The latest offset available in the batch. Needed for tail ingestion.
     * @param lastSeqEventId The latest sequential-event-id in the batch, or if none present there, then the latest from before. Needed for tail ingestion.
@@ -177,6 +179,8 @@ object ParallelIndexerSubscription {
       offsetsUpdates = Vector.empty,
     )
 
+  /** Assigns sequential ids to events.
+    */
   def seqMapper(
       internize: Iterable[DbDto] => Iterable[(Int, String)],
       metrics: Metrics,
